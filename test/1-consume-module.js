@@ -14,7 +14,7 @@ describe('1 - Consumes an external module', function () {
     name: "testMesh",
     modules: {
       "happnClient": {
-        path: "happn.client",
+        path: "happn-3.client",
         create: {
           type: "async",
           name: "create",//if blank or null we just do new require
@@ -115,7 +115,7 @@ describe('1 - Consumes an external module', function () {
     var _this = this;
 
     //we require a 'real' happn client
-    require('happn').client.create({config: {"host": "localhost", "secret": "mesh"}}, function (e, client) {
+    require('happn-3').client.create({config: {"host": "localhost", "secret": "mesh"}}, function (e, client) {
 
       if (e) {
         // console.log('real client init failure');
@@ -140,6 +140,8 @@ describe('1 - Consumes an external module', function () {
 
             //doing the same call using a post to the api
             mesh.post('/happnClient/set', '/mytest/678687', {"test": "test1"}, {}, function (e, response) {
+
+              if (e) return done(e);
 
               response.test.should.eql(directClientResponse.test);
               //console.log({response: response});
