@@ -1,0 +1,23 @@
+<head>
+  <script src='/ExampleMesh/api/client'></script>
+</head>
+<body>
+<script>
+  console.log('CLIENT STARTING');
+
+  MeshClient('localhost', 3001, 'mesh', function (e, client) {
+
+    // init never calls back when loaded from zombie
+
+
+    if (e) return console.log('MESH ERRROR:', e);
+
+    console.log('CLIENT READY:', client);
+
+    var result = 'TODO - call function on mesh';
+
+    console.log('CLIENT DONE:', result);
+
+  });
+</script>
+</body>

@@ -1,0 +1,194 @@
+#!/usr/bin/env node
+
+// BUG: prompt input longer than line gets unsightly
+
+var path = require('path');
+var fs = require('fs-extra');
+var os = require('os');
+var merge = require('merge');
+var homeDir = process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+var happnHome = homeDir + path.sep + '.happn';
+var happnerHome = homeDir + path.sep + '.happner';
+var commander = require('commander');
+var happner;
+var home; // dirname of the --conf [file], for module searchpath corrections
+
+if (process.env.USE_LOCAL_HAPPNER) {
+
+  //
+  // Will reset the module search path to use the version of
+  // happen at --conf [file]'s location.
+  //
+  // ie. the node_modules/happner as installed there
+  //
+  // This allows running the config on the version of happner
+  // that it was made for.
+  //
+
+}
+else {
+  happner = require('../');
+}
+
+// Happner / happn need to write, installed global dissallows
+// So create homes
+
+try {
+  fs.lstatSync(happnHome);
+} catch (e) {
+  fs.mkdirpSync(happnHome);
+  fs.mkdirpSync(happnHome + '/data');
+  fs.mkdirpSync(happnHome + '/js');
+  console.log('INFO: created directory ' + happnHome);
+}
+
+try {
+  fs.lstatSync(happnerHome);
+} catch (e) {
+  fs.mkdirpSync(happnerHome);
+  console.log('INFO: created directory ' + happnerHome);
+}
+
+var config = {
+  name: 'home', // <------- your localnode
+  version: '0.0.1',
+  util: {},
+  datalayer: {
+    persist: true
+  },
+  components: {}
+};
+
+if (os.platform() !== 'win32') {
+  config.components.terminal = {}; // <--- first component, so that other's start methods can write in command actions
+}
+
+var loaded, configPath;
+
+// Using --conf [../some/other/file] to load a mesh node
+// updates the module search paths to operate as if at
+// that location.
+
+var replaceSearchPath = function (startAt) {
+
+  console.warn('WARN: Replacing module search path!');
+  console.warn('WARN: New path starts at ' + startAt);
+  console.warn('INFO: Will load happner from that location.');
+
+  // Flush existing path to prevent false resolves
+  // from the meshnode being started at --conf location
+
+  module.paths.length = 0;
+
+  var addPath = function (dir) {
+    module.paths.push(path.normalize(dir + path.sep + 'node_modules'));
+  }
+
+  var recurse = function (dir) {
+    addPath(dir);
+    var next = path.dirname(dir);
+    if (next.length < 2) return addPath(next);
+    recurse(next);
+  }
+  recurse(startAt);
+}
+
+commander
+
+  .version(JSON.parse(require('fs').readFileSync(__dirname + '/../package.json')).version)
+  .option('')
+  .option('--conf [file]', 'Load mesh config from file/module (js)') // ie. module.exports = {/* the config */}
+  .option('', 'use: module.exports.config = {};')
+  .option('', 'or: module.exports = { /* config */ };')
+  .option('')
+  // .option('--create',              'Create new project happen project.')
+  // .option('')
+  .option('--port [number]', 'Start localnode listening at port')
+  .option('')
+  .option('--trace', 'Set LOG_LEVEL=trace')
+  .option('--debug', 'Set LOG_LEVEL=debug')
+  .option('--warn', 'Set LOG_LEVEL=warn')
+  .option('')
+  .option('--alt-prompt [\'txt\']', 'Alternate prompt text')
+  .option('--no-help', 'Skip intro help')
+  .option('')
+  .parse(process.argv);
+
+if (commander.warn)  config.util.logLevel = 'warn';
+if (commander.debug) config.util.logLevel = 'debug';
+if (commander.trace) config.util.logLevel = 'trace';
+
+if (commander.conf) {
+  try {
+    loaded = require(commander.conf);
+    home = path.dirname(require.resolve(commander.conf));
+    if (process.env.USE_LOCAL_HAPPNER) {
+      try {
+        replaceSearchPath(home);                                       // m
+        happner = require('happner');                                 // e
+      } catch (e) {                                                  // s
+        // no happner at home, use this one                         // s
+        happner = require('../');                                  // y
+      }                                                           // !
+    } else {                                                     // spend more time here...
+      happner = require('../');
+    }
+  } catch (e) {
+    var ster = e.toString(); // require to conf failed
+    try {                    // maybe it's a relative path
+      configPath = process.cwd() + path.sep + commander.conf;
+      loaded = require(configPath);
+      home = path.dirname(require.resolve(configPath));
+      if (process.env.USE_LOCAL_HAPPNER) {
+        // will load the happner from home
+        replaceSearchPath(home);
+      }
+      try {
+        happner = require('happner');
+      } catch (e) {
+        happner = require('../');
+      }
+
+    } catch (e) {
+      console.log(ster);
+      process.exit(1);
+    }
+  }
+  config = merge.recursive(config, loaded.config || loaded);
+} else {
+  happner = require('../');
+}
+
+if (!home) home = path.dirname(__dirname);
+
+config.home = config.home || home;
+
+if (!isNaN(commander.port)) {
+  config.datalayer = config.datalayer || {};
+  config.datalayer.port = parseInt(commander.port);
+  delete config.port; // just incase
+}
+
+
+happner.create(config, function (e, mesh) {
+  if (e) {
+    if (mesh.log) {
+      mesh.log.error(e, e);
+      process.exit(1);
+    }
+    console.log('EXIT 1 ' + __filename + '\n' + e.toString());
+    process.exit(1);
+  }
+
+  var prefix = commander.altPrompt || process.env.HAPPNER_PROMPT || '► ';
+
+  if (mesh.exchange.terminal) {
+    mesh.exchange.terminal.start({
+      prefix: prefix,
+      help: typeof commander.help == 'boolean' ? commander.help : true,
+    }, function (eee, prompt) {
+      // eee is array! of [e,e,e] if errors ocurred
+      // prompt started anyway.
+    });
+  }
+});

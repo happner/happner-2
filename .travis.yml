@@ -1,0 +1,13 @@
+os:
+  - linux
+
+language: node_js
+node_js:
+  - "7"
+  - "6"
+  - "4"
+  - "0.10"
+#script: "npm run-script test"
+script: "npm run-script test-cover"
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+after_failure: "cat /home/travis/build/happner/happner/npm-debug.log"
