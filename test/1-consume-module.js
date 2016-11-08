@@ -2,8 +2,8 @@ describe('1 - Consumes an external module', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var should = require('chai').should();
   var sep = require('path').sep;
@@ -179,6 +179,6 @@ describe('1 - Consumes an external module', function () {
    });
    */
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
