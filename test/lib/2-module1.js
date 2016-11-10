@@ -9,15 +9,13 @@ module.exports = function (options) {
 
 function Component1(options) {
 
-  if (!options)
-    options = {};
+  if (!options) options = {};
 
-  if (!options.maximumPings)
-    options.maximumPings = 100;
+  if (!options.maximumPings) options.maximumPings = 1000;
 
   this.moduleMethod = function () {
     //console.log('ran the module method from the component level scope');
-  }
+  };
 
   this.exposedMethod = function (message, $happn, callback) {
 

@@ -6,19 +6,23 @@ describe('4 - Mesh to Mesh', function () {
     , assert = require('assert')
     , mesh
     , Mesh = require('../')
+    ;
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
   var config = {
+
     name: 'mesh2',
-    datalayer: {
+
+    happn: {
       port: 3002
     },
+
     endpoints: {
       'remoteMesh': {  // remote mesh node
         config: {
+          host:'localhost',
           port: 3001,
-          host: 'localhost', // TODO This was necessary, did not default
           username: '_ADMIN',
           password: 'guessme'
         }
@@ -30,8 +34,8 @@ describe('4 - Mesh to Mesh', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   before(function (done) {
 
@@ -93,11 +97,8 @@ describe('4 - Mesh to Mesh', function () {
         done();
 
       });
-
     });
-
   });
 
-  require('benchmarket').stop();
-
+  //require('benchmarket').stop();
 });

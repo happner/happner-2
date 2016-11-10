@@ -2,13 +2,15 @@ var should = require('chai').should();
 var Mesh = require('../');
 
 describe('3 - Multiple component initialization', function () {
+
   var mesh;
 
   this.timeout(120000);
 
-  require('benchmarket').start();
+  //require('benchmarket').start();
 
   before(function (done) {
+
     var config = {
       name: 'meshName',
       modules: {
@@ -107,8 +109,7 @@ describe('3 - Multiple component initialization', function () {
         six_nested_class: {},
         six_nested_class_with_params: {}
       }
-    }
-
+    };
 
     mesh = new Mesh();
     mesh.initialize(config, function (err) {
@@ -138,7 +139,7 @@ describe('3 - Multiple component initialization', function () {
 
   it('loads the class with parameters ok', function (done) {
     mesh.exchange.one_class_with_params.method(function (err, res) {
-      res.should.equal('1 2')
+      res.should.equal('1 2');
       done();
     });
 
@@ -153,7 +154,7 @@ describe('3 - Multiple component initialization', function () {
 
   it('loads the returned from sync with params ok', function (done) {
     mesh.exchange.two_sync_with_params.method(function (err, res) {
-      res.should.equal('1 2')
+      res.should.equal('1 2');
       done();
     });
   });
@@ -167,7 +168,7 @@ describe('3 - Multiple component initialization', function () {
 
   it('loads the async with params ok', function (done) {
     mesh.exchange.three_async_with_params.method(function (err, res) {
-      res.should.equal('1 2')
+      res.should.equal('1 2');
       done();
     });
   });
@@ -190,7 +191,7 @@ describe('3 - Multiple component initialization', function () {
 
   it('loads the class with parameters ok', function (done) {
     mesh.exchange.five_hidden_class_with_params.method(function (err, res) {
-      res.should.equal('1 2')
+      res.should.equal('1 2');
       done();
     });
   });
@@ -205,11 +206,11 @@ describe('3 - Multiple component initialization', function () {
 
   it('loads the nested class with parameters ok', function (done) {
     mesh.exchange.six_nested_class_with_params.method(function (err, res) {
-      res.should.equal('1 2')
+      res.should.equal('1 2');
       done();
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
