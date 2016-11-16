@@ -1,7 +1,7 @@
 describe('b2 - secure mesh to mesh', function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   context('on remote mesh', function () {
 
@@ -17,9 +17,9 @@ describe('b2 - secure mesh to mesh', function () {
 
     var config = {
       name: 'mesh2',
-      dataLayer: {
+      happn: {
         secure: true,
-        port: 51233,
+        port: 51233
       },
       endpoints: {
         remoteMesh: {  // remote mesh node
@@ -95,6 +95,6 @@ describe('b2 - secure mesh to mesh', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

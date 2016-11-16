@@ -4,10 +4,9 @@ var mesh = new Mesh();
 
 var config = {
   name: meshName,
-  dataLayer: {
+  happn: {
     port: 3000 + parseInt(process.argv[2]),
-    authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
-    systemSecret: 'mesh',
+    authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3'
   },
   modules: {
     'module': {
@@ -19,7 +18,7 @@ var config = {
       moduleName: 'module'
     }
   }
-}
+};
 
 mesh.initialize(config, function (err, m) {
   if (err) {

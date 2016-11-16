@@ -7,8 +7,8 @@ describe('8 - does some benchmarks on api calls, data events and events', functi
 ///events/testComponent2Component/component1/maximum-pings-reached
 ///events/testComponent2Component/component1/maximum-pings-reached
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -40,7 +40,6 @@ describe('8 - does some benchmarks on api calls, data events and events', functi
       "component1": {
         moduleName: "module1",
         accessLevel: "mesh",
-        // scope: "component",//either component(mesh aware) or module - default is module
         startMethod: "start",
         schema: {
           "exclusive": false,//means we dont dynamically share anything else
@@ -133,7 +132,7 @@ describe('8 - does some benchmarks on api calls, data events and events', functi
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
 

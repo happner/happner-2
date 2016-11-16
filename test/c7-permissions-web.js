@@ -9,8 +9,8 @@ describe('c7-permissions-web', function (done) {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var should = require('chai').should();
   var Mesh = require('../');
@@ -25,7 +25,7 @@ describe('c7-permissions-web', function (done) {
 
   var config = {
     name: "middlewareMesh",
-    datalayer: {
+    happn: {
       secure: true,
       port: 15000,
       adminPassword: test_id,
@@ -33,7 +33,7 @@ describe('c7-permissions-web', function (done) {
         security: {
           exclusions: [
             '/webmethodtest/test/excluded/specific',
-            '/webmethodtest/test/excluded/wildcard/*',
+            '/webmethodtest/test/excluded/wildcard/*'
           ]
         }
       }
@@ -331,6 +331,6 @@ describe('c7-permissions-web', function (done) {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

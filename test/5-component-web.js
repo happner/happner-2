@@ -10,14 +10,14 @@ describe('5 - Demonstrates the middleware functionality', function (done) {
 ///events/testComponent2Component/component1/maximum-pings-reached
 ///events/testComponent2Component/component1/maximum-pings-reached
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
   var config = {
     name: "testMiddleware",
-    datalayer: {
+    happn: {
       port: testport
     },
     modules: {
@@ -112,7 +112,7 @@ describe('5 - Demonstrates the middleware functionality', function (done) {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
 

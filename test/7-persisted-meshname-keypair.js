@@ -2,8 +2,8 @@ describe('7 - start and stop a persisted mesh', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var Mesh = require('../');
   var test_id = Date.now() + '_' + require('shortid').generate();
@@ -16,7 +16,7 @@ describe('7 - start and stop a persisted mesh', function () {
 
   var config = {
     secure: true,
-    datalayer: {
+    happn: {
       persist: true,
       filename: dbFileName,
       adminPassword:"TEST7"
@@ -29,7 +29,7 @@ describe('7 - start and stop a persisted mesh', function () {
   var unpersistedConfig = {
     port: 8888,
     secure: true,
-    datalayer: {
+    happn: {
       persist: false
     }
   };
@@ -52,17 +52,20 @@ describe('7 - start and stop a persisted mesh', function () {
   var unpersistedMeshPublicKey;
 
   before(function (done) {
+
     var _this = this;
+
     Mesh.create(config).then(function (mesh) {
 
       _this.mesh = mesh;
       meshName = mesh._mesh.config.name;
-      meshPublicKey = mesh._mesh.datalayer.server.services.security._keyPair.publicKey;
+      meshPublicKey = mesh._mesh.happn.server.services.security._keyPair.publicKey;
 
       Mesh.create(unpersistedConfig).then(function (unpersistedMesh) {
+
         _this.unpersistedMesh = unpersistedMesh;
         unpersistedMeshName = unpersistedMesh._mesh.config.name;
-        unpersistedMeshPublicKey = unpersistedMesh._mesh.datalayer.server.services.security._keyPair.publicKey;
+        unpersistedMeshPublicKey = unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey;
 
         // console.log('names:::', meshName, unpersistedMeshName);
 
@@ -76,6 +79,7 @@ describe('7 - start and stop a persisted mesh', function () {
     var _this = this;
 
     _this.mesh.stop({reconnect: false}, function (e) {
+
       if (e) return done(e);
 
       Mesh.create(config)
@@ -84,9 +88,9 @@ describe('7 - start and stop a persisted mesh', function () {
 
           _this.mesh = mesh;
 
-          expect(mesh._mesh.datalayer.server.services.security._keyPair.publicKey.toString()).to.be(meshPublicKey.toString());
-          expect(mesh._mesh.datalayer.server.services.security._keyPair.publicKey).to.not.be(null);
-          expect(mesh._mesh.datalayer.server.services.security._keyPair.publicKey).to.not.be(undefined);
+          expect(mesh._mesh.happn.server.services.security._keyPair.publicKey.toString()).to.be(meshPublicKey.toString());
+          expect(mesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(null);
+          expect(mesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(undefined);
 
           done();
 
@@ -104,6 +108,7 @@ describe('7 - start and stop a persisted mesh', function () {
     var _this = this;
 
     _this.unpersistedMesh.stop({reconnect: false}, function (e) {
+
       if (e) return done(e);
 
       Mesh.create(unpersistedConfig)
@@ -112,9 +117,9 @@ describe('7 - start and stop a persisted mesh', function () {
 
           _this.unpersistedMesh = unpersistedMesh;
 
-          expect(unpersistedMesh._mesh.datalayer.server.services.security._keyPair.publicKey.toString()).to.not.be(unpersistedMeshPublicKey.toString());
-          expect(unpersistedMesh._mesh.datalayer.server.services.security._keyPair.publicKey).to.not.be(null);
-          expect(unpersistedMesh._mesh.datalayer.server.services.security._keyPair.publicKey).to.not.be(undefined);
+          expect(unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey.toString()).to.not.be(unpersistedMeshPublicKey.toString());
+          expect(unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(null);
+          expect(unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(undefined);
           expect(unpersistedMeshPublicKey).to.not.be(null);
           expect(unpersistedMeshPublicKey).to.not.be(undefined);
 
@@ -125,9 +130,7 @@ describe('7 - start and stop a persisted mesh', function () {
 
         .catch(done);
 
-
     });
-
   });
 
   it('restarts the mesh, ensures the name', function (done) {
@@ -135,6 +138,7 @@ describe('7 - start and stop a persisted mesh', function () {
     var _this = this;
 
     _this.mesh.stop({reconnect: false}, function (e) {
+
       if (e) return done(e);
 
       //so we need to check that we are getting the name from the file
@@ -155,10 +159,7 @@ describe('7 - start and stop a persisted mesh', function () {
         })
 
         .catch(done);
-
-
     });
-
   });
 
   it('restarts the unpersisted mesh, ensures the name is different', function (done) {
@@ -166,9 +167,11 @@ describe('7 - start and stop a persisted mesh', function () {
     var _this = this;
 
     _this.unpersistedMesh.stop({reconnect: false}, function (e) {
+
       if (e) return done(e);
 
       unpersistedConfig.name = undefined;
+      unpersistedConfig.happn.name = undefined;
 
       Mesh.create(unpersistedConfig)
 
@@ -194,6 +197,6 @@ describe('7 - start and stop a persisted mesh', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

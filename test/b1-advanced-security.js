@@ -3,19 +3,22 @@ var request = Promise.promisify(require('request'));
 
 describe('b1 - advanced security', function (done) {
 
-  require('benchmarket').start();
+  //require('benchmarket').start();
 
   this.timeout(120000);
 
   var expect = require('expect.js');
+
   var sep = require('path').sep;
 
   var Mesh = require('../');
+
   var test_id = Date.now() + '_' + require('shortid').generate();
 
   var should = require('chai').should();
 
   var dbFileName = __dirname + sep + 'temp/' + test_id + '.nedb';
+
   var fs = require('fs-extra');
 
   var mesh = new Mesh();
@@ -24,7 +27,7 @@ describe('b1 - advanced security', function (done) {
 
   var config = {
     name: "meshname",
-    datalayer: {
+    happn: {
       secure: true,
       adminPassword: test_id,
       filename: dbFileName
@@ -460,7 +463,7 @@ describe('b1 - advanced security', function (done) {
       }).then(function () {
         //Expected to throw an error as the TEST GROUP USER has no permission for this method.
         new_meshClient.exchange.security.getUser(testUser.username, function (e, user) {
-          expect(e.message).to.equal('unauthorized');
+          expect(e.toString()).to.equal('AccessDenied: unauthorized');
           expect(user).to.be(undefined);
           return done();
         });
@@ -530,7 +533,9 @@ describe('b1 - advanced security', function (done) {
       var _client = new Mesh.MeshClient();
 
       _client.login(user)
+
         .then(function () {
+
           client = _client;
 
           // permissions working?
@@ -539,17 +544,13 @@ describe('b1 - advanced security', function (done) {
             // ensure not allowed
             client.exchange.component.method2()
               .catch(function (error) {
-                if (error.name == 'AccessDenied') return done();
+                if (error.name == 'AccessDenied: unauthorized') return done();
                 done(error);
               });
-
           });
-
           client.exchange.component.method1().catch(done);
-
         })
         .catch(done);
-
     });
 
     var webmethod;
@@ -757,7 +758,7 @@ describe('b1 - advanced security', function (done) {
         .then(function () {
           return new Promise(function (resolve, reject) {
             client.exchange.component.method1().catch(function (error) {
-              if (error.name != 'AccessDenied') {
+              if (error.name != 'AccessDenied: unauthorized') {
                 return reject(new Error('Not AccessDenied'));
               }
               resolve();
@@ -1484,7 +1485,7 @@ describe('b1 - advanced security', function (done) {
 
   });
 
-  after(require('benchmarket').store());
-  require('benchmarket').stop();
+  // after(require('benchmarket').store());
+  // require('benchmarket').stop();
 
 });

@@ -1,7 +1,7 @@
 describe('a1 - attach to multiple meshes (meshs?)', function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var promise = require('when').promise;
   var parallel = require('when/parallel');
@@ -13,7 +13,7 @@ describe('a1 - attach to multiple meshes (meshs?)', function () {
 
   var bunchOfRemoteNodes = [1, 2, 3];
 
-  this.timeout(120000);
+  this.timeout(5000);
 
   before(function (done) {
 
@@ -53,7 +53,6 @@ describe('a1 - attach to multiple meshes (meshs?)', function () {
                 config.endpoints['mesh' + i] = {
                   config: {
                     port: 3000 + i,
-                    secret: 'mesh',
                     host: 'localhost'
                   }
                 }
@@ -69,7 +68,11 @@ describe('a1 - attach to multiple meshes (meshs?)', function () {
       // local mesh init
       mesh.initialize(config, done);
 
-    }).catch(done);
+    }).catch(function(e){
+
+      done(e);
+
+    });
     // call done with rejections error (if)
   });
 
@@ -113,6 +116,6 @@ describe('a1 - attach to multiple meshes (meshs?)', function () {
   });
 
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

@@ -55,8 +55,8 @@ var async = require('async');
 
 describe('b4 - component start and validation -', function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -68,7 +68,7 @@ describe('b4 - component start and validation -', function () {
 
     mesh.initialize({
       name: 'b4_permissions_translation',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
       },
@@ -95,9 +95,11 @@ describe('b4 - component start and validation -', function () {
       }
 
     }, function (err) {
+
       if (err) return done(err);
 
       mesh.start(function (err) {
+
         if (err) {
           // console.log(err.stack);
           return done(err);
@@ -776,6 +778,6 @@ describe('b4 - component start and validation -', function () {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

@@ -26,7 +26,7 @@ var TUNNEL_SERVICE_ENDPOINT = "ws://192.168.1.5:8000";
 
 var clientConfig = {
   name: 'client',
-  dataLayer: {
+  happn: {
     port: CLIENT_PORT,
     persist: false,
     defaultRoute: "mem"
@@ -69,7 +69,7 @@ var clientConfig = {
 
 var serverConfig = {
   name: SERVER_MESH_NAME,
-  dataLayer: {
+  happn: {
     secure: true,
     adminPassword: 'password',
     port: SERVER_PORT
@@ -288,7 +288,7 @@ describe('b9 - mesh client security login', function () {
   });
 
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
 

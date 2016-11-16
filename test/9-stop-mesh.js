@@ -4,8 +4,8 @@ var Mesh = require('../');
 
 describe('9-stop-mesh', function (done) {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(5000);
 
@@ -56,38 +56,39 @@ describe('9-stop-mesh', function (done) {
 
   after(function (done) {
     if (mesh) mesh.stop({reconnect: false}, done);
-  })
+  });
 
   var startMesh = function(callback){
     mesh = new Mesh();
     mesh.initialize(config, callback);
   };
 
-  it('stops the mesh', function (done) {
+  it ('stops the mesh', function (done) {
 
     startMesh(function(e){
 
       if (e) return done(e);
+
       mesh.stop({reconnect: false}, function (e, mesh, log) {
 
         var stopScore = 0;
 
         log.map(function(item){
 
-          if (['stopped components','stopped datalayer','unsubscribed from process events'].indexOf(item.message) >= 0)
+          if (['stopped components','stopped happn','unsubscribed from process events'].indexOf(item.message) >= 0)
             stopScore++;
 
         });
 
         if (stopScore < 3) return done('stop events did not happen or were not logged properly');
+
         done();
+
       });
-
     });
-
   });
 
-  it('stops then starts the same mesh, tests the echo method', function (done) {
+  it ('stops then starts the same mesh, tests the echo method', function (done) {
 
     startMesh(function(e){
 
@@ -109,7 +110,7 @@ describe('9-stop-mesh', function (done) {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
 

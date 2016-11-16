@@ -1,7 +1,7 @@
 describe('b3 - secure mesh to mesh fails', function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   context('secure mesh to mesh fails', function () {
 
@@ -17,7 +17,7 @@ describe('b3 - secure mesh to mesh fails', function () {
 
     var config = {
       name: 'mesh2',
-      dataLayer: {
+      happn: {
         secure: true,
         port: 51233
       },
@@ -79,6 +79,6 @@ describe('b3 - secure mesh to mesh fails', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

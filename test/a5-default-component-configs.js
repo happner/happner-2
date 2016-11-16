@@ -46,8 +46,8 @@ var Mesh = require('../');
 
 describe('a5 - default component configs', function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -73,13 +73,16 @@ describe('a5 - default component configs', function () {
       }
 
     }, function (err) {
+
       delete global.TESTING_15; //.............
       if (err) return done(err);
       done();
+
     });
   });
 
   after(function (done) {
+
     mesh.stop({reconnect: false}, done);
   });
 
@@ -106,6 +109,6 @@ describe('a5 - default component configs', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
-})
+});

@@ -1,9 +1,9 @@
-describe('c3 - client data search', function () {
+describe('c4 - client data search secure', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var should = require('chai').should();
   var Mesh = require('../');
@@ -13,6 +13,7 @@ describe('c3 - client data search', function () {
   var config;
   var expect = require('expect.js');
   var async = require('async');
+  var test_id = Date.now() + '_' + require('shortid').generate();
 
   var TestModule1 = {
     setSharedData: function ($happn, path, data, callback) {
@@ -27,9 +28,17 @@ describe('c3 - client data search', function () {
   }
 
   before(function (done) {
-    var _this = this;
 
     Mesh.create(config = {
+
+      name:'mesh' + test_id,
+
+      happn: {
+        persist: true,
+        secure: true,
+        adminPassword: test_id
+      },
+
       modules: {
         'module1': {
           instance: TestModule1
@@ -47,9 +56,14 @@ describe('c3 - client data search', function () {
 
 
     }).then(function (mesh) {
+
       meshInstance = mesh;
       meshClientInstance = new Mesh.MeshClient();
-      meshClientInstance.login().then(done);
+      meshClientInstance.login({
+        username: '_ADMIN',
+        password: test_id
+      }).then(done);
+
     }).catch(done);
 
   });
@@ -255,7 +269,8 @@ describe('c3 - client data search', function () {
 
   });
 
-  require('benchmarket').stop();
+
+  //require('benchmarket').stop();
 
 });
 

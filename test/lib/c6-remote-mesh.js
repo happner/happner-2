@@ -2,11 +2,11 @@ var Mesh = require('../../lib/mesh');
 
 var config = {
   name: 'test_c6',
-  dataLayer: {
+  happn: {
     transport: {
       mode: 'https'
     },
-    port: 3111,
+    port: 3111
   },
   endpoints: {},
   components: {

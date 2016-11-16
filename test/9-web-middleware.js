@@ -3,24 +3,23 @@
  */
 describe('9 - tests that we can add middleware before a static', function (done) {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   // Uses unit test 2 modules
-  var should = require('chai').should();
   var Mesh = require('../');
   var http = require('http');
 
   this.timeout(120000);
 
-  var defaultTimeout = (process.arch == 'arm') ? 50000 : 10000;
-
   var sep = require('path').sep;
   var libFolder = __dirname + sep + 'lib' + sep;
 
+  var expect = require('expect.js');
+
   var config = {
     name: "middlewareMesh",
-    datalayer: {
+    happn: {
       port: 10000
       //setOptions:{}
     },
@@ -63,7 +62,7 @@ describe('9 - tests that we can add middleware before a static', function (done)
 
   it('can get index.html that middleware renames to index.htm', function (done) {
     http.get('http://localhost:10000/index.html', function (resp) {
-      resp.statusCode.should.eql(200);
+      expect(resp.statusCode).to.be(200);
       done();
     })
   });

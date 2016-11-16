@@ -37,8 +37,8 @@ var Mesh = require('../');
 
 describe('a6 - component start and validation -', function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -52,7 +52,7 @@ describe('a6 - component start and validation -', function () {
       util: {
         // logLevel: 'error'
       },
-      dataLayer: {
+      happn: {
         port: 8001,
       },
       modules: {
@@ -129,7 +129,7 @@ describe('a6 - component start and validation -', function () {
       util: {
         logger: {}
       },
-      datalayer: {
+      happn: {
         port: 8002,
       },
       modules: {
@@ -177,6 +177,6 @@ describe('a6 - component start and validation -', function () {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

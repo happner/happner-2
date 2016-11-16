@@ -2,8 +2,8 @@ describe('c1 - security layer should be initialized before user components are s
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var should = require('chai').should();
   var path = require('path');
@@ -17,7 +17,7 @@ describe('c1 - security layer should be initialized before user components are s
   var mesh = new happner();
 
   var config = {
-    dataLayer: {
+    happn: {
       secure: true
     },
 
@@ -60,6 +60,6 @@ describe('c1 - security layer should be initialized before user components are s
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

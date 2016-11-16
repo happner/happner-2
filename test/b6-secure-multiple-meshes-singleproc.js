@@ -2,13 +2,13 @@ describe('b6 - start meshes', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var should = require('chai').should();
   var path = require('path');
 
-  Mesh = require('../')
+  Mesh = require('../');
 
   var ownPath = path.join(__dirname, '../index.js');
 
@@ -21,7 +21,7 @@ describe('b6 - start meshes', function () {
 
   var clientConfig = {
     name: 'client',
-    dataLayer: {
+    happn: {
       port: CLIENT_PORT
     },
     modules: {},
@@ -31,7 +31,7 @@ describe('b6 - start meshes', function () {
 
   var serverConfig = {
     name: SERVER_MESH_NAME,
-    dataLayer: {
+    happn: {
       secure: true,
       adminPassword: 'password',
       port: SERVER_PORT
@@ -147,6 +147,6 @@ describe('b6 - start meshes', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

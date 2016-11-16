@@ -50,8 +50,8 @@ describe('7 - test persisted config, check memory and persisted data stores', fu
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var Mesh = require('../');
   var test_id = Date.now() + '_' + require('shortid').generate();
@@ -63,7 +63,7 @@ describe('7 - test persisted config, check memory and persisted data stores', fu
 
   var config = {
     name: "testPersistedData",
-    datalayer: {
+    happn: {
       persist: true,
       defaultRoute: "persist", //mem anyhow
       filename: dbFileName,
@@ -110,7 +110,7 @@ describe('7 - test persisted config, check memory and persisted data stores', fu
     var _this = this;
     Mesh.create(config).then(function (mesh) {
       _this.mesh = mesh;
-      _this.datastores = mesh._mesh.datalayer.server.services.data.datastores;
+      _this.datastores = mesh._mesh.happn.server.services.data.datastores;
       done();
     }).catch(done);
   });
@@ -263,6 +263,6 @@ describe('7 - test persisted config, check memory and persisted data stores', fu
 
   })
 
-  require('benchmarket').stop();
+  // require('benchmarket').stop();
 
 });

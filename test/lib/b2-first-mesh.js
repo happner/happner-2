@@ -2,11 +2,9 @@ var Mesh = require('../../lib/mesh');
 
 var config = {
   name: 'remoteMesh',
-  dataLayer: {
+  happn: {
     secure: true,
     port: 51234,
-    authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
-    systemSecret: 'mesh',
     adminPassword: 'testb2'
   },
   endpoints: {},

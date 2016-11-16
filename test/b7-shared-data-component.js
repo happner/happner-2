@@ -2,8 +2,8 @@ describe('b7 - shared data component', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var should = require('chai').should();
   var Mesh = require('../');
@@ -11,6 +11,7 @@ describe('b7 - shared data component', function () {
   var dataEvents;
   var config;
   var expect = require('expect.js');
+
   var TestModule1 = {
     setSharedData: function ($happn, path, data, callback) {
       $happn.exchange.data.set(path, data, callback);
@@ -354,7 +355,7 @@ describe('b7 - shared data component', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
 
