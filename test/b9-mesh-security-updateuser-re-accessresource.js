@@ -110,8 +110,8 @@ describe('b9 - mesh client security login', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var clientMesh;
   var serverMesh;

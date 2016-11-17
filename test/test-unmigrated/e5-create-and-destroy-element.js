@@ -232,6 +232,7 @@ describe(filename, function () {
   });
 
   it('emits description change on destroying component', function (done) {
+
     mesh._createElement({
         module: {
           name: 'component2',
