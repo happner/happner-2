@@ -82,8 +82,8 @@ describe('e3a-rest-component', function () {
   //var REMOTE_MESH = 'e2-remote-mesh';
   var REMOTE_MESH = 'e3-remote-mesh';
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -175,7 +175,7 @@ describe('e3a-rest-component', function () {
     _mesh:{
       utilities:happnUtils,
       config:{
-        datalayer:{
+        happn:{
           secure:false
         }
       }
@@ -525,6 +525,6 @@ describe('e3a-rest-component', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

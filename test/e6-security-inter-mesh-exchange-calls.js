@@ -34,14 +34,14 @@ describe.skipWindows(filename, function () {
 
   this.timeout(20000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   before('start secureMesh', function (done) {
 
     Happner.create({
       name: 'secureMesh',
-      datalayer: {
+      happn: {
         secure: SECURE,
         adminPassword: testId,
         filename: dbFileName
@@ -132,7 +132,7 @@ describe.skipWindows(filename, function () {
   before('start mesh2', function (done) {
     Happner.create({
       port: 55001,
-      // datalayer: {
+      // happn: {
       //   secure: SECURE,
       //   adminPassword: testId2,
       //   filename: dbFileName2
@@ -176,7 +176,7 @@ describe.skipWindows(filename, function () {
       })
       .catch(function (e) {
         try {
-          e.name.should.equal('AccessDenied');
+          e.name.should.equal('AccessDenied: unauthorized');
           done();
         } catch (e) {
           done(e);
@@ -193,7 +193,7 @@ describe.skipWindows(filename, function () {
       })
       .catch(function (e) {
         try {
-          e.name.should.equal('AccessDenied');
+          e.name.should.equal('AccessDenied: unauthorized');
           done();
         } catch (e) {
           done(e);
@@ -208,6 +208,6 @@ describe.skipWindows(filename, function () {
   // });
 
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

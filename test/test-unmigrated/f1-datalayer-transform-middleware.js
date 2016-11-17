@@ -1,4 +1,4 @@
-describe('f1-datalayer-transform-middleware', function () {
+describe('f1-happn-transform-middleware', function () {
 
   require('benchmarket').start();
 
@@ -59,7 +59,7 @@ describe('f1-datalayer-transform-middleware', function () {
           port: port,
           activateSessionManagement:true,
           logSessionActivity:true,
-          datalayer:{
+          happn:{
             adminPassword:'happn',
             transformMiddleware:transformMiddleware
           }

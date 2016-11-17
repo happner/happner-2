@@ -17,7 +17,7 @@ describe('e2-endpoint-reconnection', function () {
 
   var config = {
     name: 'e2-endpoint-reconnection',
-    datalayer: {
+    happn: {
       port: PORT_LOCAL,
       secure: true
     },
@@ -39,8 +39,8 @@ describe('e2-endpoint-reconnection', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var startRemoteMesh = function (callback) {
 
@@ -109,14 +109,14 @@ describe('e2-endpoint-reconnection', function () {
     testExchangeCalls(function (e) {                           // 1. check the remote exchange works
 
       if (e) return done(e);
-      //console.log('1.1 EXCHANGE CALLS WORKED:::');
+      console.log('1.1 EXCHANGE CALLS WORKED:::');
 
       mesh.on('endpoint-reconnect-scheduled', function (evt) { // 2. attach to the endpoint disconnection
 
         if (__endpointConnectionTestDisconnected1) return;
         __endpointConnectionTestDisconnected1 = true;
 
-        //console.log('1.2 KILLED REMOTE:::');
+        console.log('1.2 KILLED REMOTE:::');
 
         expect(evt.endpointName).to.be('remoteMeshE2');
         expect(evt.endpointConfig.config.port).to.be(PORT_REMOTE);
@@ -126,7 +126,7 @@ describe('e2-endpoint-reconnection', function () {
           if (__endpointConnectionTestDisconnected2) return;
           __endpointConnectionTestDisconnected2 = true;
 
-          //console.log('1.4 RESTARTED REMOTE:::');
+          console.log('1.4 RESTARTED REMOTE:::');
 
           expect(evt.endpointName).to.be('remoteMeshE2');
           expect(evt.endpointConfig.config.port).to.be(PORT_REMOTE);
@@ -138,7 +138,7 @@ describe('e2-endpoint-reconnection', function () {
         startRemoteMesh(function (e) {       // 3. start the remote mesh
 
           if (e) return done(e);
-          //console.log('1.3 STARTED REMOTE MESH:::');
+          console.log('1.3 STARTED REMOTE MESH:::');
 
         });
       });
@@ -267,6 +267,6 @@ describe('e2-endpoint-reconnection', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

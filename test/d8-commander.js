@@ -1,5 +1,7 @@
 describe('d8 commander checks', function () {
+
   this.timeout(10000);
+
   var commander = require('commander');
 
   it('should parse with extra options', function (done) {

@@ -1,9 +1,9 @@
 describe('d5-connection-changes-events', function () {
 
   this.timeout(120000);
-
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  //
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var should = require('chai').should();
@@ -21,7 +21,7 @@ describe('d5-connection-changes-events', function () {
 
     mesh.initialize({
       name: 'd5-connection-changes-events',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8004
@@ -36,7 +36,7 @@ describe('d5-connection-changes-events', function () {
         var credentials = {
           username: '_ADMIN', // pending
           password: test_id
-        }
+        };
 
         adminClient.login(credentials).then(function () {
           done();
@@ -49,7 +49,7 @@ describe('d5-connection-changes-events', function () {
   var eventsToFire = {
     'reconnect/scheduled': false,
     'reconnect/successful': false
-  }
+  };
 
   var eventsFired = false;
 
@@ -68,7 +68,7 @@ describe('d5-connection-changes-events', function () {
       eventsFired = true;
 
       done();
-    }
+    };
 
     adminClient.on('reconnect/scheduled', function (evt, data) {
       //TODO some expect code
@@ -81,16 +81,25 @@ describe('d5-connection-changes-events', function () {
       fireEvent('reconnect/successful');
     });
 
-    for (var key in mesh._mesh.datalayer.server.connections)
-      mesh._mesh.datalayer.server.connections[key].destroy();
+    for (var key in mesh._mesh.happn.server.connections) mesh._mesh.happn.server.connections[key].destroy();
 
   });
 
+  var endedConnections = {};
+
+  var endedConnectionDone = false;
+
   it('tests the connection end event', function (done) {
 
-    adminClient.on('connection/ended', function (evt, data) {
-      //TODO some expect stuff
-      done();
+    adminClient.on('connection/ended', function (evt) {
+
+      if (endedConnections[evt]) return done(new Error('connection ended called twice for same session'));
+
+      if (!endedConnectionDone){
+        endedConnectionDone = true;
+        //TODO some expect stuff
+        done();
+      }
     });
 
     mesh.stop({reconnect: false}, function (e) {
@@ -99,6 +108,6 @@ describe('d5-connection-changes-events', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

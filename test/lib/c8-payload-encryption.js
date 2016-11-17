@@ -2,7 +2,7 @@ var Mesh = require('../../lib/mesh');
 
 var config = {
   name: 'theFarawayTree',
-  dataLayer: {
+  happn: {
     port: 55001,
     secure: true,
     adminPassword: 'guessme',

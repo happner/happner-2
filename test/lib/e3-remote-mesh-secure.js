@@ -3,7 +3,7 @@ var Mesh = require('../../lib/mesh');
 var config = {
   name: 'remoteMesh',
   secure:true,
-  datalayer: {
+  happn: {
     port: 10001,
     adminPassword: 'happn'
   },

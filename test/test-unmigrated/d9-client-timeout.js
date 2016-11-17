@@ -2,14 +2,13 @@ module.exports = TestMesh;
 
 var DONE = false;
 
-function TestMesh() {
-}
+function TestMesh() {}
 
 TestMesh.prototype.method1 = function ($happn, callback) {
   setTimeout(function () {
     callback(null);
   }, 11000);
-}
+};
 
 if (global.TESTING_D9 || global.TESTING_D9_1) return; // When 'requiring' the module above,
 // don't run the tests below
@@ -19,8 +18,8 @@ describe('d9-client-timeout', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var defaultConfigMesh;
@@ -39,7 +38,7 @@ describe('d9-client-timeout', function () {
 
     timeoutConfigMesh.initialize({
       name: 'd9-client-timeout-timeoutConfig',
-      datalayer: {
+      happn: {
         port: 8000,
         setOptions: {
           timeout: 15000
@@ -61,6 +60,7 @@ describe('d9-client-timeout', function () {
     }, function (err) {
 
       if (err) return done(err);
+
       timeoutConfigMesh.start(function (err) {
         if (err) {
           // console.log(err.stack);
@@ -71,7 +71,7 @@ describe('d9-client-timeout', function () {
         var credentials = {
           username: '_ADMIN', // pending
           password: test_id
-        }
+        };
 
         timeoutConfigClient.login(credentials).then(function () {
           done();
@@ -89,7 +89,7 @@ describe('d9-client-timeout', function () {
 
     defaultConfigMesh.initialize({
       name: 'd9-client-timeout-defaultConfig',
-      datalayer: {
+      happn: {
         port: 8001
       },
       modules: {
@@ -109,7 +109,9 @@ describe('d9-client-timeout', function () {
     }, function (err) {
 
       if (err) return done(err);
+
       defaultConfigMesh.start(function (err) {
+
         if (err) {
           // console.log(err.stack);
           return done(err);
@@ -118,7 +120,7 @@ describe('d9-client-timeout', function () {
         // Credentials for the login method
         var credentials = {
           port: 8001
-        }
+        };
 
         defaultConfigClient.login(credentials).then(function () {
           done();
@@ -165,6 +167,6 @@ describe('d9-client-timeout', function () {
   });
 
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

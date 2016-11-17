@@ -2,7 +2,7 @@ var Mesh = require('../../lib/mesh');
 
 var config = {
   name: 'remoteMesh',
-  dataLayer: {
+  happn: {
     port: 10001
   },
   endpoints: {},

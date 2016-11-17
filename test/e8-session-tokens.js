@@ -79,8 +79,8 @@ describe('e8-session-tokens', function () {
 
   var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -121,7 +121,8 @@ describe('e8-session-tokens', function () {
     if (credentials) operation = credentials;
 
     restClient.postJson('http://localhost:10000/rest/login', operation).on('complete', function(result){
-      if (result.error) return done(new Error(result.error.message));
+      if (result.error)
+        return done(new Error(result.error.message));
       done(null, result);
     });
   };
@@ -132,7 +133,7 @@ describe('e8-session-tokens', function () {
 
     Mesh.create({
       name:'e3b-test',
-      datalayer:{
+      happn:{
         secure:true,
         adminPassword: ADMIN_PASSWORD,
         port: 10000,
@@ -379,6 +380,6 @@ describe('e8-session-tokens', function () {
     }).catch(done);
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

@@ -14,19 +14,19 @@ TestComponent.prototype.method1 = function ($happn, args, callback) {
   callback = args; // callback comes in position1
 
   callback(null, 'result1');
-}
+};
 
 TestComponent.prototype.method2 = function ($happn, args, callback) {
   // console.log('1 ARGS', args);
   // console.log('1 CALLBACK', callback);
 
   callback(null, 'result2');
-}
+};
 
 TestComponent.prototype.doEmit = function ($happn, args, callback) {
   $happn.emit('test-emmission', args);
   callback();
-}
+};
 
 
 if (global.TESTING_C5) return; // When 'requiring' the module above,
@@ -50,33 +50,40 @@ describe('c9-payload-encryption-client-to-mesh', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   before(function (done) {
+
     global.TESTING_C5 = true; //.............
 
     Happner.create({
-        datalayer: {
-          secure: true,
-          encryptPayloads: true,
-          adminPassword: 'happn'
+
+        happn: {
+          secure : true,
+          encryptPayloads : true,
+          adminPassword : 'happn'
         },
+
         port: 54545,
+
         modules: {
           'test': {
             path: __filename
           }
         },
+
         components: {
           'test': {
             module: 'test'
           }
         }
       })
+
       .then(function (instance) {
         mesh = instance;
       })
+
       .then(function () {
         done();
       }).catch(done);
@@ -130,6 +137,7 @@ describe('c9-payload-encryption-client-to-mesh', function () {
   var doneCalled = false;
 
   it('server can listen for an event - then recieve an event by calling a method', function (done) {
+
     mesh.event.test.on('test-emmission', function (args) {
 
       if (doneCalled) return;
@@ -219,6 +227,6 @@ describe('c9-payload-encryption-client-to-mesh', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 });
 

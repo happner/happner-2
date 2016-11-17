@@ -2,8 +2,8 @@ describe('d6_shareddata_metadata', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var test_helper = require('./lib/test_helper');
@@ -15,9 +15,10 @@ describe('d6_shareddata_metadata', function () {
   var meshInstance;
 
   before(function (done) {
+    
     test_helper.startHappnerInstance('d6_shareddata_metadata', {
       name: 'd6_shareddata_metadata',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8004
@@ -143,6 +144,6 @@ describe('d6_shareddata_metadata', function () {
     test_helper.stopHappnerInstances('d6_shareddata_metadata', done);
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

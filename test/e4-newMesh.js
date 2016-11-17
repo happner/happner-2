@@ -2,8 +2,8 @@ describe('e4-newMesh', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
 
@@ -45,16 +45,11 @@ describe('e4-newMesh', function () {
                 mesh.stop({reconnect:false},done);
 
               });
-
             });
           });
         });
-
     });
-
-
   });
 
-  require('benchmarket').stop();
-
+  //require('benchmarket').stop();
 });

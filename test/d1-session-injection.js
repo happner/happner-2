@@ -17,8 +17,8 @@ describe('d1-session-injection', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var should = require('chai').should();
@@ -39,7 +39,7 @@ describe('d1-session-injection', function () {
 
     secureMesh.initialize({
       name: 'd1-session-injection-secure',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8000
@@ -89,7 +89,7 @@ describe('d1-session-injection', function () {
 
     unsecureMesh.initialize({
       name: 'd1-session-injection',
-      datalayer: {
+      happn: {
         secure: false,
         adminPassword: test_id,
         port: 8001
@@ -142,7 +142,7 @@ describe('d1-session-injection', function () {
       secureMesh.stop({reconnect: false}, done);
 
     });
-  })
+  });
 
   it('fetches the origin info on a secure mesh', function (done) {
 
@@ -171,6 +171,6 @@ describe('d1-session-injection', function () {
   });
 
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

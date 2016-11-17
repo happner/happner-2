@@ -90,8 +90,8 @@ describe('e3b-rest-component-secure', function () {
 
   var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -130,7 +130,7 @@ describe('e3b-rest-component-secure', function () {
 
       Mesh.create({
         name: 'e3b-test',
-        datalayer: {
+        happn: {
           secure: true,
           adminPassword: ADMIN_PASSWORD,
           port: 10000
@@ -185,12 +185,12 @@ describe('e3b-rest-component-secure', function () {
   var happnUtils = require('../lib/system/utilities');
 
   var mock$Happn = {
-    datalayer: {},
+    happn: {},
     _mesh: {
       utilities: happnUtils,
       config: {
         name: 'e3b-test',
-        datalayer: {
+        happn: {
           secure: true,
           port: 10000
         }
@@ -199,7 +199,7 @@ describe('e3b-rest-component-secure', function () {
         name: 'e3b-test'
       },
       endpoints: {},
-      datalayer: {
+      happn: {
         server: {
           services: {}
         }
@@ -319,19 +319,19 @@ describe('e3b-rest-component-secure', function () {
 
   var mockLogin = function (restModule, done) {
 
-    if (!mock$Happn._mesh.datalayer)
-      mock$Happn._mesh.datalayer = {};
+    if (!mock$Happn._mesh.happn)
+      mock$Happn._mesh.happn = {};
 
-    if (!mock$Happn._mesh.datalayer.server)
-      mock$Happn._mesh.datalayer.server = {};
+    if (!mock$Happn._mesh.happn.server)
+      mock$Happn._mesh.happn.server = {};
 
-    if (!mock$Happn._mesh.datalayer.server.services)
-      mock$Happn._mesh.datalayer.server.services = {};
+    if (!mock$Happn._mesh.happn.server.services)
+      mock$Happn._mesh.happn.server.services = {};
 
-    if (!mock$Happn._mesh.datalayer.server.services.security)
-      mock$Happn._mesh.datalayer.server.services.security = {};
+    if (!mock$Happn._mesh.happn.server.services.security)
+      mock$Happn._mesh.happn.server.services.security = {};
 
-    mock$Happn._mesh.datalayer.server.services.security.authorize = function (origin, accessPoint, action, callback) {
+    mock$Happn._mesh.happn.server.services.security.authorize = function (origin, accessPoint, action, callback) {
       try {
 
         expect(origin.test).to.be("data");
@@ -343,7 +343,7 @@ describe('e3b-rest-component-secure', function () {
       }
     };
 
-    mock$Happn._mesh.datalayer.server.services.security.login = function (opts, callback) {
+    mock$Happn._mesh.happn.server.services.security.login = function (opts, callback) {
       try {
         callback(null, {token: 'test'});
       } catch (e) {
@@ -430,7 +430,7 @@ describe('e3b-rest-component-secure', function () {
     var RestModule = require('../lib/modules/rest/index.js');
     var restModule = new RestModule();
 
-    //$happn._mesh.datalayer.services.security
+    //$happn._mesh.happn.services.security
 
     mockLogin(restModule, function (e) {
 
@@ -438,7 +438,7 @@ describe('e3b-rest-component-secure', function () {
 
       //req, res, $happn, $origin, uri, successful
 
-      mock$Happn._mesh.datalayer.server.services.security = {
+      mock$Happn._mesh.happn.server.services.security = {
         authorize: function (origin, accessPoint, action, callback) {
 
           try {
@@ -476,7 +476,7 @@ describe('e3b-rest-component-secure', function () {
         done(new Error('this was not meant to happn: ' + responseString));
       };
 
-      restModule.__securityService = mock$Happn._mesh.datalayer.server.services.security;
+      restModule.__securityService = mock$Happn._mesh.happn.server.services.security;
       restModule.__authorize(request, mockResponse, mock$Happn, mock$Origin, 'test/method', done);
 
     });
@@ -526,13 +526,13 @@ describe('e3b-rest-component-secure', function () {
     mockLogin(restModule, function (e) {
       if (e) return done(e);
 
-      mock$Happn._mesh.datalayer.server.services.security = {
+      mock$Happn._mesh.happn.server.services.security = {
         authorize: function (origin, accessPoint, action, callback) {
           callback(null, true);
         }
       };
 
-      restModule.__securityService = mock$Happn._mesh.datalayer.server.services.security;
+      restModule.__securityService = mock$Happn._mesh.happn.server.services.security;
 
       mockResponse.end = function (responseString) {
 
@@ -631,7 +631,6 @@ describe('e3b-rest-component-secure', function () {
 
     restClient.get('http://localhost:10000/rest/login?username=_ADMIN&password=' + ADMIN_PASSWORD).on('complete', function (result) {
 
-      console.log('logged in:::', result);
       expect(result.error).to.be(null);
       expect(result.data.token).to.not.be(null);
 
@@ -1001,6 +1000,6 @@ describe('e3b-rest-component-secure', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

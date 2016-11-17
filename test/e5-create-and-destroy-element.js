@@ -11,12 +11,15 @@ var request = Promise.promisify(require('request'));
 
 describe(filename, function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var mesh;
 
   before(function (done) {
+
+    this.timeout(5000);
+
     Happner.create({
         modules: {
           'factory': { // component that adds another component via _mesh
@@ -378,6 +381,6 @@ describe(filename, function () {
       .catch(done);
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

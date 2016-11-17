@@ -22,7 +22,7 @@ describe('f2-client-disconnection', function () {
 
     Mesh.create({
       name: 'f2-client-disconnection',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8884,

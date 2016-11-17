@@ -8,7 +8,7 @@ var should = require('chai').should();
 var path = require('path');
 
 var config = {
-  dataLayer: {
+  happn: {
     port: 8080
   },
   modules: {},
@@ -18,6 +18,7 @@ var config = {
 };
 
 describe('d7 - Issue #113 - Event off by handle', function () {
+
   this.timeout(10000);
   var mesh;
   before(function (done) {
@@ -36,6 +37,7 @@ describe('d7 - Issue #113 - Event off by handle', function () {
 
 
   it('01 - should subscribe to an event then unsubscribe by path', function (done) {
+
     var event_count = 0;
     var path = "test1/path";
     mesh.event.data.on(path, event_handler, function (err) {

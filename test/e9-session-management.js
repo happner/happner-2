@@ -1,8 +1,8 @@
 describe('e9_session_management', function () {
 
-  require('benchmarket').start();
-
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  //
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var Mesh = require('../');
@@ -69,10 +69,10 @@ describe('e9_session_management', function () {
         var config = {
           secure:true,
           port: port,
-          activateSessionManagement:activateSessionManagement,
-          logSessionActivity:logSessionActivity,
-          datalayer:{
-            adminPassword:'happn'
+          happn:{
+            adminPassword:'happn',
+            activateSessionManagement:activateSessionManagement,
+            logSessionActivity:logSessionActivity
           }
         };
 
@@ -93,13 +93,12 @@ describe('e9_session_management', function () {
 
         });
       });
-
     }, 1000);
   };
 
   it('tests active sessions and session activity logging on a secure instance', function (callback) {
 
-    this.timeout(6000);
+    this.timeout(15000);
 
     getService(function(e){
 
@@ -379,6 +378,6 @@ describe('e9_session_management', function () {
     }, 11116);
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

@@ -2,8 +2,8 @@ describe('d3-permission-changes', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var should = require('chai').should();
@@ -22,7 +22,7 @@ describe('d3-permission-changes', function () {
 
     mesh.initialize({
       name: 'd3-permission-changes-events',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8004
@@ -57,6 +57,7 @@ describe('d3-permission-changes', function () {
     var _this = this;
 
     var testGroup = {
+
       name: 'TESTGROUP1' + test_id,
 
       custom_data: {
@@ -67,7 +68,7 @@ describe('d3-permission-changes', function () {
       permissions: {
         methods: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -186,6 +187,6 @@ describe('d3-permission-changes', function () {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

@@ -16,10 +16,10 @@ var crypto = new Crypto();
 
 var config = {
   name: 'mesh2',
-  datalayer: {
-    port: 55002,
-    secure: true,
-    encryptPayloads: true
+  happn: {
+    port : 55002,
+    secure : true,
+    encryptPayloads : true
   },
   endpoints: {
     theFarawayTree: {  // remote mesh node
@@ -39,8 +39,8 @@ describe('c8-payload-encryption', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   before(function (done) {
 
@@ -101,5 +101,6 @@ describe('c8-payload-encryption', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
+
 });

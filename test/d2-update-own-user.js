@@ -8,7 +8,7 @@ function TestMesh() {
 TestMesh.prototype.method1 = function ($happn, options, callback) {
   options.methodName = 'method1';
   callback(null, options);
-}
+};
 
 if (global.TESTING_D2) return; // When 'requiring' the module above,
 // don't run the tests below
@@ -17,8 +17,8 @@ describe('d2-update-own-user', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var should = require('chai').should();
@@ -37,7 +37,7 @@ describe('d2-update-own-user', function () {
 
     mesh.initialize({
       name: 'd2-update-own-user',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8003
@@ -142,12 +142,12 @@ describe('d2-update-own-user', function () {
         });
       });
     });
-
   });
 
   it('adds a test user, logs in with the test user - modifies the users password successfully', function (done) {
 
     var testGroup = {
+
       name: 'TESTGROUP2' + test_id,
 
       custom_data: {
@@ -158,7 +158,7 @@ describe('d2-update-own-user', function () {
       permissions: {
         methods: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -176,7 +176,7 @@ describe('d2-update-own-user', function () {
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -504,6 +504,6 @@ describe('d2-update-own-user', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

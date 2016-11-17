@@ -2,8 +2,8 @@ describe('d4-session-changes-events', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var should = require('chai').should();
@@ -20,28 +20,28 @@ describe('d4-session-changes-events', function () {
   before(function (done) {
 
     mesh.initialize({
+
       name: 'd4-session-changes-events',
-      datalayer: {
+
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8004
       }
     }, function (err) {
+
       if (err) return done(err);
+
       mesh.start(function (err) {
-        if (err) {
-          // console.log(err.stack);
-          return done(err);
-        }
+
+        if (err) return done(err);
 
         var credentials = {
           username: '_ADMIN', // pending
           password: test_id
-        }
+        };
 
-        adminClient.login(credentials).then(function () {
-          done();
-        }).catch(done);
+        adminClient.login(credentials).then(done).catch(done);
 
       });
     });
@@ -49,12 +49,12 @@ describe('d4-session-changes-events', function () {
 
   after(function (done) {
     mesh.stop({reconnect: false}, done);
-  })
+  });
 
   var eventsToFire = {
     'connect': false,
     'disconnect': false
-  }
+  };
 
   it('tests the connect and disconnect events, by logging on and off with the admin client', function (done) {
 
@@ -67,7 +67,7 @@ describe('d4-session-changes-events', function () {
           return;
 
       done();
-    }
+    };
 
     var testUser = {
       username: 'TESTUSER1' + test_id,
@@ -75,7 +75,7 @@ describe('d4-session-changes-events', function () {
       custom_data: {
         something: 'useful'
       }
-    }
+    };
 
     adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -96,7 +96,7 @@ describe('d4-session-changes-events', function () {
         var credentials = {
           username: 'TESTUSER1' + test_id, // pending
           password: 'TEST PWD'
-        }
+        };
 
         testClient.login(credentials).then(function () {
 
@@ -105,11 +105,9 @@ describe('d4-session-changes-events', function () {
         }).catch(done);
 
       });
-
     });
-
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

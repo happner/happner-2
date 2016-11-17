@@ -9,8 +9,8 @@ describe.skipWindows = (process.platform === 'win32') ? describe.skip : describe
 // skip for issue 223
 describe.skipWindows(path.basename(__filename), function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var server;
   var test_id = Date.now() + '_' + require('shortid').generate();
@@ -26,7 +26,7 @@ describe.skipWindows(path.basename(__filename), function () {
     }
     Happner.create({
       name: 'Server',
-      datalayer: {
+      happn: {
         persist: true,
         secure: true,
         filename: dbFileName
@@ -78,11 +78,13 @@ describe.skipWindows(path.basename(__filename), function () {
   });
 
   after('stop server', function (done) {
+
     try {
       fs.unlinkSync(dbFileName);
-    } catch (e) {
-    }
+    } catch (e) {}
+
     if (server) return server.stop({reconnect: false}, done);
+
     done();
   });
 
@@ -192,5 +194,5 @@ describe.skipWindows(path.basename(__filename), function () {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 });

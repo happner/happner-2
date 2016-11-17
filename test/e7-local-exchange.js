@@ -4,8 +4,8 @@ describe(path.basename(__filename), function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var libFolder = path.join(__dirname, 'lib');
   var Happner = require('../');
@@ -26,7 +26,7 @@ describe(path.basename(__filename), function () {
 
   var config = {
     name: "testComponent2Component",
-    datalayer: {
+    happn: {
       secure: true,
       persist: true,
       defaultRoute: "mem",
@@ -271,10 +271,9 @@ describe(path.basename(__filename), function () {
         })
         .catch(done);
     });
-
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 });
 
 

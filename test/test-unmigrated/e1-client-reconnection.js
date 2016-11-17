@@ -2,8 +2,8 @@ describe('e1-client-reconnection', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
 
@@ -22,7 +22,7 @@ describe('e1-client-reconnection', function () {
   var startMesh = function (callback) {
     Mesh.create({
       name: 'e1-client-reconnection',
-      datalayer: {
+      happn: {
         secure: true,
         adminPassword: test_id,
         port: 8004
@@ -61,7 +61,7 @@ describe('e1-client-reconnection', function () {
   var eventsToFire = {
     'reconnect/scheduled': false,
     'reconnect/successful': false
-  }
+  };
 
   var eventsFired = false;
 
@@ -82,7 +82,10 @@ describe('e1-client-reconnection', function () {
     };
 
     adminClient.exchange.data.set('/test/path', {test: 'data'}, function (e) {
+
       if (e) return done(e);
+
+      console.log('SET THE DATA:::');
 
       adminClient.on('reconnect/scheduled', function (evt, data) {
         //TODO some expect code
@@ -96,16 +99,14 @@ describe('e1-client-reconnection', function () {
       });
 
       mesh.stop(function (e) {
+
         if (e) return done(e);
 
         startMesh(function (e) {
           if (e) return done(e);
-        })
-
+        });
       });
-
     });
-
   });
 
   var __doneMeasuring = false;
@@ -161,6 +162,6 @@ describe('e1-client-reconnection', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
