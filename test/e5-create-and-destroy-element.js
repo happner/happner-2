@@ -65,6 +65,7 @@ describe(filename, function () {
 
 
   it('can add a component to the mesh', function (done) {
+
     mesh._createElement({
         module: {
           name: 'newComponent',
@@ -115,6 +116,7 @@ describe(filename, function () {
 
 
   it('can add a new component to the mesh (from another component using _mesh)', function (done) {
+
     mesh.exchange.factory.createComponent('componentName')
 
       .then(function () {
@@ -132,6 +134,7 @@ describe(filename, function () {
 
 
   it('can remove components from the mesh including web methods', function (done) {
+
     mesh._createElement({
         module: {
           name: 'anotherComponent',
@@ -198,6 +201,7 @@ describe(filename, function () {
   });
 
   it('emits description change on adding component', function (done) {
+
     mesh._mesh.data.on('/mesh/schema/description', {count: 1}, function (data, meta) {
       try {
         data.components.component1.methods.should.eql({
@@ -254,6 +258,8 @@ describe(filename, function () {
         return mesh._mesh.data.on('/mesh/schema/description', {count: 1}, function (data, meta) {
           should.not.exist(data.components.component2);
           done();
+        }, function(e){
+          if (e) return done(e);
         });
       })
 
@@ -265,7 +271,9 @@ describe(filename, function () {
   });
 
   it('informs mesh client on create component', function (done) {
+
     var client = new Happner.MeshClient();
+
     client.login()
 
       .then(function () {
@@ -298,11 +306,17 @@ describe(filename, function () {
         })
       })
 
-      .catch(done);
+      .catch(function(e){
+
+        console.log('login error:::');
+        done(e);
+      });
   });
 
   it('informs mesh client on destroy component', function (done) {
+
     var client = new Happner.MeshClient();
+
     return mesh._createElement({
         module: {
           name: 'component4',
@@ -339,7 +353,9 @@ describe(filename, function () {
         return mesh._destroyElement('component4');
       })
 
-      .catch(done);
+      .catch(function(e){
+        done(e);
+      });
   });
 
   xit('what happens to reference still held', function (done) {
