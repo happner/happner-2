@@ -9,7 +9,6 @@ describe('e2-endpoint-reconnection', function () {
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
-//var REMOTE_MESH = 'e2-remote-mesh';
   var REMOTE_MESH = 'e2-remote-mesh';
 
   var PORT_REMOTE = 3030;
@@ -31,7 +30,7 @@ describe('e2-endpoint-reconnection', function () {
           port: PORT_REMOTE,
           host: 'localhost',
           username: '_ADMIN',
-          password: 'guessme',
+          password: 'guessme'
         }
       }
     }
