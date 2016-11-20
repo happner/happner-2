@@ -1,12 +1,23 @@
-[![npm](https://img.shields.io/npm/v/happner.svg)](https://www.npmjs.com/package/happner) [![Build Status](https://travis-ci.org/happner/happner.svg?branch=master)](https://travis-ci.org/happner/happner) [![Build status](https://ci.appveyor.com/api/projects/status/e5yrnt4fca59hksc/branch/master?svg=true)](https://ci.appveyor.com/project/happner/happner/branch/master)[![Coverage Status](https://coveralls.io/repos/happner/happner/badge.svg?branch=develop&service=github)](https://coveralls.io/github/happner/happner?branch=master) [![David](https://img.shields.io/david/happner/happner.svg)]()
+[![npm](https://img.shields.io/npm/v/happner-2.svg)](https://www.npmjs.com/package/happner-2) [![Build Status](https://travis-ci.org/happner/happner-2.svg?branch=master)](https://travis-ci.org/happner/happner-2) [![Build status](https://ci.appveyor.com/api/projects/status/e5yrnt4fca59hksc/branch/master?svg=true)](https://ci.appveyor.com/project/happner/happner-2/branch/master)[![Coverage Status](https://coveralls.io/repos/happner/happner-2/badge.svg?branch=develop&service=github)](https://coveralls.io/github/happner/happner-2?branch=master) [![David](https://img.shields.io/david/happner/happner-2.svg)]()
 
 <img src="https://raw.githubusercontent.com/happner/happner-website/master/images/HAPPNER%20Logo.png" width="300"></img>
 
-Happner is a cloud application framework ideal for integrating multiple micro services into a unified offering. It enables the creation of an interconnected mesh of local and remote components. The mesh components can easily call upon each other's methods or listen to each other's events in a manner uncomplicated by remoteness.
+Happner-2 is a cloud application framework ideal for integrating multiple micro services into a unified offering. It enables the creation of an interconnected mesh of local and remote components. The mesh components can easily call upon each other's methods or listen to each other's events in a manner uncomplicated by remoteness.
+
+## Changes from version 1
+
+* using happn-3
+* has happn configuration instead of datalayer, the cofiguration can take any happn-3 config in, and has a few convenience settings
+
+## ROADMAP
+
+* not 100% defined, but we have a [recommendations document](https://docs.google.com/document/d/1IQc-VBdun8gQTaJ6CSPD0-5BArc0AS6gIkFh-Dx59yE/edit?usp=sharing).
 
 ## installation
 
-`npm install happner --save`
+`npm install happner-2 --save`
+
+## NB NB NB - documentation below is for happner version 1, but should mostly be true for happner-2, apart from the datalayer config, we will be updating the wiki as soon as we have time.
 
 ## demonstration
 
