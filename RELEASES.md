@@ -1,3 +1,7 @@
-0.0.1 2016-11-08
+based on happner 1.28.1
+
+1.0.0 2016-11-20
 ----------------
-- 
+ - still have intermittent issue, being logged on e5 test
+ - missing some happn functionality (incoming and outgoing plugins)
+ - ready for testing on the brain

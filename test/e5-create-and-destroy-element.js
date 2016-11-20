@@ -313,6 +313,8 @@ describe(filename, function () {
       });
   });
 
+  var meshClientInformed = false;
+
   it('informs mesh client on destroy component', function (done) {
 
     var client = new Happner.MeshClient();
@@ -335,13 +337,21 @@ describe(filename, function () {
       })
 
       .then(function () {
+
+        if (meshClientInformed) console.log('MESH CLIENT DESTROYED NOTIFY HAPPENED ALREADY 0:::');
+
         return client.login();
       })
 
       .then(function () {
+
+        if (meshClientInformed) console.log('MESH CLIENT DESTROYED NOTIFY HAPPENED ALREADY 1:::');
+
         return client.once('components/destroyed', function (array) {
+
           try {
             array[0].description.name.should.equal('component4');
+            meshClientInformed = true;
             done();
           } catch (e) {
             done(e);
@@ -350,11 +360,19 @@ describe(filename, function () {
       })
 
       .then(function () {
+
+        if (meshClientInformed) console.log('MESH CLIENT DESTROYED NOTIFY HAPPENED ALREADY 2:::');
+
         return mesh._destroyElement('component4');
       })
 
       .catch(function(e){
-        done(e);
+
+        if (!meshClientInformed) return done(e);
+
+        console.log('MESH CLIENT DESTROYED NOTIFY HAPPENED ALREADY 3:::');
+        throw e;
+        //done(e);
       });
   });
 
