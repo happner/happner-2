@@ -1,4 +1,4 @@
-describe('f1-happn-transform-middleware', function () {
+describe('f1-happn-layer-middleware', function () {
 
   require('benchmarket').start();
 
@@ -42,7 +42,7 @@ describe('f1-happn-transform-middleware', function () {
 
   });
 
-  var getService = function(transformMiddleware, callback, port){
+  var getService = function(inboundLayers, outboundLayers, callback, port){
 
     disconnectClient();
 
@@ -61,7 +61,8 @@ describe('f1-happn-transform-middleware', function () {
           logSessionActivity:true,
           happn:{
             adminPassword:'happn',
-            transformMiddleware:transformMiddleware
+            inboundLayers:inboundLayers,
+            outboundLayers:outboundLayers
           }
         };
 
@@ -86,52 +87,58 @@ describe('f1-happn-transform-middleware', function () {
     }, 1000);
   };
 
-  it('tests spying on session activity', function (callback) {
+  it('tests inserting inbound and outbound layers', function (callback) {
 
     this.timeout(6000);
 
-    var packetsIn = [];
-    var packetsOut = [];
+    var layerLog1 = [];
+    var layerLog2 = [];
+    var layerLog3 = [];
+    var layerLog4 = [];
 
-    var spyConfig = {
-
-      suppressPrint:true,
-
-      log:function(direction, packet){
-
-        if (direction == 'incoming') packetsIn.push(packet);
-        if (direction == 'outgoing') packetsOut.push(packet);
-
+    var inboundLayers = [
+      function(message, cb){
+        layerLog3.push(message);
+        return cb(null, message);
+      },
+      function(message, cb){
+        layerLog4.push(message);
+        return cb(null, message);
       }
-    };
+    ];
 
-    var middleware = [{path:'./transform-message-spy', options:spyConfig}];
+    var outboundLayers = [
+      function(message, cb){
+        layerLog1.push(message);
+        return cb(null, message);
+      },
+      function(message, cb){
+        layerLog2.push(message);
+        return cb(null, message);
+      }
+    ];
 
-    getService(middleware, function(e){
+    getService(inboundLayers, outboundLayers, function(e){
 
       if (e) return callback(e);
 
-      clientInstance.exchange.security.listActiveSessions(function(e, list){
+      clientInstance.data.on('/did/both',  function(data){
+
+        expect(layerLog1.length > 0).to.be(true);
+        expect(layerLog2.length > 0).to.be(true);
+        expect(layerLog3.length > 0).to.be(true);
+        expect(layerLog4.length > 0).to.be(true);
+
+        callback();
+
+      }, function(e){
 
         if (e) return callback(e);
-        expect(list.length <= 2).to.be(true);
 
-        setTimeout(function(){
+        clientInstance.data.set('/did/both', {'test':'data'}, function(e){
 
-          clientInstance.exchange.security.listSessionActivity(function(e, list){
-
-            if (e) return callback(e);
-
-            expect(list.length <= 2).to.be(true);
-
-            expect(packetsIn.length > 0).to.be(true);
-            expect(packetsOut.length > 0).to.be(true);
-
-            callback();
-
-          });
-
-        }, 1000);
+          if (e) return callback(e);
+        });
       });
     });
   });

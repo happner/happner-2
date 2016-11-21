@@ -52,7 +52,7 @@ gulp.task('start', function (done) {
 
   var meshConfig = {
     name: 'Server',
-    datalayer: {
+    happn: {
       secure: true,
       adminPassword: 'xxx',
       encryptPayloads: true

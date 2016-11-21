@@ -135,6 +135,7 @@ describe('b1 - advanced security', function (done) {
   var testGroupSaved;
 
   it('creates a test group, with permissions to access the security component', function (done) {
+
     adminClient.exchange.security.addGroup(testGroup, function (e, result) {
 
       if (e) return callback(e);
@@ -156,7 +157,7 @@ describe('b1 - advanced security', function (done) {
     custom_data: {
       something: 'useful'
     }
-  }
+  };
 
   var testUserSaved;
 
