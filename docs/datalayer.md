@@ -1,12 +1,12 @@
 [&#9664;](configuration.md) configuration | modules and components [&#9654;](modules.md)
 
-## Datalayer
+## HAPPN
 
-### What is the Datalayer?
+### What is the happn layer?
 
-The Datalayer is the underlying messaging and storage infrastructure in the mesh. It uses [happn](https://github.com/happner/happn)'s evented storage and pubsub websocket stack.
+The HAPPN layer is the underlying messaging and storage infrastructure in the mesh. It uses [happn](https://github.com/happner/happn-3)'s evented storage and pubsub websocket stack.
 
-Configured in the datalayer is the host and port upon which __this__ MeshNode listens for connections from other MeshNodes or clients.
+Configured in the happn layer is the host and port upon which __this__ MeshNode listens for connections from other MeshNodes or clients.
 
 ##### The data layer allows for:
 
