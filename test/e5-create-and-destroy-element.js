@@ -371,7 +371,6 @@ describe(filename, function () {
         if (!meshClientInformed) return done(e);
 
         console.log('MESH CLIENT DESTROYED NOTIFY HAPPENED ALREADY 3:::');
-        throw e;
         //done(e);
       });
   });

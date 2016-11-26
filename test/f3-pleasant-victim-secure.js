@@ -31,7 +31,7 @@ describe('f3-pleasant-victim-secure', function () {
   var mesh;
   var remote;
 
-  var CONNECTION_COUNT = 10;
+  var CONNECTION_COUNT = 3;
 
   var startRemoteMesh = function (callback) {
 
@@ -57,7 +57,7 @@ describe('f3-pleasant-victim-secure', function () {
 
   it('starts and connects to a remote mesh, then stops the mesh ' + CONNECTION_COUNT + ' times', function (done) {
 
-    var timeout = 10000 * CONNECTION_COUNT;
+    var timeout = 20000 * CONNECTION_COUNT;
 
     this.timeout(timeout);
 
