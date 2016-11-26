@@ -55,7 +55,7 @@ describe('e1-client-reconnection', function () {
 
   after(function (done) {
     if (__stopped) return done();
-    mesh.stop({reconnect: false}, done);
+    mesh.stop({reconnect: false}).then(done).catch(done);
   });
 
   var eventsToFire = {
