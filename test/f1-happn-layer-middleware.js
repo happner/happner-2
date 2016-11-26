@@ -8,7 +8,7 @@ describe('f1-happn-layer-middleware', function () {
   var Mesh = require('../');
 
   var serviceInstance;
-  var clientInstance = new Mesh.MeshClient({secure: true, port: 22222});
+  var clientInstance = new Mesh.MeshClient({secure: true});
 
   var disconnectClient = function(client, cb){
 
@@ -42,7 +42,7 @@ describe('f1-happn-layer-middleware', function () {
 
   });
 
-  var getService = function(inboundLayers, outboundLayers, callback, port){
+  var getService = function(inboundLayers, outboundLayers, callback){
 
     disconnectClient();
 
@@ -52,13 +52,8 @@ describe('f1-happn-layer-middleware', function () {
 
         if (e) return callback(e);
 
-        if (!port) port = 22222;
-
         var config = {
           secure:true,
-          port: port,
-          activateSessionManagement:true,
-          logSessionActivity:true,
           happn:{
             adminPassword:'happn',
             inboundLayers:inboundLayers,
@@ -72,7 +67,7 @@ describe('f1-happn-layer-middleware', function () {
 
           if (err) return callback(err);
 
-          clientInstance = new Mesh.MeshClient({secure: true, port: port});
+          clientInstance = new Mesh.MeshClient({secure: true});
 
           clientInstance
             .login({username: '_ADMIN', password: 'happn'})
