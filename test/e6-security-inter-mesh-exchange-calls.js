@@ -130,28 +130,33 @@ describe.skipWindows(filename, function () {
   });
 
   before('start mesh2', function (done) {
+
     Happner.create({
       port: 55001,
-      // happn: {
-      //   secure: SECURE,
-      //   adminPassword: testId2,
-      //   filename: dbFileName2
-      // },
+      happn: {
+        secure: SECURE,
+        adminPassword: testId2,
+        filename: dbFileName2
+      },
       endpoints: {
         'secureMesh': {
           config: {
-            host: '127.0.0.1',
-            port: 55000,
+            host:'localhost',
             username: 'username',
             password: 'password',
-            // secure: true
+            secure: true
           }
         }
       }
     }).then(function (_mesh) {
+
       mesh2 = _mesh;
       done();
-    }).catch(done);
+
+    }).catch(function(e){
+
+      done(e);
+    });
   });
 
 
