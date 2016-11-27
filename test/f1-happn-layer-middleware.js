@@ -1,8 +1,8 @@
 describe('f1-happn-layer-middleware', function () {
 
-  require('benchmarket').start();
-
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  //
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var Mesh = require('../');
@@ -86,6 +86,9 @@ describe('f1-happn-layer-middleware', function () {
 
     this.timeout(6000);
 
+    var calledBack = false;
+
+
     var layerLog1 = [];
     var layerLog2 = [];
     var layerLog3 = [];
@@ -132,12 +135,16 @@ describe('f1-happn-layer-middleware', function () {
 
         clientInstance.data.set('/did/both', {'test':'data'}, function(e){
 
+          if (calledBack) return console.log('SET OPERATION CALLED BACK ALREADY:::');
+
+          calledBack = true;
+
           if (e) return callback(e);
         });
       });
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
