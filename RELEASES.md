@@ -9,3 +9,10 @@ based on happner 1.28.1
 1.1.0 2016-11-21
 ----------------
  - happn layer middleware tested
+ 
+1.2.0 2016-11-25
+----------------
+
+ - happn upgraded to 0.6.2 
+ - endpoint service
+ - found race condition in f1 test

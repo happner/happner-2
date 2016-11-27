@@ -1,8 +1,5 @@
 /* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
 
-var Promise = require('bluebird');
-var sep = require('path').sep;
-var spawn = require('child_process').spawn;
 module.exports = SeeAbove;
 
 function SeeAbove() {
@@ -73,6 +70,9 @@ describe('e3a-rest-component', function () {
    * Simon Bishop
    * @type {expect}
    */
+
+  var sep = require('path').sep;
+  var spawn = require('child_process').spawn;
 
   // Uses unit test 2 modules
   var expect = require('expect.js');
@@ -164,8 +164,19 @@ describe('e3a-rest-component', function () {
 
     this.timeout(30000);
 
-    if (remote) remote.kill();
-    if (mesh) mesh.stop({reconnect: false}, done);
+    if (mesh) return mesh.stop({reconnect: false}, function(e){
+
+      if (e) console.warn('error stopping local mesh');
+
+      remote.kill();//we assume remote exists
+
+      done();
+
+    });
+
+    else if (remote) remote.kill();
+
+    done();
 
   });
 

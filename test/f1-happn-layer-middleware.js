@@ -1,14 +1,14 @@
 describe('f1-happn-layer-middleware', function () {
 
-  require('benchmarket').start();
-
-  after(require('benchmarket').store());
+  // require('benchmarket').start();
+  //
+  // after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var Mesh = require('../');
 
   var serviceInstance;
-  var clientInstance = new Mesh.MeshClient({secure: true, port: 22222});
+  var clientInstance = new Mesh.MeshClient({secure: true});
 
   var disconnectClient = function(client, cb){
 
@@ -42,7 +42,7 @@ describe('f1-happn-layer-middleware', function () {
 
   });
 
-  var getService = function(inboundLayers, outboundLayers, callback, port){
+  var getService = function(inboundLayers, outboundLayers, callback){
 
     disconnectClient();
 
@@ -52,13 +52,8 @@ describe('f1-happn-layer-middleware', function () {
 
         if (e) return callback(e);
 
-        if (!port) port = 22222;
-
         var config = {
           secure:true,
-          port: port,
-          activateSessionManagement:true,
-          logSessionActivity:true,
           happn:{
             adminPassword:'happn',
             inboundLayers:inboundLayers,
@@ -72,7 +67,7 @@ describe('f1-happn-layer-middleware', function () {
 
           if (err) return callback(err);
 
-          clientInstance = new Mesh.MeshClient({secure: true, port: port});
+          clientInstance = new Mesh.MeshClient({secure: true});
 
           clientInstance
             .login({username: '_ADMIN', password: 'happn'})
@@ -89,7 +84,7 @@ describe('f1-happn-layer-middleware', function () {
 
   it('tests inserting inbound and outbound layers', function (callback) {
 
-    this.timeout(6000);
+    this.timeout(10000);
 
     var layerLog1 = [];
     var layerLog2 = [];
@@ -129,7 +124,7 @@ describe('f1-happn-layer-middleware', function () {
         expect(layerLog3.length > 0).to.be(true);
         expect(layerLog4.length > 0).to.be(true);
 
-        callback();
+        setTimeout(callback, 5000);
 
       }, function(e){
 
@@ -143,6 +138,6 @@ describe('f1-happn-layer-middleware', function () {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

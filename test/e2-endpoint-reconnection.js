@@ -65,6 +65,8 @@ describe('e2-endpoint-reconnection', function () {
     });
   };
 
+  var beforeDoneCalled = false;
+
   before(function (done) {
 
     startRemoteMesh(function (e) {
@@ -75,7 +77,13 @@ describe('e2-endpoint-reconnection', function () {
         if (e) return done(e);
 
         mesh = instance;
-        done();
+
+        if (!beforeDoneCalled){
+
+          done();
+
+          beforeDoneCalled = true;
+        }
       });
     });
   });
@@ -136,7 +144,8 @@ describe('e2-endpoint-reconnection', function () {
 
         startRemoteMesh(function (e) {       // 3. start the remote mesh
 
-          if (e) return done(e);
+          if (e)
+            return done(e);
           console.log('1.3 STARTED REMOTE MESH:::');
 
         });
@@ -154,7 +163,8 @@ describe('e2-endpoint-reconnection', function () {
 
     testExchangeCalls(function (e) {                           // 1. check the remote exchange works
 
-      if (e) return done(e);
+      if (e)
+        return done(e);
       //console.log('2.1 EXCHANGE CALLS WORKED:::');
 
       mesh.on('endpoint-reconnect-scheduled', function (evt) { // 2. attach to the endpoint disconnection
@@ -194,7 +204,8 @@ describe('e2-endpoint-reconnection', function () {
 
           startRemoteMesh(function (e) {       // 5. start the remote mesh
 
-            if (e) return done(e);
+            if (e)
+              return done(e);
             //console.log('5. STARTED REMOTE MESH:::', e);
 
           });
@@ -213,7 +224,8 @@ describe('e2-endpoint-reconnection', function () {
 
     testExchangeCalls(function (e) {                           // 1. check the remote exchange works
 
-      if (e) return done(e);
+      if (e)
+        return done(e);
 
       remote.kill();//kill remote
 

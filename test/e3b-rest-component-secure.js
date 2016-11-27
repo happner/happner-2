@@ -1,8 +1,5 @@
 /* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
 
-var Promise = require('bluebird');
-var sep = require('path').sep;
-var spawn = require('child_process').spawn;
 module.exports = SeeAbove;
 
 function SeeAbove() {
@@ -80,6 +77,9 @@ describe('e3b-rest-component-secure', function () {
    * @type {expect}
    */
 
+  var sep = require('path').sep;
+  var spawn = require('child_process').spawn;
+
   // Uses unit test 2 modules
   var expect = require('expect.js');
   var Mesh = require('../');
@@ -128,48 +128,56 @@ describe('e3b-rest-component-secure', function () {
 
       if (e) return done(e);
 
-      Mesh.create({
-        name: 'e3b-test',
-        happn: {
-          secure: true,
-          adminPassword: ADMIN_PASSWORD,
-          port: 10000
-        },
-        util: {
-          // logger: {}
-        },
-        modules: {
-          'testComponent': {
-            path: __filename   // .............
-          }
-        },
-        components: {
-          'testComponent': {}
-        },
-        endpoints: {
-          'remoteMesh': {  // remote mesh node
-            config: {
-              secure: true,
-              port: 10001,
-              host: 'localhost',
-              username: '_ADMIN',
-              password: 'happn'
+      try{
+
+        Mesh.create({
+          name: 'e3b-test',
+          happn: {
+            secure: true,
+            adminPassword: ADMIN_PASSWORD,
+            port: 10000
+          },
+          util: {
+            // logger: {}
+          },
+          modules: {
+            'testComponent': {
+              path: __filename   // .............
+            }
+          },
+          components: {
+            'testComponent': {}
+          },
+          endpoints: {
+            'remoteMesh': {  // remote mesh node
+              config: {
+                secure: true,
+                port: 10001,
+                host: 'localhost',
+                username: '_ADMIN',
+                password: 'happn'
+              }
             }
           }
-        }
-      }, function (err, instance) {
+        }, function (err, instance) {
 
-        delete global.TESTING_E3B; //.............
-        mesh = instance;
+          delete global.TESTING_E3B; //.............
+          mesh = instance;
 
-        if (err) return done(err);
+          if (err) {
+            remote.kill();
+            return done(err);
+          }
 
-        mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one', 'two', 'three', function (err, result) {
-          if (err) return done(err);
-          done();
+          mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one', 'two', 'three', function (err, result) {
+            if (err) return done(err);
+            done();
+          });
         });
-      });
 
+      }catch(e){
+        done(e);
+      }
     });
   });
 
