@@ -84,10 +84,7 @@ describe('f1-happn-layer-middleware', function () {
 
   it('tests inserting inbound and outbound layers', function (callback) {
 
-    this.timeout(6000);
-
-    var calledBack = false;
-
+    this.timeout(10000);
 
     var layerLog1 = [];
     var layerLog2 = [];
@@ -127,17 +124,13 @@ describe('f1-happn-layer-middleware', function () {
         expect(layerLog3.length > 0).to.be(true);
         expect(layerLog4.length > 0).to.be(true);
 
-        callback();
+        setTimeout(callback, 5000);
 
       }, function(e){
 
         if (e) return callback(e);
 
         clientInstance.data.set('/did/both', {'test':'data'}, function(e){
-
-          if (calledBack) return console.log('SET OPERATION CALLED BACK ALREADY:::');
-
-          calledBack = true;
 
           if (e) return callback(e);
         });
