@@ -14,3 +14,5 @@ based on happner 1.28.1
 ----------------
 
  - happn upgraded to 0.6.2 
+ - endpoint service
+ - found race condition in f1 test
