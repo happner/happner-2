@@ -332,7 +332,8 @@ describe('0-endpoint-service', function () {
             username: '_ADMIN',
             password: 'guessme'
           },
-          connectionAttemptsInterval:500
+          connectionAttemptsInterval:100,
+          connectionErrorAttemptsLimit:10
         },
 
         'remoteMesh2': {  // remote mesh node
@@ -342,7 +343,8 @@ describe('0-endpoint-service', function () {
             username: '_ADMIN',
             password: 'guessme'
           },
-          connectionAttemptsInterval:500
+          connectionAttemptsInterval:100,
+          connectionErrorAttemptsLimit:10
         }
       }
     }, function(e){
