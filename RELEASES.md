@@ -21,3 +21,8 @@ based on happner 1.28.1
 ----------------
 
  - connection attempts upped to 10 by default
+ 
+1.2.2 2016-11-27
+----------------
+ 
+ - happn upgraded to 0.6.3
