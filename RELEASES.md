@@ -16,3 +16,8 @@ based on happner 1.28.1
  - happn upgraded to 0.6.2 
  - endpoint service
  - found race condition in f1 test
+ 
+1.2.1 2016-11-27
+----------------
+
+ - connection attempts upped to 10 by default

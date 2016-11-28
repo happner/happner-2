@@ -346,7 +346,7 @@ describe('0-endpoint-service', function () {
         }
       }
     }, function(e){
-      expect(e.toString()).to.be('Error: connection error attempt limit of 5 reached');
+      expect(e.toString()).to.be('Error: connection error attempt limit of 10 reached');
       done();
     });
   });
