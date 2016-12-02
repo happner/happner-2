@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -11,7 +11,8 @@
   "scripts": {
     "test": "mocha silence.js test --expose-gc",
     "test-optimize": "mocha test/test-optimize --expose-gc",
-    "test-cover": "istanbul cover _mocha -- silence.js test"
+    "test-cover": "istanbul cover _mocha -- silence.js test",
+    "test-serial": "node test/lib/serial-run --expose-gc"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,8 @@
     "restler": "^3.4.0",
     "should": "^7.1.0",
     "traverse": "^0.6.6",
-    "when": "^3.7.3"
+    "when": "^3.7.3",
+    "happner-serial-mocha": "1.2.5"
   },
   "dependencies": {
     "async": "0.9.2",
@@ -54,7 +56,7 @@
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
     "glob": "5.0.15",
-    "happn-3": "0.6.7",
+    "happn-3": "0.7.0",
     "happn-logger": "0.0.2",
     "happner-terminal": "0.0.8",
     "later": "1.2.0",
