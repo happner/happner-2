@@ -76,11 +76,10 @@ describe('b1 - advanced security', function (done) {
         mesh.start(done);
       }
     });
-
   });
 
-  var adminClient = new Mesh.MeshClient({secure: true});
-  var testUserClient = new Mesh.MeshClient({secure: true});
+  var adminClient = new Mesh.MeshClient({secure: true, test:"adminClient"});
+  var testUserClient = new Mesh.MeshClient({secure: true, test:"testUserClient"});
   //NB in browser is: new MeshClient();
   //in node is: require('happner').MeshClient;
 
@@ -99,17 +98,22 @@ describe('b1 - advanced security', function (done) {
   });
 
   after('logs out', function (done) {
-    adminClient.disconnect(done);
+    adminClient.disconnect(function(e){
+      done(e);
+    }, 99);
   });
 
   after(function (done) {
-    if (DELETEFILE)
+
+    if (DELETEFILE){
+
       fs.unlink(dbFileName, function (e) {
         if (e) return done(e);
         mesh.stop({reconnect: false}, done);
       });
-    else
-      mesh.stop({reconnect: false}, done);
+
+    } else mesh.stop({reconnect: false}, done);
+
   });
 
   var testGroup = {
@@ -261,7 +265,7 @@ describe('b1 - advanced security', function (done) {
 
           if (e) return done(e);
 
-          testUserClient = new Mesh.MeshClient({secure: true});
+          testUserClient = new Mesh.MeshClient({secure: true, test:'testUserClient'});
 
           testUserClient.login(testUser).then(function () {
 
@@ -459,7 +463,7 @@ describe('b1 - advanced security', function (done) {
         //Linking the group to TEST GROUP USER next.
         return adminClient.exchange.security.linkGroup(user_group, user);
       }).then(function () {
-        new_meshClient = new Mesh.MeshClient({secure: true});
+        new_meshClient = new Mesh.MeshClient({secure: true, test:'new_meshClient'});
         return new_meshClient.login(testUser);
       }).then(function () {
         //Expected to throw an error as the TEST GROUP USER has no permission for this method.
@@ -531,7 +535,7 @@ describe('b1 - advanced security', function (done) {
 
     before('login test user and verify security', function (done) {
 
-      var _client = new Mesh.MeshClient();
+      var _client = new Mesh.MeshClient({test:'_client'});
 
       _client.login(user)
 
@@ -597,7 +601,7 @@ describe('b1 - advanced security', function (done) {
 
     after('logout test user', function (done) {
       if (!client) return done();
-      client.disconnect(done);
+      client.disconnect(done, 98);
     });
 
     var addPermissions;
@@ -841,7 +845,7 @@ describe('b1 - advanced security', function (done) {
       .spread(adminClient.exchange.security.linkGroup)
       .then(function(addedGroup, addedUser){
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
@@ -923,7 +927,7 @@ describe('b1 - advanced security', function (done) {
       .spread(adminClient.exchange.security.linkGroup)
       .then(function(addedGroup, addedUser){
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient1'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
@@ -1010,7 +1014,7 @@ describe('b1 - advanced security', function (done) {
       .spread(adminClient.exchange.security.linkGroup)
       .then(function(upsertedGroup, addedUser){
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient2'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
@@ -1097,7 +1101,7 @@ describe('b1 - advanced security', function (done) {
       .spread(adminClient.exchange.security.linkGroup)
       .then(function(addedGroup, addedUser){
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient4'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
@@ -1183,7 +1187,7 @@ describe('b1 - advanced security', function (done) {
       .spread(adminClient.exchange.security.linkGroup)
       .then(function(addedGroup, addedUser){
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
@@ -1272,7 +1276,7 @@ describe('b1 - advanced security', function (done) {
       .spread(adminClient.exchange.security.linkGroup)
       .then(function(addedGroup, addedUser){
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient6'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
@@ -1375,7 +1379,7 @@ describe('b1 - advanced security', function (done) {
         expect(addedGroup).to.not.be(null);
         expect(addedUser).to.not.be(null);
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient7'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
@@ -1454,7 +1458,7 @@ describe('b1 - advanced security', function (done) {
       .spread(adminClient.exchange.security.linkGroup)
       .then(function(addedGroup, addedUser){
 
-        var testUpsertClient = new Mesh.MeshClient({secure: true});
+        var testUpsertClient = new Mesh.MeshClient({secure: true, test:'testUpsertClient8'});
 
         testUpsertClient.login(testUpsertUser).then(function () {
 
