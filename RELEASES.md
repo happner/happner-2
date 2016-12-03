@@ -48,3 +48,7 @@ based on happner 1.28.1
     
   - happn upgraded to 0.7.0
   - fix to browser client
+  
+1.3.0 2016-12-03
+----------------
+ - happn upgraded to 0.8.0

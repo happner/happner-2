@@ -90,8 +90,8 @@ describe('e3b-rest-component-secure', function () {
 
   var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
 
-  // require('benchmarket').start();
-  // after(require('benchmarket').store());
+  require('benchmarket').start();
+  after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -1008,6 +1008,6 @@ describe('e3b-rest-component-secure', function () {
 
   });
 
-  //require('benchmarket').stop();
+  require('benchmarket').stop();
 
 });

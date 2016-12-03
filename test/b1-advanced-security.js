@@ -3,7 +3,7 @@ var request = Promise.promisify(require('request'));
 
 describe('b1 - advanced security', function (done) {
 
-  //require('benchmarket').start();
+  require('benchmarket').start();
 
   this.timeout(120000);
 
@@ -1490,7 +1490,7 @@ describe('b1 - advanced security', function (done) {
 
   });
 
-  // after(require('benchmarket').store());
-  // require('benchmarket').stop();
+  after(require('benchmarket').store());
+  require('benchmarket').stop();
 
 });

@@ -1,8 +1,8 @@
 describe('f1-happn-layer-middleware', function () {
 
-  // require('benchmarket').start();
+  require('benchmarket').start();
   //
-  // after(require('benchmarket').store());
+  after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var Mesh = require('../');
@@ -138,6 +138,6 @@ describe('f1-happn-layer-middleware', function () {
     });
   });
 
-  //require('benchmarket').stop();
+  require('benchmarket').stop();
 
 });

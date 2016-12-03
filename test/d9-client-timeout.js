@@ -18,8 +18,8 @@ describe('d9-client-timeout', function () {
 
   this.timeout(120000);
 
-  // require('benchmarket').start();
-  // after(require('benchmarket').store());
+  require('benchmarket').start();
+  after(require('benchmarket').store());
 
   var expect = require('expect.js');
   var defaultConfigMesh;
@@ -167,6 +167,6 @@ describe('d9-client-timeout', function () {
   });
 
 
-  //require('benchmarket').stop();
+  require('benchmarket').stop();
 
 });

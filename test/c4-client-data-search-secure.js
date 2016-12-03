@@ -2,8 +2,8 @@ describe('c4 - client data search secure', function () {
 
   this.timeout(120000);
 
-  // require('benchmarket').start();
-  // after(require('benchmarket').store());
+  require('benchmarket').start();
+  after(require('benchmarket').store());
 
   var should = require('chai').should();
   var Mesh = require('../');
@@ -270,7 +270,7 @@ describe('c4 - client data search secure', function () {
   });
 
 
-  //require('benchmarket').stop();
+  require('benchmarket').stop();
 
 });
 

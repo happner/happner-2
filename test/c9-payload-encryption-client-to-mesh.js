@@ -50,8 +50,8 @@ describe('c9-payload-encryption-client-to-mesh', function () {
 
   this.timeout(120000);
 
-  // require('benchmarket').start();
-  // after(require('benchmarket').store());
+  require('benchmarket').start();
+  after(require('benchmarket').store());
 
   before(function (done) {
 
@@ -227,6 +227,6 @@ describe('c9-payload-encryption-client-to-mesh', function () {
 
   });
 
-  //require('benchmarket').stop();
+  require('benchmarket').stop();
 });
 

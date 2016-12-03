@@ -23,8 +23,8 @@ describe('f3-pleasant-victim-secure', function () {
   var spawn = require('child_process').spawn;
   var async = require('async');
 
-  // require('benchmarket').start();
-  // after(require('benchmarket').store());
+  require('benchmarket').start();
+  after(require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -92,6 +92,6 @@ describe('f3-pleasant-victim-secure', function () {
     }, done);
   });
 
-  //require('benchmarket').stop();
+  require('benchmarket').stop();
 
 });

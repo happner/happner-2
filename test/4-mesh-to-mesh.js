@@ -34,8 +34,8 @@ describe('4 - Mesh to Mesh', function () {
 
   this.timeout(120000);
 
-  // require('benchmarket').start();
-  // after(require('benchmarket').store());
+  require('benchmarket').start();
+  after(require('benchmarket').store());
 
   before(function (done) {
 
@@ -100,5 +100,5 @@ describe('4 - Mesh to Mesh', function () {
     });
   });
 
-  //require('benchmarket').stop();
+  require('benchmarket').stop();
 });
