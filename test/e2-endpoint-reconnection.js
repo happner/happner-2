@@ -91,10 +91,21 @@ describe('e2-endpoint-reconnection', function () {
 
   after(function (done) {
 
-    this.timeout(30000);
+    this.timeout(60000);
+
+    var endTimeout = setTimeout(function(){
+
+      done();
+
+    }, 25000);
 
     remote.kill();
-    mesh.stop({reconnect: false}, done);
+
+    mesh.stop({reconnect: false}, function(){
+
+      clearTimeout(endTimeout);
+      done();
+    });
   });
 
   var testExchangeCalls = function (done) {
