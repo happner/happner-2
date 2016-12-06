@@ -93,17 +93,9 @@ describe('e2-endpoint-reconnection', function () {
 
     this.timeout(60000);
 
-    var endTimeout = setTimeout(function(){
-
-      done();
-
-    }, 25000);
-
     remote.kill();
 
     mesh.stop({reconnect: false}, function(){
-
-      clearTimeout(endTimeout);
       done();
     });
   });
