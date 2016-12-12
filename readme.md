@@ -30,7 +30,7 @@ These walkthroughs use *happner* to create a rudimentary monitoring service.
 ## documentation
 
 * [Configuation](https://github.com/happner/happner-2/blob/master/docs/configuration.md)
-* [Datalayer](https://github.com/happner/happner-2/blob/master/docs/happn.md)
+* [Happn](https://github.com/happner/happner-2/blob/master/docs/happn.md)
 * [Modules and Components](https://github.com/happner/happner-2/blob/master/docs/modules.md)
 * [Autoloading and Defaulting](https://github.com/happner/happner-2/blob/master/docs/autoload.md)
 * [Security](https://github.com/happner/happner-2/blob/master/docs/security.md)
