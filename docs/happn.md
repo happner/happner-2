@@ -16,7 +16,7 @@ Configured in the happn layer is the host and port upon which __this__ MeshNode 
 
 ### Datalayer Events
 
-Components with `accessLevel: 'mesh'` in their config have direct access to datalayer event emitter.
+Components with `accessLevel: 'mesh'` in their config have direct access to happn event emitter.
 
 Note: Data content of these events is in flux. 
 
@@ -25,7 +25,7 @@ Note: Data content of these events is in flux.
 Another MeshNode has attached to this one.
 
 ```javascript
-$happn._mesh.datalayer.events.on('attach', function(ev) {
+$happn._mesh.happn.events.on('attach', function(ev) {
   ev == {
     info: {
       mesh: {
@@ -43,7 +43,7 @@ $happn._mesh.datalayer.events.on('attach', function(ev) {
 An attached MeshNode has disconnected.
 
 ```javascript
-$happn._mesh.datalayer.events.on('detatch', function(ev) {
+$happn._mesh.happn.events.on('detatch', function(ev) {
   ev == {
     info: {
       mesh: {
@@ -59,12 +59,12 @@ $happn._mesh.datalayer.events.on('detatch', function(ev) {
 
 ### Datalayer Compaction
 
-The datalayer can be set to compact at an interval, or can also be compacted by a call:
+The happn can be set to compact at an interval, or can also be compacted by a call:
 
 *the following code demonstrates an interval compaction configuration:*
 ```javascript
 var config = {
-  datalayer: {
+  happn: {
     port: 55007,
     filename:test_file_interval,
     compactInterval:10000//compact every 10 seconds
@@ -85,7 +85,7 @@ Happner.create(config, function(err, mesh) {
 
 ```javascript
 var config = {
-  datalayer: {
+  happn: {
     port: 55006,
     filename:test_file_call
   },
@@ -107,11 +107,11 @@ Happner.create(config, function(err, mesh) {
 
 ### Exchange method callback timeout
 
-The datalayer can be configured to allow the maximum amount of time any method on the exchange will wait before timing out:
+The happn can be configured to allow the maximum amount of time any method on the exchange will wait before timing out:
 ```javascript
 var config = {
    name:'d9-client-timeout-timeoutConfig',
-   datalayer: {
+   happn: {
      setOptions:{
        timeout:15000 //15 SECONDS, THIS IS THE MAXIMUM AMOUNT OF TIME IN 
                     // MILLISECONDS, ANY METHOD WILL WAIT BEFORE RAISING A TIMEOUT ERROR

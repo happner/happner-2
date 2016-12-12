@@ -56,3 +56,9 @@ based on happner 1.28.1
 1.4.0 2016-12-06
 ----------------
  - happn upgraded to 0.9.0
+ 
+1.4.1 2016-12-12
+----------------
+ - happn upgraded to 0.9.1
+ - upgraded migration plan
+ - fixed docs

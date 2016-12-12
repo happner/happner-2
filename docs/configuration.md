@@ -1,11 +1,11 @@
-[&#9664;](https://github.com/happner/happner#documentation) contents | datalayer [&#9654;](datalayer.md)
+[&#9664;](https://github.com/happner/happner#documentation) contents | happn [&#9654;](happn.md)
 
 ## Configuration
 
 Mesh configuration contains several sections.
 
 * [Mesh Name](#mesh-name)
-* [Datalayer Config](#datalayer-config)
+* [Datalayer Config](#happn-config)
 * [Endpoint Config](#endpoint-config)
 * [Module Config](#module-config)
 * [Component Config](#component-config)
@@ -19,7 +19,7 @@ config = {
     name: 'mesh',
     util: {},
     repl: {},
-    datalayer: {},
+    happn: {},
     endpoints: {},
     modules: {},
     components: {}
@@ -40,22 +40,24 @@ __BUG:__ Currently the clients do not fully re-establish connections to restarte
 
 [&#9650;](#)
 
-See also: [What is the Datalayer?](datalayer.md#what-is-the-datalayer)
+See also: [What is Happn?](happn.md#what-is-the-happn-layer)
 
-The datalayer by default contains an embeded nedb database that does not persist beyond server restarts. This can be extended to have two databases, one embedded memory/fast and one persisting to a specified nedb file. When both are used it is up to the component configuration to declare which data paths are stored in which database by defining `data.routes` See [Component Config](#component-config).
+Happner by default contains an embeded nedb database that does not persist beyond server restarts. This can be extended to have two databases, one embedded memory/fast and one persisting to a specified nedb file. When both are used it is up to the component configuration to declare which data paths are stored in which database by defining `data.routes` See [Component Config](#component-config).
 
-Configuration as follows  (__shown with defaults__):
+The happn layer is actually a [plain happn config](https://github.com/happner/happn-3/blob/master/docs/config.md)
+
+here are the convenience settings most typically used for happner:
 
 ```javascript
-  ...
-  datalayer: {
+  
+  happn: {
     host: '0.0.0.0',
     port: 55000, // 0 for os assigned port
     // sessionTokenSecret: shortid.generate(),
 
     persist: false,
     // filename: '/var/data/nodes/abc/data.nedb',
-    // defaultRoute: 'persist', // or 'mem' (default: inherits according to presense of datalayer.filename)
+    // defaultRoute: 'persist', // or 'mem' (default: inherits according to presense of happn.filename)
 
     secure: false,
     // adminPassword: shortid.generate(),
@@ -98,10 +100,10 @@ Configuration as follows  (__shown with defaults__):
 `transport` - Set to configure server to use https.
 `middleware` - Configure middleware details for use when security is enabled. 
 `adminPassword` - If secure is true, this sets a password for the genesis user (_ADMIN).<br/>
-`setOptions` - Default options set by the exchange when calling functions through the datalayer.</br>
+`setOptions` - Default options set by the exchange when calling functions through the happn.</br>
 
 
-__NOTE:__ The `config.datalayer` section can be omitted if all defaults are acceptable.
+__NOTE:__ The `config.happn` section can be omitted if all defaults are acceptable.
 
 ### Endpoint Config
 
@@ -133,8 +135,8 @@ The `config.endpoints` section should list all remote MeshNodes to which __this_
 The above attaches __this__ MeshNode to two remote MeshNodes.
 
 `quay1-berth1-crane1` - The remote MeshNode's name (as configured in the remote's `config.name`)<br/>
-`.host` - The remote MeshNode ip/hostname (as configured in the remote's `config.datalayer.host`)<br/>
-`.port` - The remote MeshNode post (as configured in the remote's `config.datalayer.port`)<br/>
+`.host` - The remote MeshNode ip/hostname (as configured in the remote's `config.happn.host`)<br/>
+`.port` - The remote MeshNode post (as configured in the remote's `config.happn.port`)<br/>
 `.username` - Username with the required priviledges at the remote MeshNode. See [Security](security.md)<br/>
 `.password` - <br/>
 
@@ -512,7 +514,7 @@ List the events that this component generates. See [Events](events.md)
 ###### data.routes
 __(optional)__
 
-List the data paths where this component stores, retrieves or subscribes. 'mem' refers to storage that will be routed to the memory only, and 'persist' is routed to the configured `datalayer.filename` or defaulted database. See [Data](data.md)
+List the data paths where this component stores, retrieves or subscribes. 'mem' refers to storage that will be routed to the memory only, and 'persist' is routed to the configured `happn.filename` or defaulted database. See [Data](data.md)
 
 
 ### Utilities

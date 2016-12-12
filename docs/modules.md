@@ -1,4 +1,4 @@
-[&#9664;](datalayer.md) datalayer | autoloading and defaulting [&#9654;](autoload.md)
+[&#9664;](happn.md) happn | autoloading and defaulting [&#9654;](autoload.md)
 
 ## Modules and Components
 

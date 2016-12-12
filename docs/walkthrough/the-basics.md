@@ -116,7 +116,7 @@ module.exports = {
   name: 'MasterNode',
 
   // Datalayer and network layer are the same thing.
-  datalayer: {
+  happn: {
     // host: '0.0.0.0',
     port: 50505,    // Listening port
     persist: false, // Persist data across restarts? (later)
@@ -206,9 +206,9 @@ Update `./config/master.js`
 // insert at start of file
 require('dotenv').load();
 
-// and modify datalayer in config
+// and modify happn in config
   ...
-  datalayer: {
+  happn: {
     host: process.env.MASTER_IP,
     port: process.env.MASTER_PORT,
     persist: false, // Persist data across restarts? (later)
@@ -277,7 +277,7 @@ module.exports = {
   // Allow default name
   // name: 'agent',
 
-  datalayer: {
+  happn: {
     port: 0,         // Listen at random port (allows more than one agent instance per host)
     persist: false,  // No storage
     secure: false,   // Secure? (later)
@@ -769,7 +769,7 @@ Content of `./node_modules/master/app/login.js`
     // port: 80
   }
 
-  // unnecessary: secure not set true in mesh/datalayer config
+  // unnecessary: secure not set true in mesh/happn config
   var credentials = {
     // username: '',
     // password: '',

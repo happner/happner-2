@@ -9,6 +9,9 @@ Happner-2 is a cloud application framework ideal for integrating multiple micro 
 * using happn-3
 * has happn configuration instead of datalayer, the cofiguration can take any happn-3 config in, and has a few convenience settings
 
+please check the [migration plan](https://github.com/happner/happner-2/blob/master/docs/migration-plan.md)
+---------------------------------------------
+
 ## ROADMAP
 
 * not 100% defined, but we have a [recommendations document](https://docs.google.com/document/d/1IQc-VBdun8gQTaJ6CSPD0-5BArc0AS6gIkFh-Dx59yE/edit?usp=sharing).
@@ -17,38 +20,36 @@ Happner-2 is a cloud application framework ideal for integrating multiple micro 
 
 `npm install happner-2 --save`
 
-## NB NB NB - documentation below is for happner version 1, but should mostly be true for happner-2, apart from the datalayer config, we will be updating the wiki as soon as we have time.
-
 ## demonstration
 
 These walkthroughs use *happner* to create a rudimentary monitoring service.
 
-* [The Basics](https://github.com/happner/happner/blob/master/docs/walkthrough/the-basics.md)
+* [The Basics](https://github.com/happner/happner-2/blob/master/docs/walkthrough/the-basics.md)
 
 
 ## documentation
 
-* [Configuation](https://github.com/happner/happner/blob/master/docs/configuration.md)
-* [Datalayer](https://github.com/happner/happner/blob/master/docs/datalayer.md)
-* [Modules and Components](https://github.com/happner/happner/blob/master/docs/modules.md)
-* [Autoloading and Defaulting](https://github.com/happner/happner/blob/master/docs/autoload.md)
-* [Security](https://github.com/happner/happner/blob/master/docs/security.md)
+* [Configuation](https://github.com/happner/happner-2/blob/master/docs/configuration.md)
+* [Datalayer](https://github.com/happner/happner-2/blob/master/docs/datalayer.md)
+* [Modules and Components](https://github.com/happner/happner-2/blob/master/docs/modules.md)
+* [Autoloading and Defaulting](https://github.com/happner/happner-2/blob/master/docs/autoload.md)
+* [Security](https://github.com/happner/happner-2/blob/master/docs/security.md)
 
 ###
 
-* [Event Api](https://github.com/happner/happner/blob/master/docs/event.md)
-* [Exchange Api](https://github.com/happner/happner/blob/master/docs/exchange.md)
-* [Data Api](https://github.com/happner/happner/blob/master/docs/data.md)
-* [Web Routes](https://github.com/happner/happner/blob/master/docs/webroutes.md)
-* [REST component](https://github.com/happner/happner/blob/master/docs/restcomponent.md)
+* [Event Api](https://github.com/happner/happner-2/blob/master/docs/event.md)
+* [Exchange Api](https://github.com/happner/happner-2/blob/master/docs/exchange.md)
+* [Data Api](https://github.com/happner/happner-2/blob/master/docs/data.md)
+* [Web Routes](https://github.com/happner/happner-2/blob/master/docs/webroutes.md)
+* [REST component](https://github.com/happner/happner-2/blob/master/docs/restcomponent.md)
 
 ###
 
-* [Starting and Stopping Mesh Node](https://github.com/happner/happner/blob/master/docs/starting.md)
-* [Mesh events](https://github.com/happner/happner/blob/master/docs/mesh-events.md)
-* [Using the loader to start a mesh](https://github.com/happner/happner/blob/master/docs/loader.md)
-* [System Components](https://github.com/happner/happner/blob/master/docs/system.md)
-* [Using the Client](https://github.com/happner/happner/blob/master/docs/client.md)
+* [Starting and Stopping Mesh Node](https://github.com/happner/happner-2/blob/master/docs/starting.md)
+* [Mesh events](https://github.com/happner/happner-2/blob/master/docs/mesh-events.md)
+* [Using the loader to start a mesh](https://github.com/happner/happner-2/blob/master/docs/loader.md)
+* [System Components](https://github.com/happner/happner-2/blob/master/docs/system.md)
+* [Using the Client](https://github.com/happner/happner-2/blob/master/docs/client.md)
 
 
-* [utility scripts](https://github.com/happner/happner/blob/master/docs/utility-scripts.md)
+* [utility scripts](https://github.com/happner/happner-2/blob/master/docs/utility-scripts.md)
