@@ -549,7 +549,7 @@ describe('b1 - advanced security', function (done) {
             // ensure not allowed
             client.exchange.component.method2()
               .catch(function (error) {
-                if (error.name == 'AccessDenied: unauthorized') return done();
+                if (error.toString() == 'AccessDenied: unauthorized') return done();
                 done(error);
               });
           });
@@ -763,7 +763,7 @@ describe('b1 - advanced security', function (done) {
         .then(function () {
           return new Promise(function (resolve, reject) {
             client.exchange.component.method1().catch(function (error) {
-              if (error.name != 'AccessDenied: unauthorized') {
+              if (error.toString() != 'AccessDenied: unauthorized') {
                 return reject(new Error('Not AccessDenied'));
               }
               resolve();

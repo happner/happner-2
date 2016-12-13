@@ -181,7 +181,7 @@ describe.skipWindows(filename, function () {
       })
       .catch(function (e) {
         try {
-          e.name.should.equal('AccessDenied: unauthorized');
+          e.toString().should.equal('AccessDenied: unauthorized');
           done();
         } catch (e) {
           done(e);
@@ -198,7 +198,7 @@ describe.skipWindows(filename, function () {
       })
       .catch(function (e) {
         try {
-          e.name.should.equal('AccessDenied: unauthorized');
+          e.toString().should.equal('AccessDenied: unauthorized');
           done();
         } catch (e) {
           done(e);
