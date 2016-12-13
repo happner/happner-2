@@ -67,3 +67,8 @@ based on happner 1.28.1
 ----------------
  - happner 1 compatability
  - updated package.json
+ 
+1.6.0 2016-12-13
+----------------
+ - upgraded to happn 1.0.0
+ - fixed HappnClient living in global scope
