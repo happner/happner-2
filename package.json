@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/happner/happner.git"
+    "url": "https://github.com/happner/happner-2.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/happner/happner/issues"
+    "url": "https://github.com/happner/happner-2/issues"
   },
-  "homepage": "https://github.com/happner/happner",
+  "homepage": "https://github.com/happner/happner-2",
   "devDependencies": {
     "benchmarket": "^0.2.0",
     "chai": "^2.2.0",

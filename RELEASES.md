@@ -62,3 +62,8 @@ based on happner 1.28.1
  - happn upgraded to 0.9.1
  - upgraded migration plan
  - fixed docs
+ 
+1.5.0 2016-12-13
+----------------
+ - happner 1 compatability
+ - updated package.json
