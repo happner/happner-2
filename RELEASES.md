@@ -72,3 +72,8 @@ based on happner 1.28.1
 ----------------
  - upgraded to happn 1.0.0
  - fixed HappnClient living in global scope
+ 
+1.6.1 2016-12-13
+----------------
+  - upgraded to happn 1.0.2
+
