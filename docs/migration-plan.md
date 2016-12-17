@@ -16,7 +16,9 @@ Mesh.create({
         modules: {},
         components: {},
         endpoints:{}
-      }, function (err, instance) {
+      }, function (err, instance) { 
+        //mesh was created ok
+      });
 
 
 //NEW
@@ -28,7 +30,9 @@ Mesh.create({
         modules: {},
         components: {},
         endpoints:{}
-      }, function (err, instance) {
+      }, function (err, instance) { 
+        //mesh was created ok
+      });
 
 
 ```
@@ -61,38 +65,44 @@ Mesh.create({
         ]
       }
     }, function (err, instance) {
+      //mesh was created
+    });
 
 
 //NEW
 
 Mesh.create({
         happn:{
-          secure:true,
-          port:10000,
-          adminUser:{
-            passwotrd:'blah'
-          },
-          services:{
-            security: {
-              config: {
-                profiles:[
-                  {
-                    name:"rest-device",
-                    session:{
-                      $and:[{ //filter by the security properties of the session - check if this session user belongs to a specific group
-                        user:{groups:{
-                          REST_DEVICES : { $exists: true }
-                        }},
-                        type:{$eq:0} //token stateless
-                      }]},
-                    policy: {
-                      ttl: '2 seconds'//stale after 2 seconds
-                    }
+        secure:true,
+        port:10000,
+        adminUser:{
+          passwotrd:'blah'
+        },
+        services:{
+          security: {
+            config: {
+              profiles:[
+                {
+                  name:"rest-device",
+                  session:{
+                    $and:[{ //filter by the security properties of the session - check if this session user belongs to a specific group
+                      user:{groups:{
+                        REST_DEVICES : { $exists: true }
+                      }},
+                      type:{$eq:0} //token stateless
+                    }]},
+                  policy: {
+                    ttl: '2 seconds'//stale after 2 seconds
                   }
-                ]
-              }
-        }
-      }, function (err, instance) {
+                }
+              ]
+            }
+           }
+          }
+      }
+    }, function (err, instance) {
+      //mesh was created
+    });
 
 
 ```
@@ -122,4 +132,24 @@ Mesh.create({
 client migration
 ----------------
 
-*No changes yet*
+*Only one breaking change, errors are coming back in a slightly different format, this is actually a change in the happn protocol:*
+
+```javascript
+
+//errors come back in the format {name:'[Error name]', message: [Error message]}
+//instead of {name: '[Error name]: [Error message]'}, ie:
+
+//old
+{
+  "name":"AccessDenied: unauthorized"
+}
+//new
+{
+  "name":"AccessDenied",
+  "message":"unauthorized"
+}
+```
+
+*this is linked to a change in the [happn protocol](https://github.com/happner/happn-protocol)*
+
+
