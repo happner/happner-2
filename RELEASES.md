@@ -75,9 +75,14 @@ based on happner 1.28.1
  
 1.6.1 2016-12-13
 ----------------
-  - upgraded to happn 1.0.2
+ - upgraded to happn 1.0.2
   
 1.6.2 2016-12-15
 ----------------
-  - upgraded to happn 1.0.4
+ - upgraded to happn 1.0.4
+  
+1.7.0 2016-12-21
+----------------
+ - upgraded to happn 1.1.0, happn protocol 1.2.0
+ - REST fixes, empty body parameters
 
