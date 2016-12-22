@@ -85,4 +85,10 @@ based on happner 1.28.1
 ----------------
  - upgraded to happn 1.1.0, happn protocol 1.2.0
  - REST fixes, empty body parameters
+ 
+ 
+1.7.1 2016-12-22
+----------------
+ - upgraded to happn 1.1.1, happn protocol 1.2.0
+ - mesh client disconnect
 
