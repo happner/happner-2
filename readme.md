@@ -6,7 +6,7 @@ Happner-2 is a cloud application framework ideal for integrating multiple micro 
 
 ## Changes from version 1
 
-* using [happn-3](https://github.com/happner/happn-3) for data
+* using [happn-3](https://github.com/happner/happn-3) for data transfers
 * has happn configuration instead of datalayer, the cofiguration can take any happn-3 config in, and has a few convenience settings
 
 please check the [migration plan](https://github.com/happner/happner-2/blob/master/docs/migration-plan.md)
