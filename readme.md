@@ -22,7 +22,7 @@ please check the [migration plan](https://github.com/happner/happner-2/blob/mast
 
 ## demonstration
 
-These walkthroughs use *happner* to create a rudimentary monitoring service.
+These walkthroughs use *happner* to create a rudimentary monitoring service:
 
 * [The Basics](https://github.com/happner/happner-2/blob/master/docs/walkthrough/the-basics.md)
 
