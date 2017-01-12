@@ -92,3 +92,8 @@ based on happner 1.28.1
  - upgraded to happn 1.1.1, happn protocol 1.2.0
  - mesh client disconnect
 
+1.7.2 2017-01-12
+----------------
+ - fixed $happn.info.happn.address property
+
+
