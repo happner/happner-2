@@ -1,7 +1,7 @@
 describe('a2 - mesh awareness via $happn injection', function () {
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  //require('benchmarket').start();
+  //after(//require('benchmarket').store());
 
   var promise = require('when').promise;
   var parallel = require('when/parallel');
@@ -521,6 +521,6 @@ describe('a2 - mesh awareness via $happn injection', function () {
   });
 
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

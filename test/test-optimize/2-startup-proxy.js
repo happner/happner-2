@@ -13,9 +13,6 @@ describe('2-startup-proxy', function (done) {
   var spawn = require('child_process').spawn;
 
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
-
   this.timeout(15000);
 
   var childPIDs = [];

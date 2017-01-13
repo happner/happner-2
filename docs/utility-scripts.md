@@ -10,8 +10,8 @@ sed -i "" s/"\/\/after(require('benchmarket')"/"after(require('benchmarket')"/ .
 
 ## disable benchmarket
 
-sed -i "" s/"require('benchmarket')"/"\/\/require('benchmarket')"/ ../test/**.js
+sed -i "" s/"after(require('benchmarket')"/"\/\/after(require('benchmarket')"/ ./test/**.js
 
-sed -i "" s/"after(require('benchmarket')"/"\/\/after(require('benchmarket')"/ ../test/**.js
+sed -i "" s/"require('benchmarket')"/"\/\/require('benchmarket')"/ ./test/**.js
 
 ```

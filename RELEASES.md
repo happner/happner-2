@@ -95,5 +95,9 @@ based on happner 1.28.1
 1.7.2 2017-01-12
 ----------------
  - fixed $happn.info.happn.address property
+ 
+1.7.3 2012-01-13
+----------------
+ - removed benchmarket
 
 

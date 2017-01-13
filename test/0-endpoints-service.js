@@ -2,8 +2,8 @@ describe('0-endpoint-service', function () {
 
   this.timeout(120000);
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  //require('benchmarket').start();
+  //after(//require('benchmarket').store());
 
   var expect = require('expect.js')
   var sep = require('path').sep;
@@ -467,6 +467,6 @@ describe('0-endpoint-service', function () {
     });
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

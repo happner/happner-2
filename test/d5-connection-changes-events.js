@@ -2,8 +2,8 @@ describe('d5-connection-changes-events', function () {
 
   this.timeout(120000);
   //
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  //require('benchmarket').start();
+  //after(//require('benchmarket').store());
 
   var expect = require('expect.js');
   var should = require('chai').should();
@@ -108,6 +108,6 @@ describe('d5-connection-changes-events', function () {
 
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });

@@ -79,8 +79,8 @@ describe('e8-session-tokens', function () {
 
   var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  //require('benchmarket').start();
+  //after(//require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -380,6 +380,6 @@ describe('e8-session-tokens', function () {
     }).catch(done);
   });
 
-  require('benchmarket').stop();
+  //require('benchmarket').stop();
 
 });
