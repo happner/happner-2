@@ -1,5 +1,7 @@
+
 happner-2 migration from happner
 --------------------------------
+
 
 server migration
 ----------------
@@ -152,4 +154,15 @@ client migration
 
 *this is linked to a change in the [happn protocol](https://github.com/happner/happn-protocol)*
 
+## $happn.info.datalayer
+
+datalayer becomes happn
+
+eg. getting datalayer address
+
+```javascript
+$happn.info.datalayer.address // no longer works
+$happn.info.happn.address
+
+```
 
