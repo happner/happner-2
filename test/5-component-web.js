@@ -16,6 +16,9 @@ describe('5 - Demonstrates the middleware functionality', function (done) {
   this.timeout(120000);
 
   var config = {
+    web:{
+
+    },
     name: "testMiddleware",
     happn: {
       port: testport

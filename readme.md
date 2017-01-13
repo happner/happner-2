@@ -4,7 +4,7 @@
 
 Happner-2 is a cloud application framework ideal for integrating multiple micro services into a unified offering. It enables the creation of an interconnected mesh of local and remote components. The mesh components can easily call upon each other's methods or listen to each other's events in a manner uncomplicated by remoteness.
 
-## Changes from version 1
+## Changes from v1
 
 * using [happn-3](https://github.com/happner/happn-3) for data transfers
 * has happn configuration instead of datalayer, the cofiguration can take any happn-3 config in, and has a few convenience settings
