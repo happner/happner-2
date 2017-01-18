@@ -484,7 +484,7 @@ describe('e3a-rest-component', function () {
 
   });
 
-  xit('tests posting an operation an unsecured mesh, with a token works', function(done){
+  it('tests posting an operation an unsecured mesh, with a token works', function(done){
 
     var restClient = require('restler');
 
@@ -495,8 +495,6 @@ describe('e3a-rest-component', function () {
     };
 
     restClient.postJson('http://localhost:10000/rest/method/testComponent/method1?happn_token=' + 'blahblah', operation).on('complete', function(result){
-
-      console.log(result);
       expect(result.data.number).to.be(2);
       done();
     });
