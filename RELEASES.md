@@ -100,4 +100,9 @@ based on happner 1.28.1
 ----------------
  - removed benchmarket
 
+2.0.0 2017-01-18
+----------------
+ - updated web routes, removed static and refactored
+ - add root web routes for serving /
+
 
