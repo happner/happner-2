@@ -2,85 +2,106 @@
 
 ## Web Routes
 
-#### component webroute
+Web routes allow the serving of web content.
 
-##### single route
+#### Per component web routes
 
-- single method name
+##### Single route
 
-  - ```javascript
-    config = {
-      components: {
-        'componentName': {
-          web: {
-            routes: {	
-              // this would be listening on: /componentName/routeName
-              'routeName': 'methodName1'
-            }
-          }
+Single route exposing module method by name.
+
+```javascript
+config = {
+  components: {
+    'componentName': {
+      web: {
+        routes: {	
+          // this would be listening on: /componentName/routeName
+          'routeName': 'methodName1'
         }
       }
     }
-    ```
+  }
+}
+```
 
-  - ```javascript
-    // the above config requires the component 'componentName' to define 'methodName1' as below
+```javascript
+// the above config requires the component 'componentName' to define 'methodName1' as below
 
-    module.exports = ComponentName;
+module.exports = ComponentName;
 
-    function ComponentName(){}
+function ComponentName(){}
 
-    ComponentName.prototype.methodName1 = function(req, res, next){
-      res.end();
-    }
+ComponentName.prototype.methodName1 = function(req, res, next){
+  res.end();
+}
 
-    // note that $happn and $origin can also be injected into webmethods
-    // ComponentName.prototype.methodName1 = function($happn, req, res, next) {
-    ```
+// note that $happn and $origin can also be injected into webmethods
+// ComponentName.prototype.methodName1 = function($happn, req, res, next) {
+```
 
-- single function
+**Multiple route (array)**
 
-  ​
+A web route composed of multiple module methods (middleware) by name.
 
-**multiple routes** 
-
-- array of method names on the component
-
-  - ```javascript
-    config = {
-      components: {
-        'componentName':{
-          web: {
-            routes: {	
-              'routeName': ['methodName1', 'methodName2']
-            }
-          }
+```javascript
+config = {
+  components: {
+    'componentName':{
+      web: {
+        routes: {	
+          'routeName': ['methodName1', 'methodName2']
         }
       }
     }
-    ```
+  }
+}
+```
 
-- mixed method names and middleware functions on the component
+A web route composed of mixed method names and middleware functions.
 
-  - ```javascript
-    config = {
-      components:{
-        'componentName':{
-          web:{
-            routes:{	
-              'routeName':[function(req, res, next){next();}, 'methodName2']
-            }
-          }
+```javascript
+config = {
+  components:{
+    'componentName':{
+      web:{
+        routes:{	
+          'routeName':[function(req, res, next){next();}, 'methodName2']
         }
       }
     }
-    ```
+  }
+}
+```
 
-### global webroute
+### Global web routes
 
+Web routes can also be configured at "the top level". This allows for listening at `/`.
 
+```javascript
+config = {
+  web: {
+    routes: {
+      // To expose specific component route at '/'
+      '/': 'componentName/routeName'
+    }
+  },
+  components: {...}
+}
+```
 
-
+```javascript
+var serveStatic = require('serve-static');
+config = {
+  web: {
+    routes: {
+      // To serve static at '/'
+      '/': serveStatic(process.env.SERVE_STATIC_PATH)
+    }
+  },
+  components: {...}
+}
+```
 
 ## Notes
 
