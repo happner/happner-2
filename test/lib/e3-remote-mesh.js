@@ -8,11 +8,7 @@ var config = {
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/e3-remote-component",
-      constructor: {
-        type: "sync",
-        parameters: []
-      }
+      path: __dirname + "/e3-remote-component"
     }
   },
   components: {

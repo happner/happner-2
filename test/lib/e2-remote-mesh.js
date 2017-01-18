@@ -12,11 +12,7 @@ var config = {
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/e2-remote-component",
-      constructor: {
-        type: "sync",
-        parameters: []
-      }
+      path: __dirname + "/e2-remote-component"
     }
   },
   components: {

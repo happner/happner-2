@@ -110,7 +110,7 @@ Mesh.create({
 ```
 
 ##convenience server configuration keys
-```
+```javascript
 Mesh.create({
   happn:{
     activateSessionManagement:true,//instead of config.happn.services.security.config.activateSessionManagement

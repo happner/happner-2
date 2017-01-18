@@ -61,7 +61,6 @@ SeeAbove.prototype.$happner = {
   }
 };
 
-
 if (global.TESTING_E9) return; // When 'requiring' the module above,
 
 describe('e3a-rest-component', function () {
@@ -100,6 +99,8 @@ describe('e3a-rest-component', function () {
     remote = spawn('node', [libFolder + REMOTE_MESH]);
 
     remote.stdout.on('data', function (data) {
+
+      process.stdout.write(data);
 
       if (data.toString().match(/READY/)) {
 
@@ -483,7 +484,7 @@ describe('e3a-rest-component', function () {
 
   });
 
-  it('tests posting an operation an unsecured mesh, with a token works', function(done){
+  xit('tests posting an operation an unsecured mesh, with a token works', function(done){
 
     var restClient = require('restler');
 
@@ -494,6 +495,8 @@ describe('e3a-rest-component', function () {
     };
 
     restClient.postJson('http://localhost:10000/rest/method/testComponent/method1?happn_token=' + 'blahblah', operation).on('complete', function(result){
+
+      console.log(result);
       expect(result.data.number).to.be(2);
       done();
     });

@@ -1,3 +1,6 @@
+var serveStatic = require('serve-static');
+var path = require('path');
+
 module.exports = function () {
   return new ModuleFive();
 }
@@ -8,6 +11,8 @@ function ModuleFive() {
     req.url = '/preprocessed-' + req.url.slice(1, req.url.length);
     next();
   };
+
+  this.static = serveStatic(__dirname + path.sep + 'static5');
 
   this.testScope = function (req, res) {
     res.statusCode = 200;
