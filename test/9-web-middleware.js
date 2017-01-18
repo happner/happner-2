@@ -51,7 +51,7 @@ describe('9 - web middleware', function (done) {
     web: {
       routes: {
         '/': 'middlewareTest/root',
-        '/some': function(req, res, next) {}
+        '/inline': function(req, res) {res.end('OK!NESS');}
       }
     },
     modules: {
@@ -271,6 +271,19 @@ describe('9 - web middleware', function (done) {
         done(e);
       }
     })
+  });
+
+  it('can get from inline root web route', function (done) {
+    cookieRequest('http://localhost:10000/inline', function (e, res, body) {
+      if (e) return done(e);
+      try {
+        expect(res.statusCode).to.be(200);
+        expect(body).to.be('OK!NESS');
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
   });
 
   //require('benchmarket').stop();
