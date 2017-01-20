@@ -51,17 +51,28 @@ var mesh;
 var Mesh = require('../');
 
 var adminClient = new Mesh.MeshClient({secure: true});
-var test_id = Date.now() + '_' + require('shortid').generate();
 var async = require('async');
 var filename = require('path').basename(__filename);
 
+var test_id = filename;
+
 var dbFileName = './temp/' + filename + '.nedb';
+
+var SECURE = true;
 
 describe(filename, function () {
 
   this.timeout(120000);
 
   before(function (done) {
+
+    try{
+      require('fs').unlinkSync(dbFileName);
+
+    }catch(e){
+      console.log('unlinked filename:::', e);
+
+    }
 
     global.TESTING_F5 = true; //.............
 
@@ -70,9 +81,9 @@ describe(filename, function () {
     mesh.initialize({
       name: 'f5-responses-data-leak',
       happn: {
-        // persist: true,
-        // filename: dbFileName,
-        secure: true,
+        persist: true,
+        filename: dbFileName,
+        secure: SECURE,
         adminPassword: test_id
       },
       modules: {
@@ -118,20 +129,26 @@ describe(filename, function () {
           password: test_id
         };
 
-        console.log('Admin login:::')
+        console.log('Admin login:::');
+
         adminClient.login(credentials).then(function () {
-          console.log('ADMIN LOGGED IN:::');
-          createUser1(function(e){
 
-            if (e) return done(e);
+          if (SECURE){
 
-            createUser2(function(e){
+            console.log('ADMIN LOGGED IN:::');
+
+            createUser1(function(e){
 
               if (e) return done(e);
-              done();
-            })
 
-          })
+              createUser2(function(e){
+
+                if (e) return done(e);
+                done();
+              })
+            })
+          }
+
         }).catch(done);
 
       });
@@ -235,7 +252,7 @@ describe(filename, function () {
     });
   };
 
-  it('we log in with both users, then listen on /data/responses/* with user1, and then run user2\'s web method', function (done) {
+  it('we log in with both users, then listen for responses on SecuredComponent/method1/* with user1, and then run user2\'s web method', function (done) {
 
     var credentials1 = {
       username: 'USER1', // pending
@@ -255,18 +272,17 @@ describe(filename, function () {
       user2Client.login(credentials2).then(function () {
 
         user1Client.data.on('/_exchange/responses/f5-responses-data-leak/SecuredComponent/method1/*', function(data){
+
           console.log('leaked data:::', data);
-          done(new Error('ahhhhhh!!! data was leaked'));
+          done(new Error('data was leaked on subscription path'));
+
         }, function(e){
 
-          if (e) {
-            console.log('COOL FAILED:::');
-            return done(e);
-          }
+          if (e) return done(e);
 
           user2Client.exchange.SecuredComponent.method1({value:1}, function(e, response){
             console.log('RESPONSE IS:::', e, response);
-
+            setTimeout(done, 1000);//give user1Client a chance to fail
           });
         });
 
@@ -281,4 +297,52 @@ describe(filename, function () {
     });
 
   });
+
+  // it('we log in with both users, then listen on /data/responses/* with user1, and then run user2\'s web method', function (done) {
+  //
+  //   var credentials1 = {
+  //     username: 'USER1', // pending
+  //     password: 'TEST PWD'
+  //   };
+  //
+  //   var credentials2 = {
+  //     username: 'USER2', // pending
+  //     password: 'TEST PWD'
+  //   };
+  //
+  //   var user1Client = new Mesh.MeshClient({secure: true});
+  //   var user2Client = new Mesh.MeshClient({secure: true});
+  //
+  //   user1Client.login(credentials1).then(function () {
+  //
+  //     user2Client.login(credentials2).then(function () {
+  //
+  //       user1Client.data.on('/_exchange/responses/*', function(data){
+  //         console.log('leaked data:::', data);
+  //         done(new Error('ahhhhhh!!! data was leaked'));
+  //       }, function(e){
+  //
+  //         if (e) {
+  //           console.log('LISTEN ON FORBIDDEN FAILED:::');
+  //           return done();
+  //         }
+  //
+  //         user2Client.exchange.SecuredComponent.method1({value:1}, function(e, response){
+  //           console.log('RESPONSE IS:::', e, response);
+  //
+  //         });
+  //       });
+  //
+  //     }).catch(function(e){
+  //       console.log('USER 2 login broke');
+  //       done(e);
+  //     });
+  //
+  //   }).catch(function(e){
+  //     console.log('USER 1 login broke');
+  //     done(e);
+  //   });
+  //
+  // });
+
 });
