@@ -64,7 +64,7 @@ describe.only('f6 - domain compatibility endpoint', function () {
 
   before('start endpoint', function (done) {
     endpoint = undefined;
-    Happner.create({
+    OldHappner.create({
       port: 55001,
       endpoints: {
         'DOMAIN_NAME': {
