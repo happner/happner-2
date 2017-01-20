@@ -61,7 +61,6 @@ SeeAbove.prototype.$happner = {
   }
 };
 
-
 if (global.TESTING_E9) return; // When 'requiring' the module above,
 
 describe('e3a-rest-component', function () {
@@ -100,6 +99,8 @@ describe('e3a-rest-component', function () {
     remote = spawn('node', [libFolder + REMOTE_MESH]);
 
     remote.stdout.on('data', function (data) {
+
+      process.stdout.write(data);
 
       if (data.toString().match(/READY/)) {
 

@@ -62,17 +62,19 @@ describe('5 - Demonstrates the middleware functionality', function (done) {
 
   before(function (done) {
 
-    mesh = new Mesh();
+    var x = new Mesh();
 
-    mesh.initialize(config, function (err) {
+    x.initialize(config, function (err) {
       if (err) return done(err);
 
+      mesh = x;
       done();
 
     });
   });
 
   after(function (done) {
+    if (!mesh) return done();
     mesh.stop({reconnect: false}, done);
   });
 
