@@ -71,8 +71,6 @@ describe('b4 - component start and validation -', function () {
     mesh.initialize({
       name: 'b4_permissions_translation',
       happn: {
-        persist: true,
-        filename: dbFileName,
         secure: true,
         adminPassword: test_id,
       },
