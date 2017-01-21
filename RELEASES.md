@@ -105,7 +105,7 @@ based on happner 1.28.1
  - updated web routes, removed static and refactored
  - add root web routes for serving /
  
-2.1.1 2017-01-20
+2.1.0 2017-01-20
 ----------------
  - security patch, the origin is now added to a directed publish via the new targetClients option
 
