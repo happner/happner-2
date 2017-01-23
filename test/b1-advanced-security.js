@@ -17,7 +17,7 @@ describe('b1 - advanced security', function (done) {
 
   var should = require('chai').should();
 
-  var dbFileName = __dirname + sep + 'temp/' + test_id + '.nedb';
+  var dbFileName = __dirname + sep + 'temp/b1-advanced-security' + test_id + '.nedb';
 
   var fs = require('fs-extra');
 
