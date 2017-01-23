@@ -166,3 +166,28 @@ $happn.info.happn.address
 
 ```
 
+
+
+## Mesh domain
+
+### Configuration
+
+There is a new property on the config, that allows endpoints to attach through a load balancer to uniquely named meshes by using the domain as the endpoint target.
+
+```javascript
+config = {
+      name: 'UNIQUE_MESH_NAME',
+      domain: 'FIELDPOP',	// this would be the field devices endpoint names
+      modules: {
+      	...
+      },
+      components: {
+		...
+      }
+}
+```
+
+
+
+
+
