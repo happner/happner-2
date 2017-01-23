@@ -110,7 +110,7 @@ Mesh.create({
 ```
 
 ##convenience server configuration keys
-```
+```javascript
 Mesh.create({
   happn:{
     activateSessionManagement:true,//instead of config.happn.services.security.config.activateSessionManagement
@@ -163,9 +163,90 @@ eg. getting datalayer address
 ```javascript
 $happn.info.datalayer.address // no longer works
 $happn.info.happn.address
-
 ```
 
+## Web middleware config
+
+### Removed
+
+The keyword `static` is gone.
+
+**If a module wishes to serve static it should run its own server middleware.**
+
+eg. for /componentName/routeName
+
+```javascript
+config = {
+  components: {
+    'componentName': {
+      web: {
+        routes: {
+          routeName: ['server'] 
+        }
+      }
+    }
+  }
+}
+```
+
+```javascript
+var serveStatic = require('serve-static');
+
+Component.prototype.server = serveStatic(__dirname + '/directory');
+```
+
+The www module no longer serves `/` and no longer has any implied meaning.
+
+**If a module wishes serve on `/` it should use the new web/routes config.**
+
+```javascript
+config = {
+  web: {
+    routes: {
+      '/': 'componentName/routeName'
+    }
+  },
+  components: {...}
+}
+```
+
+### Added
+
+Middleware can be placed directly into the config.
+
+```javascript
+config = {
+  components: {
+    'componentName': {
+      web: {
+        routes: {
+          routeName: serveStatic(__dirname + '/directory'),
+          another: ['moduleFn1', function(res, req, next) {next();}, 'moduleFn2']
+        }
+      }
+    }
+  }
+}
+```
+
+Note: **$happn and $origin cannot be injected into inline middleware but will be injected into `moduleFn1` and `moduleFn2`above.**
+
+------
+
+Middleware can be assigned inline at root web routes config.
+
+```javascript
+config = {
+  web: {
+    routes: {
+      '/': serveStatic(__dirname + '/directory')
+    }
+  },
+  components: {...}
+}
+```
+
+ Note: **root web routes do not support arrays of middleware.
 
 
 ## Mesh domain
@@ -186,5 +267,4 @@ CLOUD_config = {
       }
 }
 ```
-
 

@@ -100,4 +100,13 @@ based on happner 1.28.1
 ----------------
  - removed benchmarket
 
+2.0.0 2017-01-18
+----------------
+ - updated web routes, removed static and refactored
+ - add root web routes for serving /
+ 
+2.1.0 2017-01-20
+----------------
+ - security patch, the origin session id is now added to a directed publish via the new targetClients option
+ - happn-3 version 1.2.1
 

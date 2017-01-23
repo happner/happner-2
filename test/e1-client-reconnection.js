@@ -78,6 +78,8 @@ describe('e1-client-reconnection', function () {
           return;
 
       eventsFired = true;
+
+      console.log('ok, now doing set:::');
       adminClient.exchange.data.set('/test/path', {test: 'data'}, done);
     };
 
@@ -88,12 +90,17 @@ describe('e1-client-reconnection', function () {
       console.log('SET THE DATA:::');
 
       adminClient.on('reconnect/scheduled', function (evt, data) {
-        //TODO some expect code
 
+        console.log('reconnect/scheduled', evt, data);
+
+        //TODO some expect code
         fireEvent('reconnect/scheduled');
       });
 
       adminClient.on('reconnect/successful', function (evt, data) {
+
+        console.log('reconnect/successful', evt, data);
+
         //TODO some expect code
         fireEvent('reconnect/successful');
       });

@@ -215,24 +215,28 @@ describe(filename, function () {
       } catch (e) {
         done(e);
       }
-    });
+    }, function(e){
 
-    mesh._createElement({
-      module: {
-        name: 'component1',
-        config: {
-          instance: {
-            method: function (callback) {
-              callback();
+      if (e) return done(e);
+
+      mesh._createElement({
+        module: {
+          name: 'component1',
+          config: {
+            instance: {
+              method: function (callback) {
+                callback();
+              }
             }
           }
+        },
+        component: {
+          name: 'component1',
+          config: {}
         }
-      },
-      component: {
-        name: 'component1',
-        config: {}
-      }
-    }).catch(done);
+      }).catch(done);
+
+    });
   });
 
   it('emits description change on destroying component', function (done) {

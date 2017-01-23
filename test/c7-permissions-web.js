@@ -25,16 +25,28 @@ describe('c7-permissions-web', function (done) {
 
   var config = {
     name: "middlewareMesh",
+    web: {
+      routes: {
+        '/': 'www/static'
+      }
+    },
     happn: {
       secure: true,
       port: 15000,
       adminPassword: test_id,
-      middleware: {
-        security: {
-          exclusions: [
-            '/webmethodtest/test/excluded/specific',
-            '/webmethodtest/test/excluded/wildcard/*'
-          ]
+
+      services: {
+        connect: {
+          config: {
+            middleware: {
+              security: {
+                exclusions: [
+                  '/webmethodtest/test/excluded/specific',
+                  '/webmethodtest/test/excluded/wildcard/*'
+                ]
+              }
+            }
+          }
         }
       }
     },
@@ -58,9 +70,8 @@ describe('c7-permissions-web', function (done) {
           }
         }
       },
-      "www": { // <------------------- because of www, routes.static goes /
+      "www": {
         moduleName: "middlewareTest",
-        // scope: "component",//either component(mesh aware) or module - default is module
         schema: {
           "exclusive": false,//means we dont dynamically share anything else
           "methods": {}
@@ -93,10 +104,17 @@ describe('c7-permissions-web', function (done) {
   function doRequest(path, token, callback) {
 
     var request = require('request');
+    var options;
 
-    var options = {
-      url: 'http://127.0.0.1:15000' + path + '?happn_token=' + token,
-    };
+    if (!token) {
+      options = {
+        url: 'http://127.0.0.1:15000' + path
+      };
+    } else {
+      options = {
+        url: 'http://127.0.0.1:15000' + path + '?happn_token=' + token
+      };
+    }
 
     request(options, function (error, response, body) {
       callback(response);
@@ -152,6 +170,8 @@ describe('c7-permissions-web', function (done) {
   it('it tests the wildcard exclusion', function (done) {
 
     doRequest('/webmethodtest/test/excluded/wildcard/blah', null, function (response) {
+
+
 
       expect(response.statusCode).to.equal(200);
       done();
