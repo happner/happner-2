@@ -49,6 +49,8 @@ var should = require('chai').should();
 var mesh;
 var Mesh = require('../');
 
+var dbFileName = './temp/permissions.nedb';
+
 var adminClient = new Mesh.MeshClient({secure: true});
 var test_id = Date.now() + '_' + require('shortid').generate();
 var async = require('async');
