@@ -182,6 +182,8 @@ describe('e3b-rest-component-secure', function () {
   });
 
   after(function (done) {
+    this.timeout(30000);
+
     if (!mesh) {
       if (remote) remote.kill();
       return done();
