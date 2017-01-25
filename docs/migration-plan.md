@@ -257,14 +257,19 @@ There is a new property on the config that allows endpoints to attach through a 
 
 ```javascript
 CLOUD_config = {
-      name: 'UNIQUE_MESH_NAME',
-      domain: 'FIELDPOP',	// should correspond the field device's endpoint names
-      modules: {
-      	...
-      },
-      components: {
-		...
-      }
+  name: 'UNIQUE_MESH_NAME',
+  domain: 'FIELDPOP',	// should correspond the field device's endpoint names
+  modules: {
+  	...
+  },
+  components: {
+    ...
+  }
 }
 ```
+
+* Domain name defaults to mesh name if unspecified.
+* Internally all event, RPC and security paths use the domain name
+
+This allows for a standalone mesh to be migrated into a cluster without modifying any field devices endpoint names or changing any already configured permissions by setting the domain name to the original mesh name and then allowing the mesh names to default uniquely.
 
