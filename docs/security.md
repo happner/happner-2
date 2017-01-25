@@ -184,3 +184,22 @@ upserting users:
  });
 
 ```
+
+hardening _responses:
+--------------------
+
+Currently happn clients are prevented from accessing the /_exchange/responses/[mesh name]/[component name]/[method name]/\* path using a regular expression check - injected into the underlying happn service by way of a [custom layer](), [over here]()), a better solution to this, is to use the [targetClients functionality]() of happn-3, to push _response messages only to the origin of the _request
+
+```javascript
+
+//this can be done by adding targetResponses:true to the mesh configuration
+//the custom layer is now not initialized so there is a small performance gain
+//and this is a less wasteful security measure
+var meshConfig = {secure:true, targetResponses:true}
+
+var myMesh = new Mesh.create(meshConfig, function(e, created){
+  ...
+})
+
+```
+####NB: this is not backwards compatible with any happner clients older than 1.29.0

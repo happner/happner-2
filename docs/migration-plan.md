@@ -26,6 +26,7 @@ Mesh.create({
 //NEW
 
 Mesh.create({
+        backwardCompatible:true,
         happn:{
           port:55004
         },
@@ -74,6 +75,7 @@ Mesh.create({
 //NEW
 
 Mesh.create({
+        backwardCompatible:true,
         happn:{
         secure:true,
         port:10000,
@@ -250,3 +252,5 @@ config = {
 
  Note: **root web routes do not support arrays of middleware.**
 
+## directed _responses
+Directed responses must not be switched on if any happner clients older than 1.29.0 are connecting to the mesh,  without this setting, these connections are still prevented using an [injected layer]()
