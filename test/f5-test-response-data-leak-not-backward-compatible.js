@@ -69,10 +69,7 @@ describe(filename, function () {
     try{
       require('fs').unlinkSync(dbFileName);
 
-    }catch(e){
-      console.log('unlinked filename:::', e);
-
-    }
+    }catch(e){}
 
     global.TESTING_F5 = true; //.............
 
@@ -80,9 +77,8 @@ describe(filename, function () {
 
     mesh.initialize({
       name: 'f5-responses-data-leak',
+      directResponses:true,
       happn: {
-        persist: true,
-        filename: dbFileName,
         secure: SECURE,
         adminPassword: test_id
       },
@@ -278,9 +274,54 @@ describe(filename, function () {
 
         }, function(e){
 
-          if (e) return done(e);
+          if (e){
+
+            if (e.toString() === 'Error: wildcard listens on _exchange responses are forbidden, bad path: /_exchange/responses/f5-responses-data-leak/SecuredComponent/method1/*')
+              return done();
+
+            return done(e);
+          }
 
           user2Client.exchange.SecuredComponent.method1({value:1}, function(e, response){
+            console.log('RESPONSE IS:::', e, response);
+            setTimeout(done, 1000);//give user1Client a chance to fail
+          });
+        });
+
+      }).catch(function(e){
+        console.log('USER 2 login broke');
+        done(e);
+      });
+
+    }).catch(function(e){
+      console.log('USER 1 login broke');
+      done(e);
+    });
+
+  });
+
+  it('we log in with both users, then run web method for both users, negative check', function (done) {
+
+    var credentials1 = {
+      username: 'USER1', // pending
+      password: 'TEST PWD'
+    };
+
+    var credentials2 = {
+      username: 'USER2', // pending
+      password: 'TEST PWD'
+    };
+
+    var user1Client = new Mesh.MeshClient({secure: true});
+    var user2Client = new Mesh.MeshClient({secure: true});
+
+    user1Client.login(credentials1).then(function () {
+
+      user2Client.login(credentials2).then(function () {
+
+        user2Client.exchange.SecuredComponent.method1({value:1}, function(e, response){
+          console.log('RESPONSE IS:::', e, response);
+          user1Client.exchange.SecuredComponent.method1({value:1}, function(e, response){
             console.log('RESPONSE IS:::', e, response);
             setTimeout(done, 1000);//give user1Client a chance to fail
           });
