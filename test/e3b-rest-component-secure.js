@@ -70,7 +70,7 @@ SeeAbove.prototype.$happner = {
 
 if (global.TESTING_E3B) return; // When 'requiring' the module above,
 
-describe.only('e3b-rest-component-secure', function () {
+describe('e3b-rest-component-secure', function () {
 
   /**
    * Simon Bishop
@@ -186,8 +186,11 @@ describe.only('e3b-rest-component-secure', function () {
     this.timeout(30000);
 
     if (remote) remote.kill();
-    if (mesh) mesh.stop({reconnect: false}, done);
 
+    setTimeout(function () {
+      if  (!mesh) return done();
+      mesh.stop({reconnect: false}, done);
+    }, 1000);
   });
 
   var happnUtils = require('../lib/system/utilities');
