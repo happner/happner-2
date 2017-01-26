@@ -188,7 +188,7 @@ upserting users:
 hardening _responses:
 --------------------
 
-Currently happn clients are prevented from accessing the /_exchange/responses/[mesh name]/[component name]/[method name]/\* path using a regular expression check - injected into the underlying happn service by way of a [custom layer](https://github.com/happner/happner-2/blob/master/test/f1-happn-layer-middleware.js), [over here](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222)), a better solution to this, is to use the [targetClients functionality](https://github.com/happner/happn-3/blob/master/test/f3-targetClients.js) of happn-3, to push _response messages only to the origin of the _request
+Currently happn clients are prevented from accessing the /_exchange/responses/[mesh name]/[component name]/[method name]/\* path using a regular expression check - injected into the underlying happn service by way of a [custom layer](https://github.com/happner/happner-2/blob/master/test/f1-happn-layer-middleware.js), [over here](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222)), a better solution to this, is to use the [targetClients functionality](https://github.com/happner/happn-3/blob/master/test/f3-targetClients.js) of happn-3, to push _response messages only to the origin of the _request. This is made possible by passing the directResponses:true option in the mesh config, as follows:
 
 ```javascript
 

@@ -26,7 +26,6 @@ Mesh.create({
 //NEW
 
 Mesh.create({
-        backwardCompatible:true,
         happn:{
           port:55004
         },
@@ -71,11 +70,9 @@ Mesh.create({
       //mesh was created
     });
 
-
 //NEW
 
 Mesh.create({
-        backwardCompatible:true,
         happn:{
         secure:true,
         port:10000,
