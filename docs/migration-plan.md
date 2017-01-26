@@ -277,4 +277,5 @@ This allows for a standalone mesh to be migrated into a cluster without modifyin
 
 ## directed _responses
 This security setting gives us the ability to ensure responses to methods or published only to the origin of the method caller
-Directed responses must not be switched on if any happner clients older than 1.29.0 are connecting to the mesh,  without this setting, these connections are still prevented using an [injected layer]()
+
+#####NB NB Directed responses must not be switched on if any happner clients older than 1.29.0 are connecting to the mesh,  without this setting, these connections are still prevented using an [injected layer](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222)
