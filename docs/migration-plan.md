@@ -197,8 +197,6 @@ var serveStatic = require('serve-static');
 Component.prototype.server = serveStatic(__dirname + '/directory');
 ```
 
----
-
 The www module no longer serves `/` and no longer has any implied meaning.
 
 **If a module wishes serve on `/` it should use the new web/routes config.**
@@ -235,7 +233,7 @@ config = {
 
 Note: **$happn and $origin cannot be injected into inline middleware but will be injected into `moduleFn1` and `moduleFn2`above.**
 
----
+------
 
 Middleware can be assigned inline at root web routes config.
 
@@ -250,7 +248,33 @@ config = {
 }
 ```
 
- Note: **root web routes do not support arrays of middleware.**
+ Note: **root web routes do not support arrays of middleware.
+
+
+## Mesh domain
+
+### Configuration
+
+There is a new property on the config that allows endpoints to attach through a load balancer to uniquely named meshes by using the domain as the endpoint target.
+
+```javascript
+CLOUD_config = {
+  name: 'UNIQUE_MESH_NAME',
+  domain: 'FIELDPOP',	// should correspond the field device's endpoint names
+  modules: {
+  	...
+  },
+  components: {
+    ...
+  }
+}
+```
+
+* Domain name defaults to mesh name if unspecified.
+* Internally all event, RPC and security paths use the domain name
+
+This allows for a standalone mesh to be migrated into a cluster without modifying any field devices endpoint names or changing any already configured permissions by setting the domain name to the original mesh name and then allowing the mesh names to default uniquely.
 
 ## directed _responses
+This security setting gives us the ability to ensure responses to methods or published only to the origin of the method caller
 Directed responses must not be switched on if any happner clients older than 1.29.0 are connecting to the mesh,  without this setting, these connections are still prevented using an [injected layer]()

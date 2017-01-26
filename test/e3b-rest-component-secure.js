@@ -182,12 +182,18 @@ describe('e3b-rest-component-secure', function () {
   });
 
   after(function (done) {
-
     this.timeout(30000);
 
-    if (remote) remote.kill();
-    if (mesh) mesh.stop({reconnect: false}, done);
+    if (!mesh) {
+      if (remote) remote.kill();
+      return done();
+    }
 
+    mesh.stop({reconnect: false}, function (e) {
+      if (remote) remote.kill();
+      if (e) return done(e);
+      done();
+    });
   });
 
   var happnUtils = require('../lib/system/utilities');
