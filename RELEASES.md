@@ -107,9 +107,15 @@ based on happner 1.28.1
  
 2.1.0 2017-01-20
 ----------------
- - security patch, the origin session id is now added to a directed publish via the new targetClients option
+ - security patch
  - happn-3 version 1.2.1
 
 2.2.0 2017-01-25
 ----------------
  - added config.domain
+ 
+2.2.1 2017-01-26
+----------------
+ - updated to have the directResponses config option
+ - removed superfuous functions that crept in on release 2.1.2
+ 

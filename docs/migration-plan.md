@@ -70,7 +70,6 @@ Mesh.create({
       //mesh was created
     });
 
-
 //NEW
 
 Mesh.create({
@@ -273,3 +272,7 @@ CLOUD_config = {
 
 This allows for a standalone mesh to be migrated into a cluster without modifying any field devices endpoint names or changing any already configured permissions by setting the domain name to the original mesh name and then allowing the mesh names to default uniquely.
 
+## directed _responses
+This security setting gives us the ability to ensure responses to methods or published only to the origin of the method caller
+
+#####NB NB Directed responses must not be switched on if any happner clients older than 1.29.0 are connecting to the mesh,  without this setting, these connections are still prevented using an [injected layer](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222)
