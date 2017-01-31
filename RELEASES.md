@@ -122,3 +122,4 @@ based on happner 1.28.1
 2.2.2 2017-01-30
 ----------------
   - added description.component.version
+
