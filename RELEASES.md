@@ -119,3 +119,7 @@ based on happner 1.28.1
  - updated to have the directResponses config option
  - removed superfuous functions that crept in on release 2.1.2
  
+2.2.2 2017-01-30
+----------------
+  - added description.component.version
+
