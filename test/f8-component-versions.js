@@ -4,19 +4,19 @@ var path = require('path');
 
 describe('f8 - component versions', function () {
 
-  var server;
+  var server, client;
 
-  beforeEach('stop server', function (done) {
-    if (!server) return done();
-    server.stop({reconnect: false}, done);
-  });
-
-  it('loads version from component package.json from require', function (done) {
-
+  before('start server', function (done) {
     Happner.create({
+      modules: {
+        'componentName': {
+          path: __dirname + path.sep + 'lib' + path.sep + 'f8-component'
+        }
+      },
       components: {
+        'componentName': {},
         'happner-test-modules': {
-          $configure: function(configName) {
+          $configure: function (configName) {
             return configName;
           }
         }
@@ -24,28 +24,58 @@ describe('f8 - component versions', function () {
     })
       .then(function (_server) {
         server = _server;
-        expect(server.describe().components['happner-test-modules'].version).to.be('1.0.2');
       })
-      .then(done).catch(done);
+      .then(done)
+      .catch(done);
   });
 
-  it('loads version from component package.json from path', function (done) {
-    Happner.create({
-      modules:{
-        'componentName': {
-          path: __dirname + path.sep + 'lib' + path.sep + 'f8-component' + path.sep + 'index.js'
-        }
-      },
-      components: {
-        'componentName': {
-        }
-      }
-    })
-      .then(function (_server) {
-        server = _server;
-        expect(server.describe().components.componentName.version).to.be('3.0.0');
+  before('start client', function (done) {
+    var _client = new Happner.MeshClient();
+    _client.login()
+      .then(function () {
+        client = _client;
       })
-      .then(done).catch(done);
+      .then(done)
+      .catch(done);
+  });
+
+  after('stop client', function (done) {
+    if (!client) return done();
+    client.disconnect(done);
+  });
+
+  after('stop server', function (done) {
+    if (!server) return done();
+    server.stop({reconnect: false}, done);
+  });
+
+  it('loads version from component package.json from require', function () {
+
+    expect(server.describe().components['happner-test-modules'].version).to.be('1.0.2');
+
+  });
+
+  it('loads version from component package.json from path', function () {
+
+    expect(server.describe().components.componentName.version).to.be('3.0.0');
+
+  });
+
+  it('includes meta componentVersion in events', function (done) {
+
+    client.event.componentName.on('event/one', function (data, meta) {
+      try {
+        expect(meta.componentVersion).to.be('3.0.0');
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+
+    client.exchange.componentName.causeEmit('event/one', function (e) {
+      if (e) return done(e);
+    });
+
   });
 
 });
