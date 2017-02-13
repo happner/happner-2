@@ -127,3 +127,8 @@ based on happner 1.28.1
 2.3.0 2017-02-06
 ----------------
   - added meta.componentVersion to $happn.emit()
+
+
+
+  - added externally assignable datalayer for happnercluster
+  -
