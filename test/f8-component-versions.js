@@ -54,9 +54,19 @@ describe('f8 - component versions', function () {
   });
 
   it('loads version from component package.json from require', function () {
-
     expect(server.describe().components['happner-test-modules'].version).to.be('1.0.2');
+  });
 
+  it('places __version onto exchange', function (done) {
+    server.exchange.componentName.getVersion(function (e, version) {
+      if (e) return done(e);
+      try {
+        expect(version).to.be('3.0.0');
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
   });
 
   it('loads package.json from path', function () {
@@ -64,9 +74,7 @@ describe('f8 - component versions', function () {
   });
 
   it('loads version from component package.json from path', function () {
-
     expect(server.describe().components.componentName.version).to.be('3.0.0');
-
   });
 
   it('includes meta componentVersion in events', function (done) {

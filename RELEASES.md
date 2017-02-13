@@ -132,3 +132,5 @@ based on happner 1.28.1
 
   - added externally assignable datalayer for happnercluster
   - added plugin-able functions to externally adjust _mesh just before clients start using it
+  - exposed modules package.json at elements.name.module.package
+  - added $happn.exchage.componentName.__version
