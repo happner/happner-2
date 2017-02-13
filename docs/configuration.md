@@ -9,6 +9,7 @@ Mesh configuration contains several sections.
 * [Endpoint Config](#endpoint-config)
 * [Module Config](#module-config)
 * [Component Config](#component-config)
+* [Plugins Config](#plugins-config)
 * [Utilities](#utilities)
 * [Repl](#repl)
 
@@ -23,6 +24,7 @@ config = {
     endpoints: {},
     modules: {},
     components: {}
+    plugins: []
 }
 ```
 
@@ -516,10 +518,26 @@ __(optional)__
 
 List the data paths where this component stores, retrieves or subscribes. 'mem' refers to storage that will be routed to the memory only, and 'persist' is routed to the configured `happn.filename` or defaulted database. See [Data](data.md)
 
+### Plugins Config
+
+[▲](#)
+
+Allows for specifying a function or set of functions the can operate on the mesh object just before it completes its startup procedure.
+
+```javascript
+  ...
+  plugins: [
+    function (mesh, callback) {
+      // plugin initializes itself
+      callback();
+    }
+  ]
+  ...
+```
 
 ### Utilities
 
-[&#9650;](#)
+[▲](#)
 
 #### Configuring the Logger
 
