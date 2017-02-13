@@ -49,10 +49,18 @@ describe('f8 - component versions', function () {
     server.stop({reconnect: false}, done);
   });
 
+  it('loads package.json from require', function () {
+    expect(server._mesh.elements['happner-test-modules'].module.package.version).to.be('1.0.2');
+  });
+
   it('loads version from component package.json from require', function () {
 
     expect(server.describe().components['happner-test-modules'].version).to.be('1.0.2');
 
+  });
+
+  it('loads package.json from path', function () {
+    expect(server._mesh.elements.componentName.module.package.version).to.be('3.0.0');
   });
 
   it('loads version from component package.json from path', function () {
@@ -77,5 +85,7 @@ describe('f8 - component versions', function () {
     });
 
   });
+
+
 
 });
