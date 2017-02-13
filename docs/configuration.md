@@ -527,8 +527,10 @@ Allows for specifying a function or set of functions the can operate on the mesh
 ```javascript
   ...
   plugins: [
-    function (mesh, callback) {
+    function (mesh, logger, callback) {
       // plugin initializes itself
+      var log = logger.createLogger('plugin1');
+      log.info('plugin started!');
       callback();
     }
   ]

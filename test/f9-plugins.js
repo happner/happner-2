@@ -16,11 +16,11 @@ describe('f9 - plugins', function () {
     Happner.create({
 
       plugins: [
-        function(mesh, callback) {
+        function(mesh, logger, callback) {
           mesh.xxx = 1;
           callback();
         },
-        function(mesh, callback) {
+        function(mesh, logger, callback) {
           mesh.yyy = 1;
           callback();
         }
