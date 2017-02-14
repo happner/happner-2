@@ -134,3 +134,4 @@ based on happner 1.28.1
   - added plugin-able functions to externally adjust _mesh just before clients start using it
   - exposed modules package.json at elements.name.module.package
   - added $happn.exchage.componentName.__version
+  - added cluster awareness for componentInstance reply to set at message.callbackPeer
