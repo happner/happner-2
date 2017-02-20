@@ -522,16 +522,24 @@ List the data paths where this component stores, retrieves or subscribes. 'mem' 
 
 [▲](#)
 
-Allows for specifying a function or set of functions the can operate on the mesh object just before it completes its startup procedure.
+Allows for specifying a function or set of functions the can operate on the mesh object just before it runs the component start methods and just after it runs the component stop methods.
 
 ```javascript
   ...
   plugins: [
-    function (mesh, logger, callback) {
+    function (mesh, logger) {
       // plugin initializes itself
       var log = logger.createLogger('plugin1');
-      log.info('plugin started!');
-      callback();
+      
+      return {
+        start: function (callback) {
+       	  log.info('plugin started!');
+          callback();   
+        },
+        stop: function (callback) {
+          callback();
+        }
+      }
     }
   ]
   ...
