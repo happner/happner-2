@@ -135,3 +135,5 @@ based on happner 1.28.1
   - exposed modules package.json at elements.name.module.package
   - added $happn.exchage.componentName.__version
   - added cluster awareness for componentInstance reply to set at message.callbackPeer
+  - expanded plugins to have start and stop methods
+
