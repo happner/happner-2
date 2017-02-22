@@ -127,6 +127,12 @@ based on happner 1.28.1
 2.3.0 2017-02-06
 ----------------
   - added meta.componentVersion to $happn.emit()
+  
+2.4.0 2017-02-15
+----------------
+  - updated happn-3 version
+
+
 
 
 
@@ -136,4 +142,5 @@ based on happner 1.28.1
   - added $happn.exchage.componentName.__version
   - added cluster awareness for componentInstance reply to set at message.callbackPeer
   - expanded plugins to have start and stop methods
+
 
