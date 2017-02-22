@@ -528,13 +528,13 @@ Allows for specifying a function or set of functions the can operate on the mesh
   ...
   plugins: [
     function (mesh, logger) {
-      // plugin initializes itself
       var log = logger.createLogger('plugin1');
       
+      // return the plugin instance with start and stop methods
       return {
         start: function (callback) {
-       	  log.info('plugin started!');
-          callback();   
+          log.info('plugin started!');
+          callback();
         },
         stop: function (callback) {
           callback();
