@@ -276,3 +276,63 @@ This allows for a standalone mesh to be migrated into a cluster without modifyin
 This security setting gives us the ability to ensure responses to methods or published only to the origin of the method caller
 
 #####NB NB Directed responses must not be switched on if any happner clients older than 1.29.0 are connecting to the mesh,  without this setting, these connections are still prevented using an [injected layer](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222)
+
+## datastores config 
+
+The underlying happn config now requires a datastores subconfig to point to mongo or nedb or both as required
+
+### old
+
+```javascript
+config = {
+  datalayer: {
+    plugin: 'happn-service-mongo',
+    config: {
+      collection: 'happner',
+      url: 'mongodb://127.0.0.1:27017/happner'
+    }
+  }
+}
+```
+
+#### new
+
+```javascript
+var config = {
+  happn: { // was "datalayer"
+    services: {
+      data: {
+        config: {
+          datastores: [
+            
+            // ALREADY defaulted by happn-cluster
+            {
+              name: 'mongo',
+              provider: 'happn-service-mongo-2',
+              isDefault: true, // <----------------
+              settings: {
+                collection: 'happn-cluster',
+                database: 'happn-cluster',
+                url: 'mongodb://127.0.0.1:27017'
+              }
+            },
+            
+            // ALREADY defaulted by happner-cluster to prevent
+            // mesh description overwrites in shared db
+            {
+              name: 'nedb-own-schema',
+              settings: {},
+              patterns: [
+                '/mesh/schema/*' // <--------------- use this only when
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+
+
