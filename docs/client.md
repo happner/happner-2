@@ -6,6 +6,8 @@
 
 The api client script can be accessed from the browser at `/api/client`.
 
+See also "constructivist" [happner-client](https://github.com/happner/happner-client)
+
 #### Loading the script.
 
 __something.html__

@@ -142,5 +142,6 @@ based on happner 1.28.1
   - added $happn.exchage.componentName.__version
   - added cluster awareness for componentInstance reply to set at message.callbackPeer
   - expanded plugins to have start and stop methods
+  - serve happner-client
 
 
