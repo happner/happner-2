@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var path = require('path');
 var Server = require('karma').Server;
 var Happner = require('../../');
 var Promise = require('bluebird');
@@ -60,11 +61,16 @@ gulp.task('start', function (done) {
     modules: {
       test: {
         instance: testComponent
+      },
+      testComponent2: {
+        path: __dirname + path.sep + 'lib' + path.sep + 'test-component-2'
       }
     },
     components: {
-      test: {
-        moduleName: 'test'
+      test: {},
+      testComponent2: {
+        startMethod: 'start',
+        stopMethod: 'stop'
       }
     }
   };
@@ -81,10 +87,13 @@ gulp.task('start', function (done) {
         security.addGroup({
           name: 'group',
           permissions: {
-            events: {},
+            events: {
+              '/Server/testComponent2/test/event': {authorized: true}
+            },
             // data: {},
             methods: {
-              '/Server/test/allowedMethod': {authorized: true}
+              '/Server/test/allowedMethod': {authorized: true},
+              '/Server/testComponent2/method1': {authorized: true}
             }
           }
         }),

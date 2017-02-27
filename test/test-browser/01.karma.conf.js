@@ -15,7 +15,8 @@ module.exports = function (config) {
     files: [
       'http://localhost:55000/api/client',
       '01_browsertest_encryptedpayloads.js',
-      '01_browsertest_security.js'
+      '01_browsertest_security.js',
+      '02_happner_client.js'
     ],
 
     // list of files / patterns to load in the browser
