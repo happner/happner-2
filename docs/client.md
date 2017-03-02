@@ -6,6 +6,8 @@
 
 The api client script can be accessed from the browser at `/api/client`.
 
+__NB:__ Start the server with `NODE_ENV=production` to enable caching of the `/api/client` script. The script is then cached to disk at `HOME/.happner/api-client-<happner-version>.min.js.gz`. If not cached the server rebuilds the packaged script from all component scripts and minifies and gzips __at each server start__.
+
 See also "constructivist" [happner-client](https://github.com/happner/happner-client)
 
 #### Loading the script.
