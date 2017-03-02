@@ -144,3 +144,4 @@ based on happner 1.28.1
   - expanded plugins to have start and stop methods
   - serve happner-client
   - cached packager's /api/client script in production mode
+  - integrate new happn browserClient packeger
