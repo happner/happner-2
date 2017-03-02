@@ -81,7 +81,7 @@ describe('f9 - plugins', function () {
 
       .then(function (apiClientGzip) {
         var file = fs.readFileSync(cachedFilename);
-        // expect(md5(file)).to.be(md5(apiClientGzip));
+        expect(md5(file.toString())).to.be(md5(apiClientGzip));
       })
 
       .then(function () {
