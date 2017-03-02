@@ -143,5 +143,4 @@ based on happner 1.28.1
   - added cluster awareness for componentInstance reply to set at message.callbackPeer
   - expanded plugins to have start and stop methods
   - serve happner-client
-
-
+  - cached packager's /api/client script in production mode
