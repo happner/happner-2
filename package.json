@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -55,9 +55,11 @@
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
     "glob": "5.0.15",
-    "happn-3": "1.4.1",
+    "happn-3": "1.6.0",
     "happn-logger": "0.0.2",
+    "happner-client": "1.0.0",
     "happner-terminal": "0.0.8",
+    "homedir": "0.6.0",
     "later": "1.2.0",
     "lodash": "4.17.1",
     "md5": "2.0.0",

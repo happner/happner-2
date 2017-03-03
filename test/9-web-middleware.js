@@ -238,12 +238,12 @@ describe('9 - web middleware', function (done) {
 
   it('does not put web middleware methods onto server exchange', function () {
     var methods = Object.keys(mesh.exchange.middlewareTest);
-    expect(methods.length).to.equal(0);
+    expect(methods.length).to.equal(1);
   });
 
   it('does not put web middleware methods onto client exchange', function () {
     var methods = Object.keys(client.exchange.middlewareTest);
-    expect(methods.length).to.equal(0);
+    expect(methods.length).to.equal(1);
   });
 
   it('advertises web methods in description', function () {

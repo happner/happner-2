@@ -334,5 +334,7 @@ var config = {
 }
 ```
 
+## Client script caching to disk
 
+Start the server with `NODE_ENV=production` to enable caching of the `/api/client` script. The script is then cached to disk at `HOME/.happner/api-client-<happner-version>.min.js.gz`. If not cached the server rebuilds the packaged script from all component scripts and minifies and gzips __at each server start__.
 

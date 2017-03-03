@@ -131,3 +131,15 @@ based on happner 1.28.1
 2.4.0 2017-02-15
 ----------------
   - updated happn-3 version
+
+2.5.0 2017-03-03
+----------------
+  - added externally assignable datalayer for happnercluster
+  - added plugin-able functions to externally adjust _mesh just before clients start using it
+  - exposed modules package.json at elements.name.module.package
+  - added $happn.exchage.componentName.__version
+  - added cluster awareness for componentInstance reply to set at message.callbackPeer
+  - expanded plugins to have start and stop methods
+  - serve happner-client
+  - cached packager's /api/client script in production mode
+  - integrate new happn browserClient packeger
