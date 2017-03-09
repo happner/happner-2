@@ -146,4 +146,4 @@ based on happner 1.28.1
   
 2.5.1 2017-03-09
 ----------------
-  - upgraded happn-3 to version 1.7.2
+  - upgraded happn-3 to v 1.7.2
