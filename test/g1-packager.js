@@ -11,12 +11,15 @@ var request = require('request');
 var Promise = require('bluebird');
 var md5 = require('md5');
 
-describe('f9 - plugins', function () {
+describe('g1 - plugins', function () {
 
   var server;
   var previousEnv = process.env.NODE_ENV;
 
   before('remove cached file', function (done) {
+
+    this.timeout(5000);
+
     try {
       fsExtra.removeSync(cachedDirname);
       done();
@@ -26,6 +29,9 @@ describe('f9 - plugins', function () {
   });
 
   before('start server', function (done) {
+
+    this.timeout(5000);
+
     process.env.NODE_ENV = 'production';
     Happner.create({name: 'TEST1'})
       .then(function (_server) {
@@ -35,6 +41,9 @@ describe('f9 - plugins', function () {
   });
 
   after('stop server', function (done) {
+
+    this.timeout(5000);
+
     if (!server) return done();
     server.stop({reconnect: false}, done);
     process.env.NODE_ENV = previousEnv;
@@ -80,8 +89,14 @@ describe('f9 - plugins', function () {
       })
 
       .then(function (apiClientGzip) {
+
+        var version = parseInt(process.version.toString().split('.')[0].replace('v', ''));
+
+        if (version < 5) return;
+
         var file = fs.readFileSync(cachedFilename);
         expect(md5(file.toString())).to.be(md5(apiClientGzip));
+
       })
 
       .then(function () {

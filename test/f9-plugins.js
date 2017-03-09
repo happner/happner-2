@@ -6,12 +6,17 @@ describe('f9 - plugins', function () {
   var server, stoppedServer;
 
   after(function (done) {
+
+    this.timeout(10000);
+
     if (!server) return done();
     server.stop({reconnect: false}, done);
   });
 
 
   it('allows for modification of mesh just before start and after stop', function (done) {
+
+    this.timeout(10000);
 
     Happner.create({
 

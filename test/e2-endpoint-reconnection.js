@@ -103,9 +103,12 @@ describe('e2-endpoint-reconnection', function () {
   var testExchangeCalls = function (done) {
 
     mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
-      'one!', 'two!', 'three!', function (err) {
+      'one!', 'two!', 'three!', function (err, result) {
 
         if (err) return done(err);
+
+        console.log('YAY:::', result);
+
         done()
 
       });
