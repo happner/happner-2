@@ -143,3 +143,7 @@ based on happner 1.28.1
   - serve happner-client
   - cached packager's /api/client script in production mode
   - integrate new happn browserClient packeger
+  
+2.5.1 2017-03-09
+----------------
+  - upgraded happn-3 to version 1.7.1
