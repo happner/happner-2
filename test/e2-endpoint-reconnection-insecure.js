@@ -164,7 +164,7 @@ describe('e2-endpoint-reconnection-insecure', function () {
   var __remoteRestartTestDisconnected1 = false;
   var __remoteRestartTestDisconnected2 = false;
 
-  it.only("can call remote component, restart remote mesh and call component again", function (done) {
+  it("can call remote component, restart remote mesh and call component again", function (done) {
 
     console.log('2.0 TESTING REMOTE CALLS:::');
     testExchangeCalls(function (e) {                           // 1. check the remote exchange works
