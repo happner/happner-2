@@ -1,4 +1,4 @@
-describe('e2-endpoint-reconnection', function () {
+describe('e2-endpoint-reconnection-insecure', function () {
 
   var spawn = require('child_process').spawn
     , sep = require('path').sep
@@ -9,7 +9,7 @@ describe('e2-endpoint-reconnection', function () {
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
-  var REMOTE_MESH = 'e2-remote-mesh';
+  var REMOTE_MESH = 'e2-remote-mesh-insecure';
 
   var PORT_REMOTE = 3030;
   var PORT_LOCAL = 4040;
@@ -17,8 +17,7 @@ describe('e2-endpoint-reconnection', function () {
   var config = {
     name: 'e2-endpoint-reconnection',
     happn: {
-      port: PORT_LOCAL,
-      secure: true
+      port: PORT_LOCAL
     },
     endpoints: {
       'remoteMeshE2': {  // remote mesh node
@@ -165,7 +164,7 @@ describe('e2-endpoint-reconnection', function () {
   var __remoteRestartTestDisconnected1 = false;
   var __remoteRestartTestDisconnected2 = false;
 
-  it("can call remote component, restart remote mesh and call component again", function (done) {
+  it.only("can call remote component, restart remote mesh and call component again", function (done) {
 
     console.log('2.0 TESTING REMOTE CALLS:::');
     testExchangeCalls(function (e) {                           // 1. check the remote exchange works
