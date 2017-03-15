@@ -155,3 +155,7 @@ based on happner 1.28.1
 2.5.4 2017-03-13
 ----------------
   - fix insecure endpoints not resuming after reconnect
+
+2.5.5 2017-03-15
+----------------
+  - bump happner-client version
