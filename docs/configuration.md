@@ -1,4 +1,4 @@
-[&#9664;](https://github.com/happner/happner#documentation) contents | happn [&#9654;](happn.md)
+[&#9664;](https://github.com/happner/happner-2#documentation) contents | happn [&#9654;](happn.md)
 
 ## Configuration
 
