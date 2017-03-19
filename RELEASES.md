@@ -159,3 +159,11 @@ based on happner 1.28.1
 2.5.5 2017-03-15
 ----------------
   - bump happner-client version
+
+2.6.0 2017-13-19
+----------------
+
+  - added localEvent api
+  - duplicated exchange into each component so that cluster can overwrite dependency into one component's exchange without overwriting all
+  
+  

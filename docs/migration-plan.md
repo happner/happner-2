@@ -323,7 +323,7 @@ var config = {
               name: 'nedb-own-schema',
               settings: {},
               patterns: [
-                '/mesh/schema/*' // <--------------- use this only when
+                '/mesh/schema/*' // <----------- use this datastore only when this path
               ]
             }
           ]
@@ -337,4 +337,24 @@ var config = {
 ## Client script caching to disk
 
 Start the server with `NODE_ENV=production` to enable caching of the `/api/client` script. The script is then cached to disk at `HOME/.happner/api-client-<happner-version>.min.js.gz`. If not cached the server rebuilds the packaged script from all component scripts and minifies and gzips __at each server start__.
+
+## local events
+
+Local events are now supported. Every component has access to an event emitter at every other component. __These are standard event emitters and not happn events and do not support '*'.__
+
+#### To emit
+
+```javascript
+$happn.localEmit('eventName', {data: 1});
+```
+
+#### To subscribe and unsubscribe
+
+```javascript
+var eventHandler;
+$happn.localEvent.componentName.on('eventName', eventHandler = function (data) {
+});
+
+$happn.localEvent.componentName.removeListener('eventName', eventHandler);
+```
 
