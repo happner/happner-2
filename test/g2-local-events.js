@@ -59,13 +59,22 @@ describe('g2 - local events', function () {
     server.stop({reconnect: false}, done);
   });
 
-  it('can subscribe to and emit local events', function (done) {
+  it('can subscribe to and emit local events from within components', function (done) {
 
     server.exchange.component2.awaitLocalEvent()
       .then(function (result) {
         expect(result).to.eql({some: 'data'});
       })
       .then(done).catch(done);
+
+  });
+
+  it('can subscribe to local events from mesh', function (done) {
+
+    server.localEvent.component1.once('eventName', function (data) {
+      expect(data).to.eql({some: 'data'});
+      done();
+    });
 
   });
 
