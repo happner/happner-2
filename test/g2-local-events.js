@@ -11,7 +11,7 @@ describe('g2 - local events', function () {
         'component1': {
           instance: {
             start: function ($happn, callback) {
-              setInterval(function () {
+              this.interval = setInterval(function () {
 
 
                 $happn.localEmit('eventName', {some: 'data'});
@@ -19,14 +19,15 @@ describe('g2 - local events', function () {
 
               }, 100);
               callback();
+            },
+            stop: function ($happn, callback) {
+              clearInterval(this.interval);
+              callback();
             }
           }
         },
         'component2': {
           instance: {
-            start: function ($happn, callback) {
-              callback();
-            },
             awaitLocalEvent: function ($happn, callback) {
 
 
@@ -41,10 +42,10 @@ describe('g2 - local events', function () {
       },
       components: {
         'component1': {
-          startMethod: 'start'
+          startMethod: 'start',
+          stopMethod: 'stop'
         },
         'component2': {
-          startMethod: 'start'
         }
       }
     })
