@@ -38,7 +38,7 @@ describe('a1 - attach to multiple meshes (meshs?)', function () {
                 ));
 
                 kid.stdout.on('data', function (data) {
-                  console._stdout.write('remote' +i+ ' ' + data.toString());
+                  // console._stdout.write('remote' +i+ ' ' + data.toString());
                   if (data.toString().match(/READY/)) resolve();
                 });
 

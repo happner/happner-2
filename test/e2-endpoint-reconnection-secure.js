@@ -52,7 +52,7 @@ describe('e2-endpoint-reconnection-secure', function () {
 
     remote.stdout.on('data', function (data) {
 
-      //console.log('output:::', data.toString());
+      console.log('output:::', data.toString());
 
       if (data.toString().match(/READY/)) {
 

@@ -38,6 +38,7 @@ These walkthroughs use *happner* to create a rudimentary monitoring service.
 ###
 
 * [Event Api](https://github.com/happner/happner-2/blob/master/docs/event.md)
+* [Local Event Api](https://github.com/happner/happner-2/blob/master/docs/local-event.md)
 * [Exchange Api](https://github.com/happner/happner-2/blob/master/docs/exchange.md)
 * [Data Api](https://github.com/happner/happner-2/blob/master/docs/data.md)
 * [Web Routes](https://github.com/happner/happner-2/blob/master/docs/webroutes.md)
