@@ -13,7 +13,7 @@ Component1.prototype.makeSomethingHappen = function ($happner, callback) {
 };
 ```
 
-These events are transmitted onto the network and reach clients, remote endpoints or other peers if using  `happner-cluster`
+These events are transmitted onto the network and reach clients, remote endpoints or other peers in a `happner-cluster`
 
 ### Subscribing and Unsubscribing
 
