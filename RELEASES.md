@@ -166,4 +166,6 @@ based on happner 1.28.1
   - added localEvent api
   - duplicated exchange into each component so that cluster can overwrite dependency into one component's exchange without overwriting all
   
-  
+2.6.1 2017-13-20
+----------------
+  - removed convenience $happn.localEmit() - it may be used for other purposes 

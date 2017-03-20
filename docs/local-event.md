@@ -1,4 +1,4 @@
-[&#9664;](event.md) event api | exchange api [&#9654;](exchange.md)
+[◀](event.md) event api | exchange api [▶](exchange.md)
 
 ## Local Event Api
 
@@ -10,7 +10,7 @@ __These events use the standard node `EventEmitter` and do not support wildcards
 
 ```javascript
 Component1.prototype.makeSomethingHappen = function ($happner, callback) {
-  $happner.emitLocal('something/happened', {data: 1});
+  $happner.localEventEmitter.emit('something/happened', {data: 1});
   callback();
 };
 ```
@@ -21,7 +21,8 @@ Component1.prototype.makeSomethingHappen = function ($happner, callback) {
 Component2.prototype.start = function ($happner, callback) {
   
   // subscribe
-  $happner.localEvent.component1.on('something/happened', this.eventHandler = function (data) {
+  $happner.localEvent.component1.on(
+    'something/happened', this.eventHandler = function (data) {
   });
   
   callback();

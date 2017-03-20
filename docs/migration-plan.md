@@ -345,7 +345,7 @@ Local events are now supported. Every component has access to an event emitter a
 #### To emit
 
 ```javascript
-$happn.localEmit('eventName', {data: 1});
+$happn.localEventEmitter.emit('eventName', {data: 1});
 ```
 
 #### To subscribe and unsubscribe
