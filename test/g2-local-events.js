@@ -14,7 +14,7 @@ describe('g2 - local events', function () {
               this.interval = setInterval(function () {
 
 
-                $happn.localEmit('eventName', {some: 'data'});
+                $happn.localEventEmitter.emit('eventName', {some: 'data'});
 
 
               }, 100);
