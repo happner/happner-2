@@ -169,3 +169,9 @@ based on happner 1.28.1
 2.6.1 2017-13-20
 ----------------
   - removed convenience $happn.localEmit() - it may be used for other purposes 
+
+2.6.2 2017-13-21
+----------------
+  - onward release of happner-client
+
+
