@@ -178,3 +178,6 @@ based on happner 1.28.1
 ----------------
   - updated happn-3
  
+3.6.4 2017-13-21
+----------------
+  - onward release of happner-client
