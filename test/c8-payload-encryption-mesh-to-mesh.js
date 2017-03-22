@@ -1,50 +1,48 @@
-// cannot do mocha test/4-mesh-to-mesh.js --watch
-// address already in use for 2nd... runs
-
-var spawn = require('child_process').spawn
-  , sep = require('path').sep
-  , remote
-  , assert = require('assert')
-  , mesh
-  , Mesh = require('../')
-
-var sep = require('path').sep;
-var libFolder = __dirname + sep + 'lib' + sep;
-var Crypto = require('happn-util-crypto');
-var crypto = new Crypto();
-
-
-var config = {
-  name: 'mesh2',
-  happn: {
-    port : 55002,
-    secure : true,
-    encryptPayloads : true
-  },
-  endpoints: {
-    theFarawayTree: {  // remote mesh node
-      config: {
-        port: 55001,
-        host: 'localhost',
-        username: '_ADMIN',
-        password: 'guessme'
-      }
-    }
-  },
-  modules: {},
-  components: {}
-};
-
 describe('c8-payload-encryption', function () {
 
+  // cannot do mocha test/4-mesh-to-mesh.js --watch
+  // address already in use for 2nd... runs
+
+  var spawn = require('child_process').spawn
+    , remote
+    , assert = require('assert')
+    , mesh
+    , Mesh = require('../')
+    ;
+
+  var sep = require('path').sep;
+  var libFolder = __dirname + sep + 'lib' + sep;
+
+  var Crypto = require('happn-util-crypto');
+  var crypto = new Crypto();
+
   this.timeout(120000);
+
+  var config = {
+    name: 'mesh2',
+    happn: {
+      port : 55002,
+      secure : true,
+      encryptPayloads : true
+    },
+    endpoints: {
+      theFarawayTree: {  // remote mesh node
+        config: {
+          port: 55001,
+          host: 'localhost',
+          username: '_ADMIN',
+          password: 'guessme'
+        }
+      }
+    },
+    modules: {},
+    components: {}
+  };
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());
 
   before(function (done) {
-
-    var _this = this;
 
     // spawn remote mesh in another process
     remote = spawn('node', [libFolder + 'c8-payload-encryption']);
@@ -96,11 +94,8 @@ describe('c8-payload-encryption', function () {
         done();
 
       });
-
     });
-
   });
-
   //require('benchmarket').stop();
 
 });
