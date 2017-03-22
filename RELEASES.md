@@ -184,7 +184,7 @@ based on happner 1.28.1
   
 2.7.0 2017-03-22
 ----------------
-  - happn 1.8.0
+  - happn v1.8.0 update
   - updated happn layer to use preconfigured buckets
   - the new _optimised bucket
   
