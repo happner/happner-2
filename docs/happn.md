@@ -144,6 +144,75 @@ Happner.create(config, function(err, mesh) {
   
 });
 
-
 ```
 
+### HAPPN subscription service configuration
+*The subscription service in happn is configured to use buckets to hold and search for subscriptions, the happn layer is preconfigured to use 6 buckets:*
+
+1. the _exchange bucket - where exchange method calls are stored and searched for
+2. the _events bucket - where events subscriptions happen
+3. the _optimised bucket - deeply nested subscriptions that you know the segment size for happen here, as long as the data is stored in the format /_optimised/[rest of key] - for more info please check out the [happn documentation](https://github.com/happner/happn-3#buckets-and-optimisation)
+4. all sets
+5. all removes
+6. default anything else that isn't fielded above
+
+The first matching bucket found is used to store a matching subscription, all the buckets are checked against sets and removes that happen.
+
+The subscription service is [configured in the lib/system/happn.js module as follows](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L265):
+```javascript
+ //happn subscription service
+  if (!config.happn.services.subscription) {
+    config.happn.services.subscription = {
+      config: {
+        buckets: [
+          {
+            name: 'exchange',
+            channel: 'ALL@/_exchange/*'//requests and responses, separate from data
+          },
+          {
+            name: 'events',
+            channel: 'ALL@/_events/*'//inter-component events
+          },
+          {
+            name: 'optimised',//for very busy nested type subscriptions, uses strict bucket
+            channel: 'ALL@/_optimised/*',
+            implementation: Happn.bucketStrict
+          }
+        ]
+      }
+    };
+  }
+
+  happnServer.create(config.happn,
+
+    function (e, happnInstance) {
+      //ok cool happn instance has been initialised
+    }
+  );
+```
+It is possible to configure things with your own setup, like so:
+```javascript
+
+var MyCustomBucket = require('my-custom-bucket');
+
+var happnerConfig = {
+  happn:{
+    services:{
+      subscription:{
+        config:{
+          buckets:[
+            {
+              name: 'custom',
+              channel: 'ALL@/_custom/*'//requests and responses, separate from data
+              implementation:MyCustomBucket
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+
+//NB the SET, REMOVE and ANY buckets are ALWAYS appended in happn, so it is not necessary to add them
+
+```
