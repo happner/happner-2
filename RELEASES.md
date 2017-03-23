@@ -160,24 +160,32 @@ based on happner 1.28.1
 ----------------
   - bump happner-client version
 
-2.6.0 2017-13-19
+2.6.0 2017-03-19
 ----------------
 
   - added localEvent api
   - duplicated exchange into each component so that cluster can overwrite dependency into one component's exchange without overwriting all
   
-2.6.1 2017-13-20
+2.6.1 2017-03-20
 ----------------
   - removed convenience $happn.localEmit() - it may be used for other purposes 
 
-3.6.2 2017-13-21
+2.6.2 2017-03-21
 ----------------
   - onward release of happner-client
 
-3.6.3 2017-13-21
+2.6.3 2017-03-21
 ----------------
   - updated happn-3
  
-3.6.4 2017-13-21
+2.6.4 2017-03-21
 ----------------
   - onward release of happner-client
+  
+2.7.0 2017-03-22
+----------------
+  - happn v1.8.0 update
+  - updated happn layer to use preconfigured buckets
+  - the new _optimised bucket
+  
+
