@@ -193,6 +193,10 @@ based on happner 1.28.1
   - happn v 1.8.1
   - additional buckets happn.js
   
+2.7.2 2017-03-24
+----------------
+  - happn v 1.8.2
+  
 
   
 
