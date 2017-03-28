@@ -204,6 +204,11 @@ based on happner 1.28.1
 2.7.4 2017-03-27
 ----------------
   - happn v 1.8.3
+
+2.7.5 2017-03-28
+----------------
+  - happn v 1.8.5
+  - fixed $happn.exchange missing endpoints
   
 
 
