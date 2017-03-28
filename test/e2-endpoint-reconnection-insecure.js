@@ -6,6 +6,7 @@ describe('e2-endpoint-reconnection-insecure', function () {
     , expect = require('expect.js')
     , mesh
     , Mesh = require('../')
+  ;
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
@@ -22,7 +23,7 @@ describe('e2-endpoint-reconnection-insecure', function () {
     endpoints: {
       'remoteMeshE2': {  // remote mesh node
         reconnect: {
-          max: 2000, //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
+          max: 1000, //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
           retries: 100
         },
         config: {
@@ -44,14 +45,14 @@ describe('e2-endpoint-reconnection-insecure', function () {
 
     var timedOut = setTimeout(function () {
       callback(new Error('remote mesh start timed out'));
-    }, 5000);
+    }, 20000);
 
     // spawn remote mesh in another process
     remote = spawn('node', [libFolder + REMOTE_MESH]);
 
     remote.stdout.on('data', function (data) {
 
-      //console.log('output:::', data.toString());
+      console.log('output:::', data.toString());
 
       if (data.toString().match(/READY/)) {
 
@@ -92,9 +93,12 @@ describe('e2-endpoint-reconnection-insecure', function () {
 
     this.timeout(60000);
 
-    remote.kill();
+    mesh.stop({reconnect: false}, function(e){
 
-    mesh.stop({reconnect: false}, function(){
+      if (e) console.warn('failed to stop local mesh');
+
+      remote.kill();
+
       done();
     });
   });
@@ -223,14 +227,13 @@ describe('e2-endpoint-reconnection-insecure', function () {
 
   var __doneMeasuring = false;
 
-  it("can call remote component, restart remote mesh - and reconnect before 5 seconds have passed because our max retry interval is 2 seconds", function (done) {
+  it("can call remote component, restart remote mesh - and reconnect before 5 seconds have passed because our max retry interval is 1 second", function (done) {
 
-    this.timeout(30000);
+    this.timeout(120000);
 
     testExchangeCalls(function (e) {                           // 1. check the remote exchange works
 
-      if (e)
-        return done(e);
+      if (e) return done(e);
 
       remote.kill();//kill remote
 
@@ -262,14 +265,16 @@ describe('e2-endpoint-reconnection-insecure', function () {
           // console.log('measuredDifference:::',measuredDifference);
 
           if (measuredCount == 4) {
+
             __doneMeasuring = true;
+
             var measuredAverage = measuredDifference / 3;
             //console.log('measured average:::', measuredAverage);
 
             // use try/catch to avoid uncaught exception (at least on Windows)
             // this is happner issue 222
             try {
-              expect(measuredAverage < 3300).to.be(true); // allow 10% grace
+              expect(measuredAverage < 2000).to.be(true); // allow 50% grace
             } catch (e) {
               return done(e);
             }
@@ -277,12 +282,7 @@ describe('e2-endpoint-reconnection-insecure', function () {
           }
         });
 
-      }, 10000);
-
+      }, 5000);
     });
-
   });
-
-  //require('benchmarket').stop();
-
 });
