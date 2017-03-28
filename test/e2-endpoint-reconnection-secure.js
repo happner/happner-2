@@ -6,6 +6,7 @@ describe('e2-endpoint-reconnection-secure', function () {
     , expect = require('expect.js')
     , mesh
     , Mesh = require('../')
+  ;
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
@@ -23,7 +24,7 @@ describe('e2-endpoint-reconnection-secure', function () {
     endpoints: {
       'remoteMeshE2': {  // remote mesh node
         reconnect: {
-          max: 2000, //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
+          max: 1000,
           retries: 100
         },
         config: {
@@ -45,15 +46,13 @@ describe('e2-endpoint-reconnection-secure', function () {
 
     var timedOut = setTimeout(function () {
       callback(new Error('remote mesh start timed out'));
-    }, 5000);
+    }, 20000);
 
     // spawn remote mesh in another process
     remote = spawn('node', [libFolder + REMOTE_MESH]);
 
     remote.stdout.on('data', function (data) {
-
-      console.log('output:::', data.toString());
-
+      
       if (data.toString().match(/READY/)) {
 
         clearTimeout(timedOut);
@@ -93,25 +92,32 @@ describe('e2-endpoint-reconnection-secure', function () {
 
     this.timeout(60000);
 
-    remote.kill();
+    mesh.stop({reconnect: false}, function(e){
 
-    mesh.stop({reconnect: false}, function(){
+      if (e) console.warn('failed to stop local mesh');
+
+      remote.kill();
+
       done();
     });
   });
 
   var testExchangeCalls = function (done) {
 
-    mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
+    try{
+      mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
       'one!', 'two!', 'three!', function (err, result) {
-
-        if (err) return done(err);
-
+        if (err){
+          console.warn('REMOTE EXCHANGE CALLS FAILED INSIDE:::', err.toString());
+          return done(err);
+        }
         console.log('YAY:::', result);
-
         done()
-
       });
+    }catch(e){
+      console.warn('REMOTE EXCHANGE CALLS FAILED OUTSIDE:::', e.toString());
+      done(e);
+    }
   };
 
   var __endpointConnectionTestDisconnected1 = false;
@@ -200,9 +206,9 @@ describe('e2-endpoint-reconnection-secure', function () {
             expect(evt.endpointConfig.config.port).to.be(PORT_REMOTE);
 
             console.log('2.6 REMOTE ENDPOINT RECONNECTED:::');
+
             testExchangeCalls(function (e) {
               console.log('2.7 EXCHANGE CALLS TESTED AFTER RESTART:::');
-
               done(e);
             });
 
@@ -210,10 +216,8 @@ describe('e2-endpoint-reconnection-secure', function () {
 
           startRemoteMesh(function (e) {       // 5. start the remote mesh
 
-            if (e)
-              return done(e);
+            if (e) return done(e);
             //console.log('5. STARTED REMOTE MESH:::', e);
-
           });
         });
       });
@@ -224,14 +228,13 @@ describe('e2-endpoint-reconnection-secure', function () {
 
   var __doneMeasuring = false;
 
-  it("can call remote component, restart remote mesh - and reconnect before 5 seconds have passed because our max retry interval is 2 seconds", function (done) {
+  it("can call remote component, restart remote mesh - and reconnect before 5 seconds have passed because our max retry interval is 1 second", function (done) {
 
-    this.timeout(30000);
+    this.timeout(120000);
 
     testExchangeCalls(function (e) {                           // 1. check the remote exchange works
 
-      if (e)
-        return done(e);
+      if (e) return done(e);
 
       remote.kill();//kill remote
 
@@ -263,14 +266,16 @@ describe('e2-endpoint-reconnection-secure', function () {
           // console.log('measuredDifference:::',measuredDifference);
 
           if (measuredCount == 4) {
+
             __doneMeasuring = true;
+
             var measuredAverage = measuredDifference / 3;
             //console.log('measured average:::', measuredAverage);
 
             // use try/catch to avoid uncaught exception (at least on Windows)
             // this is happner issue 222
             try {
-              expect(measuredAverage < 3300).to.be(true); // allow 10% grace
+              expect(measuredAverage < 2000).to.be(true); // allow 50% grace
             } catch (e) {
               return done(e);
             }
@@ -278,12 +283,7 @@ describe('e2-endpoint-reconnection-secure', function () {
           }
         });
 
-      }, 10000);
-
+      }, 5000);
     });
-
   });
-
-  //require('benchmarket').stop();
-
 });
