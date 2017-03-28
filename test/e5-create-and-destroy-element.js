@@ -14,9 +14,9 @@ describe(filename, function () {
   //require('benchmarket').start();
   //after(//require('benchmarket').store());
 
-  var mesh;
+  var mesh, mesh2;
 
-  before(function (done) {
+  before('start server 1', function (done) {
 
     this.timeout(5000);
 
@@ -69,7 +69,43 @@ describe(filename, function () {
       .catch(done);
   });
 
-  after(function (done) {
+  before('start server 2', function (done) {
+
+    this.timeout(5000);
+
+    Happner.create({
+      name: 'MESH_NAME_2',
+      port: 55001,
+      endpoints: {
+        'MESH_NAME': {}
+      },
+      modules: {
+        'test': {
+          instance: {
+            listEndpointComponents: function ($happn, callback) {
+              callback(null, Object.keys($happn.exchange.MESH_NAME));
+            }
+          }
+        }
+      },
+      components: {
+        'test': {}
+      }
+    })
+      .then(function (_mesh) {
+        mesh2 = _mesh;
+        done();
+      })
+      .catch(done);
+
+  });
+
+  after('stop server 2', function (done) {
+    if (!mesh) return done();
+    mesh2.stop({reconnect: false}, done);
+  });
+
+  after('stop server 1', function (done) {
     if (!mesh) return done();
     mesh.stop({reconnect: false}, done);
   });
@@ -223,6 +259,42 @@ describe(filename, function () {
 
       .then(function (result) {
         result.should.equal('newComponent2 OK');
+      })
+
+      .then(done).catch(done);
+
+  });
+
+
+  it('adds endpoints to all exchanges', function (done) {
+
+    mesh2.exchange.test.listEndpointComponents()
+
+      .then(function (results) {
+
+        if (results.indexOf('newComponent2')) {
+          results.should.eql([
+            'security',
+            'api',
+            'system',
+            'rest',
+            'factory',
+            'remove1',
+            'remove2',
+            'newComponent2'
+          ]);
+        } else {
+          results.should.eql([
+            'security',
+            'api',
+            'system',
+            'rest',
+            'factory',
+            'remove1',
+            'remove2'
+          ]);
+        }
+
       })
 
       .then(done).catch(done);
