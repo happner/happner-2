@@ -19,29 +19,6 @@ DataComponent7.prototype.storeData = function ($happn, path, data, callback) {
   }
 }
 
-// DataComponent7.prototype.method1 = function($happn, options, callback) {
-//   options.methodName = 'method1';
-//    console.log('ran method1...');
-//   callback(null, options);
-// }
-
-// DataComponent7.prototype.method2 = function($happn, options, callback) {
-//   options.methodName = 'method2';
-//   console.log('ran method2...');
-//   callback(null, options);
-// }
-
-// DataComponent7.prototype.method3 = function($happn, options, callback) {
-//   options.methodName = 'method3';
-//    console.log('ran method3...');
-//   callback(null, options);
-// }
-
-// DataComponent7.prototype.fireEvent = function($happn, eventName, callback) {
-//   $happn.emit(eventName, eventName);
-//   callback(null, eventName + ' emitted');
-// }
-
 if (global.TESTING_7) return; // When 'requiring' the module above,
                               // don't run the tests below
 //.............

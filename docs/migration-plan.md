@@ -73,39 +73,37 @@ Mesh.create({
 //NEW
 
 Mesh.create({
-        happn:{
-        secure:true,
-        port:10000,
-        adminUser:{
-          passwotrd:'blah'
-        },
-        services:{
-          security: {
-            config: {
-              profiles:[
-                {
-                  name:"rest-device",
-                  session:{
-                    $and:[{ //filter by the security properties of the session - check if this session user belongs to a specific group
-                      user:{groups:{
-                        REST_DEVICES : { $exists: true }
-                      }},
-                      type:{$eq:0} //token stateless
-                    }]},
-                  policy: {
-                    ttl: '2 seconds'//stale after 2 seconds
-                  }
+      happn:{
+      secure:true,
+      port:10000,
+      services:{
+        security: {
+          config: {
+            adminUser:{
+              password:'blah'
+            },
+            profiles:[
+              {
+                name:"rest-device",
+                session:{
+                  $and:[{ //filter by the security properties of the session - check if this session user belongs to a specific group
+                    user:{groups:{
+                      REST_DEVICES : { $exists: true }
+                    }},
+                    type:{$eq:0} //token stateless
+                  }]},
+                policy: {
+                  ttl: '2 seconds'//stale after 2 seconds
                 }
-              ]
-            }
-           }
+              }
+            ]
           }
+         }
+        }
       }
     }, function (err, instance) {
       //mesh was created
     });
-
-
 ```
 
 ##convenience server configuration keys
