@@ -1,4 +1,4 @@
-describe('e2-endpoint-reconnection-insecure', function () {
+describe('e2-endpoint-reconnection-secure', function () {
 
   var spawn = require('child_process').spawn
     , sep = require('path').sep
@@ -10,7 +10,7 @@ describe('e2-endpoint-reconnection-insecure', function () {
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
-  var REMOTE_MESH = 'e2-remote-mesh-insecure';
+  var REMOTE_MESH = 'e2-remote-mesh-secure';
 
   var PORT_REMOTE = 3030;
   var PORT_LOCAL = 4040;
@@ -18,12 +18,13 @@ describe('e2-endpoint-reconnection-insecure', function () {
   var config = {
     name: 'e2-endpoint-reconnection',
     happn: {
-      port: PORT_LOCAL
+      port: PORT_LOCAL,
+      secure: true
     },
     endpoints: {
       'remoteMeshE2': {  // remote mesh node
         reconnect: {
-          max: 1000, //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
+          max: 1000,
           retries: 100
         },
         config: {
@@ -51,9 +52,7 @@ describe('e2-endpoint-reconnection-insecure', function () {
     remote = spawn('node', [libFolder + REMOTE_MESH]);
 
     remote.stdout.on('data', function (data) {
-
-      console.log('output:::', data.toString());
-
+      
       if (data.toString().match(/READY/)) {
 
         clearTimeout(timedOut);
@@ -107,14 +106,14 @@ describe('e2-endpoint-reconnection-insecure', function () {
 
     try{
       mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
-        'one!', 'two!', 'three!', function (err, result) {
-          if (err){
-            console.warn('REMOTE EXCHANGE CALLS FAILED INSIDE:::', err.toString());
-            return done(err);
-          }
-          console.log('YAY:::', result);
-          done()
-        });
+      'one!', 'two!', 'three!', function (err, result) {
+        if (err){
+          console.warn('REMOTE EXCHANGE CALLS FAILED INSIDE:::', err.toString());
+          return done(err);
+        }
+        console.log('YAY:::', result);
+        done()
+      });
     }catch(e){
       console.warn('REMOTE EXCHANGE CALLS FAILED OUTSIDE:::', e.toString());
       done(e);
@@ -217,10 +216,8 @@ describe('e2-endpoint-reconnection-insecure', function () {
 
           startRemoteMesh(function (e) {       // 5. start the remote mesh
 
-            if (e)
-              return done(e);
+            if (e) return done(e);
             //console.log('5. STARTED REMOTE MESH:::', e);
-
           });
         });
       });
