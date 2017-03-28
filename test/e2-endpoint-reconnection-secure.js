@@ -106,16 +106,20 @@ describe('e2-endpoint-reconnection-secure', function () {
 
   var testExchangeCalls = function (done) {
 
-    mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
+    try{
+      mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
       'one!', 'two!', 'three!', function (err, result) {
-
-        if (err) return done(err);
-
+        if (err){
+          console.warn('REMOTE EXCHANGE CALLS FAILED INSIDE:::', err.toString());
+          return done(err);
+        }
         console.log('YAY:::', result);
-
         done()
-
       });
+    }catch(e){
+      console.warn('REMOTE EXCHANGE CALLS FAILED OUTSIDE:::', e.toString());
+      done(e);
+    }
   };
 
   var __endpointConnectionTestDisconnected1 = false;
@@ -204,9 +208,9 @@ describe('e2-endpoint-reconnection-secure', function () {
             expect(evt.endpointConfig.config.port).to.be(PORT_REMOTE);
 
             console.log('2.6 REMOTE ENDPOINT RECONNECTED:::');
+
             testExchangeCalls(function (e) {
               console.log('2.7 EXCHANGE CALLS TESTED AFTER RESTART:::');
-
               done(e);
             });
 
@@ -214,10 +218,8 @@ describe('e2-endpoint-reconnection-secure', function () {
 
           startRemoteMesh(function (e) {       // 5. start the remote mesh
 
-            if (e)
-              return done(e);
+            if (e) return done(e);
             //console.log('5. STARTED REMOTE MESH:::', e);
-
           });
         });
       });
