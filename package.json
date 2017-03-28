@@ -10,7 +10,8 @@
   "scripts": {
     "test": "mocha silence.js test",
     "test-optimize": "mocha test/test-optimize --expose-gc",
-    "test-cover": "istanbul cover _mocha -- silence.js test"
+    "test-cover": "istanbul cover _mocha -- silence.js test",
+    "test-cover-specific": "istanbul cover _mocha -- silence.js test/e2*"
   },
   "repository": {
     "type": "git",
