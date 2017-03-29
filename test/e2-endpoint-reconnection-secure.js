@@ -6,6 +6,7 @@ describe('e2-endpoint-reconnection-secure', function () {
     , expect = require('expect.js')
     , mesh
     , Mesh = require('../')
+    , async = require('async')
   ;
 
   var libFolder = __dirname + sep + 'lib' + sep;
@@ -52,7 +53,7 @@ describe('e2-endpoint-reconnection-secure', function () {
     remote = spawn('node', [libFolder + REMOTE_MESH]);
 
     remote.stdout.on('data', function (data) {
-      
+
       if (data.toString().match(/READY/)) {
 
         clearTimeout(timedOut);
@@ -105,14 +106,38 @@ describe('e2-endpoint-reconnection-secure', function () {
   var testExchangeCalls = function (done) {
 
     try{
-      mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
-      'one!', 'two!', 'three!', function (err, result) {
-        if (err){
-          console.warn('REMOTE EXCHANGE CALLS FAILED INSIDE:::', err.toString());
-          return done(err);
+
+      var attemptCount = 0;
+      var unsuccessful = true;
+      var lastError;
+
+      async.whilst(function(){ return attemptCount < 5 && unsuccessful;}, function(whileCB){
+
+        attemptCount++;
+
+        mesh.exchange.remoteMeshE2.remoteComponent.remoteFunction(
+          'one!', 'two!', 'three!', function (err, result) {
+            if (err){
+              lastError = err;
+              console.log('failed remoteFunction', attemptCount);
+              return setTimeout(whileCB, 2000);
+            }
+            unsuccessful = false;
+            console.log('ran remoteFunction', attemptCount);
+            whileCB();
+          });
+
+      }, function(e){
+
+        if (e) lastError = e;
+
+        if (unsuccessful) {
+
+          if (lastError) return done(lastError);
+
+          return done(new Error('failed running remoteFunction', attemptCount));
         }
-        console.log('YAY:::', result);
-        done()
+        done();
       });
     }catch(e){
       console.warn('REMOTE EXCHANGE CALLS FAILED OUTSIDE:::', e.toString());
