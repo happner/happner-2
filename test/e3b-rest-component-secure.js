@@ -950,7 +950,7 @@ describe('e3b-rest-component-secure', function () {
 
   });
 
-  it('passes params as an object $restParams and injects the $userSession as the rest user', function (done) {
+  it ('passes params as an object $restParams and injects the $userSession as the rest user', function (done) {
 
     var testAdminClient = new Mesh.MeshClient({secure: true, port: 10000});
 
