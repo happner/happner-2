@@ -103,8 +103,6 @@ describe('g4-client-revoke-session', function (done) {
 
         var sessionToken = adminClient.token;
 
-        console.log('have token:::', sessionToken);
-
         doRequest('/webmethodtest/method1', sessionToken, function (err, response) {
 
           expect(response.statusCode).to.equal(200);
@@ -113,11 +111,7 @@ describe('g4-client-revoke-session', function (done) {
 
             if (e) return done(e);
 
-            console.log('disconnected???:::', e);
-
             setTimeout(function(){
-
-              console.log('disconnected - trying request:::');
 
               doRequest('/webmethodtest/method1', sessionToken, function (err, response) {
 
