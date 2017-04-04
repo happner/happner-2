@@ -224,7 +224,7 @@ based on happner 1.28.1
   
 2.9.0 2017-04-03
 -----------------
-  - happn v 1.10.0 (client revoke session)
+  - happn v 1.10.1 (client revoke session, service manager fix)
 
   
 

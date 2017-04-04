@@ -115,11 +115,7 @@ describe('g4-client-revoke-session', function (done) {
 
               doRequest('/webmethodtest/method1', sessionToken, function (err, response) {
 
-                console.log('response:::', response);
-
                 expect(response.statusCode).to.equal(403);
-
-                console.log(response.body);
 
                 done();
               });
