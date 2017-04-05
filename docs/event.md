@@ -7,8 +7,8 @@
 Events are emitted from components. Given the following `Component1` installed into the mesh as `component1`, use the injectable `$happner` api to gain access to the emitter.
 
 ```javascript
-Component1.prototype.makeSomethingHappen = function ($happner, callback) {
-  $happner.emit('something/happened', {data: 1});
+Component1.prototype.makeSomethingHappen = function ($happn, callback) {
+  $happn.emit('something/happened', {data: 1});
   callback();
 };
 ```
@@ -20,11 +20,11 @@ These events are transmitted onto the network and reach clients, remote endpoint
 Given another `Component2` in the same mesh.
 
 ```javascript
-Component2.prototype.start = function ($happner, callback) {
+Component2.prototype.start = function ($happn, callback) {
   var eventRef;
   
   // subscribe
-  $happner.event.component1.on('something/happened', // wildcards are supported
+  $happn.event.component1.on('something/happened', // wildcards are supported
     function (data, meta) {
       // handle the event
     },
@@ -38,7 +38,7 @@ Component2.prototype.start = function ($happner, callback) {
   );
   
   // unsubscribe by eventRef
-  $happner.event.component1.off(eventRef, function (error) {
+  $happn.event.component1.off(eventRef, function (error) {
     if (error) {
       // failed to unsubscribe
       return;
@@ -46,7 +46,7 @@ Component2.prototype.start = function ($happner, callback) {
   });
   
   // unsubscribe by path (unsubscribes all subscribers at path)
-  $happner.event.component1.offPath('something/happened', function (error) {
+  $happn.event.component1.offPath('something/happened', function (error) {
     if (error) {
       // failed to unsubscribe
       return;
@@ -55,7 +55,7 @@ Component2.prototype.start = function ($happner, callback) {
   
   
   // if component1 is on a remote mesh to which this has an endpoint attached
-  $happner.event.endpointName.component1...
+  $happn.event.endpointName.component1...
   
   callback();
 };
@@ -71,3 +71,7 @@ Happner.create(config)
     server.event...
   });
 ```
+
+### Usage in happner-cluster
+
+When using a [happner-cluster](https://github.com/happner/happner-cluster), events emitted with `$happn.emit()` are replicated cluster-wide. In order to emit events that remain confined within the current cluster peer and attached clients/endpoints use the special `$happn.emitLocal()` event instead.

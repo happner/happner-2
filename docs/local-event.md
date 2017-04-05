@@ -9,8 +9,8 @@ Local events can be emitted only between mesh components in the same node. These
 __These events use the standard node `EventEmitter` and do not support wildcards.__
 
 ```javascript
-Component1.prototype.makeSomethingHappen = function ($happner, callback) {
-  $happner.localEventEmitter.emit('something/happened', {data: 1});
+Component1.prototype.makeSomethingHappen = function ($happn, callback) {
+  $happn.localEventEmitter.emit('something/happened', {data: 1});
   callback();
 };
 ```
@@ -18,7 +18,7 @@ Component1.prototype.makeSomethingHappen = function ($happner, callback) {
 ### Subscribing and Unsubscribing
 
 ```javascript
-Component2.prototype.start = function ($happner, callback) {
+Component2.prototype.start = function ($happn, callback) {
   
   // subscribe
   $happner.localEvent.component1.on(
@@ -28,10 +28,10 @@ Component2.prototype.start = function ($happner, callback) {
   callback();
 };
 
-Component2.prototype.stop = function ($happner, callback) {
+Component2.prototype.stop = function ($happn, callback) {
   
   // unsubscribe
-  $happner.localEvent.component1.removeListener('something/happened', this.eventHandler);
+  $happn.localEvent.component1.removeListener('something/happened', this.eventHandler);
   
   callback();
 };
