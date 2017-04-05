@@ -1,8 +1,8 @@
-var expect = require('expect.js');
-var Happner = require('..');
-var path = require('path');
-
 describe('f8 - component versions', function () {
+
+  var expect = require('expect.js');
+  var Happner = require('..');
+  var path = require('path');
 
   var server, client;
 
@@ -77,23 +77,35 @@ describe('f8 - component versions', function () {
     expect(server.describe().components.componentName.version).to.be('3.0.0');
   });
 
+  var eventHappenedOK = false;
+
   it('includes meta componentVersion in events', function (done) {
+
+    this.timeout(5000);
 
     client.event.componentName.on('event/one', function (data, meta) {
       try {
         expect(meta.componentVersion).to.be('3.0.0');
+        eventHappenedOK = true;
         done();
+        //setTimeout(done, 2000);//wait 2 secs
       } catch (e) {
         done(e);
       }
     });
 
     client.exchange.componentName.causeEmit('event/one', function (e) {
+
+      if (eventHappenedOK && e == 'Request timed out') {
+        //this is ok, what happens here is the test moves on but the event handler has still
+        //got a timeout
+        console.warn('we already moved on to the next test - so no handler for this anymore');
+        return;
+      }
+
       if (e) return done(e);
     });
 
   });
-
-
 
 });

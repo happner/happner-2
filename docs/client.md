@@ -161,6 +161,29 @@ var client = new MeshClient(...
 
 ```
 
+### Disconnection and tokens
+*The client can willfully disconnect from the server, with an option for revoking the current session token*
+```javascript
+
+var MeshClient = require('happner').MeshClient;
+
+var client = new Happner.MeshClient({secure: true, port: 15000});
+
+client.login({username:'_ADMIN', password:'happn'})
+.then(function(){
+  //we now have a token we could use for web requests:
+  var token = client.token;
+  
+  //now we can disconnect, and revoke the token so it can never be used again:
+  //NB, NB: disconnect is not a promise - use a callback
+  client.disconnect({revokeSession:true}, function(e){
+    if (!e) console.log('disconnection went fine, we have revoked the token ' + token);
+  });
+  
+});
+
+```
+
 ### testing the browser client
 *a browser test via chai can be run from the command line:*
 ```bash
