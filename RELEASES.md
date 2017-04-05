@@ -226,5 +226,8 @@ based on happner 1.28.1
 -----------------
   - happn v 1.10.1 (client revoke session, service manager fix)
 
+2.10.0 2017-04-05
+-----------------
+  - added $happn.emitLocal() to no emit events into cluster
   
 
