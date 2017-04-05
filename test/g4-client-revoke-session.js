@@ -5,7 +5,7 @@
 // Uses unit test 2 modules
 
 
-describe('g4-client-revoke-session', function (done) {
+describe('g4-client-revoke-session', function () {
 
   this.timeout(120000);
 
@@ -84,7 +84,6 @@ describe('g4-client-revoke-session', function (done) {
     request(options, function (error, response, body) {
       callback(error,response, body);
     });
-
   }
 
   it('logs in with the admin user - we then test a call to a web-method, then disconnects with the revokeToken flag set to true, we try and reuse the token and ensure that it fails', function (done) {
@@ -99,6 +98,7 @@ describe('g4-client-revoke-session', function (done) {
     };
 
     adminClient.login(credentials)
+
       .then(function () {
 
         var sessionToken = adminClient.token;
@@ -142,6 +142,7 @@ describe('g4-client-revoke-session', function (done) {
     };
 
     adminClient.login(credentials)
+
       .then(function () {
 
         var sessionToken = adminClient.token;
