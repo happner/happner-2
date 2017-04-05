@@ -221,7 +221,10 @@ based on happner 1.28.1
 2.8.0 2017-03-31
 -----------------
   - happn v 1.9.0 (account lockout)
-
+  
+2.9.0 2017-04-03
+-----------------
+  - happn v 1.10.1 (client revoke session, service manager fix)
 
   
 
