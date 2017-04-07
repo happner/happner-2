@@ -230,4 +230,6 @@ based on happner 1.28.1
 -----------------
   - added $happn.emitLocal() to no emit events into cluster
   
-
+2.10.1 2017-04-07
+-----------------
+  - update happner-client
