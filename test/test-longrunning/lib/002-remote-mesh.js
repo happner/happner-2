@@ -1,4 +1,4 @@
-var Mesh = require('../../lib/mesh');
+var Mesh = require('../../../lib/mesh');
 
 var config = {
   name: 'remoteMesh',
@@ -8,7 +8,7 @@ var config = {
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/e3-remote-component"
+      path: __dirname + "/002-remote-component"
     }
   },
   components: {

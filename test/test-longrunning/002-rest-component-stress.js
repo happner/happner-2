@@ -1,8 +1,3 @@
-/* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
-
-var Promise = require('bluebird');
-var sep = require('path').sep;
-var spawn = require('child_process').spawn;
 module.exports = SeeAbove;
 
 function SeeAbove() {}
@@ -66,19 +61,24 @@ if (global.TESTING_REST_COMP_STRESS) return; // When 'requiring' the module abov
  * @type {expect}
  */
 
-// Uses unit test 2 modules
-var expect = require('expect.js');
-var Mesh = require('..' + sep + '..');
-var path = require('path');
-var libFolder = path.resolve('.' + sep + 'test' + sep + 'lib') + sep;
-var async = require('async');
+describe('002-rest-component-stress', function () {
 
-var REMOTE_MESH = 'e3-remote-mesh';
+  var sep = require('path').sep;
 
-describe('2-rest-component-stress', function () {
+  var spawn = require('child_process').spawn;
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  // Uses unit test 2 modules
+  var expect = require('expect.js');
+
+  var Mesh = require('..' + sep + '..');
+
+  var path = require('path');
+
+  var libFolder = __dirname + sep + 'lib' + sep;
+
+  var async = require('async');
+
+  var REMOTE_MESH = '002-remote-mesh';
 
   this.timeout(120000);
 
@@ -105,7 +105,7 @@ describe('2-rest-component-stress', function () {
         setTimeout(function(){
           callback();
         },1000);
-      }
+      } else console.log('REMOTE:::',data.toString());
     });
   };
 
@@ -162,6 +162,7 @@ describe('2-rest-component-stress', function () {
     this.timeout(30000);
 
     if (remote) remote.kill();
+
     if (mesh) mesh.stop({reconnect: false}, done);
 
   });
@@ -193,6 +194,7 @@ describe('2-rest-component-stress', function () {
     responses.map(function(response){
 
       try{
+
         expect(response.request.parameters.opts.number).to.be(response.response.data.number - 1);
       }catch(e){
         errors.push(response);
@@ -202,10 +204,35 @@ describe('2-rest-component-stress', function () {
 
     if (errors.length == 0) return done();
     else {
+      console.log(errors);
       return done(new Error('failures found in responses:::'));
     }
 
   };
+
+  it('tests N posts to the REST component in parallel', function(done){
+
+    var requests = generateRequests('PARALLEL', CONNECTIONS_COUNT);
+    var responses = [];
+    var restClient = require('restler');
+
+    async.each(requests, function(request, requestCB){
+
+      restClient.postJson('http://localhost:10000/rest/method/' + request.uri, request).on('complete', function(result){
+
+        responses.push({request:request, response:result});
+
+        requestCB();
+      });
+
+    }, function(e){
+
+      if (e) return done(e);
+
+      return verifyResponses(responses, done);
+
+    });
+  });
 
   it('tests N posts to the REST component in series', function(done){
 
@@ -231,32 +258,4 @@ describe('2-rest-component-stress', function () {
     });
 
   });
-
-  it('tests N posts to the REST component in parallel', function(done){
-
-    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
-    var responses = [];
-    var restClient = require('restler');
-
-    async.each(requests, function(request, requestCB){
-
-      restClient.postJson('http://localhost:10000/rest/method/' + request.uri, request).on('complete', function(result){
-
-        responses.push({request:request, response:result});
-
-        requestCB();
-      });
-
-    }, function(e){
-
-      if (e) return done(e);
-
-      return verifyResponses(responses, done);
-
-    });
-
-  });
-
-  require('benchmarket').stop();
-
 });

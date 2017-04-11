@@ -1,38 +1,38 @@
-var Mesh = require('../../');
-var path = require('path');
+describe('001-compact-dbfile', function () {
 
-var fs = require('fs');
+  var Mesh = require('../../');
+  var path = require('path');
 
-var test_file_call = path.resolve(__dirname, '../') + path.sep + 'temp/1-compact-dbfile-call.nedb';
-var test_file_interval = path.resolve(__dirname, '../') + path.sep + 'temp/1-compact-dbfile-interval.nedb';
+  var fs = require('fs');
 
-var expect = require('expect.js');
-var test_helper = require('../lib/test_helper');
+  var test_file_call = path.resolve(__dirname, '../') + path.sep + 'temp/1-compact-dbfile-call.nedb';
+  var test_file_interval = path.resolve(__dirname, '../') + path.sep + 'temp/1-compact-dbfile-interval.nedb';
 
-var async = require('async');
+  var expect = require('expect.js');
+  var test_helper = require('../lib/test_helper');
 
-var config_call = {
-  datalayer: {
-    port: 55006,
-    filename: test_file_call
-  },
-  components: {
-    "data": {}
-  }
-};
+  var async = require('async');
 
-var config_interval = {
-  datalayer: {
-    port: 55007,
-    filename: test_file_interval,
-    compactInterval: 10000//compact every 5 seconds
-  },
-  components: {
-    "data": {}
-  }
-};
+  var config_call = {
+    happn: {
+      port: 55006,
+      filename: test_file_call
+    },
+    components: {
+      "data": {}
+    }
+  };
 
-describe('1-compact-dbfile', function () {
+  var config_interval = {
+    happn: {
+      port: 55007,
+      filename: test_file_interval,
+      compactInterval: 10000//compact every 5 seconds
+    },
+    components: {
+      "data": {}
+    }
+  };
 
   this.timeout(30000);
   var callMeshInstance;
@@ -68,7 +68,7 @@ describe('1-compact-dbfile', function () {
   });
 
   after(function (done) {
-    test_helper.stopHappnerInstances('1-compact-dbfile', done)
+    test_helper.stopHappnerInstances('1-compact-dbfile', done);
   });
 
   it('should add and update some data, check the filesize - then call compact and check the size is smaller', function (done) {
@@ -105,7 +105,6 @@ describe('1-compact-dbfile', function () {
 
       });
     });
-
   });
 
   it('should add and update some data on the interval system, then wait for 15 seconds and check the filesize is the expected compact size', function (done) {
@@ -153,8 +152,7 @@ describe('1-compact-dbfile', function () {
         expect(fileSizeCompacted < fileSizeUncompacted).to.be(true);
         done();
 
-      }, 13000);
-
+      }, 15000);
     });
   });
 });

@@ -22,7 +22,11 @@ describe(path.basename(__filename), function () {
   }
 
   var exchangeIterations = (process.arch == 'arm') ? 100 : 1000;
+
   var allowedOverhead = 1500; // Based on tests with node 6. setImmediate introduces variation in the test result
+
+  if (process.env.INTRAVENOUS === 'yes') allowedOverhead = 3000;
+  //TODO: what about in the brain?
 
   var config = {
     name: "testComponent2Component",

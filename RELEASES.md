@@ -230,4 +230,8 @@ based on happner 1.28.1
 -----------------
   - added $happn.emitLocal() to no emit events into cluster
   
-
+2.11.0 2017-04-11
+-----------------
+  - fixed db compaction
+  - fixed long-running tests
+  - upgraded happn to 1.11.0

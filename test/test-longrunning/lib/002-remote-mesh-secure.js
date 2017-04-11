@@ -69,5 +69,3 @@ async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whil
     process.exit(1);
   }
 });
-
-
