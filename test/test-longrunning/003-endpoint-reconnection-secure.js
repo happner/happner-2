@@ -1,11 +1,11 @@
-describe('e2-endpoint-reconnection-secure', function () {
+describe('003-endpoint-reconnection-secure', function () {
 
   var spawn = require('child_process').spawn
     , sep = require('path').sep
     , remote
     , expect = require('expect.js')
     , mesh
-    , Mesh = require('../')
+    , Mesh = require('../..')
     , async = require('async')
   ;
 
@@ -21,7 +21,7 @@ describe('e2-endpoint-reconnection-secure', function () {
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
-  var REMOTE_MESH = 'e2-remote-mesh-secure';
+  var REMOTE_MESH = '003-remote-mesh-secure';
 
   var PORT_REMOTE = 3030;
   var PORT_LOCAL = 4040;

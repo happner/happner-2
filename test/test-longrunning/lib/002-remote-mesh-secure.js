@@ -1,14 +1,20 @@
-var Mesh = require('../../lib/mesh');
+var Mesh = require('../../../lib/mesh'),
+  async = require('async')
+  ;
 
 var config = {
   name: 'remoteMesh',
   happn: {
-    port: 10001
+    port: 10001,
+    authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
+    systemSecret: 'mesh',
+    secure: true,
+    adminPassword: 'guessme'
   },
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/e3-remote-component"
+      path: __dirname + "/002-remote-component"
     }
   },
   components: {
@@ -37,6 +43,7 @@ var config = {
   }
 };
 
+
 (new Mesh()).initialize(config, function (err) {
 
   if (err) {
@@ -48,3 +55,30 @@ var config = {
   console.log('READY');
 
 });
+
+// var connectCount = 0;
+// var unconnected = true;
+// var lastError;
+//
+// async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whileCB){
+//
+//   connectCount++;
+//
+//   Mesh.create(config)
+//     .then(function () {
+//       unconnected = false;
+//       console.log('READY');
+//       whileCB();
+//     })
+//     .catch(function (err) {
+//       lastError = err;
+//       setTimeout(whileCB, 2000);
+//     });
+//
+// }, function(e){
+//
+//   if (unconnected) {
+//     if (lastError) console.warn('Error starting remote:::', lastError.toString());
+//     process.exit(1);
+//   }
+// });

@@ -233,3 +233,9 @@ based on happner 1.28.1
 2.10.1 2017-04-07
 -----------------
   - update happner-client
+
+2.11.0 2017-04-11
+-----------------
+  - fixed db compaction
+  - fixed long-running tests
+  - upgraded happn to 1.11.0

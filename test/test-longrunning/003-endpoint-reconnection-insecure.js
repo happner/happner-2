@@ -1,11 +1,11 @@
-describe('e2-endpoint-reconnection-insecure', function () {
+describe('003-endpoint-reconnection-insecure', function () {
 
   var spawn = require('child_process').spawn
     , sep = require('path').sep
     , remote
     , expect = require('expect.js')
     , mesh
-    , Mesh = require('../')
+    , Mesh = require('../..')
     , async = require('async')
   ;
 
@@ -21,7 +21,7 @@ describe('e2-endpoint-reconnection-insecure', function () {
 
   var libFolder = __dirname + sep + 'lib' + sep;
 
-  var REMOTE_MESH = 'e2-remote-mesh-insecure';
+  var REMOTE_MESH = '003-remote-mesh-insecure';
 
   var PORT_REMOTE = 3030;
   var PORT_LOCAL = 4040;
@@ -48,9 +48,6 @@ describe('e2-endpoint-reconnection-insecure', function () {
   };
 
   this.timeout(120000);
-
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
 
   var startRemoteMesh = function (callback) {
 

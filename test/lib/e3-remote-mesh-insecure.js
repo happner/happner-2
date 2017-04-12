@@ -1,8 +1,6 @@
-var Mesh = require('../../lib/mesh'),
-  async = require('async')
-  ;
-
-var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
+var Mesh = require('../../lib/mesh');
+async = require('async')
+;
 
 var config = {
   name: 'remoteMesh',
@@ -10,8 +8,7 @@ var config = {
     port: 10001,
     authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
     systemSecret: 'mesh',
-    secure: true,
-    adminPassword: ADMIN_PASSWORD
+    adminPassword: 'guessme'
   },
   endpoints: {},
   modules: {
@@ -61,6 +58,7 @@ async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whil
     })
     .catch(function (err) {
       lastError = err;
+      console.log('error:::', err);
       setTimeout(whileCB, 2000);
     });
 

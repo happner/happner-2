@@ -1,4 +1,4 @@
-var Mesh = require('../../lib/mesh');
+var Mesh = require('../../../lib/mesh');
 async = require('async')
 ;
 
@@ -13,7 +13,7 @@ var config = {
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/e2-remote-component"
+      path: __dirname + "/003-remote-component"
     }
   },
   components: {
@@ -58,6 +58,7 @@ async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whil
     })
     .catch(function (err) {
       lastError = err;
+      console.log('error:::', err);
       setTimeout(whileCB, 2000);
     });
 

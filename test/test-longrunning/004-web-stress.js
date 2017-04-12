@@ -59,26 +59,23 @@ SeeAbove.prototype.$happner = {
 };
 
 
-if (global.TESTING_REST_COMP_STRESS) return; // When 'requiring' the module above,
+if (global.TESTING_WEB_STRESS) return; // When 'requiring' the module above,
 
 /**
  * Simon Bishop
  * @type {expect}
  */
 
-// Uses unit test 2 modules
-var expect = require('expect.js');
-var Mesh = require('..' + sep + '..');
-var path = require('path');
-var libFolder = path.resolve('.' + sep + 'test' + sep + 'lib') + sep;
-var async = require('async');
+describe('004-web-stress', function () {
 
-var REMOTE_MESH = 'e3-remote-mesh';
+  // Uses unit test 2 modules
+  var expect = require('expect.js');
+  var Mesh = require('..' + sep + '..');
+  var path = require('path');
+  var libFolder = __dirname + sep + 'lib' + sep;
+  var async = require('async');
 
-describe('2-rest-component-stress', function () {
-
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  var REMOTE_MESH = '004-remote-mesh.js';
 
   this.timeout(120000);
 
@@ -105,31 +102,20 @@ describe('2-rest-component-stress', function () {
         setTimeout(function(){
           callback();
         },1000);
-      }
+      } else console.log('REMOTE:::',data.toString());
     });
   };
 
   before(function (done) {
 
-    global.TESTING_REST_COMP_STRESS = true; //.............
+    global.TESTING_WEB_STRESS = true; //.............
 
     startRemoteMesh(function(e){
 
       if (e) return done(e);
 
       Mesh.create({
-        port: 10000,
-        util: {
-          // logger: {}
-        },
-        modules: {
-          'testComponent': {
-            path: __filename   // .............
-          }
-        },
-        components: {
-          'testComponent': {}
-        },
+        port: 55011,
         endpoints:{
           'remoteMesh': {  // remote mesh node
             reconnect:{
@@ -137,23 +123,19 @@ describe('2-rest-component-stress', function () {
               retries:100
             },
             config: {
-              port: 10001,
+              port: 55010,
               host: 'localhost'
             }
           }
         }
       }, function (err, instance) {
 
-        delete global.TESTING_REST_COMP_STRESS; //.............
+        delete global.TESTING_WEB_STRESS; //.............
         mesh = instance;
 
         if (err) return done(err);
-        mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one','two','three', function(err, result){
-          if (err) return done(err);
-          done();
-        });
+        done();
       });
-
     });
   });
 
@@ -173,7 +155,7 @@ describe('2-rest-component-stress', function () {
 
     for (var i = 0;i < count; i++){
       var operation = {
-        uri:'testComponent/method1',
+        uri:'/test',
         parameters:{
           'opts':{'number':i},
           'key':testKey
@@ -190,49 +172,37 @@ describe('2-rest-component-stress', function () {
 
     var errors = [];
 
+    var verifications = 0;
+
     responses.map(function(response){
 
       try{
-        expect(response.request.parameters.opts.number).to.be(response.response.data.number - 1);
+        //expect(response.request.parameters.opts.number).to.be(response.response.data.number - 1);
+        console.log('___parsing:::');
+        console.log(response.response);
+        console.log('___parsed:::');
+
+        if (response.response.toString().indexOf('ECONNRESET') > -1) throw new Error(response.response.Error);
+
+        verifications++;
       }catch(e){
         errors.push(response);
       }
 
     });
 
-    if (errors.length == 0) return done();
+    if (errors.length == 0){
+      console.log(verifications + ' verified');
+      return done();
+    }
     else {
+      console.log(errors);
       return done(new Error('failures found in responses:::'));
     }
 
   };
 
-  it('tests N posts to the REST component in series', function(done){
-
-    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
-    var responses = [];
-    var restClient = require('restler');
-
-    async.eachSeries(requests, function(request, requestCB){
-
-      restClient.postJson('http://localhost:10000/rest/method/' + request.uri, request).on('complete', function(result){
-
-        responses.push({request:request, response:result});
-
-        requestCB();
-      });
-
-    }, function(e){
-
-      if (e) return done(e);
-
-      return verifyResponses(responses, done);
-
-    });
-
-  });
-
-  it('tests N posts to the REST component in parallel', function(done){
+  it('tests N posts to the WEB component in parallel', function(done){
 
     var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
     var responses = [];
@@ -240,7 +210,7 @@ describe('2-rest-component-stress', function () {
 
     async.each(requests, function(request, requestCB){
 
-      restClient.postJson('http://localhost:10000/rest/method/' + request.uri, request).on('complete', function(result){
+      restClient.postJson('http://localhost:55010' + request.uri, request).on('complete', function(result){
 
         responses.push({request:request, response:result});
 
@@ -254,9 +224,29 @@ describe('2-rest-component-stress', function () {
       return verifyResponses(responses, done);
 
     });
-
   });
 
-  require('benchmarket').stop();
+  it('tests N posts to the WEB component in series', function(done){
 
+    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
+    var responses = [];
+    var restClient = require('restler');
+
+    async.eachSeries(requests, function(request, requestCB){
+
+      restClient.postJson('http://localhost:55010' + request.uri, request).on('complete', function(result){
+
+        responses.push({request:request, response:result});
+
+        requestCB();
+      });
+
+    }, function(e){
+
+      if (e) return done(e);
+
+      return verifyResponses(responses, done);
+
+    });
+  });
 });

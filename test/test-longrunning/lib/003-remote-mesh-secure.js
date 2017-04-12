@@ -1,4 +1,4 @@
-var Mesh = require('../../lib/mesh'),
+var Mesh = require('../../../lib/mesh'),
   async = require('async')
   ;
 
@@ -9,12 +9,12 @@ var config = {
     authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
     systemSecret: 'mesh',
     secure: true,
-    adminPassword: 'guessme',
+    adminPassword: 'guessme'
   },
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/e2-remote-component"
+      path: __dirname + "/003-remote-component"
     }
   },
   components: {
@@ -69,5 +69,3 @@ async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whil
     process.exit(1);
   }
 });
-
-

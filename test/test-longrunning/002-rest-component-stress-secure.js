@@ -65,25 +65,29 @@ if (global.TESTING_REST_COMP_STRESS_SECURE) return; // When 'requiring' the modu
  * Simon Bishop
  * @type {expect}
  */
+describe('002-rest-component-stress-secure', function () {
 
-// Uses unit test 2 modules
-var expect = require('expect.js');
-var Mesh = require('..' + sep + '..');
-var path = require('path');
-var libFolder = path.resolve('.' + sep + 'test' + sep + 'lib') + sep;
-var async = require('async');
+  var sep = require('path').sep;
 
-//var REMOTE_MESH = 'e2-remote-mesh';
-var REMOTE_MESH = 'e3-remote-mesh-secure';
+  var spawn = require('child_process').spawn;
 
-describe('2-rest-component-stress-secure', function () {
+  // Uses unit test 2 modules
+  var expect = require('expect.js');
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
+  var Mesh = require('..' + sep + '..');
+
+  var path = require('path');
+
+  var libFolder = __dirname + sep + 'lib' + sep;
+
+  var async = require('async');
+
+  var REMOTE_MESH = '002-remote-mesh-secure';
 
   this.timeout(120000);
 
   var mesh;
+
   var remote;
 
   var startRemoteMesh = function(callback){
@@ -120,7 +124,7 @@ describe('2-rest-component-stress-secure', function () {
 
       Mesh.create({
         name:'e3b-test',
-        datalayer:{
+        happn:{
           secure:true,
           adminPassword: 'happn',
           port: 10000
@@ -140,7 +144,7 @@ describe('2-rest-component-stress-secure', function () {
               port: 10001,
               host: 'localhost',
               username:'_ADMIN',
-              password:'happn'
+              password:'guessme'
             }
           }
         }
@@ -163,12 +167,19 @@ describe('2-rest-component-stress-secure', function () {
 
     this.timeout(30000);
 
-    if (remote) remote.kill();
-    if (mesh) mesh.stop({reconnect: false}, done);
+    var completeDisconnect = function(){
+      if (remote) remote.kill();
+      done();
+    };
 
+    if (mesh) return mesh.stop({reconnect: false}, completeDisconnect);
+
+    completeDisconnect();
   });
 
   var CONNECTIONS_COUNT = 1000;
+
+  var OPERATIONS_COUNT = 10000;
 
   var generateRequests = function(testKey, count){
     var requests = [];
@@ -260,7 +271,6 @@ describe('2-rest-component-stress-secure', function () {
       if (result.error) return done(new Error(result.error.message));
       done(null, result);
     });
-
   };
 
   it('tests N logins to the REST component, in series', function(done){
@@ -297,7 +307,7 @@ describe('2-rest-component-stress-secure', function () {
 
   });
 
-  it('tests N logins to the REST component, in paralel', function(done){
+  xit('tests N logins to the REST component, in parallel', function(done){
 
     if (CONNECTIONS_COUNT > 1000) this.timeout(500000);
 
@@ -333,13 +343,20 @@ describe('2-rest-component-stress-secure', function () {
 
   it('tests N posts to the REST component in series', function(done){
 
-    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
+    var requests = generateRequests('SERIES', OPERATIONS_COUNT);
     var responses = [];
     var restClient = require('restler');
+
+    console.log('doing ' + OPERATIONS_COUNT + ' operations');
+
+    var started = Date.now();
 
     login(function(e, response){
 
       if (e) return done(e);
+
+      console.log('response:::', response);
+
       var token = response.data.token;
 
       async.eachSeries(requests, function(request, requestCB){
@@ -355,17 +372,25 @@ describe('2-rest-component-stress-secure', function () {
 
         if (e) return done(e);
 
-        return verifyResponses(responses, done);
+        var timespan = Date.now() - started;
 
+        return verifyResponses(responses, function(e){
+
+          if (e) return done(e);
+
+          console.log('completed ' + OPERATIONS_COUNT + ' operations in ' + timespan.toString() + ' milliseconds');
+
+          console.log(((timespan / OPERATIONS_COUNT) * 1000).toString() + ' operations per second');
+
+          done();
+        });
       });
-
     });
-
   });
 
-  it('tests N posts to the REST component in parallel', function(done){
+  xit('tests N posts to the REST component in parallel', function(done){
 
-    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
+    var requests = generateRequests('PARALLEL', CONNECTIONS_COUNT);
     var responses = [];
     var restClient = require('restler');
 
@@ -376,7 +401,7 @@ describe('2-rest-component-stress-secure', function () {
 
       async.each(requests, function(request, requestCB){
 
-        restClient.postJson('http://localhost:10000/rest/method/' + request.uri + '?happn_token=' + token, request).on('complete', function(result){
+        restClient.postJson('http://localhost:10001/rest/method/' + request.uri + '?happn_token=' + token, request).on('complete', function(result){
 
           responses.push({request:request, response:result});
 
@@ -392,7 +417,5 @@ describe('2-rest-component-stress-secure', function () {
       });
     });
   });
-
-  require('benchmarket').stop();
 
 });
