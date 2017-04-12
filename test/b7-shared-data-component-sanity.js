@@ -1,4 +1,4 @@
-describe('b7 - shared data component', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

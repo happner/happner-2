@@ -1,4 +1,4 @@
-describe('f8 - component versions', function () {
+describe(require('path').basename(__filename), function () {
 
   var expect = require('expect.js');
   var Happner = require('..');

@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var Happner = require('..');
 
-describe('g2 - local events', function () {
+describe(require('path').basename(__filename), function () {
 
   var server;
 

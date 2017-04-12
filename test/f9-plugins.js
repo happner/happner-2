@@ -1,7 +1,7 @@
 var expect = require('expect.js');
 var Happner = require('..');
 
-describe('f9 - plugins', function () {
+describe(require('path').basename(__filename), function () {
 
   var server, stoppedServer;
 

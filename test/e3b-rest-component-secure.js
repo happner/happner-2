@@ -70,7 +70,7 @@ SeeAbove.prototype.$happner = {
 
 if (global.TESTING_E3B) return; // When 'requiring' the module above,
 
-describe('e3b-rest-component-secure', function () {
+describe(require('path').basename(__filename), function () {
 
   /**
    * Simon Bishop

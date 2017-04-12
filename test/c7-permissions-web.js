@@ -5,7 +5,7 @@
 // Uses unit test 2 modules
 
 
-describe('c7-permissions-web', function (done) {
+describe(require('path').basename(__filename), function (done) {
 
   this.timeout(120000);
 

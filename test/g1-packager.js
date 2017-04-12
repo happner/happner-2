@@ -11,7 +11,7 @@ var request = require('request');
 var Promise = require('bluebird');
 var md5 = require('md5');
 
-describe('g1 - plugins', function () {
+describe(require('path').basename(__filename), function () {
 
   var server;
   var previousEnv = process.env.NODE_ENV;

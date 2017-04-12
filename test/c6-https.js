@@ -1,4 +1,4 @@
-describe('c6 - https', function (done) {
+describe(require('path').basename(__filename), function (done) {
 
   this.timeout(120000);
 

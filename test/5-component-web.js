@@ -6,7 +6,7 @@ var Mesh = require('../');
 var mesh;
 
 
-describe('5 - Demonstrates the middleware functionality', function (done) {
+describe(require('path').basename(__filename), function (done) {
 ///events/testComponent2Component/component1/maximum-pings-reached
 ///events/testComponent2Component/component1/maximum-pings-reached
 

@@ -13,7 +13,7 @@ if (global.TESTING_D1 || global.TESTING_D1_1) return; // When 'requiring' the mo
 // don't run the tests below
 //.............
 
-describe('d1-session-injection', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

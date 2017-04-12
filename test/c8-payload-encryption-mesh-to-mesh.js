@@ -1,4 +1,4 @@
-describe('c8-payload-encryption', function () {
+describe(require('path').basename(__filename), function () {
 
   // cannot do mocha test/4-mesh-to-mesh.js --watch
   // address already in use for 2nd... runs

@@ -1,4 +1,4 @@
-describe('d5-connection-changes-events', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
   //

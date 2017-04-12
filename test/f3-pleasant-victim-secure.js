@@ -1,6 +1,6 @@
 /* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
 
-describe('f3-pleasant-victim-secure', function () {
+describe(require('path').basename(__filename), function () {
 
   /**
    * Simon Bishop

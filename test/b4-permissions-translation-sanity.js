@@ -55,7 +55,7 @@ var adminClient = new Mesh.MeshClient({secure: true});
 var test_id = Date.now() + '_' + require('shortid').generate();
 var async = require('async');
 
-describe('b4 - component start and validation -', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

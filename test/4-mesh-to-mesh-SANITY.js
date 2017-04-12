@@ -1,4 +1,4 @@
-describe('4 - Mesh to Mesh', function () {
+describe(require('path').basename(__filename), function () {
 
   var spawn = require('child_process').spawn
     , sep = require('path').sep

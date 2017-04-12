@@ -1,4 +1,4 @@
-describe('d6_shareddata_metadata', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 
@@ -15,7 +15,7 @@ describe('d6_shareddata_metadata', function () {
   var meshInstance;
 
   before(function (done) {
-    
+
     test_helper.startHappnerInstance('d6_shareddata_metadata', {
       name: 'd6_shareddata_metadata',
       happn: {

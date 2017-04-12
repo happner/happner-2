@@ -37,7 +37,7 @@ var expect = require('expect.js');
 var Happner = require('../');
 var mesh;
 
-describe('c9-payload-encryption-client-to-mesh', function () {
+describe(require('path').basename(__filename), function () {
 
   /*
    * Note: also tests that args arrive in the called sequence.

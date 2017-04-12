@@ -1,4 +1,4 @@
-describe('b6 - start meshes', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

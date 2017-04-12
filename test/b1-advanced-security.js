@@ -1,7 +1,7 @@
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
 
-describe('b1 - advanced security', function (done) {
+describe(require('path').basename(__filename), function (done) {
 
   //require('benchmarket').start();
 

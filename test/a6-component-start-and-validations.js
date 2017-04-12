@@ -35,7 +35,7 @@ var should = require('chai').should();
 var mesh;
 var Mesh = require('../');
 
-describe('a6 - component start and validation -', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

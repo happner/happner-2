@@ -1,9 +1,9 @@
-describe('b2 - secure mesh to mesh', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());
 
-  context('on remote mesh', function () {
+  context('secure mesh to mesh fails', function () {
 
     var spawn = require('child_process').spawn
       , sep = require('path').sep
@@ -26,7 +26,7 @@ describe('b2 - secure mesh to mesh', function () {
           config: {
             port: 51234,
             username: '_ADMIN',
-            password: 'testb2' // TODO This was necessary, did not default
+            password: 'thispasswordwontwork' // TODO This was necessary, did not default
           }
         }
       },
@@ -34,63 +34,47 @@ describe('b2 - secure mesh to mesh', function () {
       components: {}
     };
 
+    after(function (done) {
+      remote.kill();
+      mesh.stop({reconnect: false}, function (e) {
+        // console.log('killed ok 1:::', remote.pid);
+        done();
+      });
+    });
+
     this.timeout(120000);
 
-    before(function (done) {
+    it("cannot connect endpoint - mesh start fails", function (done) {
 
       var _this = this;
 
       // spawn remote mesh in another process
-      remote = spawn('node', [libFolder + 'b2-first-mesh']);
+      remote = spawn('node', [libFolder + 'b3-first-mesh']);
 
       remote.stdout.on('data', function (data) {
 
         // console.log(data.toString());
+
         if (data.toString().match(/READY/)) {
 
-          // console.log('remote ready:::', remote.pid);
+          // console.log('remote ready 1:::', remote.pid);
 
           mesh = new Mesh();
 
           // console.log('starting this one', mesh, config);
           // mesh.initialize(config, function(err) {
           mesh.initialize(config, function (e) {
-            done(e);
+
+            if (!e) return done(new Error('this should not have been possible'));
+
+            assert(e.toString() == 'AccessDenied: Invalid credentials');
+
+            done();
+
           });
         }
 
       });
-    });
-
-
-    after(function (done) {
-      remote.kill();
-      mesh.stop({reconnect: false}, function (e) {
-        // console.log('killed ok:::', remote.pid);
-        done();
-      });
-    });
-
-    it("can call remote component function", function (done) {
-
-      mesh.exchange.remoteMesh.remoteComponent.remoteFunction(
-        'one!', 'two!', 'three!', function (err, res) {
-
-          assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
-          done()
-
-        });
-    });
-
-    it('we know when there was an accident', function (done) {
-
-      mesh.exchange.remoteMesh.remoteComponent.causeError(function (err, res) {
-
-        assert(err.toString().match(/ErrorType: Error string/))
-        done();
-
-      });
-
     });
 
   });

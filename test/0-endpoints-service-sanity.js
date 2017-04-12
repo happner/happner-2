@@ -1,4 +1,4 @@
-describe('0-endpoint-service', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

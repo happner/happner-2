@@ -1,4 +1,4 @@
-describe('d3-permission-changes', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

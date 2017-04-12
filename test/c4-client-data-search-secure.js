@@ -1,4 +1,4 @@
-describe('c4 - client data search secure', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

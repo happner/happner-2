@@ -1,7 +1,7 @@
 var should = require('chai').should();
 var Mesh = require('../');
 
-describe('3 - Multiple component initialization', function () {
+describe(require('path').basename(__filename), function () {
 
   var mesh;
 

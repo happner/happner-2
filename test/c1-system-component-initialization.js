@@ -1,4 +1,4 @@
-describe('c1 - security layer should be initialized before user components are started', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

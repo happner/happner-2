@@ -1,4 +1,4 @@
-describe('7 - start and stop a persisted mesh', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

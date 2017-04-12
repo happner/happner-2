@@ -1,4 +1,4 @@
-describe('2 - Bounces a message between two components, demonstrates how the events layer works', function (done) {
+describe(require('path').basename(__filename), function (done) {
 
   this.timeout(120000);
 

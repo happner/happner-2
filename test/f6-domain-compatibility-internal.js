@@ -3,7 +3,7 @@ var Happner = require('../');
 var Promise = require('bluebird');
 var expect = require('expect.js');
 
-describe('f6 - domain compatibility endpoint', function () {
+describe(require('path').basename(__filename), function () {
 
   function test (secure) {
 

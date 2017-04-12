@@ -1,4 +1,4 @@
-describe('1 - Consumes an external module', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

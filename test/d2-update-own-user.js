@@ -13,7 +13,7 @@ TestMesh.prototype.method1 = function ($happn, options, callback) {
 if (global.TESTING_D2) return; // When 'requiring' the module above,
 // don't run the tests below
 //.............
-describe('d2-update-own-user', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

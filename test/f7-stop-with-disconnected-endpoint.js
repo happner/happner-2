@@ -1,6 +1,6 @@
 var Happner = require('../');
 
-describe('f7 - stop with disconnected endpoint', function () {
+describe(require('path').basename(__filename), function () {
 
   var local, remote;
 

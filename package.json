@@ -11,6 +11,7 @@
     "test": "mocha silence.js test",
     "test-longrunning":"node test/test-longrunning/serial-run.js",
     "test-browser":"gulp --gulpfile test/test-browser/gulp-01.js",
+    "test-sanity":"mocha test/**sanity.js",
     "test-optimize": "mocha test/test-optimize --expose-gc",
     "test-cover": "istanbul cover _mocha -- silence.js test",
     "test-cover-specific": "istanbul cover _mocha test/e2*"

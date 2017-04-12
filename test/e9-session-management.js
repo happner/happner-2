@@ -1,4 +1,4 @@
-describe('e9_session_management', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //

@@ -63,7 +63,7 @@ SeeAbove.prototype.$happner = {
 
 if (global.TESTING_E9) return; // When 'requiring' the module above,
 
-describe('e3a-rest-component', function () {
+describe(require('path').basename(__filename), function () {
 
   /**
    * Simon Bishop

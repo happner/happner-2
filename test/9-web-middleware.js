@@ -1,7 +1,7 @@
 /**
  * Created by Johan on 10/14/2015.
  */
-describe('9 - web middleware', function (done) {
+describe(require('path').basename(__filename), function (done) {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

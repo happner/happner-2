@@ -2,7 +2,7 @@
 var expect = require('expect.js');
 var Mesh = require('../');
 
-describe('9-stop-mesh', function (done) {
+describe(require('path').basename(__filename), function (done) {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

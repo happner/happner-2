@@ -14,7 +14,7 @@ if (global.TESTING_D9 || global.TESTING_D9_1) return; // When 'requiring' the mo
 // don't run the tests below
 //.............
 
-describe('d9-client-timeout', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

@@ -17,7 +17,7 @@ var config = {
   }
 };
 
-describe('d7 - Issue #113 - Event off by handle', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(10000);
   var mesh;

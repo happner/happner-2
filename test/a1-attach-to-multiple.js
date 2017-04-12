@@ -1,4 +1,4 @@
-describe('a1 - attach to multiple meshes (meshs?)', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

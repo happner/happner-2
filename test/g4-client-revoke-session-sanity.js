@@ -5,7 +5,7 @@
 // Uses unit test 2 modules
 
 
-describe('g4-client-revoke-session', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

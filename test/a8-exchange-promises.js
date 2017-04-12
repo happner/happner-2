@@ -110,7 +110,7 @@ if (global.TESTING_18) return; // When 'requiring' the module above,
 //.............
 var should = require('chai').should();
 
-describe('a8 - exchange supports promises', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

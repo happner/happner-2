@@ -1,4 +1,4 @@
-describe('f2-client-disconnection', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

@@ -62,7 +62,7 @@ SeeAbove.prototype.$happner = {
 
 if (global.TESTING_E8) return; // When 'requiring' the module above,
 
-describe('e8-session-tokens', function () {
+describe(require('path').basename(__filename), function () {
 
   /**
    * Simon Bishop

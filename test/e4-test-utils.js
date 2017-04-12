@@ -1,6 +1,6 @@
 var expect = require('expect.js');
 
-describe('e3-test-utils', function () {
+describe(require('path').basename(__filename), function () {
 
   it('tests getting function parameters', function(done){
     var utils = require('../lib/system/utilities');

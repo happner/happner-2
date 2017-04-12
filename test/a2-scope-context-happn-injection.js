@@ -1,4 +1,4 @@
-describe('a2 - mesh awareness via $happn injection', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

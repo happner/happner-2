@@ -29,7 +29,7 @@ if (global.TESTING_C5) return; // When 'requiring' the module above,
 //.............
 
 
-describe('c5 - multiple exchange calls', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

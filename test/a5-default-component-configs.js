@@ -44,7 +44,7 @@ var request = require('request');
 var mesh;
 var Mesh = require('../');
 
-describe('a5 - default component configs', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //after(//require('benchmarket').store());

@@ -5,7 +5,7 @@
 // Uses unit test 2 modules
 
 
-describe('e7-origin-web', function (done) {
+describe(require('path').basename(__filename), function (done) {
 
   this.timeout(120000);
 

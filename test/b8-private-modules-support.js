@@ -13,7 +13,7 @@ describe('b8 - private module support', function () {
   //   Mesh = require('../');
   // });
 
-  it('generates the necessary element defn from component name', function (done) {
+  it(require('path').basename(__filename), function (done) {
 
     var startingConfig = {
       modules: {},

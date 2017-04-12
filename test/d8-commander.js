@@ -1,4 +1,4 @@
-describe('d8 commander checks', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(10000);
 

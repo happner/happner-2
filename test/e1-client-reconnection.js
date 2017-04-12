@@ -1,4 +1,4 @@
-describe('e1-client-reconnection', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 

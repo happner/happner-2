@@ -1,4 +1,4 @@
-describe('f1-happn-layer-middleware', function () {
+describe(require('path').basename(__filename), function () {
 
   //require('benchmarket').start();
   //

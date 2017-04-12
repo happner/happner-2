@@ -5,7 +5,7 @@ var OldHappner = require('happner');
 var Happner = require('../');
 var expect = require('expect.js');
 
-describe('f5 - domain compatibility client', function () {
+describe(require('path').basename(__filename), function () {
 
   context('insecure', function () {
 

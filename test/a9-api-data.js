@@ -1,4 +1,4 @@
-describe('a9 - passes data between component APIs, also works with events', function (done) {
+describe(require('path').basename(__filename), function (done) {
 ///events/testComponent2Component/component1/maximum-pings-reached
 ///events/testComponent2Component/component1/maximum-pings-reached
 
