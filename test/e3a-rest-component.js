@@ -79,10 +79,7 @@ describe('e3a-rest-component', function () {
   var libFolder = __dirname + sep + 'lib' + sep;
 
   //var REMOTE_MESH = 'e2-remote-mesh';
-  var REMOTE_MESH = 'e3-remote-mesh';
-
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
+  var REMOTE_MESH = 'e3-remote-mesh-insecure.js';
 
   this.timeout(120000);
 

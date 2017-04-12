@@ -1,6 +1,8 @@
-var Mesh = require('../../../lib/mesh'),
+var Mesh = require('../../lib/mesh'),
   async = require('async')
   ;
+
+var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
 
 var config = {
   name: 'remoteMesh',
@@ -9,12 +11,12 @@ var config = {
     authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
     systemSecret: 'mesh',
     secure: true,
-    adminPassword: 'guessme'
+    adminPassword: ADMIN_PASSWORD
   },
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/002-remote-component"
+      path: __dirname + "/e3-remote-component"
     }
   },
   components: {
@@ -43,42 +45,29 @@ var config = {
   }
 };
 
+var connectCount = 0;
+var unconnected = true;
+var lastError;
 
-(new Mesh()).initialize(config, function (err) {
+async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whileCB){
 
-  if (err) {
-    console.log(err);
-    process.exit(err.code || 1);
-    return;
+  connectCount++;
+
+  Mesh.create(config)
+    .then(function () {
+      unconnected = false;
+      console.log('READY');
+      whileCB();
+    })
+    .catch(function (err) {
+      lastError = err;
+      setTimeout(whileCB, 2000);
+    });
+
+}, function(e){
+
+  if (unconnected) {
+    if (lastError) console.warn('Error starting remote:::', lastError.toString());
+    process.exit(1);
   }
-
-  console.log('READY');
-
 });
-
-// var connectCount = 0;
-// var unconnected = true;
-// var lastError;
-//
-// async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whileCB){
-//
-//   connectCount++;
-//
-//   Mesh.create(config)
-//     .then(function () {
-//       unconnected = false;
-//       console.log('READY');
-//       whileCB();
-//     })
-//     .catch(function (err) {
-//       lastError = err;
-//       setTimeout(whileCB, 2000);
-//     });
-//
-// }, function(e){
-//
-//   if (unconnected) {
-//     if (lastError) console.warn('Error starting remote:::', lastError.toString());
-//     process.exit(1);
-//   }
-// });

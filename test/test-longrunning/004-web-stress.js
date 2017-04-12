@@ -225,4 +225,28 @@ describe('004-web-stress', function () {
 
     });
   });
+
+  it('tests N posts to the WEB component in series', function(done){
+
+    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
+    var responses = [];
+    var restClient = require('restler');
+
+    async.eachSeries(requests, function(request, requestCB){
+
+      restClient.postJson('http://localhost:55010' + request.uri, request).on('complete', function(result){
+
+        responses.push({request:request, response:result});
+
+        requestCB();
+      });
+
+    }, function(e){
+
+      if (e) return done(e);
+
+      return verifyResponses(responses, done);
+
+    });
+  });
 });

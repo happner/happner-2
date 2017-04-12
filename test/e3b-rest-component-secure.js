@@ -78,20 +78,19 @@ describe('e3b-rest-component-secure', function () {
    */
 
   var sep = require('path').sep;
+
   var spawn = require('child_process').spawn;
 
   // Uses unit test 2 modules
   var expect = require('expect.js');
+
   var Mesh = require('../');
+
   var libFolder = __dirname + sep + 'lib' + sep;
 
-  //var REMOTE_MESH = 'e2-remote-mesh';
-  var REMOTE_MESH = 'e3-remote-mesh-secure';
+  var REMOTE_MESH = 'e3-remote-mesh-secure.js';
 
   var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
-
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
 
   this.timeout(120000);
 
@@ -155,7 +154,7 @@ describe('e3b-rest-component-secure', function () {
                 port: 10001,
                 host: 'localhost',
                 username: '_ADMIN',
-                password: 'happn'
+                password: ADMIN_PASSWORD
               }
             }
           }

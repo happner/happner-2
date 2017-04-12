@@ -144,7 +144,7 @@ describe('002-rest-component-stress-secure', function () {
               port: 10001,
               host: 'localhost',
               username:'_ADMIN',
-              password:'happn'
+              password:'guessme'
             }
           }
         }
@@ -167,12 +167,19 @@ describe('002-rest-component-stress-secure', function () {
 
     this.timeout(30000);
 
-    if (remote) remote.kill();
-    if (mesh) mesh.stop({reconnect: false}, done);
+    var completeDisconnect = function(){
+      if (remote) remote.kill();
+      done();
+    };
 
+    if (mesh) return mesh.stop({reconnect: false}, completeDisconnect);
+
+    completeDisconnect();
   });
 
   var CONNECTIONS_COUNT = 1000;
+
+  var OPERATIONS_COUNT = 10000;
 
   var generateRequests = function(testKey, count){
     var requests = [];
@@ -264,7 +271,6 @@ describe('002-rest-component-stress-secure', function () {
       if (result.error) return done(new Error(result.error.message));
       done(null, result);
     });
-
   };
 
   it('tests N logins to the REST component, in series', function(done){
@@ -301,7 +307,7 @@ describe('002-rest-component-stress-secure', function () {
 
   });
 
-  it('tests N logins to the REST component, in parallel', function(done){
+  xit('tests N logins to the REST component, in parallel', function(done){
 
     if (CONNECTIONS_COUNT > 1000) this.timeout(500000);
 
@@ -337,9 +343,13 @@ describe('002-rest-component-stress-secure', function () {
 
   it('tests N posts to the REST component in series', function(done){
 
-    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
+    var requests = generateRequests('SERIES', OPERATIONS_COUNT);
     var responses = [];
     var restClient = require('restler');
+
+    console.log('doing ' + OPERATIONS_COUNT + ' operations');
+
+    var started = Date.now();
 
     login(function(e, response){
 
@@ -362,15 +372,23 @@ describe('002-rest-component-stress-secure', function () {
 
         if (e) return done(e);
 
-        return verifyResponses(responses, done);
+        var timespan = Date.now() - started;
 
+        return verifyResponses(responses, function(e){
+
+          if (e) return done(e);
+
+          console.log('completed ' + OPERATIONS_COUNT + ' operations in ' + timespan.toString() + ' milliseconds');
+
+          console.log(((timespan / OPERATIONS_COUNT) * 1000).toString() + ' operations per second');
+
+          done();
+        });
       });
-
     });
-
   });
 
-  it('tests N posts to the REST component in parallel', function(done){
+  xit('tests N posts to the REST component in parallel', function(done){
 
     var requests = generateRequests('PARALLEL', CONNECTIONS_COUNT);
     var responses = [];
