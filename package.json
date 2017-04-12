@@ -9,6 +9,8 @@
   },
   "scripts": {
     "test": "mocha silence.js test",
+    "test-longrunning":"node test/test-longrunning/serial-run.js",
+    "test-browser":"gulp --gulpfile test/test-browser/gulp-01.js",
     "test-optimize": "mocha test/test-optimize --expose-gc",
     "test-cover": "istanbul cover _mocha -- silence.js test",
     "test-cover-specific": "istanbul cover _mocha test/e2*"
@@ -31,7 +33,7 @@
     "gulp": "^3.9.0",
     "happn-util-crypto": "0.2.3",
     "happner": "^1.29.5",
-    "happner-serial-mocha": "1.3.0",
+    "happner-serial-mocha": "1.5.2",
     "happner-test-modules": "^1.0.0",
     "istanbul": "^0.4.1",
     "karma": "^0.13.15",
