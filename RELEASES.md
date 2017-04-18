@@ -239,3 +239,8 @@ based on happner 1.28.1
   - fixed db compaction
   - fixed long-running tests
   - upgraded happn to 1.11.0
+
+2.11.1 2017-04-18
+-----------------
+  - onward release of happn-3
+
