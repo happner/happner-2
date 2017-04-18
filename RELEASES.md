@@ -247,3 +247,7 @@ based on happner 1.28.1
 2.11.2 2017-04-18
 -----------------
   - onward release of happner-client
+  
+2.11.3 2017-04-19
+-----------------
+  - issue-43 - Fix rest for mesh with domain
