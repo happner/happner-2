@@ -244,3 +244,6 @@ based on happner 1.28.1
 -----------------
   - onward release of happn-3
 
+2.11.2 2017-04-18
+-----------------
+  - onward release of happner-client
