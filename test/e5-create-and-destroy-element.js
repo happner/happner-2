@@ -602,7 +602,7 @@ describe(filename, function () {
 
     var client = new Happner.MeshClient();
 
-    return mesh._createElement({
+    mesh._createElement({
       module: {
         name: 'component4',
         config: {

@@ -270,7 +270,7 @@ describe(require('path').basename(__filename), function () {
   });
 
 
-  it('calls multiple components on multiple modules on multiple meshes', function (done) {
+  it('calls multiple components on multiple modules on multiple meshes', function () {
     // ensure each module call got $happn correctly
     var meshes = this.meshes;
     var componentNo = this.componentNo;
@@ -411,9 +411,8 @@ describe(require('path').basename(__filename), function () {
         'mesh9.component8': [{mesh: 9, component: 8}, {mesh: 9, component: 8}],
         'mesh9.component9': [{mesh: 9, component: 9}, {mesh: 9, component: 9}]
       });
-      done();
 
-    }).catch(done);
+    });
   });
 
   it('injects happn into first position', function (done) {
