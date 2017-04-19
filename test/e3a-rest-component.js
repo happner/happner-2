@@ -34,10 +34,10 @@ SeeAbove.prototype.method3 = function ($happn, $origin, opts, callback) {
 
 SeeAbove.prototype.method4 = function ($happn, $origin, number, another, callback) {
 
-  callback(null, {product:parseInt(number) + parseInt(another)});
+  callback(null, {product: parseInt(number) + parseInt(another)});
 };
 
-SeeAbove.prototype.synchronousMethod = function(opts, opts2){
+SeeAbove.prototype.synchronousMethod = function (opts, opts2) {
   return opts + opts2;
 };
 
@@ -86,9 +86,9 @@ describe(require('path').basename(__filename), function () {
   var mesh;
   var remote;
 
-  var startRemoteMesh = function(callback){
+  var startRemoteMesh = function (callback) {
 
-    var timedOut = setTimeout(function(){
+    var timedOut = setTimeout(function () {
       callback(new Error('remote mesh start timed out'));
     }, 60000);
 
@@ -103,7 +103,7 @@ describe(require('path').basename(__filename), function () {
 
         clearTimeout(timedOut);
 
-        setTimeout(function(){
+        setTimeout(function () {
           callback();
         }, 1000);
       }
@@ -114,7 +114,7 @@ describe(require('path').basename(__filename), function () {
 
     global.TESTING_E9 = true; //.............
 
-    startRemoteMesh(function(e){
+    startRemoteMesh(function (e) {
 
       if (e) return done(e);
 
@@ -131,11 +131,11 @@ describe(require('path').basename(__filename), function () {
         components: {
           'testComponent': {}
         },
-        endpoints:{
+        endpoints: {
           'remoteMesh': {  // remote mesh node
-            reconnect:{
-              max:2000, //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
-              retries:100
+            reconnect: {
+              max: 2000, //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
+              retries: 100
             },
             config: {
               port: 10001,
@@ -149,7 +149,7 @@ describe(require('path').basename(__filename), function () {
         mesh = instance;
 
         if (err) return done(err);
-        mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one','two','three', function(err, result){
+        mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one', 'two', 'three', function (err, result) {
           if (err) return done(err);
           done();
         });
@@ -158,40 +158,39 @@ describe(require('path').basename(__filename), function () {
     });
   });
 
-  after(function (done) {
+  after(function () {
 
     this.timeout(30000);
 
-    if (mesh) return mesh.stop({reconnect: false}, function(e){
+    if (mesh) {
+      return mesh.stop({reconnect: false})
+        .then(function (e) {
 
-      if (e) console.warn('error stopping local mesh');
+          if (e) console.warn('error stopping local mesh');
 
-      remote.kill();//we assume remote exists
+          remote.kill();//we assume remote exists
 
-      done();
-
-    });
+        });
+    }
 
     else if (remote) remote.kill();
-
-    done();
 
   });
 
   var happnUtils = require('../lib/system/utilities');
 
   var mock$Happn = {
-    _mesh:{
-      utilities:happnUtils,
-      config:{
-        happn:{
-          secure:false
+    _mesh: {
+      utilities: happnUtils,
+      config: {
+        happn: {
+          secure: false
         }
       }
     },
-    exchange:{
-      testComponent:{
-        method1:function(opts, callback){
+    exchange: {
+      testComponent: {
+        method1: function (opts, callback) {
           opts.number++;
           callback(null, opts);
         }
@@ -199,26 +198,24 @@ describe(require('path').basename(__filename), function () {
     }
   };
 
-  var mock$Origin = {
-
-  };
+  var mock$Origin = {};
 
   var mockResponse = {
-    writeHead:function(code, header){
-      this.header = {code:code, header:header};
+    writeHead: function (code, header) {
+      this.header = {code: code, header: header};
     }
   };
 
-  it('tests the rest components __respond method', function(done){
+  it('tests the rest components __respond method', function (done) {
 
     var RestModule = require('../lib/modules/rest/index.js');
     var restModule = new RestModule();
 
     var testStage = 'success';
 
-    mockResponse.end = function(responseString){
+    mockResponse.end = function (responseString) {
 
-      try{
+      try {
 
         if (testStage == "done") return;
 
@@ -226,17 +223,17 @@ describe(require('path').basename(__filename), function () {
 
         //TODO: an unexpected GET or POST with a non-json content
 
-        if (testStage == 'success'){
+        if (testStage == 'success') {
 
           expect(response.message).to.be("test success response");
           expect(response.data.test).to.be("data");
           testStage = 'error';
 
-          restModule.__respond(mock$Happn, 'test success response', {"test":"data"}, new Error('a test error'), mockResponse);
+          restModule.__respond(mock$Happn, 'test success response', {"test": "data"}, new Error('a test error'), mockResponse);
 
         }
 
-        if (testStage == 'error'){
+        if (testStage == 'error') {
 
           expect(response.error).to.not.be(null);
           expect(response.error.message).to.be('a test error');
@@ -246,16 +243,16 @@ describe(require('path').basename(__filename), function () {
           done();
         }
 
-      }catch(e){
+      } catch (e) {
         done(e);
       }
     };
 
-    restModule.__respond(mock$Happn, 'test success response', {"test":"data"}, null, mockResponse);
+    restModule.__respond(mock$Happn, 'test success response', {"test": "data"}, null, mockResponse);
 
   });
 
-  it('tests the rest components __parseBody method', function(done){
+  it('tests the rest components __parseBody method', function (done) {
 
     var RestModule = require('../lib/modules/rest/index.js');
     var restModule = new RestModule();
@@ -270,16 +267,16 @@ describe(require('path').basename(__filename), function () {
     });
 
     request.write({
-      parameters:{
-        'opts':{
-          number:1
+      parameters: {
+        'opts': {
+          number: 1
         }
       }
     });
 
     request.end();
 
-    mockResponse.end = function(responseString){
+    mockResponse.end = function (responseString) {
       var response = JSON.parse(responseString);
 
       if (!response.error) return done(new Error('bad response expected error'));
@@ -287,7 +284,7 @@ describe(require('path').basename(__filename), function () {
       done(new Error(response.error));
     };
 
-    restModule.__parseBody(request, mockResponse, mock$Happn, function(body){
+    restModule.__parseBody(request, mockResponse, mock$Happn, function (body) {
 
       expect(body).to.not.be(null);
       expect(body).to.not.be(undefined);
@@ -299,11 +296,11 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests the rest components describe method over the api', function(done){
+  it('tests the rest components describe method over the api', function (done) {
 
     var restClient = require('restler');
 
-    restClient.get('http://localhost:10000/rest/describe').on('complete', function(result){
+    restClient.get('http://localhost:10000/rest/describe').on('complete', function (result) {
 
       expect(result.data['/testComponent/method1']).to.not.be(null);
       expect(result.data['/testComponent/method2']).to.not.be(null);
@@ -317,19 +314,19 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests the rest components handleRequest method', function(done){
+  it('tests the rest components handleRequest method', function (done) {
 
     var RestModule = require('../lib/modules/rest/index.js');
     var restModule = new RestModule();
 
     restModule.__exchangeDescription = {
-      components:{
-        testComponent:{
-          methods:{
-            method1:{
-              parameters:[
-                {name:'opts'},
-                {name:'callback'}
+      components: {
+        testComponent: {
+          methods: {
+            method1: {
+              parameters: [
+                {name: 'opts'},
+                {name: 'callback'}
               ]
             }
           }
@@ -347,8 +344,8 @@ describe(require('path').basename(__filename), function () {
     });
 
     var operation = {
-      parameters:{
-        'opts':{'number':1}
+      parameters: {
+        'opts': {'number': 1}
       }
     };
 
@@ -356,7 +353,7 @@ describe(require('path').basename(__filename), function () {
 
     request.end();
 
-    mockResponse.end = function(responseString){
+    mockResponse.end = function (responseString) {
 
       var response = JSON.parse(responseString);
       expect(response.data.number).to.be(2);
@@ -368,17 +365,17 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests posting an operation to a local method', function(done){
+  it('tests posting an operation to a local method', function (done) {
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        'opts':{'number':1}
+      parameters: {
+        'opts': {'number': 1}
       }
     };
 
-    restClient.postJson('http://localhost:10000/rest/method/testComponent/method1', operation).on('complete', function(result){
+    restClient.postJson('http://localhost:10000/rest/method/testComponent/method1', operation).on('complete', function (result) {
 
       expect(result.data.number).to.be(2);
 
@@ -387,11 +384,11 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests getting an operation from a local method with a simple parameter set', function(done){
+  it('tests getting an operation from a local method with a simple parameter set', function (done) {
 
     var restClient = require('restler');
 
-    restClient.get('http://localhost:10000/rest/method/testComponent/method4?number=1&another=2').on('complete', function(result){
+    restClient.get('http://localhost:10000/rest/method/testComponent/method4?number=1&another=2').on('complete', function (result) {
 
       expect(result.data.product).to.be(3);
       done();
@@ -399,20 +396,20 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests getting an operation from a local method with a serialized parameter', function(done){
+  it('tests getting an operation from a local method with a serialized parameter', function (done) {
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        "number":1,
-        "another":2
+      parameters: {
+        "number": 1,
+        "another": 2
       }
     };
 
     var encoded = encodeURIComponent(JSON.stringify(operation));
 
-    restClient.get('http://localhost:10000/rest/method/testComponent/method4?encoded_parameters=' + encoded).on('complete', function(result){
+    restClient.get('http://localhost:10000/rest/method/testComponent/method4?encoded_parameters=' + encoded).on('complete', function (result) {
 
       expect(result.data.product).to.be(3);
       done();
@@ -420,19 +417,19 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests posting an operation to a remote method fails', function(done){
+  it('tests posting an operation to a remote method fails', function (done) {
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        'one':'one',
-        'two':'two',
-        'three':'three'
+      parameters: {
+        'one': 'one',
+        'two': 'two',
+        'three': 'three'
       }
     };
 
-    restClient.postJson('http://localhost:10000/rest/method/remoteMesh/remoteComponent/remoteFunction', operation).on('complete', function(result){
+    restClient.postJson('http://localhost:10000/rest/method/remoteMesh/remoteComponent/remoteFunction', operation).on('complete', function (result) {
 
       expect(result.error).to.not.be(null);
       expect(result.error.message).to.be('attempt to access remote mesh: remoteMesh');
@@ -442,16 +439,16 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests posting an operation to a bad method', function(done){
+  it('tests posting an operation to a bad method', function (done) {
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        'opts':{'number':1}
+      parameters: {
+        'opts': {'number': 1}
       }
     };
-    restClient.postJson('http://localhost:10000/rest/method/blithering_idiot', operation).on('complete', function(result){
+    restClient.postJson('http://localhost:10000/rest/method/blithering_idiot', operation).on('complete', function (result) {
 
       expect(result.error.message).to.be('component blithering_idiot does not exist on mesh');
 
@@ -460,20 +457,20 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests posting an operation to the security component fails', function(done){
+  it('tests posting an operation to the security component fails', function (done) {
 
     //TODO login function gives us a token, token is used in body of rest request
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        'username':'_ADMIN',
-        'password':'blah'
+      parameters: {
+        'username': '_ADMIN',
+        'password': 'blah'
       }
     };
 
-    restClient.postJson('http://localhost:10000/rest/method/security/updateOwnUser', operation).on('complete', function(result){
+    restClient.postJson('http://localhost:10000/rest/method/security/updateOwnUser', operation).on('complete', function (result) {
       expect(result.error.number).to.not.be(null);
       expect(result.error.message).to.be('attempt to access security component over rest');
       done();
@@ -481,33 +478,33 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests posting an operation an unsecured mesh, with a token works', function(done){
+  it('tests posting an operation an unsecured mesh, with a token works', function (done) {
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        'opts':{'number':1}
+      parameters: {
+        'opts': {'number': 1}
       }
     };
 
-    restClient.postJson('http://localhost:10000/rest/method/testComponent/method1?happn_token=' + 'blahblah', operation).on('complete', function(result){
+    restClient.postJson('http://localhost:10000/rest/method/testComponent/method1?happn_token=' + 'blahblah', operation).on('complete', function (result) {
       expect(result.data.number).to.be(2);
       done();
     });
 
   });
 
-  it('tests posting an operation to a local method, bad uri component', function(done){
+  it('tests posting an operation to a local method, bad uri component', function (done) {
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        'opts':{'number':1}
+      parameters: {
+        'opts': {'number': 1}
       }
     };
-    restClient.postJson('http://localhost:10000/rest/method/nonexistant/uri', operation).on('complete', function(result){
+    restClient.postJson('http://localhost:10000/rest/method/nonexistant/uri', operation).on('complete', function (result) {
 
       expect(result.error.message).to.be('component nonexistant does not exist on mesh');
 
@@ -516,16 +513,16 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  it('tests posting an operation to a local method, bad uri method', function(done){
+  it('tests posting an operation to a local method, bad uri method', function (done) {
 
     var restClient = require('restler');
 
     var operation = {
-      parameters:{
-        'opts':{'number':1}
+      parameters: {
+        'opts': {'number': 1}
       }
     };
-    restClient.postJson('http://localhost:10000/rest/method/testComponent/nonexistant', operation).on('complete', function(result){
+    restClient.postJson('http://localhost:10000/rest/method/testComponent/nonexistant', operation).on('complete', function (result) {
 
       expect(result.error.message).to.be('method nonexistant does not exist on component testComponent');
 

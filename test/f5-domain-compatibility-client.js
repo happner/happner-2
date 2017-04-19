@@ -65,6 +65,17 @@ describe(require('path').basename(__filename), function () {
         .then(done).catch(done);
     });
 
+    it('can call component methods through rest', function (done) {
+      var restler = require('restler');
+        restler.get('http://localhost:55000/rest/method/testComponent/method', {})
+          .on('complete', function(result) {
+            if (result instanceof Error) return done(result);
+            expect(result.error).to.eql(null);
+            expect(result.data).to.equal('MESH_DOMAIN');
+            done();
+          });
+    });
+
     it('can subscribe to events', function (done) {
       client.event.testComponent.on('/event', function (data) {
         try {
@@ -93,6 +104,11 @@ describe(require('path').basename(__filename), function () {
   context('secure', function () {
 
     var server, client;
+
+    var user = {
+      username: 'username',
+      password: 'password'
+    };
 
     before('start server', function (done) {
       server = undefined;
@@ -145,10 +161,6 @@ describe(require('path').basename(__filename), function () {
           }
         }
       };
-      var user = {
-        username: 'username',
-        password: 'password'
-      };
 
       Promise.all([
         security.addGroup(group),
@@ -189,6 +201,22 @@ describe(require('path').basename(__filename), function () {
           expect(result).to.equal('DOMAIN_NAME'); // inherited domain name
         })
         .then(done).catch(done);
+    });
+
+    it('can call component methods through rest', function (done) {
+      var restler = require('restler');
+      restler.postJson('http://localhost:55000/rest/login', user).on('complete', function(result){
+        if (result.error)
+          return done(new Error(result.error.message));
+        var token = result.data.token;
+        restler.get('http://localhost:55000/rest/method/testComponent/method?happn_token=' + token, {})
+          .on('complete', function(result) {
+            if (result instanceof Error) return done(result);
+            expect(result.error).to.eql(null);
+            expect(result.data).to.equal('DOMAIN_NAME');
+            done();
+          });
+      });
     });
 
     it('can subscribe to events', function (done) {

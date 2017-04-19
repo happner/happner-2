@@ -77,15 +77,14 @@ describe.skipWindows(path.basename(__filename), function () {
       .catch(done);
   });
 
-  after('stop server', function (done) {
+  after('stop server', function () {
 
     try {
       fs.unlinkSync(dbFileName);
     } catch (e) {}
 
-    if (server) return server.stop({reconnect: false}, done);
+    if (server) return server.stop({reconnect: false});
 
-    done();
   });
 
   it('rejects login promise on bad credentials', function (done) {
