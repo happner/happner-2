@@ -251,3 +251,7 @@ based on happner 1.28.1
 2.11.3 2017-04-19
 -----------------
   - issue-43 - Fix rest for mesh with domain
+  
+2.12.0 2017-04-20
+-----------------
+  - login with tokens
