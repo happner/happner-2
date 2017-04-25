@@ -5,6 +5,7 @@ var Promise = require('bluebird')
   , shortid = require('shortid')
   , path = require('path')
   , fs = require('fs-extra')
+  , expect = require('expect.js')
   ;
 
 function TestHelper() {
@@ -144,6 +145,10 @@ TestHelper.prototype.getClient = Promise.promisify(function (config, callback) {
 
   if (typeof config != 'object') return callback('cannot get a client without a config');
 
+  if (config.happn){
+    config.name = config.name != null?config.name:config.happn.name;
+  }
+
   if (!config.name) return callback('cannot get a client for unknown service name');
 
   if (!config.__testOptions) config.__testOptions = {};
@@ -282,10 +287,10 @@ TestHelper.prototype.__appendTestComponentConfig = function(config){
   if (!config.components) config.components = {};
 
   config.modules.testHelperComponent = {
+
     instance: {
 
       testHelperFunction : function($happn, val, callback){
-
         $happn.emit('test-function-called', {message:'test-message', value:val})
         callback();
       }
@@ -318,7 +323,8 @@ TestHelper.prototype.getService = Promise.promisify(function (config, callback) 
 
   if (config.__testOptions == null) config.__testOptions = {};
 
-  if (config.__testOptions.skipComponentTests == false) _this.__appendTestComponentConfig(config);
+  if (config.__testOptions.skipComponentTests === false)
+    _this.__appendTestComponentConfig(config);
 
   if (_this.__serviceExists(config)) return callback(new Error('service by the name ' + config.name + ' or port ' + config.port + ' already exists'));
 
@@ -326,36 +332,56 @@ TestHelper.prototype.getService = Promise.promisify(function (config, callback) 
 
     if (e) return callback(e);
 
-    _this.__activeServices[config.name] = {instance: process, config: config};
+    var service = {instance: process, config: config, id: config.name};
+
+    _this.__activeServices[config.name] = service;
 
     if (config.__testOptions.getClient) return _this.getClient(config, function (e, client) {
 
-      if (e) {
-        return callback(new Error('started service ok but failed to get client: ' + e.toString()));
-      }
+      if (e) return callback(new Error('started service ok but failed to get client: ' + e.toString()));
 
-      callback(null, {config: config, instance: process, client: client});
+      service.client = client;
+
+      callback(null, service);
     });
 
-    callback(null, {config: config, instance: process});
+    callback(null, service);
   });
+
+  console.log('creating:::', config);
 
   Happner.create(config, function (e, instance) {
 
-    if (e) return callback(e);
+    if (e) {
+      console.log('calling back:::', e, instance);
+      return callback(e);
+    }
 
-    _this.__activeServices[config.name] = {instance: instance, config: config};
+    var service = {instance: instance, config: config, id: config.name};
+
+    _this.__activeServices[config.name] = service;
+
+    console.log('created:::');
+
+    console.log('getting client:::', config);
 
     if (config.__testOptions.getClient) return _this.getClient(config, function (e, client) {
 
       if (e) {
-        return callback(new Error('started service ok but failed to get client: ' + e.toString()));
+        service.stop(function(){
+
+          console.log('stopped:::');
+          delete _this.__activeServices[config.name];
+          return callback(new Error('started service ok but failed to get client: ' + e.toString()));
+        });
       }
 
-      callback(null, {config: config, instance: instance, client: client});
+      service.client = client;
+
+      callback(null, service);
     });
 
-    callback(null, {config: config, instance: instance});
+    callback(null, service);
   });
 });
 
@@ -417,7 +443,6 @@ TestHelper.prototype.stopService = Promise.promisify(function (id, callback) {
   if (activeService.clients && activeService.clients.length > 0) {
 
     return async.eachSeries(activeService.clients, function (activeServiceClient, activeServiceClientCB) {
-      //console.log('disconnecting client:::', activeServiceClient.id);
       _this.disconnectClient(activeServiceClient.id, activeServiceClientCB);
     }, function (e) {
 
@@ -438,7 +463,9 @@ TestHelper.prototype.testClientComponent = function(clientInstance, options, cal
     options = {};
   }
 
-  if (options.skipComponentTests) return callback();
+  if (options.skipComponentTests) {
+    return callback();
+  }
 
   if (!options.eventName) options.eventName = 'test-function-called';
 
@@ -446,7 +473,7 @@ TestHelper.prototype.testClientComponent = function(clientInstance, options, cal
 
   if (!options.functionName) options.functionName = 'testHelperFunction';
 
-  if (!options.methodArguments) optons.methodArguments = [1];
+  if (!options.methodArguments) options.methodArguments = [1];
 
   if (!options.expectedData) options.expectedData = {message:'test-message', value:1};
 
@@ -462,7 +489,7 @@ TestHelper.prototype.testClientComponent = function(clientInstance, options, cal
       }
     });
 
-    clientInstance.exchange[options.methodCallerName][options.functionName].apply(clientInstance.exchange[options.methodCallerName], options.methodArguments);
+    clientInstance.exchange[options.componentName][options.functionName].apply(clientInstance.exchange[options.componentName], options.methodArguments);
 
   } else callback(new Error('expected exchange and event methods not found'));
 };

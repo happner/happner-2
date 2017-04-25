@@ -13,7 +13,7 @@ describe(require('path').basename(__filename), function () {
     helper.startUp([
       // NB: to append the test component and test the service with the component events and methods
       // you can set __testOptions.skipComponentTests to false
-      {happn:{port:55001, name:'test_service1', secure:true, __testOptions:{skipComponentTests:false}}},
+      {happn:{port:55001, name:'test_service1', secure:true}, __testOptions:{skipComponentTests:false}},
 
       {happn:{port:55002, name:'test_service2', secure:true}},
 
@@ -63,6 +63,12 @@ describe(require('path').basename(__filename), function () {
     expect(testFile).to.not.be(null);
 
     done();
+
+  });
+
+  it('restarts a service', function (done) {
+
+    helper.restartService({id:'test_service3'}, done);
 
   });
 });
