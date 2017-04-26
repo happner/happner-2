@@ -58,8 +58,11 @@ describe('2-startup-proxy', function () {
     var nodeParams = '--max-old-space-size=10';
     var loaderPath = path.resolve('./bin/happner-loader');
     var confPath = path.resolve('./test/lib/d6_conf_w_proxy.js');
+
     var oldMemLimitArg = '--exec-argv-max-old-space-size';
+
     var oldMemLimitValue = '200';
+
     var newMemLimitArg = '--exec-argv-max-new-space-size=10240';
 
     var memoryLimitRead = false;
