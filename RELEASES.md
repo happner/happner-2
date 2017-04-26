@@ -259,3 +259,8 @@ based on happner 1.28.1
 2.12.1 2017-04-21
 -----------------
   - bumped happn-3 to 1.12.1
+  
+2.13.0 2017-04-26
+-----------------
+  - reincorporated happner-1 updates
+  - fixed persit and mem datastores
