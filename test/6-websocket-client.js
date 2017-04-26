@@ -129,6 +129,7 @@ describe(path.basename(__filename), function (done) {
   });
 
   it('deletes the right listeners when unsubscribing from data', function (done) {
+
     this.timeout(30000);
 
     var subID;
@@ -164,13 +165,5 @@ describe(path.basename(__filename), function (done) {
         done(err);
       })
   });
-
-  xit('runs attaches to an event on a component', function (done) {
-
-
-  });
-
-  //require('benchmarket').stop();
-
 });
 

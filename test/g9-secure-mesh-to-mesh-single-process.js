@@ -1,9 +1,9 @@
-var path = require('path');
-var remoteConfig = require('./lib/g9/g9-config');
-var assert = require('assert');
-var Mesh = require('..');
+describe(require('path').basename(__filename), function () {
 
-describe(path.basename(__filename), function () {
+  var path = require('path');
+  var remoteConfig = require('./lib/g9/g9-config');
+  var assert = require('assert');
+  var Mesh = require('..');
 
   context('on remote mesh', function () {
 
@@ -18,7 +18,7 @@ describe(path.basename(__filename), function () {
       endpoints: {
         remoteMesh: {  // remote mesh node
           config: {
-            port: 51234,
+            port: 51231,
             username: '_ADMIN',
             password: 'testb2' // TODO This was necessary, did not default
           }
@@ -32,17 +32,20 @@ describe(path.basename(__filename), function () {
 
     before(function (done) {
 
-      Mesh
-        .create(remoteConfig)
+      return Mesh.create(remoteConfig)
+
         .then(function (createdMesh) {
           remoteMesh = createdMesh;
         })
+
         .then(function () {
           return Mesh.create(config);
         })
+
         .then(function (createdMesh) {
           mesh = createdMesh;
         })
+
         .then(function () {
           done();
         })

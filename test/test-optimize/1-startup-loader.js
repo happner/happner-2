@@ -9,9 +9,6 @@ describe('1-startup-loader', function (done) {
   var async = require('async');
   var exec = require('child_process').exec;
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
-
   this.timeout(120000);
 
   var childPIDs = [];
@@ -132,6 +129,7 @@ describe('1-startup-loader', function (done) {
   it('starts the loader http server, fails to start happn, stops the http server and successfully starts happn', function (done) {
 
     var LoaderProgress = require('../../lib/startup/loader_progress');
+
     var loaderProgress = new LoaderProgress({port: 55000});
 
     loaderProgress.listen(function (e) {
@@ -159,8 +157,8 @@ describe('1-startup-loader', function (done) {
               }, 55000);
 
 
-            })
-        })
+            });
+        });
     });
   });
 
@@ -242,6 +240,7 @@ describe('1-startup-loader', function (done) {
   });
 
   it('starts a loader process, we analyze the loader logs to ensure it is all working', function (done) {
+
     var _this = this;
 
     this.timeout(15000);
@@ -345,9 +344,6 @@ describe('1-startup-loader', function (done) {
     else killProcs();
 
   });
-
-  require('benchmarket').stop();
-
 });
 
 

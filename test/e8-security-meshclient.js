@@ -77,13 +77,15 @@ describe.skipWindows(path.basename(__filename), function () {
       .catch(done);
   });
 
-  after('stop server', function () {
+  after('stop server', function (done) {
 
     try {
       fs.unlinkSync(dbFileName);
     } catch (e) {}
 
-    if (server) return server.stop({reconnect: false});
+    if (server) return server.stop({reconnect: false}, done);
+
+    done();
 
   });
 
