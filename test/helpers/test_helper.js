@@ -15,6 +15,58 @@ function TestHelper() {
   this.__testFiles = [];
 }
 
+TestHelper.prototype.getRecordFromHappn = function(options, callback){
+
+  var service = this.findService(options.instanceName);
+
+  var happn = service.instance.happn;
+
+  happn.services.session.localClient(function(e, localClient){
+
+    if (e) return callback(e);
+
+    localClient.get(options.dataPath, function(e, response){
+
+      if (e) return callback(e);
+
+      callback(response);
+    });
+  })
+};
+
+TestHelper.prototype.getRecordFromSmallFile = function(options){
+
+  try{
+
+    var fileContents;
+
+    var foundRecord = null;
+
+    if (options.filename){
+      fileContents = fs.readFileSync(options.filename);
+    }
+
+    var records = fileContents.split('\r\n');
+
+    //backwards to get latest record
+    records.reverse().every(function(line){
+
+      var record = JSON.parse(line);
+
+      if (record.path == options.dataPath){
+        foundRecord = record;
+        return false;
+      }
+      return true;
+    });
+
+    return foundRecord;
+
+  }catch(e){
+    throw new Error('getRecordFromSmallFile failed: ' + e.toString(), e);
+  }
+};
+
 TestHelper.prototype.newTestFile = function (options) {
 
   var _this = this;
@@ -132,7 +184,6 @@ TestHelper.prototype.findClient = function (options) {
             if (client.id == options.id)  return client;
           }
         }
-
         return null;
       }
     }
@@ -348,29 +399,19 @@ TestHelper.prototype.getService = Promise.promisify(function (config, callback) 
     callback(null, service);
   });
 
-  console.log('creating:::', config);
-
   Happner.create(config, function (e, instance) {
 
-    if (e) {
-      console.log('calling back:::', e, instance);
-      return callback(e);
-    }
+    if (e) return callback(e);
 
     var service = {instance: instance, config: config, id: config.name};
 
     _this.__activeServices[config.name] = service;
-
-    console.log('created:::');
-
-    console.log('getting client:::', config);
 
     if (config.__testOptions.getClient) return _this.getClient(config, function (e, client) {
 
       if (e) {
         service.stop(function(){
 
-          console.log('stopped:::');
           delete _this.__activeServices[config.name];
           return callback(new Error('started service ok but failed to get client: ' + e.toString()));
         });

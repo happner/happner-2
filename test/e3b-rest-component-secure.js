@@ -1032,6 +1032,22 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  //require('benchmarket').stop();
+  it('tests posting an empty operation without parameters to a local method using $restParams', function(done){
 
+    login(function (e, result) {
+
+      if (e) return done(e);
+
+      var restClient = require('restler');
+
+      var operation = {
+      };
+
+      restClient.postJson('http://localhost:10000/rest/method/testComponent/method5?happn_token=' + result.data.token, operation).on('complete', function (result) {
+        expect(result.data.$origin.username).to.be('_ADMIN');
+        expect(result.data.$userSession.username).to.be('_ADMIN');
+        done();
+      });
+    });
+  });
 });
