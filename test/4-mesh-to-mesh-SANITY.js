@@ -34,9 +34,6 @@ describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
   before(function (done) {
 
     var _this = this;

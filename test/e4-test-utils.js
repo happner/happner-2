@@ -73,4 +73,25 @@ describe(require('path').basename(__filename), function () {
 
   });
 
+  it('tests the getNestedVal function', function(done){
+
+    var nestedObj = {
+      test1:{
+        test2:{
+          test3:'hooray!'
+        }
+      }
+    };
+
+    var utils = require('../lib/system/utilities');
+
+    expect(utils.getNestedVal(nestedObj, 'test1.test2.test3')).to.be('hooray!');
+
+    expect(utils.getNestedVal(nestedObj, 'test1.test2.testblah')).to.be(undefined);
+
+    expect(utils.getNestedVal(nestedObj, 'test1.test2')).to.eql({test3:'hooray!'});
+
+    done();
+  });
+
 });

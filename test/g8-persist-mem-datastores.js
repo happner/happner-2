@@ -67,17 +67,13 @@ describe(require('path').basename(__filename), function () {
 
     var service = helper.findService('g8-persist-mem-datastores');
 
-    var happnServer = service.instance._mesh.happn;
-
-    console.log(happnServer.services.data.datastores);
+    var happnServer = service.instance._mesh.happn.server;
 
     expect(happnServer.services.data.datastores.mem).to.not.be(null);
 
-    expect(happnServer.services.data.datastores.mem.patterns[0]).to.be('mem/*');
+    expect(happnServer.services.data.dataroutes['/_data/persistComponent/mem/*'].provider.db.inMemoryOnly).to.be(true);
 
-    expect(happnServer.services.data.datastores.persist).to.not.be(null);
-
-    expect(happnServer.services.data.datastores.persist.patterns[0]).to.be('persist/*');
+    expect(happnServer.services.data.dataroutes['/_data/persistComponent/persist/*'].provider.db.filename).to.be(__testFileName);
 
     done();
   });
@@ -93,7 +89,7 @@ describe(require('path').basename(__filename), function () {
 
       if (e) return done(e);
 
-      var record = helper.getRecordFromSmallFile({filename:__testFileName, dataPath:'persist/some/data'});
+      var record = helper.getRecordFromSmallFile({filename:__testFileName, dataPath:'/_data/persistComponent/persist/some/data'});
 
       expect(record.data.data).to.be('isPersisted');
 
@@ -104,11 +100,11 @@ describe(require('path').basename(__filename), function () {
 
         if (e) return done(e);
 
-        helper.getRecordFromHappn({instanceName:'g8-persist-mem-datastores', dataPath:'mem/some/data'}, function(e, record){
+        helper.getRecordFromHappn({instanceName:'g8-persist-mem-datastores', dataPath:'/_data/persistComponent/mem/some/data'}, function(e, record){
 
-          expect(record.data.data).to.be('isVolatile');
+          expect(record.data).to.be('isVolatile');
 
-          var notFoundRecord = helper.getRecordFromSmallFile({filename:__testFileName, dataPath:'mem/some/data'});
+          var notFoundRecord = helper.getRecordFromSmallFile({filename:__testFileName, dataPath:'/_data/persistComponent/mem/some/data'});
 
           expect(notFoundRecord).to.be(null);
 

@@ -19,9 +19,9 @@ TestHelper.prototype.getRecordFromHappn = function(options, callback){
 
   var service = this.findService(options.instanceName);
 
-  var happn = service.instance.happn;
+  var happn = service.instance._mesh.happn.server;
 
-  happn.services.session.localClient(function(e, localClient){
+  happn.services.session.localClient({username:'_ADMIN', password:'happn'}, function(e, localClient){
 
     if (e) return callback(e);
 
@@ -29,7 +29,7 @@ TestHelper.prototype.getRecordFromHappn = function(options, callback){
 
       if (e) return callback(e);
 
-      callback(response);
+      callback(null, response);
     });
   })
 };
@@ -42,21 +42,29 @@ TestHelper.prototype.getRecordFromSmallFile = function(options){
 
     var foundRecord = null;
 
-    if (options.filename){
-      fileContents = fs.readFileSync(options.filename);
-    }
+    if (options.filename) fileContents = fs.readFileSync(options.filename, 'utf8');
 
-    var records = fileContents.split('\r\n');
+    var records = fileContents.toString().split('\n');
 
     //backwards to get latest record
     records.reverse().every(function(line){
 
-      var record = JSON.parse(line);
+      var record = null;
 
-      if (record.path == options.dataPath){
-        foundRecord = record;
-        return false;
+      try{
+        record = JSON.parse(line);
+      }catch(e){
+        //do nothing
       }
+
+      if (record){
+
+        if (record.path == options.dataPath){
+          foundRecord = record;
+          return false;
+        }
+      }
+
       return true;
     });
 

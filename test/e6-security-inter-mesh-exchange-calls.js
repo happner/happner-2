@@ -206,22 +206,4 @@ describe.skipWindows(filename, function () {
       });
   });
 
-  it('stops the current happn client before creating a new one on login', function () {
-
-    var currentData = testClient.data;
-
-    expect(currentData.initialized).to.equal(true);
-
-    return testClient.login({
-        username: '_ADMIN',
-        password: 'password'
-      })
-      .then(function () {
-        var newData = testClient.data;
-        expect(newData).to.not.equal(currentData);
-        expect(currentData.initialized).to.equal(false);
-        expect(newData.initialized).to.equal(true);
-      });
-  });
-
 });

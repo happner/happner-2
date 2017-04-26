@@ -2,7 +2,7 @@ module.exports = {
   name: 'remoteMesh',
   happn: {
     secure: true,
-    port: 51234,
+    port: 51231,
     authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
     adminPassword: 'testb2'
   },
