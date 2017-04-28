@@ -1,47 +1,8 @@
 var Mesh = require('../../lib/mesh');
 
-var config = {
-  name: 'remoteMesh',
-  happn: {
-    secure: true,
-    port: 51234,
-    adminPassword: 'testb2'
-  },
-  endpoints: {},
-  modules: {
-    "remoteComponent": {
-      path: __dirname + "/4-remote-component",
-      constructor: {
-        type: "sync",
-        parameters: []
-      }
-    }
-  },
-  components: {
-    "remoteComponent": {
-      moduleName: "remoteComponent",
-      schema: {
-        "exclusive": false,
-        "methods": {
-          "remoteFunction": {
-            parameters: [
-              {name: 'one', required: true},
-              {name: 'two', required: true},
-              {name: 'three', required: true},
-              {name: 'callback', type: 'callback', required: true}
-            ]
-          }
-          ,
-          "causeError": {
-            parameters: [
-              {name: 'callback', type: 'callback', required: true}
-            ]
-          }
-        }
-      }
-    }
-  }
-};
+var path = require('path');
+
+var config = require(path.join(__dirname, 'b2-first-mesh-config'));
 
 (new Mesh()).initialize(config, function (err) {
 

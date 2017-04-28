@@ -173,4 +173,10 @@ describe(require('path').basename(__filename), function () {
       });
 
   });
+
+  it('can call disconnect() even of the login failed', function (done) {
+
+    (new Happner.MeshClient({port: 1})).disconnect(done);
+  });
+
 });

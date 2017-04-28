@@ -1,7 +1,7 @@
 /**
  * Created by craigsampson on 28/06/2016.
  */
-describe('2-startup-proxy', function (done) {
+describe('2-startup-proxy', function () {
 
   // Uses unit test 2 modules
   var should = require('chai').should();
@@ -11,7 +11,6 @@ describe('2-startup-proxy', function (done) {
   var exec = require('child_process').exec;
   var http = require('http');
   var spawn = require('child_process').spawn;
-
 
   this.timeout(15000);
 
@@ -45,7 +44,7 @@ describe('2-startup-proxy', function (done) {
       path = '/' + path;
 
     var options = {
-      url: 'http://127.0.0.1:' + port.toString() + path,
+      url: 'http://127.0.0.1:' + port.toString() + path
     };
 
     request(options, function (error, response, body) {
@@ -56,14 +55,28 @@ describe('2-startup-proxy', function (done) {
 
   before('Set up Loader with Proxy', function (done) {
 
+    var nodeParams = '--max-old-space-size=10';
     var loaderPath = path.resolve('./bin/happner-loader');
-    var confPath = path.resolve('./test/lib/d6_conf_w_proxy.json');
+    var confPath = path.resolve('./test/lib/d6_conf_w_proxy.js');
+
+    var oldMemLimitArg = '--exec-argv-max-old-space-size';
+
+    var oldMemLimitValue = '200';
+
+    var newMemLimitArg = '--exec-argv-max-new-space-size=10240';
+
+    var memoryLimitRead = false;
+    var newSpaceMemoryLimitRead = false;
 
     var logs = [];
 
     // spawn remote mesh in another process
-    var remote = spawn('node', [loaderPath, '--conf', confPath]);
+    var remote = spawn('node', [nodeParams, loaderPath, '--conf', confPath, oldMemLimitArg, oldMemLimitValue, newMemLimitArg]);
 
+    remote.stderr.on('data', function (data) {
+      remote.stderr.removeAllListeners();
+      done(data.toString());
+    });
 
     remote.stdout.on('data', function (data) {
 
@@ -73,10 +86,15 @@ describe('2-startup-proxy', function (done) {
 
       var logMessage = data.toString().toLowerCase();
 
+      if (logMessage.indexOf("'--max-old-space-size=200'") != -1) memoryLimitRead = true;
+      if (logMessage.indexOf("'--max-new-space-size=10240'") != -1) newSpaceMemoryLimitRead = true;
+
       logs.push(logMessage);
 
-      if (logMessage.indexOf('child process loaded') >= 0) {
+      if (logMessage.indexOf('cache service loaded') >= 0) {
 
+        expect(memoryLimitRead).to.be(true);
+        expect(newSpaceMemoryLimitRead).to.be(true);
         var childPIDLog = logMessage.split(':::');
         var childPID = parseInt(childPIDLog[childPIDLog.length - 1]);
         childPIDs.push(childPID);
@@ -145,7 +163,5 @@ describe('2-startup-proxy', function (done) {
     killProcs();
 
   });
-
-  require('benchmarket').stop();
 
 });

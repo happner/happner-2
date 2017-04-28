@@ -4,6 +4,9 @@
 
 Happner-2 is a cloud application framework ideal for integrating multiple micro services into a unified offering. It enables the creation of an interconnected mesh of local and remote components. The mesh components can easily call upon each other's methods or listen to each other's events in a manner uncomplicated by remoteness.
 
+## NB - this code is still in rapid development
+*On occassion, it may appear the build is failing - this is due to the amount and complexity of the tests we are now running on travis, some of which are timer based and others which are creating multiple processes etc. So please bear with us, we are almost complete with our initial development phase, we are now just merging backward compatible fixes made to happner version 1 (production) and then we will sort out the tests to ensure there are no intermittent issues.*
+
 ## Changes from version 1
 
 * using happn-3

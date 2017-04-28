@@ -206,13 +206,4 @@ describe.skipWindows(filename, function () {
       });
   });
 
-
-  // xit('allows access to allowed function from mesh client', function(done) {
-  //   var client = new Happner.MeshClient({
-  //   });
-  // });
-
-
-  //require('benchmarket').stop();
-
 });

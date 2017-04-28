@@ -1,16 +1,15 @@
-var Mesh = require('../../lib/mesh');
-
-var config = {
-  name: 'theFarawayTree',
+module.exports = {
+  name: 'remoteMesh',
   happn: {
     secure: true,
     port: 51231,
+    authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
     adminPassword: 'testb2'
   },
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/4-remote-component",
+      path: __dirname + "/g9-component",
       constructor: {
         type: "sync",
         parameters: []
@@ -42,18 +41,3 @@ var config = {
     }
   }
 };
-
-(new Mesh()).initialize(config, function (err) {
-
-  if (err) {
-
-    console.log('spawn failed:::', err);
-
-    console.log(err);
-    process.exit(err.code || 1);
-    return;
-  }
-
-  console.log('READY');
-
-});

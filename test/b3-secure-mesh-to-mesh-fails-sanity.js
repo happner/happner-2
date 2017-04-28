@@ -24,7 +24,7 @@ describe(require('path').basename(__filename), function () {
       endpoints: {
         remoteMesh: {  // remote mesh node
           config: {
-            port: 51234,
+            port: 51231,
             username: '_ADMIN',
             password: 'thispasswordwontwork' // TODO This was necessary, did not default
           }

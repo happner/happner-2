@@ -43,6 +43,10 @@ SeeAbove.prototype.method5 = function ($happn, $origin, $userSession, $restParam
   callback(null, $restParams);
 };
 
+SeeAbove.prototype.method6 = function succeedWithEmptyResponse ($happn, $origin, $userSession, $restParams, callback) {
+  callback();
+};
+
 SeeAbove.prototype.synchronousMethod = function (opts, opts2) {
   return opts + opts2;
 };
@@ -248,32 +252,29 @@ describe(require('path').basename(__filename), function () {
     mockResponse.end = function (responseString) {
 
       try {
-
-        if (testStage == "done") return;
-
         var response = JSON.parse(responseString);
+        switch (testStage){
+          case 'success':
+            expect(response.message).to.be("test success response");
+            expect(response.message).to.be("test success response");
+            expect(response.data.test).to.be("data");
+            testStage = 'success-empty';
+            restModule.__respond(mock$Happn, 'test empty success response', undefined, undefined, mockResponse);
+            return;
+          case 'success-empty':
+            expect(response.message).to.be("test empty success response");
+            expect(response.error).to.be(null);
+            expect(response.data).to.be(null);
+            testStage = 'error';
+            restModule.__respond(mock$Happn, 'test error response', {"test": "data"}, new Error('a test error'), mockResponse);
+            return;
+          case 'error':
+            expect(response.error).to.not.be(null);
+            expect(response.error.message).to.be('a test error');
+            return done();
+        }
 
         //TODO: an unexpected GET or POST with a non-json content
-
-        if (testStage == 'success') {
-
-          expect(response.message).to.be("test success response");
-          expect(response.data.test).to.be("data");
-          testStage = 'error';
-
-          restModule.__respond(mock$Happn, 'test success response', {"test": "data"}, new Error('a test error'), mockResponse);
-
-        }
-
-        if (testStage == 'error') {
-
-          expect(response.error).to.not.be(null);
-          expect(response.error.message).to.be('a test error');
-
-          testStage = "done";
-
-          done();
-        }
 
       } catch (e) {
         done(e);
@@ -1032,6 +1033,22 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  //require('benchmarket').stop();
+  it('tests posting an empty operation without parameters to a local method using $restParams', function(done){
 
+    login(function (e, result) {
+
+      if (e) return done(e);
+
+      var restClient = require('restler');
+
+      var operation = {
+      };
+
+      restClient.postJson('http://localhost:10000/rest/method/testComponent/method5?happn_token=' + result.data.token, operation).on('complete', function (result) {
+        expect(result.data.$origin.username).to.be('_ADMIN');
+        expect(result.data.$userSession.username).to.be('_ADMIN');
+        done();
+      });
+    });
+  });
 });

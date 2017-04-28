@@ -9,9 +9,6 @@ describe('1-startup-loader', function (done) {
   var async = require('async');
   var exec = require('child_process').exec;
 
-  require('benchmarket').start();
-  after(require('benchmarket').store());
-
   this.timeout(120000);
 
   var childPIDs = [];
@@ -129,9 +126,10 @@ describe('1-startup-loader', function (done) {
     });
   });
 
-  it('starts the loader http server, fails to start happn, stops the http server and successfully starts happn', function (done) {
+  xit('starts the loader http server, fails to start happn, stops the http server and successfully starts happn', function (done) {
 
     var LoaderProgress = require('../../lib/startup/loader_progress');
+
     var loaderProgress = new LoaderProgress({port: 55000});
 
     loaderProgress.listen(function (e) {
@@ -159,8 +157,8 @@ describe('1-startup-loader', function (done) {
               }, 55000);
 
 
-            })
-        })
+            });
+        });
     });
   });
 
@@ -190,7 +188,7 @@ describe('1-startup-loader', function (done) {
 
   });
 
-  it('starts a mesh and checks we have progress logs', function (done) {
+  xit('starts a mesh and checks we have progress logs', function (done) {
 
     var progressLogs = [];
 
@@ -203,7 +201,6 @@ describe('1-startup-loader', function (done) {
         Mesh.off('startup-progress', startupProgressHandler)
         done();
       }
-
     };
 
     var eventId = Mesh.on('startup-progress', startupProgressHandler);
@@ -242,6 +239,7 @@ describe('1-startup-loader', function (done) {
   });
 
   it('starts a loader process, we analyze the loader logs to ensure it is all working', function (done) {
+
     var _this = this;
 
     this.timeout(15000);
@@ -319,9 +317,7 @@ describe('1-startup-loader', function (done) {
         }, 7000);
       }
     });
-
   });
-
 
   after('kills the proxy and stops the mesh if its running', function (done) {
 
@@ -345,9 +341,6 @@ describe('1-startup-loader', function (done) {
     else killProcs();
 
   });
-
-  require('benchmarket').stop();
-
 });
 
 
