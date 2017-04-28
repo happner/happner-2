@@ -1,6 +1,9 @@
-describe.only(require('path').basename(__filename), function () {
+var path = require('path');
+var filename = path.basename(__filename);
 
-  var Happner = require('..');
+describe.only(filename, function () {
+
+  var child_process = require('child_process');
   var OldHappner = require('happner');
   var Promise = require('bluebird');
   var expect = require('expect.js');
@@ -12,52 +15,40 @@ describe.only(require('path').basename(__filename), function () {
       var server;
 
       var startServer = function () {
-        return Happner.create({
-          name: 'SERVER',
-          happn: {
-            secure: security == 'secure',
-            services: {
-              security: {
-                config: {
-                  adminUser: {
-                    username: '_ADMIN',
-                    password: 'happn'
-                  }
-                }
-              }
+        return new Promise(function (resolve, reject) {
+          var scriptPath = __dirname + path.sep + 'lib' + path.sep + 'h3-server.js';
+          server = child_process.fork(scriptPath, [security]);
+          server.on('message', function (message) {
+            if (message == 'READY') {
+              resolve();
             }
-          },
-          modules: {
-            'component': {
-              instance: {
-                method: function ($happn, callback) {
-                  return callback(null, 'OK');
-                }
-              }
+            if (message == 'ERROR') {
+              reject(new Error('failed to start server'));
             }
-          },
-          components: {
-            'component': {}
-          }
+          });
+        });
+      };
+
+      var stopServer = function () {
+        return new Promise(function (resolve) {
+          if (!server) return resolve();
+          server.on('exit', function () {
+            server = undefined;
+            resolve();
+          });
+          server.kill();
         });
       };
 
       before('start happner-2 server', function (done) {
 
-        startServer()
-
-          .then(function (_server) {
-            server = _server;
-          })
-
-          .then(done).catch(done);
+        startServer().then(done).catch(done);
 
       });
 
       after('stop happner-2 server', function (done) {
 
-        if (!server) return done();
-        server.stop({reconnect: false}, done);
+        stopServer().then(done).catch(done);
 
       });
 
@@ -99,7 +90,7 @@ describe.only(require('path').basename(__filename), function () {
 
         it('exchange calls survive server restart', function (done) {
 
-          this.timeout(10 * 1000);
+          this.timeout(20 * 1000);
 
           Promise.resolve()
 
@@ -113,27 +104,20 @@ describe.only(require('path').basename(__filename), function () {
             })
 
             .then(function () {
-              // stop the server
-              return server.stop();
+              return stopServer();
             })
 
             .then(function () {
-              // restart the server
               return startServer();
-            })
-
-            .then(function (_server) {
-              server = _server;
             })
 
             .then(function () {
               // wait long enough for endpoint reconnect
-              return Promise.delay(1000);
+              return Promise.delay(5000);
             })
 
             .then(function () {
               // does exchange still work?
-              console.log('retry');
               return client.exchange.SERVER.component.method();
             })
 
@@ -170,7 +154,7 @@ describe.only(require('path').basename(__filename), function () {
 
         it('exchange calls survive server restart', function (done) {
 
-          this.timeout(10 * 1000);
+          this.timeout(20 * 1000);
 
           Promise.resolve()
 
@@ -184,22 +168,16 @@ describe.only(require('path').basename(__filename), function () {
             })
 
             .then(function () {
-              // stop the server
-              return server.stop();
+              return stopServer();
             })
 
             .then(function () {
-              // restart the server
               return startServer();
-            })
-
-            .then(function (_server) {
-              server = _server;
             })
 
             .then(function () {
               // wait long enough for client reconnect
-              return Promise.delay(1000);
+              return Promise.delay(5000);
             })
 
             .then(function () {
