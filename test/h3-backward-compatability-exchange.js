@@ -61,7 +61,7 @@ describe.only(filename, function () {
           OldHappner.create({
             port: 55001,
             datalayer: {
-              secure: true
+              secure: security == 'secure'
             },
             endpoints: {
               'SERVER': {
