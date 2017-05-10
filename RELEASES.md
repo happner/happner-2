@@ -264,3 +264,7 @@ based on happner 1.28.1
 -----------------
   - reincorporated happner-1 updates
   - fixed persit and mem datastores
+  
+2.13.1 2017-05-10
+-----------------
+  - backward compatibility tests incorporated

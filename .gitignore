@@ -7,6 +7,10 @@ lib/system/data/*.nedb
 .DS_Store
 test/temp/*
 temp/*
+test/backward-compatibility/test-temp
+test/backward-compatibility/temp
+test/backward-compatibility/tmp
+test/backward-compatibility/*.nedb
 test/Users
 test/reports
 *.log

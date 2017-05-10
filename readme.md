@@ -15,6 +15,11 @@ Happner-2 is a cloud application framework ideal for integrating multiple micro 
 please check the [migration plan](https://github.com/happner/happner-2/blob/master/docs/migration-plan.md)
 ---------------------------------------------
 
+###backward compatibility tests:
+```bash
+npm run test-backward-compatibility
+```
+
 ## ROADMAP
 
 * not 100% defined, but we have a [recommendations document](https://docs.google.com/document/d/1IQc-VBdun8gQTaJ6CSPD0-5BArc0AS6gIkFh-Dx59yE/edit?usp=sharing).
