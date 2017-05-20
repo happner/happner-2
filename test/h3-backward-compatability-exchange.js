@@ -1,7 +1,7 @@
 var path = require('path');
 var filename = path.basename(__filename);
 
-describe.only(filename, function () {
+describe(filename, function () {
 
   var child_process = require('child_process');
   var OldHappner = require('happner');
