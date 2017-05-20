@@ -74,7 +74,7 @@ var config = {
   }
 };
 
-var Happner = require('happner');
+var Happner = require('happner-2');
 
 Happner.create(config, function(err, mesh) {
   /* _ */
@@ -94,7 +94,7 @@ var config = {
   }
 };
 
-var Happner = require('happner');
+var Happner = require('happner-2');
 
 Happner.create(config, function(err, mesh) {
   mesh.exchange.system.compactDBFile(function(e){
@@ -132,7 +132,7 @@ var config = {
    }
  };
 
-var Happner = require('happner');
+var Happner = require('happner-2');
 
 Happner.create(config, function(err, mesh) {
   

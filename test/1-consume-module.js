@@ -12,6 +12,7 @@ describe(require('path').basename(__filename), function () {
 
   var config = {
     name: "testMesh",
+    listenFirst: true,
     modules: {
       "happnClient": {
         path: "happn-3.client",

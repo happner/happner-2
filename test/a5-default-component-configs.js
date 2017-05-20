@@ -76,7 +76,8 @@ describe(require('path').basename(__filename), function () {
 
       delete global.TESTING_15; //.............
       if (err) return done(err);
-      done();
+
+      mesh.start(done);
 
     });
   });

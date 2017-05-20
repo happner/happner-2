@@ -160,7 +160,7 @@ Content of `./bin/master`
 ```javascript
 #!/usr/bin/env node
 
-var Happner = require('happner');
+var Happner = require('happner-2');
 var Config  = require('../config/master');
 
 // Call create() factory which returns the promise of a mesh or error
@@ -312,7 +312,7 @@ Content of `./bin/agent`
 ```javascript
 #!/usr/bin/env node
 
-var Happner = require('happner');
+var Happner = require('happner-2');
 var Config  = require('../config/agent');
 
 // Call create() factory which returns the promise of a mesh or error

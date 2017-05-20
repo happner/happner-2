@@ -6,3 +6,4 @@ lib/system/data/*.nedb
 temp/*
 .DS_Store
 .travis.yml
+examine

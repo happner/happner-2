@@ -153,7 +153,7 @@ var testClient = new Mesh.MeshClient({secure: true, port: 8004,
 
 ```javascript
 
-var MeshClient = require('happner').MeshClient;
+var MeshClient = require('happner-2').MeshClient;
 
 var client = new MeshClient(...
 
@@ -165,7 +165,7 @@ var client = new MeshClient(...
 *The client can willfully disconnect from the server, with an option for revoking the current session token*
 ```javascript
 
-var MeshClient = require('happner').MeshClient;
+var MeshClient = require('happner-2').MeshClient;
 
 var client = new Happner.MeshClient({secure: true, port: 15000});
 

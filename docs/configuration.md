@@ -18,6 +18,7 @@ These are arranged as a set of key/value pairs on the config object:
 ```javascript
 config = {
     name: 'mesh',
+    deferListen: false, // the default
     util: {},
     repl: {},
     happn: {},
@@ -37,6 +38,39 @@ The `config.name` is the name of __this__ MeshNode and serves to uniquely identi
 If the name is unspecified a random name will be used.
 
 __BUG:__ Currently the clients do not fully re-establish connections to restarted nodes with a new random name. It is strongly recommended that you provide the name.
+
+### Defer Listen
+
+[&#9650;](#)
+
+The `config.deferListen` parameter defines when the server starts listening.
+
+If set to `true` the server will not listen until `listen()` is called.
+
+eg.
+
+```javascript
+var Mesh = require('happner-2');
+var config = {
+  name: 'mesh',
+  deferListen: true
+};
+
+Mesh.create(config)
+
+  .then(function(mesh) {
+  
+    // do some stuff before listening
+    
+    return mesh.listen();
+  
+  })
+  
+  .then(..
+   
+  .catch(.. 
+  
+```
 
 ### Datalayer Config
 

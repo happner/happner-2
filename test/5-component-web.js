@@ -66,9 +66,11 @@ describe(require('path').basename(__filename), function (done) {
 
     x.initialize(config, function (err) {
       if (err) return done(err);
-
-      mesh = x;
-      done();
+      x.start(function (err) {
+        if (err) return done(err);
+        mesh = x;
+        done();
+      });
 
     });
   });
