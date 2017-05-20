@@ -42,11 +42,15 @@ describe(filename, function () {
 
       before('start happner-2 server', function (done) {
 
+        this.timeout(4000);
+
         startServer().then(done).catch(done);
 
       });
 
       after('stop happner-2 server', function (done) {
+
+        this.timeout(4000);
 
         stopServer().then(done).catch(done);
 
