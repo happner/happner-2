@@ -272,3 +272,7 @@ based on happner 1.28.1
 2.14.1 2017-05-20
 -----------------
   - fixed bug in config.listenFirst
+
+2.14.2 2017-05-20
+-----------------
+  - fixed bug in config.deferListen
