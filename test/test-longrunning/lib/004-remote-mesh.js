@@ -47,7 +47,7 @@ var config = {
 var http = require('http');
 http.globalAgent.maxSockets = 5000;
 
-(new Mesh()).initialize(config, function (err) {
+Mesh.create(config, function (err) {
 
   if (err) {
     console.log(err);

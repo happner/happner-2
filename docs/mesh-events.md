@@ -23,7 +23,7 @@ mesh.on('connection-ended', function(evt) {
 the mesh prototype emits a few events:
 ```javascript
 
-var Mesh = require('happner');
+var Mesh = require('happner-2');
 
 Mesh.on('startup-progress', function(data){
   //as the mesh starts up, it emits progress messages

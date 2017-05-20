@@ -4,7 +4,7 @@
 
 MeshNode startup has been divided into two steps.
 
-##### Initialize
+##### Mesh.initialize()
 
 * Starts all local internal infrastructure
 * Begins listeing on the network.
@@ -13,16 +13,18 @@ MeshNode startup has been divided into two steps.
 * Assembles the exchange and event api layers
 * Ammends the exchange and event api with each established connection to remote MeshNodes
 * Reports initialized! (runlevel 20)
+* __Does not bring the server to listening unless config.deferListen is explicitly false.__
 
-##### Start
+##### Mesh.start()
 
 * Calls the start method on any components that specified one. This allows components an initialization step that occurs after all mesh connections have been made.
+* __Brings the server to listening__
 * Reports started! (runlevel 40)
 
 These two steps can be done separately (by hand).
 
 ```javascript
-var Happner = require('happner');
+var Happner = require('happner-2');
 
 var config = {};
 var mesh = new Happner();
@@ -30,14 +32,14 @@ var mesh = new Happner();
 mesh.initialize(config, function(err) {
   if (err) ... process.exit(1);
 
-  /* MeshNode is up */
+  /* MeshNode is ready but not listening */
 
   /* Maybe do some things to mesh before "start" */
 
   mesh.start(function(err) {
     if (err) ... process.exit(2);
 
-    /* MeshNode is up - AND running */
+    /* Components have run their start methods and server is listening */
 
   });
 });
@@ -47,7 +49,7 @@ mesh.initialize(config, function(err) {
 Alternatively, there may be no reason to get inbetween the runlevels, so one call to the 'factory' will do.
 
 ```javascript
-var Happner = require('happner');
+var Happner = require('happner-2');
 var config = {};
 
 Happner.create(config, function(err, mesh) {

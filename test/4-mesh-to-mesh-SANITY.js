@@ -53,7 +53,8 @@ describe(require('path').basename(__filename), function () {
         // console.log('starting this one', mesh, config);
         // mesh.initialize(config, function(err) {
         mesh.initialize(config, function (e) {
-          done(e);
+          if (e) return done(e);
+          mesh.start(done);
         });
       }
 

@@ -17,9 +17,9 @@ describe(require('path').basename(__filename), function () {
 
   before(function (done) {
 
-    var kids = this.kids = [];
+    var _this = this;
 
-    var mesh = this.mesh = new Mesh();
+    var kids = this.kids = [];
 
     var config = {
       endpoints: {}
@@ -66,13 +66,17 @@ describe(require('path').basename(__filename), function () {
       // console.log(config);
 
       // local mesh init
-      mesh.initialize(config, done);
+      return Mesh.create(config);
+    })
 
-    }).catch(function(e){
+      .then(function (mesh) {
+        _this.mesh = mesh;
+        done();
+      })
 
-      done(e);
-
-    });
+      .catch(function (e) {
+        done(e);
+      });
     // call done with rejections error (if)
   });
 

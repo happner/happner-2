@@ -4,7 +4,7 @@ var path = require('path');
 
 var config = require(path.join(__dirname, '6-remote-mesh-config'));
 
-(new Mesh()).initialize(config, function (err) {
+Mesh.create(config, function (err) {
 
   if (err) {
     console.log(err);
