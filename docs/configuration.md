@@ -5,6 +5,8 @@
 Mesh configuration contains several sections.
 
 * [Mesh Name](#mesh-name)
+* [Defer Listen](#defer-listen)
+* [Listen First](#listen-first)
 * [Datalayer Config](#happn-config)
 * [Endpoint Config](#endpoint-config)
 * [Module Config](#module-config)
@@ -75,7 +77,9 @@ Mesh.create(config)
 
 ### Listen First
 
-The `config.listenFirst` parameter causes the server to go to listen at first step in startup. This is necessary in cases where the server needs to be accessible immediately. (eg. if 2 servers have endpoints to each other)
+The `config.listenFirst` parameter causes the server to go to listen at first step in startup. This is necessary in cases where the server needs to be accessible immediately. (eg. happner-cluster)
+
+Note that listenFirst overrides deferListen.
 
 ### Datalayer Config
 
