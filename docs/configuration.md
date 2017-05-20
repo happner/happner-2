@@ -19,6 +19,7 @@ These are arranged as a set of key/value pairs on the config object:
 config = {
     name: 'mesh',
     deferListen: false, // the default
+    listenFirst: false, // the default
     util: {},
     repl: {},
     happn: {},
@@ -71,6 +72,10 @@ Mesh.create(config)
   .catch(.. 
   
 ```
+
+### Listen First
+
+The `config.listenFirst` parameter causes the server to go to listen at first step in startup. This is necessary in cases where the server needs to be accessible immediately. (eg. if 2 servers have endpoints to each other)
 
 ### Datalayer Config
 
