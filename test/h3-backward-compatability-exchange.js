@@ -88,7 +88,7 @@ describe.only(filename, function () {
 
         });
 
-        it('exchange calls survive server restart', function (done) {
+        (security == 'insecure' ? xit : it)('exchange calls survive server restart', function (done) {
 
           this.timeout(20 * 1000);
 
@@ -152,7 +152,7 @@ describe.only(filename, function () {
 
         });
 
-        it('exchange calls survive server restart', function (done) {
+        (security == 'insecure' ? xit : it)('exchange calls survive server restart', function (done) {
 
           this.timeout(20 * 1000);
 
