@@ -265,14 +265,7 @@ based on happner 1.28.1
   - reincorporated happner-1 updates
   - fixed persit and mem datastores
 
-2.14.0 2017-05-20
------------------
-  - defer happn listen to final step in mesh start, after components are started, this means that `mesh.start()` must be called after `mesh.initialize()`, `Happner.create()` still does both.
-
-2.14.1 2017-05-20
------------------
-  - fixed bug in config.listenFirst
-
-2.14.2 2017-05-20
------------------
-  - fixed bug in config.deferListen
+3.0.0 2017-05-20
+----------------
+  - defer happn listen to final step in mesh start, after components are started, this means that `mesh.start()` MUST BE CALLED after `mesh.initialize()`, `Happner.create()` still does both.
+  - added config.listenFirst to disable this behaviour.
