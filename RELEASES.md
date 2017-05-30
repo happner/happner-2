@@ -269,3 +269,7 @@ based on happner 1.28.1
 ----------------
   - defer happn listen to final step in mesh start, after components are started, this means that `mesh.start()` MUST BE CALLED after `mesh.initialize()`, `Happner.create()` still does both.
   - added config.listenFirst to disable this behaviour.
+
+3.0.1 2017-05-30
+----------------
+  - update happn-3 to version 1.12.2
