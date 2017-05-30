@@ -9,9 +9,9 @@
   },
   "scripts": {
     "test": "mocha silence.js test",
-    "test-longrunning":"node test/test-longrunning/serial-run.js",
-    "test-browser":"gulp --gulpfile test/test-browser/gulp-01.js",
-    "test-sanity":"mocha test/**sanity.js",
+    "test-longrunning": "node test/test-longrunning/serial-run.js",
+    "test-browser": "gulp --gulpfile test/test-browser/gulp-01.js",
+    "test-sanity": "mocha test/**sanity.js",
     "test-optimize": "mocha test/test-optimize --expose-gc",
     "test-cover": "istanbul cover _mocha -- silence.js test",
     "test-cover-specific": "istanbul cover _mocha test/e2*"
@@ -61,6 +61,7 @@
     "glob": "5.0.15",
     "happn-3": "1.12.2",
     "happn-logger": "0.0.2",
+    "happn-sillyname": "^0.1.0",
     "happner-client": "1.2.4",
     "happner-terminal": "0.0.8",
     "homedir": "0.6.0",

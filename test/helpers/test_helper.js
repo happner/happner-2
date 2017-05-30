@@ -1,7 +1,7 @@
 var Promise = require('bluebird')
   , async = require('async')
   , Happner = require('../..')
-  , sillyname = require('sillyname')
+  , sillyname = require('happn-sillyname')
   , shortid = require('shortid')
   , path = require('path')
   , fs = require('fs-extra')
