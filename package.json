@@ -37,7 +37,7 @@
     "happner-serial-mocha": "1.5.2",
     "happner-test-modules": "^1.0.0",
     "istanbul": "^0.4.1",
-    "karma": "^2.0.0",
+    "karma": "^0.13.15",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.2.1",
     "karma-mocha": "^0.2.1",
