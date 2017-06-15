@@ -281,3 +281,7 @@ based on happner 1.28.1
     - password-hash-update
   - updated travis for node 8
   
+3.1.1 2017-06-15
+----------------
+  - updated happn 1.13.1 (protocol 1.1.0 fix)
+  
