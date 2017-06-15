@@ -273,3 +273,11 @@ based on happner 1.28.1
 3.0.1 2017-05-30
 ----------------
   - update happn-3 to version 1.12.2
+  
+3.1.0 2017-06-08
+----------------
+  - update happn-3 to version 1.13.0
+  - update happner to version 2.1.0 and up
+    - password-hash-update
+  - updated travis for node 8
+  
