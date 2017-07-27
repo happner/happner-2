@@ -288,4 +288,7 @@ based on happner 1.28.1
 3.1.2 2017-06-15
 ----------------
   - updated happn 1.13.2 (protocol general fix)
-  
+
+4.0.0 2017-07-27
+----------------
+  - updated happn to 2.0.1
