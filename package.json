@@ -33,7 +33,7 @@
     "fxt": "^1.0.2",
     "gulp": "^3.9.0",
     "happn-util-crypto": "0.2.3",
-    "happner": "^2.1.0",
+    "happner": "^1.33.2",
     "happner-serial-mocha": "1.5.2",
     "happner-test-modules": "^1.0.0",
     "istanbul": "^0.4.1",
