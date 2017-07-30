@@ -292,3 +292,7 @@ based on happner 1.28.1
 4.0.0 2017-07-27
 ----------------
   - updated happn to 2.0.1
+  
+4.0.1 2017-07-29
+----------------
+  - issue with release 4.0.0
