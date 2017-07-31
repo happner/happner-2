@@ -296,3 +296,7 @@ based on happner 1.28.1
 4.0.1 2017-07-29
 ----------------
   - issue with release 4.0.0
+  
+5.0.0 2017-07-31
+----------------
+  - happn-3 upgraded to v 3.0.0

@@ -64,6 +64,7 @@ describe(require('path').basename(__filename), function () {
   });
 
   it('02 - should subscribe to an event then unsubscribe by handle', function (done) {
+
     var event_count = 0;
     var path = "test2/path";
     var handle = null;
@@ -99,11 +100,11 @@ describe(require('path').basename(__filename), function () {
     mesh.event.data.on(path, event_handler, function (err, _handle) {
       should.not.exist(err);
       handle = _handle;
-
       mesh.exchange.data.set(path, 10);
     });
 
     function event_handler(message, _meta) {
+
       event_count++;
 
       mesh.event.data.offPath(path, function (err) {
