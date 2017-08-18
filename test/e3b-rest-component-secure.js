@@ -429,6 +429,40 @@ describe(require('path').basename(__filename), function () {
 
   };
 
+  var loginAuthHeaders = function (done, credentials) {
+
+    var restClient = require('restler');
+
+    var operation = {
+      username: '_ADMIN',
+      password: ADMIN_PASSWORD
+    };
+
+    if (credentials) operation = credentials;
+
+    restClient.postJson('http://localhost:10000/rest/login', operation).on('complete', function (result) {
+      if (result.error) return done(new Error(result.error.message));
+      done(null, result);
+    });
+  };
+
+  var loginQueryString = function (done, credentials) {
+
+    var restClient = require('restler');
+
+    var operation = {
+      username: '_ADMIN',
+      password: ADMIN_PASSWORD
+    };
+
+    if (credentials) operation = credentials;
+
+    restClient.postJson('http://localhost:10000/rest/login', operation).on('complete', function (result) {
+      if (result.error) return done(new Error(result.error.message));
+      done(null, result);
+    });
+  };
+
   it('tests the rest components login method over the wire', function (done) {
 
     login(function (e, response) {
