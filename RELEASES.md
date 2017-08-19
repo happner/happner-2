@@ -300,3 +300,7 @@ based on happner 1.28.1
 5.0.0 2017-07-31
 ----------------
   - happn-3 upgraded to v 3.0.0
+  
+5.1.0 2017-08-19
+----------------
+  - allowed for the pulling of the $origin from an authorization header
