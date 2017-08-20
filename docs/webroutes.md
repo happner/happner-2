@@ -102,12 +102,49 @@ config = {
   components: {...}
 }
 ```
+### Secured web routes
 
-## Notes
+When the happner instance is run in secure mode, all web routes are secure against access, and users need to be assigned permissions before they can access them.
+
+Access is handled by the user logging in and getting a token, which must be appended to subsequent requests via the happn_token cookie or querystring argument, please see [the secured routes test](https://github.com/happner/happner/blob/master/test/c7-permissions-web.js).
+
+The token can also be used as a Bearer authorization header, see [the secured rest component test](https://github.com/happner/happner/blob/master/test/e3b-rest-component-secure.js#L620) to see how this can be done.
+
+```javascript
+
+//logging in and getting a token, which can be used in 3 ways (querystring arg, cookie or Bearer token)
+
+//assuming we have a standard happner instance up, we can instantiate and login with the client:
+
+var Mesh = require('happner');
+
+var testClient = new Mesh.MeshClient({secure: true});
+
+var credentials = {
+  username: '_ADMIN',
+  password: 'happner'
+};
+
+testClient.login(credentials).then(function () {
+
+  var request = require('request');
+
+  var options = {
+    url: 'http://127.0.0.1/componentName/methodName' + testClient.token
+  };
+
+
+  request(options, function (error, response, body) {
+    //method call was either successful or not
+  });
+
+});
+
+```
+
+### Notes
 
 *web routes can be defined in the happner config, please see [the test for now](https://github.com/happner/happner/blob/master/test/9-web-middleware.js)*
-
-*when the happner instance is run in secure mode, all web routes need to be assigned permissions before users can access them via a token, please see [the secured routes test](https://github.com/happner/happner/blob/master/test/c7-permissions-web.js)*
 
 *note - routes can be excluded from the token check, [here is where in the config](https://github.com/happner/happner/blob/master/test/c7-permissions-web.js#L29) [and here is where a an exclusion is tested](https://github.com/happner/happner/blob/master/test/c7-permissions-web.js#L140)*
 

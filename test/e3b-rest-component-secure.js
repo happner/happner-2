@@ -469,6 +469,7 @@ describe(require('path').basename(__filename), function () {
       };
 
       var MockRequest = require('./lib/helper_mock_req');
+
       var request = new MockRequest({
         method: 'POST',
         url: '/rest/api',
@@ -612,6 +613,38 @@ describe(require('path').basename(__filename), function () {
       restClient.postJson('http://localhost:10000/rest/method/testComponent/method1?happn_token=' + result.data.token, operation).on('complete', function (result) {
         expect(result.data.number).to.be(2);
         done();
+      });
+    });
+  });
+
+  it('tests posting an operation using a Bearer auth token', function (done) {
+
+    login(function (e, result) {
+
+      if (e) return done(e);
+
+      var restClient = require('restler');
+
+      var operation = {
+        parameters: {
+          'opts': {'number': 1}
+        }
+      };
+
+      //?happn_token=' + result.data.token
+
+      var options = {headers:{}};
+
+      options.headers['authorization'] = 'Bearer ' + result.data.token;
+
+      restClient.postJson('http://localhost:10000/rest/method/testComponent/method1', operation, options)
+        .on('complete', function (result) {
+
+          if (result.error) console.log(result.error.message);
+
+          expect(result.data.number).to.be(2);
+
+          done();
       });
     });
   });

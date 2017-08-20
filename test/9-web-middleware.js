@@ -210,6 +210,27 @@ describe(require('path').basename(__filename), function (done) {
     });
   });
 
+  it('can inject $origin from Bearer token', function (done) {
+
+    var options = {
+      url: 'http://localhost:10000/middlewareTest/injectOrigin',
+      headers: {
+        'Authorization': 'Bearer ' + client.token
+      }
+    };
+
+    request(options, function (e, res, body) {
+      if (e) return done(e);
+      try {
+        expect(res.statusCode).to.be(200);
+        expect(body).to.be('_ADMIN');
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+
   it('can inject $happn and $origin in forward order', function (done) {
     cookieRequest('http://localhost:10000/middlewareTest/injectForwardOrder', function (e, res, body) {
       if (e) return done(e);
