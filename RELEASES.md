@@ -304,3 +304,4 @@ based on happner 1.28.1
 5.1.0 2017-08-19
 ----------------
   - allowed for the pulling of the $origin from an authorization header
+  - fixed non-dry code for getting the session from the req object, now happens only in one place
