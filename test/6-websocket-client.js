@@ -1,6 +1,6 @@
 var path = require('path');
 
-describe(path.basename(__filename), function (done) {
+describe.only(path.basename(__filename), function (done) {
 
   this.timeout(120000);
 
@@ -32,15 +32,19 @@ describe(path.basename(__filename), function (done) {
     remote.stdout.on('data', function (data) {
 
       if (data.toString().match(/READY/)) {
+
         testClient = new Mesh.MeshClient({port: 3111});
+
         testClient.login({
           username: '_ADMIN',
           password: 'password'
-        }).then(done);
+        }).then(function(){
+          done();
+        }).catch(function(e){
+          done(e);
+        });
       }
-
     });
-
   });
 
   it('does a set on the datalayer component', function (done) {
