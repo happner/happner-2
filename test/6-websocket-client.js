@@ -1,6 +1,6 @@
 var path = require('path');
 
-describe.only(path.basename(__filename), function (done) {
+describe(path.basename(__filename), function (done) {
 
   this.timeout(120000);
 
