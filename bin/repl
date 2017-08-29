@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+
+var Happner = require('../');
+
+var i = 0;
+
+Happner.create({
+    name: 'mesh_name',
+    repl: {
+      socket: '/tmp/MESH_NAME.socket',
+      historyFile: '/tmp/MESH_NAME.history'
+    },
+    modules: {
+      componentName: {
+        instance: {
+          methodName: function (arg, callback) {
+            callback(null, {
+              object: {
+                that: {
+                  was: 'called back'
+                }
+              }
+            });
+          },
+          methodError: function (callback) {
+            callback(new Error('Oh no.'));
+          }
+        }
+      },
+      logingModule: {
+        instance: {
+          start: function ($happn, callback) {
+            setInterval(function () {
+              $happn.log.debug('debug');
+              $happn.log.info('info');
+            }, 1000);
+            callback();
+          }
+        }
+      }
+    },
+    components: {
+      componentName: {},
+      logingModule: {
+        startMethod: 'start'
+      }
+    }
+  })
+
+  .then(function () {
+
+  })
+
+  .catch(function (err) {
+    console.log(err);
+    process.exit(1);
+  });
