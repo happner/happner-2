@@ -301,6 +301,15 @@ based on happner 1.28.1
 ----------------
   - happn-3 upgraded to v 3.0.0
 
-5.1.0 2017-08-29
+5.1.0 2017-08-19
+----------------
+  - allowed for the pulling of the $origin from an authorization header
+  - fixed non-dry code for getting the session from the req object, now happens only in one place
+
+5.1.1 2017-08-19
+----------------
+  - fix to the _registerSchema function, have try/catch and deepcopy of the filtered config
+
+5.2.0 2017-08-29
 ----------------
   - improved repl
