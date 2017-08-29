@@ -62,17 +62,17 @@ var config = {
 Mesh.create(config)
 
   .then(function(mesh) {
-  
+
     // do some stuff before listening
-    
+
     return mesh.listen();
-  
+
   })
-  
+
   .then(..
-   
-  .catch(.. 
-  
+
+  .catch(..
+
 ```
 
 ### Listen First
@@ -94,7 +94,7 @@ The happn layer is actually a [plain happn config](https://github.com/happner/ha
 here are the convenience settings most typically used for happner:
 
 ```javascript
-  
+
   happn: {
     host: '0.0.0.0',
     port: 55000, // 0 for os assigned port
@@ -143,7 +143,7 @@ here are the convenience settings most typically used for happner:
 `defaultRoute` - Where to store data when no match is found in the per component `data.route` masks.<br/>
 `secure` - Set true will enable security. Users in groups with permissions will need to be created. See [Security](security.md)<br/>
 `transport` - Set to configure server to use https.
-`middleware` - Configure middleware details for use when security is enabled. 
+`middleware` - Configure middleware details for use when security is enabled.
 `adminPassword` - If secure is true, this sets a password for the genesis user (_ADMIN).<br/>
 `setOptions` - Default options set by the exchange when calling functions through the happn.</br>
 
@@ -220,7 +220,7 @@ endpoints can be configured with different reconnection policies
 ```javascript
  var config = {
     endpoints: {
-      'test': { 
+      'test': {
         reconnect:{ // as per Primus's reconnection settings
           max:2000, //default 3 seconds (3000)
           retries:100 // default Infinity
@@ -572,7 +572,7 @@ Allows for specifying a function or set of functions the can operate on the mesh
   plugins: [
     function (mesh, logger) {
       var log = logger.createLogger('plugin1');
-      
+
       // return the plugin instance with start and stop methods
       return {
         start: function (callback) {
@@ -643,7 +643,7 @@ MyMeshModule.prototype.method = function($happn) {
   // $happn.log.trace()
   // $happn.log.$$DEBUG() // same as debug
   // $happn.log.$$TRACE() // same as trace
-  // 
+  //
 }
 ```
 
@@ -651,36 +651,93 @@ MyMeshModule.prototype.method = function($happn) {
 
 [&#9650;](#)
 
-The MeshNode can be set to share a console repl on a socket file.
+The MeshNode can be set to share a console repl on a socket file or port to access the running server.
 
 ```javascript
-  ...
+meshConfig: {
   repl: {
-    socket: '/tmp/somefilename',
+    socket: '/tmp/somefilename.socket',
+    // OR port
+    // port: 9999, // listens at localhost:9999
     ignoreUndefined: false,
     useColors: true,
+    historyFile: '/tmp/somefilename.history' // store repl command history
   }
-  ...
+}
 ```
 * The repl __is only started if the config is present__.
-* The mesh instance is in the variable `meshNode`
+* The mesh instance is in the variable `mesh`
 * ^d is the best exit.
 
-__Important!__ The repl is insecure. Anyone with readwrite on the socket file has __full access to the meshNode instance__.
+__NB!__ The socket repl is insecure. Anyone with readwrite on the socket file has full access to the mesh instance without login. Similarly the port repl will allow anyone with access to localhost:port.
 
-##### Using the repl.
+#### Using the repl.
 
-```bash
-sudo npm install repl-client --global
+```
+sudo npm install net-repl --global
 
-rc /tmp/somefilename
+repl /tmp/somefilename.socket
+# OR
+repl 9999
 
-mesh-name> 
-mesh-name> meshNode.description()
-...
+mesh-name>
+mesh-name> mesh.description()
 mesh-name> ^d
-
-rc /tmp/somefilename < script.js > result.txt
 ```
 
+#### The $logger tool
+
+Modify the server's logger settings.
+
+```
+# These affect logging output in the server process. Logger is not visible in the repl.
+
+# modify log level
+mesh-name> $logger.level = 'debug'
+
+# only log specific components
+mesh-name> $logger.components = ['component-name', 'another']
+
+# reset logger to original settings
+mesh-name> $logger.reset
+```
+
+#### The $callback tool
+
+Use callback tool to accumulate results from exchange methods (or event subscriptions).
+
+```
+# call exchange method passing $callback to receive the result (which may take time)
+mesh_name> mesh.exchange.componentName.methodName('argument', $callback)
+
+# result is contained in $callback.res
+mesh_name> $callback.res
+mesh_name> JSON.stringify($callback.res)
+
+# error is in $callback.err
+mesh_name> $callback.err
+
+# history array (length 10) of previous callbacks
+mesh_name> $callback.history[0].res
+```
+
+#### Calling methods in component context ($happn)
+
+```
+mesh_name> $happn = mesh._mesh.elements.componentName.component.instance
+mesh_name> $happn.data.set('some/path', {x: 1}, $callback)
+mesh_name> $callback.res
+{ x: 1,
+  _meta:
+   { created: 1504032302038,
+     modified: 1504032354563,
+     path: '/_data/componentName/some/path',
+     published: true,
+     type: 'response',
+     status: 'ok',
+     eventId: 17,
+     sessionId: 'be4d18b5-1f38-4961-bb49-b8b0b4257f18',
+     action: 'set' } }
+
+```
 
