@@ -46,7 +46,6 @@ describe(require('path').basename(__filename), function (done) {
           }
         }
       }
-
     },
     web: {
       routes: {
