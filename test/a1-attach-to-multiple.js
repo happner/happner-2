@@ -81,11 +81,32 @@ describe(require('path').basename(__filename), function () {
   });
 
   after(function (done) {
-    this.kids.forEach(function (kid) {
+
+    var _this = this;
+
+    var __timeout = _this.kids.length * 500;
+
+    this.timeout(__timeout + 5000);
+
+    _this.kids.forEach(function (kid) {
       // console.log('killing kid', kid);
       kid.kill();
     });
-    this.mesh.stop({reconnect: false}, done);
+
+    console.log('killed kids:::');
+
+    _this.mesh.stop({reconnect: false}, function(e){
+
+      if (e) {
+
+        console.log('failed to stop', e);
+        return done(e);
+      }
+
+      done();
+    });
+
+
   });
 
   it('can call methods on all', function (done) {
