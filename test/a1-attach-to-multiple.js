@@ -19,6 +19,8 @@ describe(require('path').basename(__filename), function () {
 
     var _this = this;
 
+    if (process.env.INTRAVENOUS) return done();
+
     var kids = this.kids = [];
 
     var config = {
@@ -82,34 +84,19 @@ describe(require('path').basename(__filename), function () {
 
   after(function (done) {
 
-    var _this = this;
+    if (process.env.INTRAVENOUS) return done();
 
-    var __timeout = _this.kids.length * 500;
-
-    this.timeout(__timeout + 5000);
-
-    _this.kids.forEach(function (kid) {
+    this.kids.forEach(function (kid) {
       // console.log('killing kid', kid);
       kid.kill();
     });
 
-    console.log('killed kids:::');
-
-    _this.mesh.stop({reconnect: false}, function(e){
-
-      if (e) {
-
-        console.log('failed to stop', e);
-        return done(e);
-      }
-
-      done();
-    });
-
-
+    this.mesh.stop({reconnect: false}, done);
   });
 
   it('can call methods on all', function (done) {
+
+    if (process.env.INTRAVENOUS) return done();
 
     var i = 0;
     var mesh = this.mesh;
