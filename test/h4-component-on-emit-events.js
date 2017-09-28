@@ -74,8 +74,6 @@ describe(filename, function () {
 
         if (e) return done(e);
 
-        console.log(JSON.stringify(events, null, 2));
-
         expect(events[0]).to.not.be(null);
 
         done();
@@ -93,8 +91,6 @@ describe(filename, function () {
       client.exchange.component1.getEvents(function(e, events){
 
         if (e) return done(e);
-
-        console.log(JSON.stringify(events, null, 2));
 
         expect(events[0]).to.not.be(null);
 
@@ -114,8 +110,6 @@ describe(filename, function () {
 
         if (e) return done(e);
 
-        console.log(JSON.stringify(events, null, 2));
-
         expect(events.ok).to.not.be(null);
 
         expect(events.publishOK.successful).to.be(1);
@@ -134,8 +128,6 @@ describe(filename, function () {
       client.exchange.component1.getEvents(function(e, events){
 
         if (e) return done(e);
-
-        console.log(JSON.stringify(events, null, 2));
 
         expect(events.ok).to.not.be(null);
 
