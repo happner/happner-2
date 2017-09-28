@@ -16,7 +16,7 @@ function onEmitOK(response){
 
 function onEmitError(e){
 
-  emitErrorData = e;
+  emitErrorData = e.toString();
 }
 
 function onPublishOK(response){
@@ -25,8 +25,7 @@ function onPublishOK(response){
 }
 
 function onPublishError(e){
-
-  publishErrorData = e;
+  publishErrorData = e.toString();
 }
 
 function onEmit(event, data){
@@ -59,9 +58,23 @@ Component.prototype.causeEmit = function ($happn, eventKey, data, options, callb
 
 Component.prototype.causeEmitError = function ($happn, eventKey, data, options, callback) {
 
+  $happn.__oldEmit = $happn.emit;
+
+  $happn.emit = function(eventKey, data, options, callback){
+
+    $happn.__raiseOnPublishError(new Error('TEST ERROR'));
+
+    $happn.__raiseOnEmitError(new Error('TEST ERROR'));
+
+    return callback(new Error('TEST ERROR'));
+
+  }.bind($happn);
+
   $happn.emit(eventKey, data, options, function(e){
 
-    callback(e);
+    $happn.emit = $happn.__oldEmit;
+
+    callback();
   });
 };
 

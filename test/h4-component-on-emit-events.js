@@ -1,7 +1,7 @@
 var path = require('path');
 var filename = path.basename(__filename);
 
-describe.only(filename, function () {
+describe(filename, function () {
 
   var expect = require('expect.js');
   var server, client;
@@ -147,7 +147,22 @@ describe.only(filename, function () {
 
   });
 
-  xit('tests a failing event emit makes it to the on-emit-error event', function (done) {
+  it('tests a failing event emit makes it to the on-emit-error event', function (done) {
 
+    client.exchange.component1.causeEmitError('default-transactional', 'default-transactional', {consistency:0}, function(e){
+
+      if (e) return done(e);
+
+      client.exchange.component1.getEvents(function(e, events){
+
+        if (e) return done(e);
+
+        expect(events.error).to.be('Error: TEST ERROR');
+
+        expect(events.publishError).to.be('Error: TEST ERROR');
+
+        done();
+      });
+    });
   });
 });
