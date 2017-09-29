@@ -19,6 +19,8 @@ describe(require('path').basename(__filename), function () {
 
     var _this = this;
 
+    if (process.env.INTRAVENOUS) return done();
+
     var kids = this.kids = [];
 
     var config = {
@@ -81,14 +83,20 @@ describe(require('path').basename(__filename), function () {
   });
 
   after(function (done) {
+
+    if (process.env.INTRAVENOUS) return done();
+
     this.kids.forEach(function (kid) {
       // console.log('killing kid', kid);
       kid.kill();
     });
+
     this.mesh.stop({reconnect: false}, done);
   });
 
   it('can call methods on all', function (done) {
+
+    if (process.env.INTRAVENOUS) return done();
 
     var i = 0;
     var mesh = this.mesh;

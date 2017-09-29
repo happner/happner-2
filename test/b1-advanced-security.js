@@ -796,6 +796,8 @@ describe(require('path').basename(__filename), function (done) {
 
   it('can upsert an existing group, merging permissions', function (done) {
 
+    this.timeout(5000);
+
     var testUpsertGroup = {
       name: 'TEST_UPSERT_EXISTING',
 
