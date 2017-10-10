@@ -32,17 +32,13 @@ describe(require('path').basename(__filename), function () {
 
     before(function (done) {
 
-      console.log('creating mesh:::');
-
       Mesh.create(remoteConfig)
 
         .then(function (createdMesh) {
-          console.log('created mesh:::');
           remoteMesh = createdMesh;
         })
 
         .then(function () {
-          console.log('creating mesh with endpoint:::');
           return Mesh.create(config);
         })
 
