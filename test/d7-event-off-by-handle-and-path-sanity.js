@@ -40,6 +40,7 @@ describe(require('path').basename(__filename), function () {
 
     var event_count = 0;
     var path = "test1/path";
+
     mesh.event.data.on(path, event_handler, function (err) {
       should.not.exist(err);
 
@@ -49,7 +50,7 @@ describe(require('path').basename(__filename), function () {
     function event_handler(message, _meta) {
       event_count++;
 
-      mesh.event.data.off(path, function (err) {
+      mesh.event.data.offPath(path, function (err) {
         should.not.exist(err);
         mesh.exchange.data.set(path, 20, function () {
           setTimeout(checkCount, 500);

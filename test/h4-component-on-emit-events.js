@@ -7,7 +7,7 @@ describe(filename, function () {
   var server, client;
   var Happner = require('../');
 
-  before('start a mesh with 2 components, and a client', function (done) {
+  beforeEach('start a mesh with 2 components, and a client', function (done) {
 
     Happner.create({
         modules: {
@@ -34,7 +34,7 @@ describe(filename, function () {
 
   });
 
-  before('start client', function (done) {
+  beforeEach('start client', function (done) {
 
     var _client = new Happner.MeshClient();
     _client.login()
@@ -45,13 +45,13 @@ describe(filename, function () {
       .catch(done);
   });
 
-  after('stop client', function (done) {
+  afterEach('stop client', function (done) {
 
     if (!client) return done();
     client.disconnect(done);
   });
 
-  after('stop server', function (done) {
+  afterEach('stop server', function (done) {
 
     if (!server) return done();
     server.stop({reconnect: false}, done);
@@ -157,4 +157,204 @@ describe(filename, function () {
       });
     });
   });
+
+  it('tests off([string] across components and clients', function (done) {
+
+    this.timeout(5000);
+
+    var clientEvents = [];
+
+    client.data.on('*test-concurrent-event', function(data){
+
+      clientEvents.push(data);
+
+    }, function(e){
+
+      if (e) return done(e);
+
+      client.exchange.component1.causeEmitConcurrent('test-concurrent-event', 'default-transactional', {}, function(e){
+
+        if (e) return done(e);
+
+        client.exchange.component2.getConcurrentEvents(function(e, events){
+
+          if (e) return done(e);
+
+          expect(events.length).to.be(1);
+
+          client.exchange.component1.causeOffConcurrent('test-concurrent-event', function(e){
+
+            if (e) return done(e);
+
+            client.exchange.component1.causeEmitConcurrent('test-concurrent-event', 'default-transactional', {}, function(e){
+
+              if (e) return done(e);
+
+              client.exchange.component2.getConcurrentEvents(function(e, events){
+
+                if (e) return done(e);
+
+                expect(events.length).to.be(1);
+
+                //now do a bunch
+                client.exchange.component1.causeEmitConcurrent('test-concurrent-event', 'default-transactional', {});
+                client.exchange.component1.causeEmitConcurrent('test-concurrent-event', 'default-transactional', {});
+                client.exchange.component1.causeEmitConcurrent('test-concurrent-event', 'default-transactional', {});
+
+                setTimeout(function(){
+
+                  client.exchange.component2.getConcurrentEvents(function(e, events) {
+
+                    if (e) return done(e);
+
+                    expect(events.length).to.be(1);
+
+                    expect(clientEvents.length).to.be(5);
+
+                    done();
+
+                  });
+
+                }, 2000);
+
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it('tests off([listenerId] across components and clients', function (done) {
+
+    this.timeout(5000);
+
+    var clientEvents = [];
+    var currentListenerId;
+
+    client.event.component1.on('test-listener-id', function(data){
+
+      clientEvents.push(data);
+
+    }, function(e, listenerId){
+
+      if (e) return done(e);
+
+      currentListenerId = listenerId;
+
+      client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {}, function(e){
+
+        if (e) return done(e);
+
+        client.exchange.component2.getListenerEvents(function(e, events){
+
+          if (e) return done(e);
+
+          expect(events.length).to.be(1);
+
+          client.event.component1.off(currentListenerId, function(e){
+
+            if (e) return done(e);
+
+            client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {}, function(e){
+
+              if (e) return done(e);
+
+              client.exchange.component2.getListenerEvents(function(e, events){
+
+                if (e) return done(e);
+
+                setTimeout(function(){
+
+                  expect(events.length).to.be(2);
+                  expect(clientEvents.length).to.be(1);
+
+                  done();
+
+                }, 2000);
+
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+
+  it('tests event.once', function (done) {
+
+    this.timeout(5000);
+
+    var clientEvents = [];
+    var currentListenerId;
+
+    client.event.component1.once('test-listener-id', function(data){
+
+      clientEvents.push(data);
+
+    }, function(e, listenerId){
+
+      if (e) return done(e);
+
+      currentListenerId = listenerId;
+
+      client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {});
+      client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {});
+      client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {});
+
+      setTimeout(function(){
+
+        client.exchange.component2.getListenerEvents(function(e, events){
+
+          if (e) return done(e);
+
+          expect(events.length).to.be(3);
+          expect(clientEvents.length).to.be(1);
+
+          done();
+        });
+
+      }, 2000);
+    });
+
+  });
+
+  it('negative tests event.once', function (done) {
+
+    this.timeout(5000);
+
+    var clientEvents = [];
+    var currentListenerId;
+
+    client.event.component1.on('test-listener-id', function(data){
+
+      clientEvents.push(data);
+
+    }, function(e, listenerId){
+
+      if (e) return done(e);
+
+      currentListenerId = listenerId;
+
+      client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {});
+      client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {});
+      client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {});
+
+      setTimeout(function(){
+
+        client.exchange.component2.getListenerEvents(function(e, events){
+
+          if (e) return done(e);
+
+          expect(events.length).to.be(3);
+          expect(clientEvents.length).to.be(3);
+
+          done();
+        });
+
+      }, 2000);
+    });
+
+  });
+
 });

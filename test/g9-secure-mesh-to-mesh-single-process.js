@@ -34,7 +34,7 @@ describe(require('path').basename(__filename), function () {
 
       console.log('creating mesh:::');
 
-      return Mesh.create(remoteConfig)
+      Mesh.create(remoteConfig)
 
         .then(function (createdMesh) {
           console.log('created mesh:::');
@@ -56,14 +56,20 @@ describe(require('path').basename(__filename), function () {
         .catch(done)
     });
 
-
     after(function (done) {
+
       remoteMesh.stop({reconnect: false})
         .then(function () {
-          return mesh.stop({reconnect: false})
-        })
-        .then(function () {
           done();
+        })
+        .catch(done);
+    });
+
+    after(function (done) {
+
+      mesh.stop({reconnect: false})
+        .then(function () {
+         done();
         })
         .catch(done);
     });
