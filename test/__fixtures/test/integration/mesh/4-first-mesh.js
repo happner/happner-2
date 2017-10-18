@@ -1,4 +1,4 @@
-var Mesh = require('../../lib/mesh');
+var Mesh = require('../../../../..');
 
 var config = {
   name: 'remoteMesh',

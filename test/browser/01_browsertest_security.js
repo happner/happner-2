@@ -93,6 +93,21 @@ describe('01_browsertest_security', function() {
         .catch(done);
     });
 
+    it('denies access to denied methods cb', function(done) {
+
+      try{
+
+        client.exchange.test.deniedMethod({key: 'value'}, function(e, result) {
+
+            if (!e) done(new Error('should not allow'));
+          });
+
+      }catch(e){
+
+        done(e);
+      }
+    });
+
     it('denies access to denied methods', function(done) {
 
       try{
@@ -101,23 +116,16 @@ describe('01_browsertest_security', function() {
 
           .then(function(result) {
 
-            console.log('HUH:::', result);
-
             done(new Error('should not allow'));
           })
           .catch(function(error) {
 
-            console.log('DENIED TEST ERROR:::', error.toString());
-
             error.toString().should.equal('AccessDenied: unauthorized');
             done();
           })
-          .catch(done);
 
       }catch(e){
-
-        console.log('SOMETHING BROKE:::', e.toString());
-        done();
+        done(e);
       }
     });
   });

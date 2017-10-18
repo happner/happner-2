@@ -19,7 +19,7 @@ describe('003-endpoint-reconnection-insecure', function () {
     else done(e);
   };
 
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = __dirname + sep + '__fixtures' + sep;
 
   var REMOTE_MESH = '003-remote-mesh-insecure';
 

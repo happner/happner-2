@@ -70,11 +70,11 @@ describe('002-rest-component-stress', function () {
   // Uses unit test 2 modules
   var expect = require('expect.js');
 
-  var Mesh = require('..' + sep + '..');
+  var Mesh = require('../..');
 
   var path = require('path');
 
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = __dirname + sep + '__fixtures' + sep;
 
   var async = require('async');
 

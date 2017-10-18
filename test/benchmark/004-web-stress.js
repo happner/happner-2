@@ -1,6 +1,3 @@
-/* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
-
-var Promise = require('bluebird');
 var sep = require('path').sep;
 var spawn = require('child_process').spawn;
 module.exports = SeeAbove;
@@ -72,7 +69,7 @@ describe('004-web-stress', function () {
   var expect = require('expect.js');
   var Mesh = require('..' + sep + '..');
   var path = require('path');
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = __dirname + sep + '__fixtures' + sep;
   var async = require('async');
 
   var REMOTE_MESH = '004-remote-mesh.js';
@@ -178,9 +175,9 @@ describe('004-web-stress', function () {
 
       try{
         //expect(response.request.parameters.opts.number).to.be(response.response.data.number - 1);
-        console.log('___parsing:::');
-        console.log(response.response);
-        console.log('___parsed:::');
+        // console.log('___parsing:::');
+        // console.log(response.response);
+        // console.log('___parsed:::');
 
         if (response.response.toString().indexOf('ECONNRESET') > -1) throw new Error(response.response.Error);
 
@@ -204,7 +201,7 @@ describe('004-web-stress', function () {
 
   it('tests N posts to the WEB component in parallel', function(done){
 
-    var requests = generateRequests('SERIES', CONNECTIONS_COUNT);
+    var requests = generateRequests('PARALLEL', CONNECTIONS_COUNT);
     var responses = [];
     var restClient = require('restler');
 

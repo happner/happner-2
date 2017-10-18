@@ -78,7 +78,7 @@ describe('002-rest-component-stress-secure', function () {
 
   var path = require('path');
 
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = __dirname + sep + '__fixtures' + sep;
 
   var async = require('async');
 

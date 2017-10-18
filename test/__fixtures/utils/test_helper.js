@@ -1,12 +1,12 @@
 var Promise = require('bluebird')
   , async = require('async')
-  , Happner = require('../..')
+  , Happner = require('../../..')
   , sillyname = require('happn-sillyname')
   , shortid = require('shortid')
   , path = require('path')
   , fs = require('fs-extra')
   , expect = require('expect.js')
-  , Mesh = require('../../')
+  , Mesh = require('../../..')
   ;
 
 function TestHelper() {
@@ -74,7 +74,7 @@ TestHelper.prototype.startHappnerInstance = function(ctx, config, callback){
   });
 };
 
-TestHelper.prototype.stopHappnerInstances = function(){
+TestHelper.prototype.stopHappnerInstances = function(ctx, callback){
 
   var _this = this;
 
