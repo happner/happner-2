@@ -1,4 +1,4 @@
-var Mesh = require('../../lib/mesh'),
+var Mesh = require('../../../../../lib/mesh'),
   async = require('async')
   ;
 
@@ -16,7 +16,7 @@ var config = {
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/e3-remote-component"
+      path: __dirname + "/remote-component"
     }
   },
   components: {

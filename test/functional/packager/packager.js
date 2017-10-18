@@ -1,17 +1,17 @@
-var expect = require('expect.js');
-var Happner = require('..');
-var fs = require('fs');
-var fsExtra = require('fs-extra');
-var homedir = require('homedir');
-var sep = require('path').sep;
-var version = require('../package.json').version;
-var cachedDirname = homedir() + sep + '.happner';
-var cachedFilename = cachedDirname + sep + 'api-client-' + version + '.min.js.gz';
-var request = require('request');
-var Promise = require('bluebird');
-var md5 = require('md5');
-
 describe(require('path').basename(__filename), function () {
+
+  var expect = require('expect.js');
+  var Happner = require('../../..');
+  var fs = require('fs');
+  var fsExtra = require('fs-extra');
+  var homedir = require('homedir');
+  var sep = require('path').sep;
+  var version = require('../../../package.json').version;
+  var cachedDirname = homedir() + sep + '.happner';
+  var cachedFilename = cachedDirname + sep + 'api-client-' + version + '.min.js.gz';
+  var request = require('request');
+  var Promise = require('bluebird');
+  var md5 = require('md5');
 
   var server;
   var previousEnv = process.env.NODE_ENV;
@@ -61,7 +61,7 @@ describe(require('path').basename(__filename), function () {
   it('uses cached script in production mode', function (done) {
     var anotherServer;
     var reAssembled = false;
-    var Packager = require('../lib/system/packager');
+    var Packager = require('../../../lib/system/packager');
     var originalAssemble = Packager.prototype.assemble;
 
     Packager.prototype.assemble = function () {
@@ -118,7 +118,7 @@ describe(require('path').basename(__filename), function () {
 
     var anotherServer;
     var reAssembled = false;
-    var Packager = require('../lib/system/packager');
+    var Packager = require('../../../lib/system/packager');
     var originalAssemble = Packager.prototype.assemble;
 
     Packager.prototype.assemble = function () {

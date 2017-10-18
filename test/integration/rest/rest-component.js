@@ -1,5 +1,3 @@
-/* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
-
 module.exports = SeeAbove;
 
 function SeeAbove() {
@@ -63,23 +61,24 @@ SeeAbove.prototype.$happner = {
 
 if (global.TESTING_E9) return; // When 'requiring' the module above,
 
-describe(require('path').basename(__filename), function () {
+var path = require('path');
+
+describe(path.basename(__filename), function () {
 
   /**
    * Simon Bishop
    * @type {expect}
    */
 
-  var sep = require('path').sep;
   var spawn = require('child_process').spawn;
 
   // Uses unit test 2 modules
   var expect = require('expect.js');
-  var Mesh = require('../');
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var Mesh = require('../../..');
 
-  //var REMOTE_MESH = 'e2-remote-mesh';
-  var REMOTE_MESH = 'e3-remote-mesh-insecure.js';
+  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'rest'].join(path.sep) + path.sep;
+
+  var REMOTE_MESH = 'remote-mesh-insecure.js';
 
   this.timeout(120000);
 
@@ -97,7 +96,7 @@ describe(require('path').basename(__filename), function () {
 
     remote.stdout.on('data', function (data) {
 
-      process.stdout.write(data);
+      //process.stdout.write(data);
 
       if (data.toString().match(/READY/)) {
 
@@ -177,7 +176,7 @@ describe(require('path').basename(__filename), function () {
 
   });
 
-  var happnUtils = require('../lib/system/utilities');
+  var happnUtils = require('../../../lib/system/utilities');
 
   var mock$Happn = {
     _mesh: {
@@ -208,7 +207,7 @@ describe(require('path').basename(__filename), function () {
 
   it('tests the rest components __respond method', function (done) {
 
-    var RestModule = require('../lib/modules/rest/index.js');
+    var RestModule = require('../../../lib/modules/rest/index.js');
     var restModule = new RestModule();
 
     var testStage = 'success';
@@ -254,10 +253,10 @@ describe(require('path').basename(__filename), function () {
 
   it('tests the rest components __parseBody method', function (done) {
 
-    var RestModule = require('../lib/modules/rest/index.js');
+    var RestModule = require('../../../lib/modules/rest/index.js');
     var restModule = new RestModule();
+    var MockRequest = require('../../__fixtures/utils/helper_mock_req');
 
-    var MockRequest = require('./lib/helper_mock_req');
     var request = new MockRequest({
       method: 'POST',
       url: '/rest/api',
@@ -316,7 +315,7 @@ describe(require('path').basename(__filename), function () {
 
   it('tests the rest components handleRequest method', function (done) {
 
-    var RestModule = require('../lib/modules/rest/index.js');
+    var RestModule = require('../../../lib/modules/rest/index.js');
     var restModule = new RestModule();
 
     restModule.__exchangeDescription = {
@@ -334,7 +333,7 @@ describe(require('path').basename(__filename), function () {
       }
     };
 
-    var MockRequest = require('./lib/helper_mock_req');
+    var MockRequest = require('../../__fixtures/utils/helper_mock_req');
     var request = new MockRequest({
       method: 'POST',
       url: '/testComponent/method1',
