@@ -7,7 +7,7 @@ function TestMesh() {
 
 TestMesh.prototype.method1 = function ($happn, $origin, callback) {
   callback(null, $origin);
-}
+};
 
 if (global.TESTING_D1 || global.TESTING_D1_1) return; // When 'requiring' the module above,
 // don't run the tests below
@@ -17,14 +17,11 @@ describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
   var expect = require('expect.js');
-  var should = require('chai').should();
+  require('chai').should();
 
   var unsecureMesh;
-  var Mesh = require('../');
+  var Mesh = require('../../..');
   var secureMesh = new Mesh();
 
   var secureClient = new Mesh.MeshClient({secure: true, port: 8000});
@@ -38,7 +35,7 @@ describe(require('path').basename(__filename), function () {
     global.TESTING_D1 = true; //.............
 
     secureMesh.initialize({
-      name: 'd1-session-injection-secure',
+      name: 'session-injection-secure',
       happn: {
         secure: true,
         adminPassword: test_id,
@@ -153,7 +150,6 @@ describe(require('path').basename(__filename), function () {
       done();
 
     });
-
   });
 
   it('fetches the origin info on an unsecure mesh', function (done) {
@@ -169,8 +165,4 @@ describe(require('path').basename(__filename), function () {
     });
 
   });
-
-
-  //require('benchmarket').stop();
-
 });

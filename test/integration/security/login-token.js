@@ -4,7 +4,7 @@ describe(require('path').basename(__filename), function () {
   this.timeout(30000);
 
   var expect = require('expect.js');
-  var Happner = require('../');
+  var Happner = require('../../..');
   var async = require('async');
 
   var happnerInstance1 = null;
@@ -17,7 +17,7 @@ describe(require('path').basename(__filename), function () {
       services: {
         security: {
           config: {
-            sessionTokenSecret: 'h1_test-secret',
+            sessionTokenSecret: 'test-secret',
             keyPair: {
               privateKey: 'Kd9FQzddR7G6S9nJ/BK8vLF83AzOphW2lqDOQ/LjU4M=',
               publicKey: 'AlHCtJlFthb359xOxR5kiBLJpfoC2ZLPLWYHN3+hdzf2'
@@ -94,7 +94,7 @@ describe(require('path').basename(__filename), function () {
       services:{
         security: {
           config: {
-            sessionTokenSecret:'h1_test-secret',
+            sessionTokenSecret:'test-secret',
             keyPair: {
               privateKey: 'Kd9FQzddR7G6S9nJ/BK8vLF83AzOphW2lqDOQ/LjU4M=',
               publicKey: 'AlHCtJlFthb359xOxR5kiBLJpfoC2ZLPLWYHN3+hdzf2'

@@ -1,19 +1,16 @@
-describe(require('path').basename(__filename), function () {
+var path = require('path');
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
+describe(path.basename(__filename), function () {
 
   context('on remote mesh', function () {
 
     var spawn = require('child_process').spawn
-      , sep = require('path').sep
       , remote
       , assert = require('assert')
       , mesh
-      , Mesh = require('../')
+      , Mesh = require('../../..');
 
-    var sep = require('path').sep;
-    var libFolder = __dirname + sep + 'lib' + sep;
+    var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'security'].join(path.sep) + path.sep;
 
     var config = {
       name: 'mesh2',
@@ -41,7 +38,7 @@ describe(require('path').basename(__filename), function () {
       var _this = this;
 
       // spawn remote mesh in another process
-      remote = spawn('node', [libFolder + 'b2-first-mesh']);
+      remote = spawn('node', [libFolder + 'secure-mesh-to-mesh']);
 
       remote.stdout.on('data', function (data) {
 
@@ -79,7 +76,6 @@ describe(require('path').basename(__filename), function () {
 
           assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
           done()
-
         });
     });
 
@@ -91,11 +87,6 @@ describe(require('path').basename(__filename), function () {
         done();
 
       });
-
     });
-
   });
-
-  //require('benchmarket').stop();
-
 });

@@ -2,17 +2,11 @@ describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
   var should = require('chai').should();
   var path = require('path');
 
-  Mesh = require('../');
+  Mesh = require('../../..');
 
-  var ownPath = path.join(__dirname, '../index.js');
-
-  var SERVER_HOST = "localhost";
   var SERVER_PORT = 8092;
   var CLIENT_PORT = 8093;
 
@@ -109,13 +103,12 @@ describe(require('path').basename(__filename), function () {
     var stopServerMesh = function () {
       if (serverMesh) return serverMesh.stop({reconnect: false}, done);
       done();
-    }
+    };
 
     if (clientMesh) clientMesh.stop({reconnect: false}, function (e) {
       if (e) return done(e);
       stopServerMesh();
     });
-
   });
 
   it('should add a user to the first mesh (serverConfig)', function (done) {
@@ -144,9 +137,5 @@ describe(require('path').basename(__filename), function () {
       done();
 
     });
-
   });
-
-  //require('benchmarket').stop();
-
 });

@@ -2,7 +2,7 @@
  * Created by cc on 2015/12/08.
  */
 
-var Mesh = require('../../lib/mesh.js');
+var Mesh = require('../../../../..');
 
 module.exports = function () {
   return new Client();

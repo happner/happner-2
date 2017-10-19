@@ -1,17 +1,12 @@
 var should = require('chai').should();
 var path = require('path');
 
-var meshpath = path.join(__dirname, '../lib/mesh')
+var happner = require('../../..');
 
-var happner = require(meshpath);
+var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'security'].join(path.sep) + path.sep;
 
-
-var clientPath = path.join(__dirname, 'lib/b9-client.js');
-var serverPath = path.join(__dirname, 'lib/b9-server.js');
-
-var Mesh = require(meshpath);
-
-//var ownPath = path.join(__dirname, '../index.js');
+var clientPath = path.join(libFolder, 'mesh-security-updateuser-re-accessresource-client.js');
+var serverPath = path.join(libFolder, 'mesh-security-updateuser-re-accessresource-server.js');
 
 var SERVER_HOST = "localhost";
 var SERVER_PORT = 8092;
@@ -106,20 +101,17 @@ var serverConfig = {
   }
 };
 
-describe('b9 - mesh client security login', function () {
+describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
-
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
 
   var clientMesh;
   var serverMesh;
 
   before(function (done) {
+
     var savedUser = null;
     var savedGroup = null;
-
 
     happner.create(serverConfig)
       .then(addGroup)
@@ -158,90 +150,13 @@ describe('b9 - mesh client security login', function () {
 
   after('close server mesh', function (done) {
 
-    serverMesh.stop({reconnect: false}, done);
-
+    clientMesh.stop({reconnect: false}, function(e){
+      if (e) return done(e);
+      serverMesh.stop({reconnect: false}, done);
+    });
   });
 
-  // it('a - client should register a device on the server', function (done) {
-  //   this.timeout(5000);
-
-  //   var device = {
-  //     device_info: "someInfo"
-  //   };
-
-  //   clientMesh.exchange.client.registerDevice(OemUser, device, function(err){
-  //     if(err) console.log(err);
-  //     should.not.exist(err);
-
-  //     console.log('device registered:::');
-
-  //     clientMesh.exchange.client.requestSomethingSpecial("some_data", function(err, data){
-  //       if(err) console.log(err);
-
-  //       should.not.exist(err);
-  //       data.should.eql('success');
-
-  //       console.log('requestSomethingSpecial ok:::');
-
-  //       device = {
-  //         device_info: "some New Info"
-  //       };
-
-  //       clientMesh.exchange.client.registerDevice(OemUser, device, function(err){
-  //         if(err) console.log(err);
-  //         should.not.exist(err);
-
-  //         console.log('device registered again:::');
-
-
-  //         clientMesh.exchange.client.requestSomethingSpecial("some_data", function(err, data){
-  //           if(err) console.log(err);
-  //           should.not.exist(err);
-  //           data.should.eql('success');
-
-  //           done();
-  //         });
-
-
-  //       });
-  //     });
-  //   });
-  // });
-
-  //  it('a - client should register a device on the server', function (done) {
-  //   this.timeout(5000);
-
-  //   var device = {
-  //     device_info: "someInfo"
-  //   };
-
-  //   clientMesh.exchange.client.registerDevice(OemUser, device, function(err){
-  //     if(err) console.log(err);
-  //     should.not.exist(err);
-
-  //     console.log('device registered:::');
-
-  //     clientMesh.exchange.client.requestSomethingSpecial("some_data", function(err, data){
-  //       if(err) console.log(err);
-
-  //       should.not.exist(err);
-  //       data.should.eql('success');
-
-  //       console.log('requestSomethingSpecial ok:::');
-
-  //       clientMesh.exchange.client.requestSomethingSpecial("some_data", function(err, data){
-
-  //           if(err) console.log(err);
-  //           should.not.exist(err);
-  //           data.should.eql('success');
-
-  //           done();
-  //         });
-  //       });
-  //   });
-  // });
-
-  it('a - client should register a device on the server', function (done) {
+  it('a client should register a device on the server', function (done) {
     this.timeout(5000);
 
     var device = {
@@ -286,76 +201,7 @@ describe('b9 - mesh client security login', function () {
       });
     });
   });
-
-
-  //require('benchmarket').stop();
-
 });
-
-//   it('a - client should register a device on the server', function (done) {
-//     this.timeout(5000);
-
-//     var device = {
-//       device_info: "someInfo"
-//     };
-
-//     clientMesh.exchange.client.registerDevice(OemUser, device, function(err){
-//       if(err) console.log(err);
-//       should.not.exist(err);
-
-//       console.log('device registered:::');
-
-//       clientMesh.exchange.client.requestSomethingSpecial("some_data", function(err, data){
-//         if(err) console.log(err);
-
-//         should.not.exist(err);
-//         data.should.eql('success');
-
-//         console.log('requestSomethingSpecial ok:::');
-
-//         device = {
-//           device_info: "some New Info"
-//         };
-
-//         clientMesh.exchange.client.registerDevice(OemUser, device, function(err){
-//           if(err) console.log(err);
-//           should.not.exist(err);
-
-//           console.log('device registered again:::');
-
-//           var _testClient = new Mesh.MeshClient({
-//             secure: true,
-//             port: SERVER_PORT,
-//             hostname: '127.0.0.1'
-//           });
-
-//           _testClient.login({username:'user', password:'password'}).then(function () {
-//             console.log('logged in as _testClient:::');
-
-//             _testClient.exchange.server_mesh_2.server.doSomethingSpecial("some_data", function(err, data){
-
-//               console.log('final request:::', arguments);
-
-//               if(err) console.log(err);
-//               should.not.exist(err);
-//               data.should.eql('success');
-
-//               done();
-//             });
-
-//           }).catch(function (err) {
-//             console.log("login error");
-//             done(err);
-//           });
-
-
-//         });
-//       });
-//     });
-//   });
-
-// });
-
 
 function getOemAdminGroup() {
   var regesterDeviceMethodPath = "/" + SERVER_MESH_NAME + "/" + SERVER_COMPONENT_NAME + "/registerDevice";

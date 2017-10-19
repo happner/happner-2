@@ -1,8 +1,3 @@
-/* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
-
-var Promise = require('bluebird');
-var sep = require('path').sep;
-var spawn = require('child_process').spawn;
 module.exports = SeeAbove;
 
 function SeeAbove() {
@@ -62,52 +57,22 @@ SeeAbove.prototype.$happner = {
 
 if (global.TESTING_E8) return; // When 'requiring' the module above,
 
-describe(require('path').basename(__filename), function () {
+var path = require('path');
+
+describe(path.basename(__filename), function () {
 
   /**
    * Simon Bishop
    * @type {expect}
    */
 
-  // Uses unit test 2 modules
   var expect = require('expect.js');
-  var Mesh = require('../');
-  var libFolder = __dirname + sep + 'lib' + sep;
-
-  //var REMOTE_MESH = 'e2-remote-mesh';
-  var REMOTE_MESH = 'e3-remote-mesh-secure';
-
+  var Mesh = require('../../..');
   var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
-
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
 
   this.timeout(120000);
 
   var mesh;
-  var remote;
-
-  var startRemoteMesh = function(callback){
-
-    var timedOut = setTimeout(function(){
-      callback(new Error('remote mesh start timed out'));
-    },5000);
-
-    // spawn remote mesh in another process
-    remote = spawn('node', [libFolder + REMOTE_MESH]);
-
-    remote.stdout.on('data', function (data) {
-
-      if (data.toString().match(/READY/)) {
-
-        clearTimeout(timedOut);
-
-        setTimeout(function(){
-          callback();
-        },1000);
-      }
-    });
-  };
 
   var login = function(done, credentials){
 
@@ -132,7 +97,7 @@ describe(require('path').basename(__filename), function () {
     global.TESTING_E8 = true; //.............
 
     Mesh.create({
-      name:'e3b-test',
+      name:'session-tokens-test',
       happn:{
         secure:true,
         adminPassword: ADMIN_PASSWORD,
@@ -162,8 +127,8 @@ describe(require('path').basename(__filename), function () {
             policy: {
               ttl: 4000,//stale after 4 seconds
               permissions:{//permissions that the holder of this token is limited, regardless of the underlying user
-                '/_exchange/requests/e3b-test/testComponent/method3*':{actions: ['set']},
-                '/_exchange/responses/e3b-test/testComponent/method3*':{actions: ['on']}
+                '/_exchange/requests/session-tokens-test/testComponent/method3*':{actions: ['set']},
+                '/_exchange/responses/session-tokens-test/testComponent/method3*':{actions: ['on']}
               }
             }
           }
@@ -369,7 +334,4 @@ describe(require('path').basename(__filename), function () {
       });
     }).catch(done);
   });
-
-  //require('benchmarket').stop();
-
 });

@@ -1,7 +1,5 @@
 module.exports = TestMesh;
 
-var DONE = false;
-
 function TestMesh() {
 }
 
@@ -17,13 +15,10 @@ describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
   var expect = require('expect.js');
-  var should = require('chai').should();
+  require('chai').should();
   var mesh;
-  var Mesh = require('../');
+  var Mesh = require('../../..');
 
   var adminClient = new Mesh.MeshClient({secure: true, port: 8003});
   var test_id = Date.now() + '_' + require('shortid').generate();

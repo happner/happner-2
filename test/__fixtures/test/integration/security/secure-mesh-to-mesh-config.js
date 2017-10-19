@@ -4,12 +4,13 @@ module.exports = {
     secure: true,
     port: 51231,
     authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
+    systemSecret: 'mesh',
     adminPassword: 'testb2'
   },
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/g9-component",
+      path: __dirname + "/secure-mesh-to-mesh-component",
       constructor: {
         type: "sync",
         parameters: []

@@ -1,9 +1,11 @@
-describe(require('path').basename(__filename), function () {
+var path = require('path');
 
-  var path = require('path');
-  var remoteConfig = require('./lib/g9/g9-config');
+describe(path.basename(__filename), function () {
+
+  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'security'].join(path.sep) + path.sep;
+  var remoteConfig = require(libFolder + 'secure-mesh-to-mesh-single-process-config');
   var assert = require('assert');
-  var Mesh = require('..');
+  var Mesh = require('../../..');
 
   context('on remote mesh', function () {
 

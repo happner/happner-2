@@ -1,6 +1,6 @@
-var Mesh = require('../../lib/mesh');
+var Mesh = require('../../../../..');
 
-var config = require('./g9-config');
+var config = require('./secure-mesh-to-mesh-single-process-config');
 
 (new Mesh()).initialize(config, function (err) {
 

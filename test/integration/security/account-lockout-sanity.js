@@ -2,15 +2,15 @@ var path = require('path');
 
 describe(path.basename(__filename), function () {
 
-  var Happner = require('../');
+  var Happner = require('../../..');
   var Promise = require('bluebird');
   var fs = require('fs');
-  var should = require('chai').should();
+  require('chai').should();
   var async = require('async');
 
   var server;
   var test_id = Date.now() + '_' + require('shortid').generate();
-  var dbFileName = './temp/' + test_id + '.nedb';
+  var dbFileName = '.' + path.sep + 'temp' + path.sep + test_id + '.nedb';
 
   this.timeout(60000);
 
@@ -143,8 +143,5 @@ describe(path.basename(__filename), function () {
           .catch(itemCB)
       }
     ], done);
-
   });
-
-  //require('benchmarket').stop();
 });

@@ -2,13 +2,10 @@ describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
   var expect = require('expect.js');
-  var should = require('chai').should();
+  require('chai').should();
 
-  var Mesh = require('../');
+  var Mesh = require('../../..');
   var mesh = new Mesh();
 
   var adminClient = new Mesh.MeshClient({secure: true, port: 8004});
@@ -21,7 +18,7 @@ describe(require('path').basename(__filename), function () {
 
     mesh.initialize({
 
-      name: 'd4-session-changes-events',
+      name: 'session-changes-events',
 
       happn: {
         secure: true,
@@ -107,7 +104,4 @@ describe(require('path').basename(__filename), function () {
       });
     });
   });
-
-  //require('benchmarket').stop();
-
 });

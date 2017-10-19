@@ -2,13 +2,10 @@ describe(require('path').basename(__filename), function () {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
   var expect = require('expect.js');
-  var should = require('chai').should();
+  require('chai').should();
 
-  var Mesh = require('../');
+  var Mesh = require('../../..');
   var mesh = new Mesh();
 
   var test_id = Date.now() + '_' + require('shortid').generate();
@@ -21,7 +18,7 @@ describe(require('path').basename(__filename), function () {
     _this.adminClient = new Mesh.MeshClient({secure: true, port: 8004});
 
     mesh.initialize({
-      name: 'd3-permission-changes-events',
+      name: 'permission-changes-events',
       happn: {
         secure: true,
         adminPassword: test_id,
@@ -38,7 +35,7 @@ describe(require('path').basename(__filename), function () {
         var credentials = {
           username: '_ADMIN', // pending
           password: test_id
-        }
+        };
 
         _this.adminClient.login(credentials).then(function () {
           done();

@@ -1,23 +1,22 @@
-var Promise = require('bluebird');
-var request = Promise.promisify(require('request'));
+var path = require('path');
 
-describe(require('path').basename(__filename), function (done) {
+describe(path.basename(__filename), function () {
 
-  //require('benchmarket').start();
+  var Promise = require('bluebird');
+
+  var request = Promise.promisify(require('request'));
 
   this.timeout(120000);
 
   var expect = require('expect.js');
 
-  var sep = require('path').sep;
-
-  var Mesh = require('../');
+  var Mesh = require('../../..');
 
   var test_id = Date.now() + '_' + require('shortid').generate();
 
   var should = require('chai').should();
 
-  var dbFileName = __dirname + sep + 'temp/b1-advanced-security' + test_id + '.nedb';
+  var dbFileName = '.' + path.sep + 'temp' + path.sep + 'b1-advanced-security' + test_id + '.nedb';
 
   var fs = require('fs-extra');
 
@@ -1489,10 +1488,5 @@ describe(require('path').basename(__filename), function (done) {
         }).catch(done);
       })
       .catch(done);
-
   });
-
-  //after(//require('benchmarket').store());
-  //require('benchmarket').stop();
-
 });

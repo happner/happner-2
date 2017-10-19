@@ -1,16 +1,17 @@
-module.exports = {
-  name: 'remoteMesh',
+var Mesh = require('../../../../..');
+
+var config = {
+  name: 'theFarawayTree',
   happn: {
+    port: 55001,
     secure: true,
-    port: 51231,
-    authTokenSecret: 'a256a2fd43bf441483c5177fc85fd9d3',
-    systemSecret: 'mesh',
-    adminPassword: 'testb2'
+    adminPassword: 'guessme',
+    encryptPayloads: true
   },
   endpoints: {},
   modules: {
-    "remoteComponent": {
-      path: __dirname + "/4-remote-component",
+    "moonface": {
+      path: __dirname + "/payload-encryption-component",
       constructor: {
         type: "sync",
         parameters: []
@@ -18,12 +19,12 @@ module.exports = {
     }
   },
   components: {
-    "remoteComponent": {
-      moduleName: "remoteComponent",
+    "moonface": {
+      moduleName: "moonface",
       schema: {
         "exclusive": false,
         "methods": {
-          "remoteFunction": {
+          "rideTheSlipperySlip": {
             parameters: [
               {name: 'one', required: true},
               {name: 'two', required: true},
@@ -32,7 +33,7 @@ module.exports = {
             ]
           }
           ,
-          "causeError": {
+          "haveAnAccident": {
             parameters: [
               {name: 'callback', type: 'callback', required: true}
             ]
@@ -42,3 +43,26 @@ module.exports = {
     }
   }
 };
+
+var mesh = new Mesh();
+
+mesh.initialize(config, function (err) {
+
+  if (err) {
+    console.log(err);
+    process.exit(err.code || 1);
+    return;
+  }
+
+  mesh.start(function (e) {
+
+    if (e) {
+      console.log(e);
+      process.exit(e.code || 1);
+    }
+
+    console.log('READY');
+  });
+
+
+});

@@ -5,12 +5,6 @@ function TestComponent() {
 
 TestComponent.prototype.method1 = function ($happn, args, callback) {
 
-  // var e = new Error('xxx');
-  // console.log(e.stack);
-
-  // console.log('1 ARGS', args);
-  // console.log('1 CALLBACK', callback);
-
   callback = args; // callback comes in position1
 
   callback(null, 'result1');
@@ -33,9 +27,8 @@ if (global.TESTING_C5) return; // When 'requiring' the module above,
 // don't run the tests below
 //.............
 
-var expect = require('expect.js');
-var Happner = require('../');
-var mesh;
+
+var path = require('path');
 
 describe(require('path').basename(__filename), function () {
 
@@ -48,10 +41,11 @@ describe(require('path').basename(__filename), function () {
    *
    */
 
-  this.timeout(120000);
+  var expect = require('expect.js');
+  var Happner = require('../../..');
+  var mesh;
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
+  this.timeout(120000);
 
   before(function (done) {
 
@@ -93,9 +87,6 @@ describe(require('path').basename(__filename), function () {
   after(function (done) {
     mesh.stop({reconnect: false}, done);
   });
-
-  var encryptedRequestsCount = 0;
-  var unencryptedRequestsCount = 0;
 
   it('server can call more than one method in sequence (callback)', function (done) {
 
@@ -148,11 +139,11 @@ describe(require('path').basename(__filename), function () {
 
     mesh.exchange.test.doEmit({test: "test"})
       .catch(done);
-
   });
 
 
   it('client can call more than one method in sequence (callback)', function (done) {
+
     var client = new Happner.MeshClient({
       port: 54545,
       secure: true
@@ -180,10 +171,12 @@ describe(require('path').basename(__filename), function () {
 
 
   it('client can call more than one method in sequence (promise)', function (done) {
+
     var client = new Happner.MeshClient({
       port: 54545,
       secure: true
     });
+
     client.login({username: '_ADMIN', password: 'happn'}).then(function () {
 
       client.exchange.test.method1()
@@ -224,9 +217,6 @@ describe(require('path').basename(__filename), function () {
       })
 
       .catch(done)
-
   });
-
-  //require('benchmarket').stop();
 });
 

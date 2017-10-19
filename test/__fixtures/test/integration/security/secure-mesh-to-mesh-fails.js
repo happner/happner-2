@@ -1,16 +1,16 @@
-var Mesh = require('../../lib/mesh');
+var Mesh = require('../../../../..');
 
 var config = {
   name: 'theFarawayTree',
   happn: {
     secure: true,
     port: 51231,
-    adminPassword: 'testb2'
+    adminPassword: 'test'
   },
   endpoints: {},
   modules: {
     "remoteComponent": {
-      path: __dirname + "/4-remote-component",
+      path: __dirname + "/secure-mesh-to-mesh-component",
       constructor: {
         type: "sync",
         parameters: []

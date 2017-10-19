@@ -19,6 +19,7 @@
     "test-data": "_mocha -- silence.js test/integration/data/*",
     "test-events": "_mocha -- silence.js test/integration/events/*",
     "test-exchange": "_mocha -- silence.js test/integration/exchange/*",
+    "test-security": "_mocha -- silence.js test/integration/security/*",
     "test-cover": "istanbul cover _mocha -- silence.js test/integration/* test/functional/* test/backward-compatibility/*"
   },
   "repository": {

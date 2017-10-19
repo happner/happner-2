@@ -1,4 +1,6 @@
-describe(require('path').basename(__filename), function () {
+var path = require('path');
+
+describe(path.basename(__filename), function () {
 
   // cannot do mocha test/4-mesh-to-mesh.js --watch
   // address already in use for 2nd... runs
@@ -7,11 +9,10 @@ describe(require('path').basename(__filename), function () {
     , remote
     , assert = require('assert')
     , mesh
-    , Mesh = require('../')
+    , Mesh = require('../../..')
     ;
 
-  var sep = require('path').sep;
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'security'].join(path.sep) + path.sep;
 
   var Crypto = require('happn-util-crypto');
   var crypto = new Crypto();
@@ -39,13 +40,10 @@ describe(require('path').basename(__filename), function () {
     components: {}
   };
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
   before(function (done) {
 
     // spawn remote mesh in another process
-    remote = spawn('node', [libFolder + 'c8-payload-encryption']);
+    remote = spawn('node', [libFolder + 'payload-encryption']);
 
     remote.stdout.on('data', function (data) {
 
@@ -57,7 +55,6 @@ describe(require('path').basename(__filename), function () {
           done(e);
         });
       }
-
     });
   });
 
@@ -96,6 +93,4 @@ describe(require('path').basename(__filename), function () {
       });
     });
   });
-  //require('benchmarket').stop();
-
 });
