@@ -1,11 +1,8 @@
 describe(require('path').basename(__filename), function () {
 
-  //require('benchmarket').start();
-  //
-  //after(//require('benchmarket').store());
 
   var expect = require('expect.js');
-  var Mesh = require('../');
+  var Mesh = require('../../..');
 
   var serviceInstance;
   var clientInstance = new Mesh.MeshClient({secure: true});
@@ -137,7 +134,4 @@ describe(require('path').basename(__filename), function () {
       });
     });
   });
-
-  //require('benchmarket').stop();
-
 });

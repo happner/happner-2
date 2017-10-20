@@ -12,7 +12,7 @@ function ModuleFive() {
     next();
   };
 
-  this.static = serveStatic(__dirname + path.sep + 'static5');
+  this.static = serveStatic(__dirname + path.sep + 'component-web');
 
   this.testScope = function (req, res) {
     res.statusCode = 200;

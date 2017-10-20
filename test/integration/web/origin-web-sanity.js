@@ -3,22 +3,18 @@
  */
 
 // Uses unit test 2 modules
+var path = require('path');
 
-
-describe(require('path').basename(__filename), function (done) {
+describe(path.basename(__filename), function (done) {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
-  var Mesh = require('../');
+  var Mesh = require('../../..');
   var http = require('http');
   var test_id = require('shortid').generate();
   var expect = require('expect.js');
 
-  var sep = require('path').sep;
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'web'].join(path.sep) + path.sep;
 
   var config = {
     name: "middlewareMesh",
@@ -37,7 +33,7 @@ describe(require('path').basename(__filename), function (done) {
     },
     modules: {
       "middlewareTest": {
-        path: libFolder + "e7-origin-web"
+        path: libFolder + "origin-web"
       }
     },
     components: {
@@ -192,8 +188,4 @@ describe(require('path').basename(__filename), function (done) {
     }).catch(done);
 
   });
-
-
-  //require('benchmarket').stop();
-
 });

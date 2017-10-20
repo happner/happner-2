@@ -1,9 +1,6 @@
-var request = require('request');
 var testport = 8080;
 
-var Mesh = require('../../lib/system/mesh');
-
-var maximumPings = 1000;
+var Mesh = require('../../../../..');
 
 var config = {
   name: "componentWebTestMesh",
@@ -19,8 +16,7 @@ var mesh = new Mesh();
 
 mesh.initialize(config, function (err) {
 
-  if (err)
-    console.error(err);
+  if (err) console.error(err);
 
   mesh.api.exchange.api.test('message', function (e, response) {
 

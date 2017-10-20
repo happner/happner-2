@@ -1,7 +1,7 @@
-var Mesh = require('../../lib/mesh');
+var Mesh = require('../../../../..');
 
 var config = {
-  name: 'test_c6',
+  name: 'https_mesh',
   happn: {
     transport: {
       mode: 'https'

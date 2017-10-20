@@ -1,21 +1,19 @@
 /**
  * Created by Johan on 10/14/2015.
  */
-describe(require('path').basename(__filename), function (done) {
+var path = require('path');
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
+describe(path.basename(__filename), function () {
 
   // Uses unit test 2 modules
-  var Mesh = require('../');
+  var Mesh = require('../../..');
   var client;
   var mesh;
   var request = require('request');
 
   this.timeout(120000);
 
-  var sep = require('path').sep;
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'web'].join(path.sep) + path.sep;
   var expect = require('expect.js');
 
   var singularActive = function (req, res) {
@@ -55,7 +53,7 @@ describe(require('path').basename(__filename), function (done) {
     },
     modules: {
       'middlewareTest': {
-        path: libFolder + '9-middleware'
+        path: libFolder + 'web-middleware'
       }
     },
     components: {

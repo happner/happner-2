@@ -1,15 +1,16 @@
-describe('3-startup-fail', function (done) {
+var path = require('path');
 
-  // Uses unit test 2 modules
-  var should = require('chai').should();
-  var Mesh = require('../../');
+describe(path.basename(__filename), function () {
+
+  require('chai').should();
+
+  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'startup'].join(path.sep) + path.sep;
   var spawn = require('child_process').spawn;
-  var path = require('path');
   var expect = require('expect.js');
   var async = require('async');
   var exec = require('child_process').exec;
 
-  this.timeout(120000);
+  this.timeout(5000);
 
   var childPIDs = [];
 
@@ -18,7 +19,7 @@ describe('3-startup-fail', function (done) {
 
   function killProc(pid, callback, removeFromChildPIDs) {
 
-    var killCommand = exec("kill -9 " + pid, function (error, stdout, stderr) {
+    exec("kill -9 " + pid, function (error, stdout, stderr) {
 
       if (removeFromChildPIDs)
         childPIDs.map(function (childPid, ix) {
@@ -27,36 +28,35 @@ describe('3-startup-fail', function (done) {
         });
 
       callback();
-
     });
   }
 
-  function doRequest(path, callback, port) {
+  function doRequest(reqPath, callback, port) {
 
     var request = require('request');
 
     if (!port) port = 55000;
 
-    if (path[0] != '/')
-      path = '/' + path;
+    if (reqPath[0] != '/')
+      reqPath = '/' + reqPath;
 
     var options = {
-      url: 'http://127.0.0.1:' + port.toString() + path,
+      url: 'http://127.0.0.1:' + port.toString() + reqPath
     };
 
     request(options, function (error, response, body) {
       callback(body);
     });
-
   }
 
   var remote;
 
-  it('starts a loader process, we analyze the loader logs to ensure it is all working', function (done) {
+  before('starts a loader process, we analyze the loader logs to ensure it is all working', function (done) {
+
     this.timeout(15000);
 
-    var loaderPath = path.resolve('./bin/happner-loader');
-    var confPath = path.resolve('./test/lib/d6_conf_cant_start.js');
+    var loaderPath = path.resolve(__dirname, '../../../bin/happner-loader');
+    var confPath = path.resolve(libFolder + 'conf_cant_start.js');
 
     // spawn remote mesh in another process
     remote = spawn('node', [loaderPath, '--conf', confPath]);
@@ -88,14 +88,14 @@ describe('3-startup-fail', function (done) {
           }
         }, 55010)
       }
-
     });
-
   });
 
   it('has restarted it at least twice', function (done) {
+
     this.timeout(5000);
     checkLog();
+
     function checkLog() {
       var totalFound = 0;
       doRequest('/log', function (body) {
@@ -117,6 +117,8 @@ describe('3-startup-fail', function (done) {
 
   after('kills the proxy and stops the mesh if its running', function (done) {
 
+    if (remote) remote.kill();
+
     var killProcs = function () {
 
       if (childPIDs.length > 0) {
@@ -124,18 +126,15 @@ describe('3-startup-fail', function (done) {
         async.eachSeries(childPIDs, function (pid, cb) {
 
           killProc(pid, cb);
-
         }, done);
 
       } else done();
-    }
+    };
 
-    if (meshes.length > 0)
+    if (meshes.length > 0) {
       async.eachSeries(meshes, function (stopMesh, cb) {
         stopMesh.stop({reconnect: false}, cb);
       }, killProcs);
-    else killProcs();
-
+    } else killProcs();
   });
-
 });

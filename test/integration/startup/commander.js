@@ -16,9 +16,6 @@ describe(require('path').basename(__filename), function () {
       .option('--warn', 'Set LOG_LEVEL=warn')
       .option('--loader', 'Used by system, indicates happner is being loaded by a proxy')
       .parse(options);
-
     done();
-
   });
-
 });

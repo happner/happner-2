@@ -8,7 +8,7 @@ module.exports = {
   },
   modules: {
     slowStartup: {
-      path: path.join(__dirname, 'd6_conf_w_proxy.js')
+      path: path.join(__dirname, 'conf_w_proxy')
     },
     components: {
       slowStartup: {}

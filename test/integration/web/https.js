@@ -1,19 +1,16 @@
+var path = require('path');
+
 describe(require('path').basename(__filename), function (done) {
 
   this.timeout(120000);
 
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
-
-  var Mesh = require('../')
+  var Mesh = require('../../..');
 
   var spawn = require('child_process').spawn;
   var expect = require('expect.js');
-  var sep = require('path').sep;
-  var libFolder = __dirname + sep + 'lib' + sep;
+  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'web'].join(path.sep) + path.sep;
 
-  var test_id = Date.now() + '_' + require('shortid').generate();
-  var should = require('chai').should();
+  require('chai').should();
 
   after(function (done) {
     remote.kill();
@@ -25,7 +22,7 @@ describe(require('path').basename(__filename), function (done) {
   before(function (done) {
 
     // spawn remote mesh in another process
-    remote = spawn('node', [libFolder + 'c6-remote-mesh']);
+    remote = spawn('node', [libFolder + 'https-mesh']);
 
     //NB - the remote mesh is configured to initialize the datalayer with https, by setting the transport option:
     //   dataLayer: {
@@ -74,7 +71,7 @@ describe(require('path').basename(__filename), function (done) {
 
   it('does a set on the datalayer component', function (done) {
 
-    testClient.exchange.test_c6.data.set('/c6-https/set', {"val": "set"}, function (e, result) {
+    testClient.exchange.https_mesh.data.set('/https_mesh/set', {"val": "set"}, function (e, result) {
 
       if (e) return done(e);
 
@@ -88,13 +85,13 @@ describe(require('path').basename(__filename), function (done) {
 
   it('does a get on the datalayer component', function (done) {
 
-    testClient.exchange.test_c6.data.set('/c6-https/get', {"val": "get"}, function (e, result) {
+    testClient.exchange.https_mesh.data.set('/https_mesh/get', {"val": "get"}, function (e, result) {
 
       if (e) return done(e);
 
       expect(result.val).to.be("get");
 
-      testClient.exchange.test_c6.data.get('/c6-https/get', {}, function (e, getresult) {
+      testClient.exchange.https_mesh.data.get('/https_mesh/get', {}, function (e, getresult) {
 
         if (e) return done(e);
 
@@ -112,25 +109,25 @@ describe(require('path').basename(__filename), function (done) {
 
   it('does a delete on the datalayer component', function (done) {
 
-    testClient.exchange.test_c6.data.set('/c6-https/delete', {"val": "delete"}, function (e, result) {
+    testClient.exchange.https_mesh.data.set('/https_mesh/delete', {"val": "delete"}, function (e, result) {
 
       if (e) return done(e);
 
       expect(result.val).to.be("delete");
 
-      testClient.exchange.test_c6.data.get('/c6-https/delete', {}, function (e, getresult) {
+      testClient.exchange.https_mesh.data.get('/https_mesh/delete', {}, function (e, getresult) {
 
         if (e) return done(e);
 
         expect(getresult.val).to.be("delete");
 
-        testClient.exchange.test_c6.data.remove('/c6-https/delete', {}, function (e, removeresult) {
+        testClient.exchange.https_mesh.data.remove('/https_mesh/delete', {}, function (e, removeresult) {
 
           if (e) return done(e);
 
           // console.log('delete happened:::', removeresult);
 
-          testClient.exchange.test_c6.data.get('/c6-https/delete', {}, function (e, getremovedresult) {
+          testClient.exchange.https_mesh.data.get('/https_mesh/delete', {}, function (e, getremovedresult) {
 
             if (e) return done(e);
 
@@ -141,14 +138,9 @@ describe(require('path').basename(__filename), function (done) {
 
 
         });
-
       });
-
     });
-
   });
-
-  //require('benchmarket').stop();
 
 });
 
