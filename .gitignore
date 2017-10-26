@@ -5,7 +5,8 @@ coverage
 lib/system/activity.log*
 lib/system/data/*.nedb
 .DS_Store
-test/temp/*
+test/temp
+test/tmp
 temp
 test/Users
 test/reports
