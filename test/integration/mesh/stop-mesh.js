@@ -66,9 +66,13 @@ describe(path.basename(__filename), function () {
 
       mesh.stop({reconnect: false}, function (e, mesh, log) {
 
+        if (e) return done(e);
+
         var stopScore = 0;
 
         log.map(function(item){
+
+          console.log('item:::', item);
 
           if (['stopped components','stopped happn','unsubscribed from process events'].indexOf(item.message) >= 0)
             stopScore++;

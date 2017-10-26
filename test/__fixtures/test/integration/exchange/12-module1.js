@@ -47,7 +47,7 @@ function Component1(options) {
     });
   };
 
-  this.stop = function () {
-
+  this.stop = function (callback) {
+    callback();
   }
 }

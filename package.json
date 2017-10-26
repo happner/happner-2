@@ -8,7 +8,7 @@
     "happner-loader": "bin/happner-loader"
   },
   "scripts": {
-    "test": "mocha silence.js test",
+    "test": "mocha -- silence.js test/integration/** test/functional/** test/backward-compatibility/**",
     "test-bc": "mocha test/backward-compatibility/*",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-browser": "gulp --gulpfile test/browser/gulp-01.js",
@@ -21,7 +21,7 @@
     "test-exchange": "_mocha -- silence.js test/integration/exchange/*",
     "test-security": "_mocha -- silence.js test/integration/security/*",
     "test-startup": "_mocha -- silence.js test/integration/startup/*",
-    "test-cover": "istanbul cover _mocha -- silence.js test/integration/* test/functional/* test/backward-compatibility/*"
+    "test-cover": "istanbul cover _mocha -- silence.js test/integration/** test/functional/** test/backward-compatibility/**"
   },
   "repository": {
     "type": "git",

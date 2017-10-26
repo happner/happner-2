@@ -58,8 +58,12 @@ describe(path.basename(__filename), function () {
 
     var logs = [];
 
+    var spawnEnv = JSON.parse(JSON.stringify(process.env));
+
+    spawnEnv.LOG_LEVEL = 'info';
+
     // spawn remote mesh in another process
-    var remote = spawn('node', [loaderPath, '--conf', confPath]);
+    var remote = spawn('node', [loaderPath, '--conf', confPath], {env:spawnEnv});
 
     remote.stderr.on('data', function (data) {
 

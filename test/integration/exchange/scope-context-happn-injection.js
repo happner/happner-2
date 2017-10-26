@@ -2,153 +2,152 @@ var path = require('path');
 
 describe(path.basename(__filename), function () {
 
+  require('chai').should();
   var promise = require('when').promise;
-  var parallel = require('when/parallel');
   var request = require('request');
   var Mesh = require('../../..');
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'exchange'].join(path.sep);
+  var async = require('async');
+  var parallel = require('when/parallel');
+  this.timeout(5000);
 
-  this.timeout(120000);
+  var meshNo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var componentNo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var meshes = [];
 
   before(function (done) {
 
-    var _this = this;
+    async.eachSeries(meshNo, function(meshNoItem, meshNoItemCB){
 
-    _this.meshNo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    _this.componentNo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      var mesh = new Mesh();
+      var COMPONENTS = {};
 
-    parallel(
-      _this.meshNo.map(
-        function (i) {
-          return function () {
-            return promise(
-              function (resolve, reject) {
-                var mesh = new Mesh();
-                // meshes.push(mesh = Mesh());
+      componentNo.forEach(
+        function (j) {
+          COMPONENTS['component' + j] = {
+            moduleName: 'module1',
+            startMethod: 'start',
+            stopMethod: 'stop',
+            configThing: {
+              mesh: meshNoItem,
+              component: j
+            }
+          };
 
-                var COMPONENTS = {};
-                _this.componentNo.forEach(
-                  function (j) {
-                    COMPONENTS['component' + j] = {
-                      moduleName: 'module1',
-                      startMethod: 'start',
-                      stopMethod: 'stop',
-                      configThing: {
-                        mesh: i,
-                        component: j
-                      }
-                    };
-
-                    COMPONENTS['webComponent' + j] = {
-                      moduleName: 'module3',
-                      web: {
-                        routes: {
-                          methodWithHappn: 'methodWithHappn',
-                          methodWithoutHappn: 'methodWithoutHappn',
-                          methodWithHappnInFront: 'methodWithHappnInFront',
-                          methodWithHappnInMiddle: 'methodWithHappnInMiddle',
-                          methodWithHappnInEnd: 'methodWithHappnInEnd',
-                        }
-                      }
-                    }
-
-                    COMPONENTS['special-component' + j] = {
-                      moduleName: 'module2',
-                      schema: {
-                        exclusive: true,
-                        methods: {
-                          getThingFromConfig: {},
-                          methodNameFront: {
-                            type: 'async',
-                            parameters: [
-                              {name: 'arg1'},
-                              {name: 'callback'}
-                            ]
-                          },
-                          methodNameMiddle: {
-                            type: 'async',
-                            parameters: [
-                              {name: 'arg1'},
-                              {name: 'callback'}
-                            ]
-                          },
-                          methodNameEnd: {
-                            type: 'async',
-                            parameters: [
-                              {name: 'arg1'},
-                              {name: 'callback'}
-                            ]
-                          },
-                          methodWithoutHappn: {
-                            type: 'async',
-                            parameters: [
-                              {name: 'arg1'},
-                              {name: 'callback'}
-                            ]
-                          },
-                          callOnwardWithoutHappn: {},
-                          callOnwardWithHappn: {},
-                          methodWithHappn: {}
-
-                        }
-                      },
-                      configThing: {
-                        mesh: i,
-                        component: j
-                      }
-                    }
-                  }
-                );
-
-                mesh.initialize({
-                  name: 'mesh' + i,
-                  happn: {
-                    port: 3000 + i
-                  },
-                  // endpoints: getEndpoints(i),
-                  modules: {
-                    'module1': {
-                      path: libFolder + '/11-module1.js'
-                    },
-                    'module2': {
-                      path: libFolder + '/11-module2.js'
-                    },
-                    'module3': {
-                      path: libFolder + '/11-module3.js'
-                    }
-                  },
-                  components: COMPONENTS
-
-                }, function (err) {
-                  if (err) return reject(err);
-                  mesh.start(function (err) {
-                    if (err) return reject(err);
-                    resolve(mesh);
-                  })
-                });
+          COMPONENTS['webComponent' + j] = {
+            moduleName: 'module3',
+            web: {
+              routes: {
+                methodWithHappn: 'methodWithHappn',
+                methodWithoutHappn: 'methodWithoutHappn',
+                methodWithHappnInFront: 'methodWithHappnInFront',
+                methodWithHappnInMiddle: 'methodWithHappnInMiddle',
+                methodWithHappnInEnd: 'methodWithHappnInEnd',
               }
-            )
+            }
+          };
+
+          COMPONENTS['special-component' + j] = {
+            moduleName: 'module2',
+            schema: {
+              exclusive: true,
+              methods: {
+                getThingFromConfig: {},
+                methodNameFront: {
+                  type: 'async',
+                  parameters: [
+                    {name: 'arg1'},
+                    {name: 'callback'}
+                  ]
+                },
+                methodNameMiddle: {
+                  type: 'async',
+                  parameters: [
+                    {name: 'arg1'},
+                    {name: 'callback'}
+                  ]
+                },
+                methodNameEnd: {
+                  type: 'async',
+                  parameters: [
+                    {name: 'arg1'},
+                    {name: 'callback'}
+                  ]
+                },
+                methodWithoutHappn: {
+                  type: 'async',
+                  parameters: [
+                    {name: 'arg1'},
+                    {name: 'callback'}
+                  ]
+                },
+                callOnwardWithoutHappn: {},
+                callOnwardWithHappn: {},
+                methodWithHappn: {}
+
+              }
+            },
+            configThing: {
+              mesh: meshNoItem,
+              component: j
+            }
           }
         }
-      )
-    ).then(function (meshes) {
-      _this.meshes = meshes;
-      done()
-    }).catch(function (err) {
-      // console.log(err);
-      done(err)
-    });
+      );
+
+      mesh.initialize({
+        name: 'mesh' + meshNoItem,
+        happn: {
+          port: 3000 + meshNoItem
+        },
+        // endpoints: getEndpoints(i),
+        modules: {
+          'module1': {
+            path: libFolder + '/11-module1.js'
+          },
+          'module2': {
+            path: libFolder + '/11-module2.js'
+          },
+          'module3': {
+            path: libFolder + '/11-module3.js'
+          }
+        },
+        components: COMPONENTS
+
+      }, function (err) {
+
+        if (err) return meshNoItemCB(err);
+
+        mesh.start(function (err) {
+
+          if (err) return meshNoItemCB(err);
+          meshes.push(mesh);
+          meshNoItemCB();
+        })
+      });
+    }, done);
+  });
+
+  after(function (done) {
+
+    async.eachSeries(meshes, function(mesh, meshCB){
+      mesh.stop({reconnect: false}, function(e){
+        meshCB();
+      });
+    }, done);
   });
 
   it('leaves happn and origin out of the description when defaulting method parameters', function (done) {
+    try{
 
-    var meshes = this.meshes;
-    meshes[0]._mesh.description.components.component1.methods.getThingFromConfig.should.eql({"parameters":[{"name":"callback"}]});
-    done()
+      meshes[0]._mesh.description.components.component1.methods.getThingFromConfig.should.eql({"parameters":[{"name":"callback"}]});
+      done();
+    }catch(e){
+      done(e);
+    }
   });
 
   xit('leaves happn out of the description when specifying method parameters', function (done) {
-    var meshes = this.meshes;
     meshes[0]._mesh.description.components['special-component1'].should.eql({
       "methods": {
         "getThingFromConfig": {
@@ -240,10 +239,6 @@ describe(path.basename(__filename), function () {
 
   it('calls multiple components on multiple modules on multiple meshes', function () {
     // ensure each module call got $happn correctly
-    var meshes = this.meshes;
-    var componentNo = this.componentNo;
-    var meshNo = this.meshNo;
-
     parallel( // parallel each mesh calls every mesh's every component
       meshes.map(
         function (mesh) {
@@ -287,6 +282,7 @@ describe(path.basename(__filename), function () {
     ).then(function (results) {
 
       var formatted = {};
+
       results.forEach(function (meshResult) {
         meshResult.forEach(function (componentResults) {
           formatted[componentResults[0]] = componentResults[1];
@@ -381,7 +377,7 @@ describe(path.basename(__filename), function () {
   });
 
   it('injects happn into first position', function (done) {
-    var mesh = this.meshes[0];
+    var mesh = meshes[0];
 
     mesh.exchange['special-component2'].methodNameFront('ARG1', function (err, res) {
       if (err) return done(err);
@@ -392,7 +388,7 @@ describe(path.basename(__filename), function () {
   });
 
   it('injects happn into last position', function (done) {
-    var mesh = this.meshes[0];
+    var mesh = meshes[0];
 
     mesh.exchange['special-component3'].methodNameEnd('ARG1', function (err, res) {
       if (err) return done(err);
@@ -402,7 +398,7 @@ describe(path.basename(__filename), function () {
   });
 
   it('injects happn into middle position', function (done) {
-    var mesh = this.meshes[0];
+    var mesh = meshes[0];
 
     mesh.exchange['special-component4'].methodNameMiddle('ARG1', function (err, res) {
       if (err) return done(err);
@@ -413,7 +409,7 @@ describe(path.basename(__filename), function () {
 
   it('runs method without happn ok', function (done) {
 
-    var mesh = this.meshes[0];
+    var mesh = meshes[0];
 
     mesh.exchange['special-component5'].methodWithoutHappn('ARG1', function (err, res) {
       if (err) return done(err);

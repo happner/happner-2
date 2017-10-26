@@ -4,6 +4,11 @@ function Module3() {
 
 }
 
+Module3.prototype.stop = function (callback) {
+  // console.log('stop', this.$happn.config);
+  callback();
+};
+
 Module3.prototype.methodWithHappn = function (req, $happn, res, next) {
   res.end(JSON.stringify($happn.config));
 }

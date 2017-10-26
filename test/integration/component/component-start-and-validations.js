@@ -29,6 +29,7 @@ if (global.TESTING_16) return; // When 'requiring' the module above,
 
 var should = require('chai').should();
 var mesh;
+var anotherMesh;
 var Mesh = require('../../..');
 
 describe(require('path').basename(__filename), function () {
@@ -105,7 +106,10 @@ describe(require('path').basename(__filename), function () {
   after(function (done) {
 
     delete global.TESTING_16; //.............
-    mesh.stop({reconnect: false}, done);
+    mesh.stop({reconnect: false}, function(e){
+      if (e) return done(e);
+      anotherMesh.stop({reconnect: false}, done);
+    });
   });
 
   it('has called and finished the component async start method', function (done) {
@@ -117,7 +121,7 @@ describe(require('path').basename(__filename), function () {
 
   it('has called back with error into the mesh start callback because the component start failed', function (done) {
 
-    var anotherMesh = new Mesh();
+    anotherMesh = new Mesh();
 
     anotherMesh.initialize({
       util: {

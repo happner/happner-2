@@ -3,6 +3,11 @@ module.exports = Module2;
 function Module2() {
 }
 
+Module2.prototype.stop = function (callback) {
+  // console.log('stop', this.$happn.config);
+  callback();
+};
+
 Module2.prototype.getThingFromConfig = function ($happn, callback) {
   callback(null, $happn.config.configThing);
 }

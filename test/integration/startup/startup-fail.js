@@ -58,11 +58,18 @@ describe(path.basename(__filename), function () {
     var loaderPath = path.resolve(__dirname, '../../../bin/happner-loader');
     var confPath = path.resolve(libFolder + 'conf_cant_start.js');
 
+    var spawnEnv = JSON.parse(JSON.stringify(process.env));
+
+    spawnEnv.LOG_LEVEL = 'info';
+
     // spawn remote mesh in another process
-    remote = spawn('node', [loaderPath, '--conf', confPath]);
+    remote = spawn('node', [loaderPath, '--conf', confPath], {env: spawnEnv});
+
     var logs = [];
 
     remote.stdout.on('data', function (data) {
+
+      if (data == null) return;
 
       var logMessage = data.toString().toLowerCase();
 

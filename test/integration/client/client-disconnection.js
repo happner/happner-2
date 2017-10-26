@@ -66,7 +66,9 @@ describe(require('path').basename(__filename), function () {
   });
 
   after(function (done) {
-    done();
+
+    if (mesh) mesh.stop({reconnect: false}, done);
+    else done();
   });
 
   it('tests the client disconnection with promise login', function (done) {

@@ -8,9 +8,10 @@ Module1.prototype.start = function (callback) {
   // console.log('start', this.stop);
 }
 
-Module1.prototype.stop = function () {
+Module1.prototype.stop = function (callback) {
   // console.log('stop', this.$happn.config);
-}
+  callback();
+};
 
 Module1.prototype.getThingFromConfig = function ($happn, $origin, callback) {
   callback(null, $happn.config.configThing);
