@@ -17,7 +17,7 @@ test_script:
   - node --version
   - npm --version
   # run tests
-  - npm run-script test-integration
+  - npm test
 
 # Don't actually build.
 build: off
