@@ -1,19 +1,15 @@
 /**
  * Created by Simon on 02/04/2017.
  */
-
-// Uses unit test 2 modules
-var path = require('path');
-
-describe(path.basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 
+  var path = require('path');
   var Happner = require('../../..');
   var http = require('http');
   var test_id = require('shortid').generate();
   var expect = require('expect.js');
-
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'client'].join(path.sep);
 
   var config = {

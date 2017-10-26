@@ -9,13 +9,15 @@ describe(path.basename(__filename), function () {
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'exchange'].join(path.sep);
   var async = require('async');
   var parallel = require('when/parallel');
-  this.timeout(5000);
+  this.timeout(20000);
 
   var meshNo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   var componentNo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   var meshes = [];
 
   before(function (done) {
+
+
 
     async.eachSeries(meshNo, function(meshNoItem, meshNoItemCB){
 

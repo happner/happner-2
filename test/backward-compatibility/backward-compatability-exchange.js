@@ -1,8 +1,6 @@
-var path = require('path');
-var filename = path.basename(__filename);
+describe(require('../__fixtures/utils/test_helper').create().testName(__filename), function () {
 
-describe(filename, function () {
-
+  var path = require('path');
   var child_process = require('child_process');
   var OldHappner = require('happner');
   var Promise = require('bluebird');

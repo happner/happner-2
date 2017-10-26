@@ -1,9 +1,7 @@
+describe(require('../__fixtures/utils/test_helper').create().testName(__filename), function () {
 
-var Happner = require('../..');
-var Promise = require('bluebird');
-var expect = require('expect.js');
-
-describe(require('path').basename(__filename), function () {
+  var Happner = require('../..');
+  var expect = require('expect.js');
 
   function test (secure) {
 

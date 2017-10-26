@@ -53,7 +53,7 @@ var adminClient = new Mesh.MeshClient({secure: true});
 var test_id = Date.now() + '_' + require('shortid').generate();
 var async = require('async');
 
-describe(require('path').basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 

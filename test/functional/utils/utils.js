@@ -1,6 +1,6 @@
-var expect = require('expect.js');
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
-describe(require('path').basename(__filename), function () {
+  var expect = require('expect.js');
 
   it('tests getting function parameters', function(done){
     var utils = require('../../../lib/system/utilities');

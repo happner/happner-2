@@ -1,4 +1,4 @@
-describe('003-endpoint-reconnection-secure', function () {
+describe(require('../__fixtures/utils/test_helper').create().testName(__filename), function () {
 
   var spawn = require('child_process').spawn
     , sep = require('path').sep

@@ -18,8 +18,6 @@ fs.readdirSync(testDir).forEach(function (filename) {
 
 var reportDir = testDir + path.sep + 'reports';
 
-console.log('about to run:::', files);
-
 sm.runTasks(files, null, reportDir)
 
   .then(function(results){

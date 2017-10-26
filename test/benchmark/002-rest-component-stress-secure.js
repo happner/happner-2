@@ -65,7 +65,7 @@ if (global.TESTING_REST_COMP_STRESS_SECURE) return; // When 'requiring' the modu
  * Simon Bishop
  * @type {expect}
  */
-describe('002-rest-component-stress-secure', function () {
+describe(require('../__fixtures/utils/test_helper').create().testName(__filename), function () {
 
   var sep = require('path').sep;
 

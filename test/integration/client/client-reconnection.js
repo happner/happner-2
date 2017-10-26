@@ -1,4 +1,4 @@
-describe(require('path').basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 
@@ -82,7 +82,7 @@ describe(require('path').basename(__filename), function () {
     adminClient.exchange.data.set('/test/path', {test: 'data'}, function (e) {
 
       if (e) return done(e);
-      
+
       adminClient.on('reconnect/scheduled', function (evt, data) {
 
         //TODO some expect code

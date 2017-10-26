@@ -43,24 +43,18 @@ SecuredComponent.prototype.webAny = function (req, res, next) {
 if (global.TESTING_F5) return; // When 'requiring' the module above,
 // don't run the tests below
 //.............
-
-var expect = require('expect.js');
-var should = require('chai').should();
-
-var mesh;
-var Mesh = require('../..');
-
-var adminClient = new Mesh.MeshClient({secure: true});
-var async = require('async');
-var filename = require('path').basename(__filename);
-
-var test_id = filename;
-
-var dbFileName = './temp/' + filename + '.nedb';
-
 var SECURE = true;
 
-describe(filename, function () {
+describe(require('../__fixtures/utils/test_helper').create().testName(__filename), function () {
+
+  var expect = require('expect.js');
+  var mesh;
+  var Mesh = require('../..');
+  var adminClient = new Mesh.MeshClient({secure: true});
+  var async = require('async');
+  var filename = require('path').basename(__filename);
+  var test_id = filename;
+  var dbFileName = './temp/' + filename + '.nedb';
 
   this.timeout(120000);
 

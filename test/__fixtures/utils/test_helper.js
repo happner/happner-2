@@ -20,6 +20,25 @@ function TestHelper() {
   this.__happnerInstances = {};
 }
 
+TestHelper.create = function(){
+
+  return new TestHelper();
+};
+
+TestHelper.prototype.testName = function(testFilename, depth){
+
+  if (!depth) depth = 2;
+
+  var fileParts = testFilename.split(path.sep).reverse();
+
+  var poParts = [];
+
+  for (var i = 0; i < depth; i++)
+    poParts.push(fileParts.shift());
+
+  return poParts.reverse().join('/').replace('.js', '');
+};
+
 TestHelper.prototype.__addHappnerClient = function (ctx, client) {
 
   if (!this.__happnerClients[ctx])

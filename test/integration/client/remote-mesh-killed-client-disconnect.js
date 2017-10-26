@@ -1,8 +1,5 @@
 /* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
-
-var path = require('path');
-
-describe(path.basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   /**
    * Simon Bishop
@@ -10,14 +7,12 @@ describe(path.basename(__filename), function () {
    */
 
   // Uses unit test 2 modules
+  var path = require('path');
   var Mesh = require('../../..');
-
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'client'].join(path.sep);
-
   var REMOTE_MESH = 'pleasant-victim-secure';
   var REMOTE_PORT = 11111;
   var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
-
   var spawn = require('child_process').spawn;
   var async = require('async');
 

@@ -63,7 +63,7 @@ if (global.TESTING_WEB_STRESS) return; // When 'requiring' the module above,
  * @type {expect}
  */
 
-describe('004-web-stress', function () {
+describe(require('../__fixtures/utils/test_helper').create().testName(__filename), function () {
 
   // Uses unit test 2 modules
   var expect = require('expect.js');

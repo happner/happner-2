@@ -1,17 +1,12 @@
-var path = require('path');
-
-describe(path.basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 
+  var path = require('path');
   var Mesh = require('../../..');
-
   var spawn = require('child_process').spawn;
-
   var expect = require('expect.js');
-
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'client'].join(path.sep);
-
   var Promise = require('bluebird');
 
   after(function (done) {
@@ -35,9 +30,9 @@ describe(path.basename(__filename), function () {
         testClient.login({
           username: '_ADMIN',
           password: 'password'
-        }).then(function(){
+        }).then(function () {
           done();
-        }).catch(function(e){
+        }).catch(function (e) {
           done(e);
         });
       }

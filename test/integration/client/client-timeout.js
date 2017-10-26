@@ -12,7 +12,7 @@ if (global.TESTING_D9 || global.TESTING_D9_1) return; // When 'requiring' the mo
 // don't run the tests below
 //.............
 
-describe(require('path').basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 

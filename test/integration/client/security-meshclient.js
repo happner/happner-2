@@ -1,12 +1,12 @@
-var path = require('path');
-var Happner = require('../../..');
-var Promise = require('bluebird');
-var fs = require('fs');
-var should = require('chai').should();
-
 describe.skipWindows = (process.platform === 'win32') ? describe.skip : describe;
 
-describe.skipWindows(path.basename(__filename), function () {
+describe.skipWindows(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+
+  var path = require('path');
+  var Happner = require('../../..');
+  var Promise = require('bluebird');
+  var fs = require('fs');
+  var should = require('chai').should();
 
   var server;
   var test_id = Date.now() + '_' + require('shortid').generate();
