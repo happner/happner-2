@@ -313,3 +313,7 @@ based on happner 1.28.1
 5.2.0 2017-08-29
 ----------------
   - improved repl
+  
+6.0.0 2017-10-27
+----------------
+  - large test refactor
