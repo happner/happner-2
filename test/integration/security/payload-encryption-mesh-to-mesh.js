@@ -1,6 +1,6 @@
 var path = require('path');
 
-describe(path.basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   // cannot do mocha test/4-mesh-to-mesh.js --watch
   // address already in use for 2nd... runs

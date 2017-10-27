@@ -76,7 +76,7 @@ if (global.TESTING_E3B) return; // When 'requiring' the module above,
 
 var path = require('path');
 
-describe(path.basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   /**
    * Simon Bishop

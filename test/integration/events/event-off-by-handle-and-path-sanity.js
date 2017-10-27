@@ -1,26 +1,24 @@
 /**
  * Created by C Calitz on 8/25/2015.
  */
-
-
-var Mesh = require('../../..');
-var should = require('chai').should();
-var path = require('path');
-
-var config = {
-  happn: {
-    port: 8080
-  },
-  modules: {},
-  components: {
-    "data": {}
-  }
-};
-
-describe(require('path').basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(10000);
   var mesh;
+  var Mesh = require('../../..');
+  var should = require('chai').should();
+  var path = require('path');
+
+  var config = {
+    happn: {
+      port: 8080
+    },
+    modules: {},
+    components: {
+      "data": {}
+    }
+  };
+
   before(function (done) {
     mesh = new Mesh();
     mesh.initialize(config, function (initErr) {

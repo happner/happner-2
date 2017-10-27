@@ -110,7 +110,7 @@ if (global.TESTING_18) return; // When 'requiring' the module above,
 //.............
 var should = require('chai').should();
 
-describe(require('path').basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   var Mesh = require('../../..');
   var mesh;

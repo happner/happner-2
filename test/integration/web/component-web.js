@@ -1,6 +1,6 @@
 var path = require('path');
 
-describe(path.basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'web'].join(path.sep) + path.sep;
   var request = require('request');

@@ -2,7 +2,7 @@ var path = require('path');
 var sep = path.sep;
 var testName = path.basename(__filename);
 
-describe(testName, function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 

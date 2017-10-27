@@ -26,7 +26,7 @@ TestComponent.prototype.method2 = function ($happn, args, callback) {
 
 if (global.TESTING_C5) return; // When 'requiring' the module above,
 
-describe(require('path').basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 

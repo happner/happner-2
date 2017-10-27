@@ -6,31 +6,29 @@
 // secure->insecure - not tested
 // insecure->secure - timing out for allowed, access denied for not allowed
 // secure->secure - timing out on access denied
-
-var path = require('path');
-var filename = path.basename(__filename);
-var should = require('chai').should();
-var Happner = require('../../..');
-var shortid = require('shortid');
-var fs = require('fs');
-var Promise = require('bluebird');
-
-var testId = shortid.generate();
-var testId2 = shortid.generate();
-var dbFileName = '.' + path.sep + 'temp' + path.sep + testId + '.nedb';
-var dbFileName2 = '.' + path.sep + 'temp'+ path.sep + testId2 + '.nedb';
-var secureMesh;
-var mesh2;
-
-var SECURE = true;
-
 // DONE - from insecure mesh to secure mesh
 // TODO - from secure mesh to secure mesh
 
 describe.skipWindows = (process.platform === 'win32') ? describe.skip : describe;
 
 // skip for issue 223
-describe.skipWindows(filename, function () {
+describe.skipWindows(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+
+  var path = require('path');
+  var should = require('chai').should();
+  var Happner = require('../../..');
+  var shortid = require('shortid');
+  var fs = require('fs');
+  var Promise = require('bluebird');
+
+  var testId = shortid.generate();
+  var testId2 = shortid.generate();
+  var dbFileName = '.' + path.sep + 'temp' + path.sep + testId + '.nedb';
+  var dbFileName2 = '.' + path.sep + 'temp'+ path.sep + testId2 + '.nedb';
+  var secureMesh;
+  var mesh2;
+
+  var SECURE = true;
 
   this.timeout(20000);
 

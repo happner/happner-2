@@ -1,15 +1,13 @@
 /**
  * Created by nomilous on 2016/07/28.
  */
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
-var path = require('path');
-var filename = path.basename(__filename);
-var should = require('chai').should();
-var Happner = require('../../..');
-var Promise = require('bluebird');
-var request = Promise.promisify(require('request'));
-
-describe(filename, function () {
+  var path = require('path');
+  var should = require('chai').should();
+  var Happner = require('../../..');
+  var Promise = require('bluebird');
+  var request = Promise.promisify(require('request'));
 
   var mesh, mesh2;
 

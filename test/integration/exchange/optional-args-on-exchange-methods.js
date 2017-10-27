@@ -3,10 +3,9 @@
  */
 
 var path = require('path');
-var filename = path.basename(__filename);
 var Happner = require('../../..');
 
-describe(filename, function() {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function() {
 
   var mesh;
 

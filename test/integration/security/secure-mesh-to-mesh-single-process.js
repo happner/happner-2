@@ -1,6 +1,6 @@
 var path = require('path');
 
-describe(path.basename(__filename), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'security'].join(path.sep) + path.sep;
   var remoteConfig = require(libFolder + 'secure-mesh-to-mesh-single-process-config');

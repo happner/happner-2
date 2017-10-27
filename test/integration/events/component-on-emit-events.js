@@ -1,8 +1,6 @@
-var path = require('path');
-var filename = path.basename(__filename);
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
-describe(filename, function () {
-
+  var path = require('path');
   var expect = require('expect.js');
   var server, client;
   var Happner = require('../../..');
