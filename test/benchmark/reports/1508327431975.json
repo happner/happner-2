@@ -1,0 +1,173 @@
+{
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+      "suites": [
+        {
+          "suite": "002-rest-component-stress-secure",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "\"before all\" hook",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "hook",
+                "duration": 5004,
+                "status": "failed"
+              },
+              "error": "remote mesh start timed out"
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 5724
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+      "suites": [
+        {
+          "suite": "002-rest-component-stress",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "tests N posts to the REST component in parallel",
+                "sync": true,
+                "timedOut": false,
+                "pending": true,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+                "status": "skipped"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "tests N posts to the REST component in series",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+                "duration": 1506,
+                "status": "passed"
+              },
+              "error": null
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 4998
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js",
+      "suites": [
+        {
+          "suite": "003-endpoint-reconnection-insecure",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "\"before all\" hook",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "hook",
+                "duration": 20007,
+                "status": "failed"
+              },
+              "error": "remote mesh start timed out"
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 20545
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js",
+      "suites": [
+        {
+          "suite": "003-endpoint-reconnection-secure",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "\"before all\" hook",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "hook",
+                "duration": 20006,
+                "status": "failed"
+              },
+              "error": "remote mesh start timed out"
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 20741
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js",
+      "suites": [
+        {
+          "suite": "004-web-stress",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "\"before all\" hook",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "hook",
+                "duration": 5004,
+                "status": "failed"
+              },
+              "error": "remote mesh start timed out"
+            },
+            {
+              "test": {
+                "title": "\"after all\" hook",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "hook",
+                "duration": 30001,
+                "status": "failed"
+              },
+              "error": "timeout of 30000ms exceeded. Ensure the done() callback is being called in this test."
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 35778
+  }
+}

@@ -1,0 +1,272 @@
+{
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+      "suites": [
+        {
+          "suite": "benchmark/002-rest-component-stress-secure",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "tests N logins to the REST component, in series",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+                "duration": 15623,
+                "status": "passed"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "tests N logins to the REST component, in parallel",
+                "sync": true,
+                "timedOut": false,
+                "pending": true,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+                "status": "skipped"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "tests N posts to the REST component in series",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+                "duration": 22784,
+                "status": "passed"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "tests N posts to the REST component in parallel",
+                "sync": true,
+                "timedOut": false,
+                "pending": true,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress-secure.js",
+                "status": "skipped"
+              },
+              "error": null
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 42083
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+      "suites": [
+        {
+          "suite": "benchmark/002-rest-component-stress",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "tests N posts to the REST component in parallel",
+                "sync": true,
+                "timedOut": false,
+                "pending": true,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+                "status": "skipped"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "tests N posts to the REST component in series",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/002-rest-component-stress.js",
+                "duration": 3588,
+                "status": "passed"
+              },
+              "error": null
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 7460
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js",
+      "suites": [
+        {
+          "suite": "benchmark/003-endpoint-reconnection-insecure",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "tests endpoint connection events",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js",
+                "duration": 1667,
+                "status": "passed"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "can call remote component, restart remote mesh and call component again",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js",
+                "duration": 12070,
+                "status": "passed"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "can call remote component, restart remote mesh - and reconnect before 5 seconds have passed because our max retry interval is 1 second",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-insecure.js",
+                "duration": 8563,
+                "status": "passed"
+              },
+              "error": null
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 25899
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js",
+      "suites": [
+        {
+          "suite": "benchmark/003-endpoint-reconnection-secure",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "tests endpoint connection events",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js",
+                "duration": 1578,
+                "status": "passed"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "can call remote component, restart remote mesh and call component again",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js",
+                "duration": 11629,
+                "status": "passed"
+              },
+              "error": null
+            },
+            {
+              "test": {
+                "title": "can call remote component, restart remote mesh - and reconnect before 5 seconds have passed because our max retry interval is 1 second",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/003-endpoint-reconnection-secure.js",
+                "duration": 8613,
+                "status": "passed"
+              },
+              "error": null
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 25318
+  },
+  "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js": {
+    "task": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js",
+    "success": true,
+    "results": {
+      "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js",
+      "suites": [
+        {
+          "suite": "benchmark/004-web-stress",
+          "suites": [],
+          "tests": [
+            {
+              "test": {
+                "title": "tests N posts to the WEB component in parallel",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js",
+                "duration": 1052,
+                "status": "failed"
+              },
+              "error": "failures found in responses:::"
+            },
+            {
+              "test": {
+                "title": "tests N posts to the WEB component in series",
+                "async": 1,
+                "sync": false,
+                "timedOut": false,
+                "pending": false,
+                "type": "test",
+                "file": "/Users/simonbishop/Documents/Projects/happner-2/test/benchmark/004-web-stress.js",
+                "duration": 2513,
+                "status": "passed"
+              },
+              "error": null
+            }
+          ]
+        }
+      ]
+    },
+    "duration": 7762
+  }
+}

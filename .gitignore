@@ -5,10 +5,12 @@ coverage
 lib/system/activity.log*
 lib/system/data/*.nedb
 .DS_Store
-test/temp/*
-temp/*
+test/temp
+test/tmp
+temp
 test/Users
 test/reports
+test/benchamrk/reports/*
 *.log
 test-longrunning/reports/*
 examine
