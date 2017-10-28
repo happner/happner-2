@@ -317,3 +317,4 @@ based on happner 1.28.1
 6.0.0 2017-10-27
 ----------------
   - large test refactor
+  - breaking: off and offPath changes, due to happn-3 v4 release
