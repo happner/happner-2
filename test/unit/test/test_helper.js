@@ -8,7 +8,7 @@ describe('functional/test/test_helper', function () {
 
     var testName = helper.testName(__filename, 3);
 
-    expect(testName).to.be('functional/test/test_helper');
+    expect(testName).to.be('unit/test/test_helper');
     done();
   });
 });

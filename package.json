@@ -8,13 +8,13 @@
     "happner-loader": "bin/happner-loader"
   },
   "scripts": {
-    "test": "mocha -- silence.js test/integration/** test/functional/** test/backward-compatibility/**",
+    "test": "mocha -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
     "test-bc": "mocha test/backward-compatibility/*",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-browser": "gulp --gulpfile test/browser/gulp-01.js",
-    "test-functional": "_mocha -- silence.js test/functional/**",
+    "test-unit": "_mocha -- silence.js test/unit/**",
     "test-integration": "_mocha -- silence.js test/integration/**",
-    "test-cover": "istanbul cover _mocha -- silence.js test/integration/** test/functional/** test/backward-compatibility/**"
+    "test-cover": "istanbul cover _mocha -- silence.js test/integration/** test/unit/** test/backward-compatibility/**"
   },
   "repository": {
     "type": "git",
