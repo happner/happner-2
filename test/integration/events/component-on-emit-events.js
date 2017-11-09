@@ -11,17 +11,17 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     Happner.create({
         modules: {
-          'componentName': {
+          'module': {
             path: libFolder + path.sep + 'component-on-emit-events'
           }
         },
         components: {
           'component1': {
-            moduleName:'componentName',
+            moduleName:'module',
             startMethod:'initialize'
           },
           'component2': {
-            moduleName:'componentName',
+            moduleName:'module',
             startMethod:'initialize'
           }
         }
@@ -112,7 +112,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         expect(events.ok).to.not.be(null);
 
-        expect(events.publishOK.successful).to.be(1);
+        expect(events.publishOK.successful).to.be(2);
 
         done();
       });
@@ -131,8 +131,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         expect(events.ok).to.not.be(null);
 
-        expect(events.publishOK.successful).to.be(1);
-
+        expect(events.publishOK.successful).to.be(2);
         done();
       });
     });
@@ -164,7 +163,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var clientEvents = [];
 
-    client.data.on('*test-concurrent-event', function(data){
+    client.data.on('/*test-concurrent-event*', function(data){
 
       clientEvents.push(data);
 
@@ -180,7 +179,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
 
-          expect(events.length).to.be(1);
+          expect(events.length).to.be(2);
 
           client.exchange.component1.causeOffConcurrent('test-concurrent-event', function(e){
 
@@ -194,7 +193,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
                 if (e) return done(e);
 
-                expect(events.length).to.be(1);
+                expect(events.length).to.be(2);
 
                 //now do a bunch
                 client.exchange.component1.causeEmitConcurrent('test-concurrent-event', 'default-transactional', {});
@@ -207,7 +206,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
                     if (e) return done(e);
 
-                    expect(events.length).to.be(1);
+                    expect(events.length).to.be(2);
 
                     expect(clientEvents.length).to.be(5);
 
@@ -232,7 +231,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     var clientEvents = [];
     var currentListenerId;
 
-    client.event.component1.on('test-listener-id', function(data){
+    client.data.on('/*test-listener-id*', function(data){
 
       clientEvents.push(data);
 
@@ -250,29 +249,34 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
 
-          expect(events.length).to.be(1);
+          expect(events.length).to.be(2);
 
-          client.event.component1.off(currentListenerId, function(e){
+          client.data.off(currentListenerId, function(e){
 
             if (e) return done(e);
 
-            client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {}, function(e){
+            client.exchange.component1.causeOffConcurrent('test-listener-id', function(e){
 
               if (e) return done(e);
 
-              client.exchange.component2.getListenerEvents(function(e, events){
+              client.exchange.component1.causeEmitListener('test-listener-id', 'default-transactional', {}, function(e){
 
                 if (e) return done(e);
 
-                setTimeout(function(){
+                client.exchange.component2.getListenerEvents(function(e, events){
 
-                  expect(events.length).to.be(2);
-                  expect(clientEvents.length).to.be(1);
+                  if (e) return done(e);
 
-                  done();
+                  setTimeout(function(){
 
-                }, 2000);
+                    expect(events.length).to.be(2);
+                    expect(clientEvents.length).to.be(1);
 
+                    done();
+
+                  }, 2000);
+
+                });
               });
             });
           });
@@ -304,11 +308,11 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       setTimeout(function(){
 
-        client.exchange.component2.getListenerEvents(function(e, events){
+        client.exchange.component1.getListenerEvents(function(e, events){
 
           if (e) return done(e);
 
-          expect(events.length).to.be(3);
+          expect(events.length).to.be(6);
           expect(clientEvents.length).to.be(1);
 
           done();
@@ -346,7 +350,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
 
-          expect(events.length).to.be(3);
+          expect(events.length).to.be(6);
           expect(clientEvents.length).to.be(3);
 
           done();

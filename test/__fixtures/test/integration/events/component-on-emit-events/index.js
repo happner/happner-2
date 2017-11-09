@@ -11,7 +11,13 @@ function Component() {
   this.emitConcurrentData = [];
   this.emitListenerData = [];
 
+  this.subscribed = false;
+
 }
+
+Component.create = function(){
+  return new Component();
+};
 
 Component.prototype.onEmitOK = function(response){
 
@@ -50,6 +56,8 @@ Component.prototype.onEmitListener = function(event, data){
 
 Component.prototype.initialize = function($happn, callback){
 
+  if (this.subscribed) return callback();
+
   $happn.on('on-emit-error', this.onEmitError.bind(this));
 
   $happn.on('on-emit-ok', this.onEmitOK.bind(this));
@@ -63,6 +71,8 @@ Component.prototype.initialize = function($happn, callback){
   $happn.event.component1.on('test-concurrent-event', this.onEmitConcurrent.bind(this));
 
   $happn.event.component1.on('test-listener-id', this.onEmitListener.bind(this));
+
+  this.subscribed = true;
 
   callback();
 };

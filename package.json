@@ -74,6 +74,7 @@
     "repl.history": "0.1.4",
     "request": "2.67.0",
     "shortid": "2.2.4",
-    "uglify-js": "2.6.1"
+    "uglify-js": "2.6.1",
+    "wild-pare": "^4.0.3"
   }
 }
