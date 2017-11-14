@@ -112,7 +112,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         expect(events.ok).to.not.be(null);
 
-        expect(events.publishOK.successful).to.be(2);
+        expect(events.publishOK.successful).to.be(1);
 
         done();
       });
@@ -131,7 +131,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         expect(events.ok).to.not.be(null);
 
-        expect(events.publishOK.successful).to.be(2);
+        expect(events.publishOK.successful).to.be(1);
         done();
       });
     });
@@ -179,7 +179,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
 
-          expect(events.length).to.be(2);
+          expect(events.length).to.be(1);
 
           client.exchange.component1.causeOffConcurrent('test-concurrent-event', function(e){
 
@@ -193,7 +193,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
                 if (e) return done(e);
 
-                expect(events.length).to.be(2);
+                expect(events.length).to.be(1);
 
                 //now do a bunch
                 client.exchange.component1.causeEmitConcurrent('test-concurrent-event', 'default-transactional', {});
@@ -206,7 +206,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
                     if (e) return done(e);
 
-                    expect(events.length).to.be(2);
+                    expect(events.length).to.be(1);
 
                     expect(clientEvents.length).to.be(5);
 
@@ -249,7 +249,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
 
-          expect(events.length).to.be(2);
+          expect(events.length).to.be(1);
 
           client.data.off(currentListenerId, function(e){
 
@@ -269,7 +269,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
                   setTimeout(function(){
 
-                    expect(events.length).to.be(2);
+                    expect(events.length).to.be(1);
                     expect(clientEvents.length).to.be(1);
 
                     done();
@@ -312,7 +312,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
 
-          expect(events.length).to.be(6);
+          expect(events.length).to.be(3);
           expect(clientEvents.length).to.be(1);
 
           done();
@@ -350,7 +350,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
 
-          expect(events.length).to.be(6);
+          expect(events.length).to.be(3);
           expect(clientEvents.length).to.be(3);
 
           done();
