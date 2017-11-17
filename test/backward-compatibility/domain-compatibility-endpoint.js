@@ -269,6 +269,7 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
       server.stop({reconnect: false}, done);
     });
 
+
     it('can call component methods', function (done) {
       endpoint.exchange.DOMAIN_NAME.testComponent.method()
         .then(function (result) {

@@ -149,13 +149,14 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
             username: '_ADMIN',
             password: 'happn'
           }, done);
-
         });
 
         after('stop happner meshclient', function (done) {
 
-          client.disconnect(done);
-
+          this.timeout(30000);
+          client.disconnect(function(e){
+            done();
+          });
         });
 
         (security == 'insecure' ? xit : it)('exchange calls survive server restart', function (done) {
