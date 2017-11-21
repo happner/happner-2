@@ -14,3 +14,4 @@ test/benchamrk/reports/*
 *.log
 test-longrunning/reports/*
 examine
+.scannerwork
