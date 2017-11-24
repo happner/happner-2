@@ -9,7 +9,7 @@ test/temp
 test/tmp
 temp
 test/Users
-test/reports
+reports
 test/benchamrk/reports/*
 *.log
 test-longrunning/reports/*
