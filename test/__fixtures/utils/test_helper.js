@@ -264,11 +264,7 @@ TestHelper.prototype.startUp = Promise.promisify(function (configs, callback) {
 
 TestHelper.prototype.__serviceExists = function (config) {
 
-  var nameExists = false;
-
-  if (config.__isRemote) nameExists = this.__activeServices[config.name] != null;
-
-  else nameExists = this.__activeServices[config.name] != null;
+  var nameExists = this.__activeServices[config.name] != null;
 
   if (nameExists) return true;
 
