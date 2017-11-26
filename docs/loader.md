@@ -4,7 +4,7 @@
 ## Usage
 
 ```bash
-node bin/happner-loader --conf ../test/lib/d6_conf_redirect.json
+node bin/happner-loader --conf ./test/__fixtures/test/integration/startup/conf_redirect.js
 ```
 
 lets look at the config:
@@ -48,7 +48,7 @@ you can then see the happner instance running by doing a ps:
 
 ```bash
 ps -e | grep node
-18594 ttys006    0:01.67 /usr/local/bin/node ./bin/happner-loader-daemon --conf ../test/lib/test_conf.json
+18594 ttys006    0:01.67 /usr/local/bin/node ./bin/happner-loader-daemon --conf ../test/__fixtures/test/integration/startup/conf.json
 18599 ttys006    0:00.00 grep node
 ```
 
@@ -64,13 +64,13 @@ Any arguments passed to the process will be passed to the child script.
 
 Different node exec arguments can also be passed to the child process:
 ```bash
-node bin/happner-loader --conf ../test/lib/d6_conf_redirect.json --exec-argv-max-old-space-size 20
+node bin/happner-loader --conf ../test/__fixtures/test/integration/startup/conf_redirect.json --exec-argv-max-old-space-size 20
 ```
 
 This will pass --max-old-space-size as a node argument and not a script argument
 
-## unit tests
-*because the silence.js script has been added to the main tests, some of the unit tests fail, so the test has been moved to a different location - test-optimize, you can run the unit tests for optimize like so:*
-```bash
-npm run-script test-optimize
-```
+## Tests
+
+Tests are in ./test/integration/startup
+
+

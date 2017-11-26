@@ -106,9 +106,9 @@ config = {
 
 When the happner instance is run in secure mode, all web routes are secure against access, and users need to be assigned permissions before they can access them.
 
-Access is handled by the user logging in and getting a token, which must be appended to subsequent requests via the happn_token cookie or querystring argument, please see [the secured routes test](https://github.com/happner/happner/blob/master/test/c7-permissions-web.js).
+Access is handled by the user logging in and getting a token, which must be appended to subsequent requests via the happn_token cookie or querystring argument, please see [the secured routes test](https://github.com/happner/happner-2/blob/master/test/integration/security/permissions-web.js).
 
-The token can also be used as a Bearer authorization header, see [the secured rest component test](https://github.com/happner/happner/blob/master/test/e3b-rest-component-secure.js#L620) to see how this can be done.
+The token can also be used as a Bearer authorization header, see [the secured rest component test](https://github.com/happner/happner-2/blob/master/test/integration/rest/rest-component-secure.js#L620) to see how this can be done.
 
 ```javascript
 
@@ -144,9 +144,9 @@ testClient.login(credentials).then(function () {
 
 ### Notes
 
-*web routes can be defined in the happner config, please see [the test for now](https://github.com/happner/happner/blob/master/test/9-web-middleware.js)*
+*web routes can be defined in the happner config, please see [the test for now](https://github.com/happner/happner-2/blob/master/test/integration/web/web-middleware.js)*
 
-*note - routes can be excluded from the token check, [here is where in the config](https://github.com/happner/happner/blob/master/test/c7-permissions-web.js#L29) [and here is where a an exclusion is tested](https://github.com/happner/happner/blob/master/test/c7-permissions-web.js#L140)*
+*note - routes can be excluded from the token check, [here is where in the config](https://github.com/happner/happner-2/blob/master/test/integration/web/permissions-web.js#L29) [and here is where a an exclusion is tested](https://github.com/happner/happner-2/blob/master/test/integration/web/permissions-web.js#L140)*
 
 index.html default in static
 

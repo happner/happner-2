@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var LoaderProgress = require('../lib/startup/loader_progress.js')
-  , args = {}
   , __happnerCommand = "./bin/happner-loader-daemon"
   , __happnerCommandArguments = []
   , __execArgv
