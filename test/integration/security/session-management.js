@@ -111,6 +111,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           clientInstance.exchange.security.listSessionActivity(function(e, list){
 
             if (e) return callback(e);
+
+            console.log('session list:::', list);
+
             expect(list.length <= 2).to.be(true);
 
             callback();
