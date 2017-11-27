@@ -319,3 +319,7 @@ based on happner 1.28.1
   - large test refactor
   - happn-3 v5 dependancy updated
   - breaking: off and offPath changes, due to happn-3 v5 release
+
+6.0.1 2017-01-27
+----------------
+  - update happner-client
