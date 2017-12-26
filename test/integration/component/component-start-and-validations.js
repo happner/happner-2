@@ -17,12 +17,12 @@ Explicit.prototype.asyncStart = function ($happn, opts, optionalOpts, callback) 
 Explicit.prototype.asyncStartFails = function (callback) {
 
   callback(new Error('erm'));
-}
+};
 
 Explicit.prototype.methodName1 = function (opts, blob, callback) {
   if (typeof blob == 'function') callback = blob;
   callback(null, {yip: 'eee'});
-}
+};
 
 
 if (global.TESTING_16) return; // When 'requiring' the module above,
