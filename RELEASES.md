@@ -319,3 +319,9 @@ based on happner 1.28.1
   - large test refactor
   - happn-3 v5 dependancy updated
   - breaking: off and offPath changes, due to happn-3 v5 release
+  
+6.1.0 2017-12-28
+----------------
+  - happn: fixed 401 issue with auth invalid credentials failure
+  - happn: merge only subscriptions
+  - REST component correct 401 error
