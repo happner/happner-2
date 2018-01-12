@@ -69,64 +69,15 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var testGroupSaved;
     var testUserSaved;
-    var testUserClient;
 
-    var userUpsertedEventFired = false;
-    var groupUpsertedEventFired = false;
-    var linkGroupEventFired = false;
-    var unlinkGroupEventFired = false;
-    var deleteGroupEventFired = false;
-    var deleteUserEventFired = false;
+    _this.adminClient.exchange.security.attachToSecurityChanges(function (e) {//test still backward compatible
 
-    //link-group
-    //
+      if (e) return done(e);
 
-    var eventsToFire = {
-      'upsert-user': false,
-      'upsert-group': false,
-      'link-group': false,
-      'unlink-group': false,
-      'delete-group': false,
-      'delete-user': false
-    };
+      var eventCount = 0;
 
-    var fireEvent = function (key) {
-
-      eventsToFire[key] = true;
-
-      for (var eventKey in eventsToFire)
-        if (eventsToFire[eventKey] == false)
-          return;
-
-      done();
-    };
-
-    _this.adminClient.exchange.security.attachToSecurityChanges(function (e) {
-
-      if (e) return callback(e);
-
-      _this.adminClient.event.security.on('upsert-user', function (data) {
-        fireEvent('upsert-user');
-      });
-
-      _this.adminClient.event.security.on('upsert-group', function (data) {
-        fireEvent('upsert-group');
-      });
-
-      _this.adminClient.event.security.on('link-group', function (data) {
-        fireEvent('link-group');
-      });
-
-      _this.adminClient.event.security.on('unlink-group', function (data) {
-        fireEvent('unlink-group');
-      });
-
-      _this.adminClient.event.security.on('delete-group', function (data) {
-        fireEvent('delete-group');
-      });
-
-      _this.adminClient.event.security.on('delete-user', function (data) {
-        fireEvent('delete-user');
+      _this.adminClient.event.security.on('security-data-updated', function (data) {
+        eventCount++;
       });
 
       _this.adminClient.exchange.security.addGroup(testGroup, function (e, result) {
@@ -173,8 +124,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
                     if (e) return done(e);
 
-                  })
+                    expect(eventCount >= 8).to.be(true);
 
+                    done();
+                  });
                 });
               });
             });
@@ -183,7 +136,4 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       });
     });
   });
-
-  //require('benchmarket').stop();
-
 });

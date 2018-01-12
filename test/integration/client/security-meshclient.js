@@ -89,6 +89,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
   });
 
   it('rejects login promise on bad credentials', function (done) {
+
     var client = new Happner.MeshClient();
     client.login({
       username: 'username',
@@ -192,6 +193,4 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         .catch(done);
     });
   });
-
-  //require('benchmarket').stop();
 });
