@@ -328,7 +328,7 @@ based on happner 1.28.1
 ----------------
   - update happn-3
   
-7.1.0 2017-12-28
+7.0.0 2017-12-28
 ----------------
   - happn: fixed 401 issue with auth invalid credentials failure
   - happn: merge only subscriptions
