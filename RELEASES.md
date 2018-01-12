@@ -333,3 +333,4 @@ based on happner 1.28.1
   - happn: fixed 401 issue with auth invalid credentials failure
   - happn: merge only subscriptions
   - REST component correct 401 error
+  - fix #303 - make shared datalayer respect the noPublish set option
