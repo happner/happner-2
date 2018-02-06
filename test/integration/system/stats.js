@@ -77,6 +77,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     setTimeout(function () {
 
+      console.log(gotStats.happn);
+
       gotStats.errorsPerSec.should.equal(0);
       done();
 
