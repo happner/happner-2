@@ -102,6 +102,23 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       });
     });
 
+    it('respects noPublish set option', function (done) {
+      meshInstance.event.data.on('/some/path/testNoPublish', function (data, meta) {
+        delete data._meta;
+        data.should.eql({val: 'must be emitted'});
+        // allow time for possible wrong event
+        setTimeout(done, 1000);
+      }, function (e) {
+        if (e) return done(e);
+        dataComponent.set('/some/path/testNoPublish', {val: 'must not be emitted'}, {noPublish: true}, function (e) {
+          if (e) return done(e);
+          dataComponent.set('/some/path/testNoPublish', {val: 'must be emitted'}, {noPublish: false}, function (e) {
+            if (e) return done(e);
+          })
+        })
+      });
+    });
+
     it('should subscribe and get an initial value on the callback', function (callback) {
 
       dataComponent.set('/b7/testsubscribe/data/value_on_callback_test', {"test": "data"}, function (e) {

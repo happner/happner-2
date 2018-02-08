@@ -233,10 +233,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         methods: {},
         events: {}
       }
-    }
+    };
 
-    var testGroupSaved;
-    var testUserSaved;
     var testUserClient;
 
     adminClient.exchange.security.addGroup(testGroup, function (e, result) {
@@ -371,7 +369,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   it('delete a user, fail to access the system with the deleted user', function (done) {
 
-    adminClient.exchange.security.deleteUser(testUserSaved, function (e, result) {
+    adminClient.exchange.security.deleteUser(testUserSaved, function (e) {
 
       if (e) return done(e);
 
@@ -627,8 +625,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         .then(function (updatedGroup) {
           delete updatedGroup._meta;
-
-          // console.log('ADD RESULT\n%s\n', JSON.stringify(updatedGroup, null, 2));
 
           expect(updatedGroup).to.eql({
             name: 'group',

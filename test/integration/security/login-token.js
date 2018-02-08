@@ -464,7 +464,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }, {
             token:token
           }, function(e){
-            expect(e.toString()).to.be('AccessDenied: invalid credentials: this token is locked to a different origin by policy');
+            expect(e.toString()).to.be('AccessDenied: Invalid credentials: this token is locked to a different origin by policy');
             done();
           });
         });
@@ -536,7 +536,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }, {
             token:token
           }, function(e){
-            expect(e.toString()).to.be('AccessDenied: invalid credentials: logins with this token are disallowed by policy');
+            expect(e.toString()).to.be('AccessDenied: Invalid credentials: logins with this token are disallowed by policy');
             done();
           });
         });

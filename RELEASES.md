@@ -334,4 +334,9 @@ based on happner 1.28.1
   - deprecated system.activateStatistics & deactivateStatistics (always on)
 
 
-
+7.0.0 2017-12-28
+----------------
+  - happn: fixed 401 issue with auth invalid credentials failure
+  - happn: merge only subscriptions
+  - REST component correct 401 error
+  - fix #303 - make shared datalayer respect the noPublish set option

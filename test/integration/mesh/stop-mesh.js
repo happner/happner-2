@@ -72,8 +72,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         log.map(function(item){
 
-          console.log('item:::', item);
-
           if (['stopped components','stopped happn','unsubscribed from process events'].indexOf(item.message) >= 0)
             stopScore++;
 
