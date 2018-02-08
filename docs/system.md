@@ -27,7 +27,7 @@ eg.
 
 ### System
 
-####Stats
+#### Stats
 
 The system emits statistics at a configurable interval. To configure, set interval in milliseconds in the happn subconfig.
 
