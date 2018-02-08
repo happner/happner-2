@@ -327,3 +327,11 @@ based on happner 1.28.1
 6.0.2 2017-01-27
 ----------------
   - update happn-3
+
+6.1.0 2017-02-06
+----------------
+  - integrated happn stats into existing happner stats
+  - deprecated system.activateStatistics & deactivateStatistics (always on)
+
+
+
