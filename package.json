@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "6.1.0",
+  "version": "6.1.1-restart-on-timeout",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -60,7 +60,7 @@
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
     "glob": "5.0.15",
-    "happn-3": "5.2.0",
+    "happn-3": "restart-on-timeout",
     "happn-logger": "0.0.2",
     "happn-sillyname": "0.1.0",
     "happner-client": "3.0.0",
