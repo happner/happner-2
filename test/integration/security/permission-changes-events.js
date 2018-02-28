@@ -103,7 +103,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     _this.adminClient.exchange.security.attachToSecurityChanges(function (e) {
 
-      if (e) return callback(e);
+      if (e) return done(e);
 
       _this.adminClient.event.security.on('upsert-user', function (data) {
         fireEvent('upsert-user');
@@ -173,8 +173,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
                     if (e) return done(e);
 
-                  })
-
+                  });
                 });
               });
             });
@@ -183,7 +182,4 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       });
     });
   });
-
-  //require('benchmarket').stop();
-
 });
