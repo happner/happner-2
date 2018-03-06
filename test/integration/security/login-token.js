@@ -365,7 +365,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   it('003: testing inverse of test 002, so no timed out session', function (done) {
 
     getClient({
-        port:10000
+      port:10000
     },{
       username: '_ADMIN',
       password: 'happn'
@@ -400,7 +400,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   it('004: logs in with the test client, supplying a public key, we perform a bunch of operations - we remember the token and logout revoking the token - we then ensure we are unable to login with the revoked token', function (done) {
 
     getClient({
-        port:10000
+      port:10000
     }, {
       username: '_ADMIN',
       password: 'happn'
@@ -438,10 +438,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   it('005: we log in to a test service, supplying a public key, we perform a bunch of operations - the token is remembered and matches the locked profile, we then ensure we are able to login to the same server with the token but are unable to log in to a different server using the locked token', function (done) {
 
     getClient({
-        port:10000,
-        info:{
-          tokenOriginLocked:true
-        }
+      port:10000,
+      info:{
+        tokenOriginLocked:true
+      }
     },{
       username: '_ADMIN',
       password: 'happn'
@@ -464,7 +464,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }, {
             token:token
           }, function(e){
-            expect(e.toString()).to.be('AccessDenied: invalid credentials: this token is locked to a different origin by policy');
+            expect(e.toString()).to.be('AccessDenied: Invalid credentials: this token is locked to a different origin by policy');
             done();
           });
         });
@@ -510,10 +510,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   it('we log in to a test service, supplying a public key, we perform a bunch of operations - the token is remembered and matches the disallow profile, we then ensure we are unable to login with the login disallowed token', function (done) {
 
     getClient({
-        port:10000,
-        info:{
-          tokenNotAllowedForLogin:true
-        }
+      port:10000,
+      info:{
+        tokenNotAllowedForLogin:true
+      }
     }, {
       username: '_ADMIN',
       password: 'happn'
@@ -536,7 +536,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }, {
             token:token
           }, function(e){
-            expect(e.toString()).to.be('AccessDenied: invalid credentials: logins with this token are disallowed by policy');
+            expect(e.toString()).to.be('AccessDenied: Invalid credentials: logins with this token are disallowed by policy');
             done();
           });
         });
