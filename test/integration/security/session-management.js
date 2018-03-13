@@ -5,7 +5,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var Mesh = require('../../..');
 
   var serviceInstance;
-  var clientInstance = new Mesh.MeshClient({secure: true, port: 11111});
+  var clientInstance;
 
   var disconnectClient = function(client, cb){
 
@@ -16,9 +16,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     if (!client) client = clientInstance;
 
-    if (client) {
-      client.disconnect(cb);
-    } else cb();
+    if (client) return client.disconnect({reconnect:false}, cb);
+
+    if (cb) cb();
   };
 
   var stopService = function(callback){
@@ -32,10 +32,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     this.timeout(3000);
 
-    disconnectClient();
-    setTimeout(function(){
+    disconnectClient(function(){
       stopService(callback);
-    }, 1000);
+    });
 
   });
 
@@ -61,7 +60,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         if (e) return callback(e);
 
-        if (!port) port = 11111;
+        if (!port) port = 10101;
 
         var config = {
           secure:true,

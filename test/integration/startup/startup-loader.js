@@ -238,10 +238,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           killProc(pid, cb);
 
-        }, function (e) {
-          console.log('killed procs:::', e);
-          done(e);
-        });
+        }, done);
 
       } else done();
     };
