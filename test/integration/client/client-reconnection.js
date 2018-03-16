@@ -37,7 +37,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   };
 
   before(function (done) {
+
     startMesh(function (e) {
+
       if (e) return done(e);
 
       adminClient
@@ -45,14 +47,14 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         .then(done)
         .catch(done);
     });
-
   });
 
   var __stopped = false;
 
   after(function (done) {
+    if (adminClient) adminClient.disconnect();
     if (__stopped) return done();
-    mesh.stop({reconnect: false}).then(done).catch(done);
+    mesh.stop(done);
   });
 
   var eventsToFire = {
@@ -95,7 +97,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         fireEvent('reconnect/successful');
       });
 
-      mesh.stop(function (e) {
+      mesh.stop({reconnect:true}, function (e) {
 
         if (e) return done(e);
 
@@ -146,7 +148,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         }
       });
 
-      mesh.stop(function (e) {
+      mesh.stop({reconnect:true}, function (e) {
         if (e) return done(e);
         __stopped = true;
       });
