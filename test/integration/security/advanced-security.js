@@ -1,12 +1,12 @@
 var path = require('path');
 
-describe.only(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   var Promise = require('bluebird');
 
   var request = Promise.promisify(require('request'));
 
-  this.timeout(120000);
+  this.timeout(15000);
 
   var expect = require('expect.js');
 
@@ -617,34 +617,31 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
       client.disconnect(done, 98);
     });
 
-    var addPermissions;
-
-    before('permissions to add', function () {
-      addPermissions = {
-        methods: {
-          '/meshname/component/method2': {authorized: true}
-        },
-        events: {
-          '/meshname/component/event2': {/*authorized: true */} // assumed true
-        },
-        web: {
-          '/component/webmethod1': {authorized: true, actions: ['options']}, // amend into existing
-          '/component/webmethod2': {authorized: true, actions: ['get']}
-        }
-      };
-    });
-
+    var addPermissions = {
+      methods: {
+        '/meshname/component/method2': {authorized: true}
+      },
+      events: {
+        '/meshname/component/event2': {/*authorized: true */} // assumed true
+      },
+      web: {
+        '/component/webmethod1': {authorized: true, actions: ['options']}, // amend into existing
+        '/component/webmethod2': {authorized: true, actions: ['get']}
+      }
+    };
 
     it('can add group permissions', function (done) {
 
       adminClient.exchange.security.addGroupPermissions(groupName, addPermissions)
 
         .then(function (updatedGroup) {
-          delete updatedGroup._meta;
 
-          // console.log('ADD RESULT\n%s\n', JSON.stringify(updatedGroup, null, 2));
+          return adminClient.exchange.security.getGroup(groupName);
+        })
 
-          expect(updatedGroup).to.eql({
+        .then(function (fetchedGroup) {
+
+          expect(fetchedGroup).to.eql({
             name: 'group',
             custom_data: {
               customString: 'custom1',
@@ -663,12 +660,12 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
                 'component/webmethod1': {
                   authorized: true,
                   actions: [
-                    'get',
-                    'put',
-                    'post',
-                    'head',
-                    'delete',
-                    'options'
+                    "delete",
+                    "get",
+                    "head",
+                    "options",
+                    "post",
+                    "put"
                   ]
                 },
                 'component/webmethod2': {
@@ -701,8 +698,6 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
         .then(function (body) {
           expect(body).to.equal('ok2');
         })
-
-
         .then(done).catch(done);
 
     });
@@ -712,6 +707,44 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
       adminClient.exchange.security.addGroupPermissions(groupName, addPermissions)
 
         .then(function () {
+
+          return adminClient.exchange.security.getGroup(groupName);
+        })
+
+        .then(function (fetchedGroup) {
+
+          expect(fetchedGroup).to.eql({
+            name: 'group',
+            custom_data: {
+              customString: 'custom1',
+              customNumber: 0
+            },
+            permissions: {
+              methods: {
+                'meshname/component/method2': {authorized: true},
+                'meshname/component/method1': {authorized: true}
+              },
+              events: {
+                'meshname/component/event2': {authorized: true},
+                'meshname/component/event1': {authorized: true}
+              },
+              web: {
+                'component/webmethod1': {
+                  authorized: true,
+                  actions: [
+                    "delete","get","head","options","post","put"
+                  ]
+                },
+                'component/webmethod2': {
+                  authorized: true,
+                  actions: [
+                    'get'
+                  ]
+                }
+              }
+            }
+          });
+
           var removePermissions = {
             methods: {
               '/meshname/component/method1': {} // remove whole permission path
@@ -723,8 +756,7 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
               '/component/webmethod1': {
                 actions: [ // remove ONLY these actions
                   'put',
-                  'head',
-                  'moo' // does not break it
+                  'head'
                 ]
               }
             }
@@ -735,10 +767,12 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
 
         .then(function (updatedGroup) {
 
-          // console.log('REMOVE RESULT\n%s\n', JSON.stringify(updatedGroup, null, 2));
+          return adminClient.exchange.security.getGroup(groupName);
+        })
 
-          delete updatedGroup._meta;
-          expect(updatedGroup).to.eql({
+        .then(function (fetchedGroup) {
+
+          expect(fetchedGroup).to.eql({
             name: 'group',
             custom_data: {
               customString: 'custom1',
@@ -755,10 +789,10 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
                 'component/webmethod1': {
                   authorized: true,
                   actions: [
-                    'get',
-                    'post',
-                    'delete',
-                    'options' // depends on previous test (sorry)
+                    "delete",
+                    "get",
+                    "options",
+                    "post"
                   ]
                 },
                 'component/webmethod2': {
@@ -889,7 +923,7 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
 
   });
 
-  it.only('can upsert an existing group, overwriting permissions', function (done) {
+  it('can upsert an existing group, overwriting permissions', function (done) {
 
     var testUpsertGroup = {
 
@@ -1063,7 +1097,7 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
 
   });
 
-  it('can upsert a new group, merging permissions', function (done) {
+  it('can upsert a new group, merging permissions with an authorized:false', function (done) {
 
     var testUpsertGroup = {
 
@@ -1092,7 +1126,8 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
       permissions: {
         methods: {
           //in a /Mesh name/component name/method name - with possible wildcards
-          '/meshname/component/method2': {authorized: true}
+          '/meshname/component/method2': {authorized: true},
+          '/meshname/component/method1': {authorized: false}
         },
         events: {
           //in a /Mesh name/component name/event key - with possible wildcards
