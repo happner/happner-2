@@ -240,8 +240,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           .then(function () {
             return dataComponent.set('/some/path/six', {key: 1}) // <------ 2
           })
-          .then(function(){
-           return dataComponent.offAll()
+          .then(function () {
+            return dataComponent.offAll()
           })
           .then(function () {
             return dataComponent.set('/some/path/six', {key: 1}) // <------- 3
@@ -264,7 +264,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           .then(function () {
             return dataComponent.set('/some/path/seven', {key: 1}) // <------ 2
           })
-          .then(function(){
+          .then(function () {
             return dataComponent.offPath('/some/path/seven');
           })
           .then(function () {
@@ -276,7 +276,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           })
           .catch(done)
       });
-    })
+    });
 
     it('can delete', function (done) {
       dataComponent.set('some/path/eight', 6)
@@ -311,7 +311,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           done();
         })
         .catch(done);
-    })
+    });
 
     it('can subscribe to data change with events', function (done) {
 
@@ -328,10 +328,25 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           if (e) return done(e);
         })
       });
-    })
+    });
 
+    it('works with noPublish option', function (done) {
+      meshInstance.event.data.on('/some/path/testNoPublish2', function (data, meta) {
+        delete data._meta;
+        data.should.eql({val: 'must be emitted'});
+        // allow time for possible wrong event
+        setTimeout(done, 1000);
+      }, function (e) {
+        if (e) return done(e);
+        dataComponent.set('/some/path/testNoPublish2', {val: 'must not be emitted'}, {noPublish: true}, function (e) {
+          if (e) return done(e);
+          dataComponent.set('/some/path/testNoPublish2', {val: 'must be emitted'}, undefined, function (e) {
+            if (e) return done(e);
+          })
+        })
+      });
+    });
   });
-
 
   context('shared use', function () {
 
