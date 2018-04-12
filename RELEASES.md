@@ -336,6 +336,21 @@ based on happner 1.28.1
 6.1.1 2017-02-26
 ----------------
   - happn: fixed 401 issue with auth invalid credentials failure
+  
+7.0.0 2017-04-12
+----------------
+  - happn: upgraded to 6.0.0, security changes
+  - fix #303 - make shared datalayer respect the noPublish set option
+
+7.1.0 2017-04-13
+----------------
+  - happn: upgraded to 6.1.0
+  - happn: merge only subscriptions
+  - REST component correct 401 error
+  - init and start methods
+  
+
+
 
 
 

@@ -459,14 +459,27 @@ See also: [What are Components?](modules.md#what-are-components)
 The `config.components` section should list components to be loaded into the mesh. The full complement of possible config looks as follows:
 
 ```javascript
-  ...
   components: {
     'name-of-component': {
       module: 'name-of-implementing-module',
       schema: {
         exclusive: true,
         startMethod: 'start',
+        initMethod: 'init',
         methods: {
+        'init': {
+            type: 'async',
+            parameters: [
+              {name: 'opts', required: true, value: {op:'tions'}},
+              {name: 'optionalOpts'},
+              {name: 'callback', required: true, type: 'callback'}
+            ],
+            callback: {
+              parameters: [
+                {name: 'error', type: "error"},
+              ]
+            }
+          },
           'start': {
             type: 'async',
             parameters: [
@@ -531,12 +544,21 @@ __(optional)__
 If true - it informs the initializer to only expose the Methods specified in `schema.methods` to the mesh.
 The default is false.
 
+###### schema.initMethod
+__(optional)__
+
+Used to specify one of the `schema.methods` to run on the mesh.start to pre-initialize the module once the mesh is up, running and connected to other MeshNodes.
+
+When specifying `schema.initMethod`, if the corresponding init method is not defined in the schema it is assumed that the start method takes a callback as the only argument.
+
+The init method runs before the start method below, this is useful in situations where components need to connect to external services, before they can be started (below)
+
 ###### schema.startMethod
 __(optional)__
 
 Used to specify one of the `schema.methods` to run on the mesh.start to further initialize the module once the mesh is up, running and connected to other MeshNodes.
 
-When specifying `schema.startMethod`, if the corresponding startmethod is not defined in the schema it is asumed that the start method takes a callback as the only argument.
+When specifying `schema.startMethod`, if the corresponding startmethod is not defined in the schema it is assumed that the start method takes a callback as the only argument.
 
 ###### schema.methods
 __(optional)__
