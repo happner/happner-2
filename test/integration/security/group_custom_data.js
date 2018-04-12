@@ -98,7 +98,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       testGroupSaved = result;
 
-      mesh._mesh.happn.server.services.security.users.__cache_groups.clear();
+      mesh._mesh.happn.server.services.security.groups.__cache_groups.clear();
 
       adminClient.exchange.security.getGroup(testGroup.name, function(e, fetchedGroup){
 

@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "6.2.0",
+  "version": "7.0.0",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -15,7 +15,8 @@
     "test-unit": "_mocha -- silence.js test/unit/**",
     "test-integration": "_mocha -- silence.js test/integration/**",
     "test-cover": "istanbul cover _mocha -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
-    "test-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm test"
+    "test-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm test",
+    "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**"
   },
   "repository": {
     "type": "git",
@@ -60,9 +61,8 @@
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
     "glob": "5.0.15",
-    "happn-3": "5.3.0",
+    "happn-3": "6.0.0",
     "happn-logger": "0.0.2",
-    "happn-sillyname": "0.1.0",
     "happner-client": "3.0.0",
     "happner-hyperid": "2.0.0",
     "happner-terminal": "0.0.8",

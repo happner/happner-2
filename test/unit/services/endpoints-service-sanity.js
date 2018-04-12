@@ -201,7 +201,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             },
             disconnect:function(callback){
               if (disconnectError){
-                console.log('disconnection error happened:::' + disconnectError);
                 return callback(new Error(disconnectError));
               }
               callback();
