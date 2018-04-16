@@ -1,14 +1,19 @@
 var commander = require('commander');
 
 var trySend = function (code, data) {
+
   try {
+
+    if (!process.connected) return;
+
     var message = code;
     if (data) message = message + ":::" + JSON.stringify(data);
     process.send(message);
+
   } catch (e) {
     //do nothing
   }
-}
+};
 
 try {
 

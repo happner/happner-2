@@ -1,11 +1,11 @@
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
-  var should = require('chai').should();
   var Happner = require('../../..');
 
   var server, gotStats;
 
   before('start server', function (done) {
+
     this.timeout(5000);
 
     Happner.create({

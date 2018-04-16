@@ -68,7 +68,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     remote.stderr.on('data', function (data) {
 
       remote.stderr.removeAllListeners();
-      done(data.toString());
+
+      done(new Error(data.toString()));
     });
 
     remote.stdout.on('data', function (data) {
