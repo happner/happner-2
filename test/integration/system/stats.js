@@ -2,6 +2,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   var Happner = require('../../..');
 
+  require('should');
+
   var server, gotStats;
 
   before('start server', function (done) {
