@@ -349,6 +349,11 @@ based on happner 1.28.1
   - REST component correct 401 error
   - init and start methods
   
+7.1.1 2017-04-18
+----------------
+  - happn: upgraded to 6.2.0
+  - admin password now saves ok
+  
 
 
 

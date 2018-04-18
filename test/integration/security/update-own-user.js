@@ -139,7 +139,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     });
   });
 
-  it('adds a test user, logs in with the test user - modifies the users password successfully', function (done) {
+  it('adds a test user, logs in with the test user - modifies the users password, fetches modified user and ensures oldPassword is not present', function (done) {
 
     var testGroup = {
 
