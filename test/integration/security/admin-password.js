@@ -1,6 +1,6 @@
 var path = require('path');
 
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe.only(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(30000);
 
@@ -99,16 +99,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
             helper.restartService({id:'admin-password-1'}, function(e){
 
-              expect(e.toString()).to.be('AccessDenied: Invalid credentials');
+              expect(e.toString()).to.be('Error: started service ok but failed to get client: AccessDenied: Invalid credentials');
 
-              config1.happn.services.security.config.adminUser.password = 'modifiedPassword';
-
-              helper.getService(config1, function(e){
-
-                if (e) return done(e);
-
-                helper.getClient({name:'admin-password-1', username:'_ADMIN', password:'modifiedPassword'}, done);
-              });
+              helper.getService(config1, done, 'modifiedPassword');
             });
           });
         }catch(e){

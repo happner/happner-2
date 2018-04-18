@@ -76,7 +76,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   after(function (done) {
     delete global.TESTING_D2; //.............
     mesh.stop({reconnect: false}, done);
-  })
+  });
 
   it('adds a test user, modifies the users password with the admin user, logs in with the test user', function (done) {
 
@@ -196,18 +196,24 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
               if (e) return done(e);
               expect(result.custom_data.changedCustom).to.be('changedCustom');
-              testUserClient.login(testUser).then(done).catch(done);
+              testUserClient.login(testUser).then(function(){
 
+                adminClient.exchange.security.getUser(testUser.username)
+                  .then(function(fetchedUser){
+
+                    expect(fetchedUser.oldPassword).to.be(undefined);
+
+                    done();
+                  });
+
+              }).catch(done);
             });
 
           }).catch(function (e) {
             done(e);
           });
-
         });
-
       });
-
     });
 
   });

@@ -307,13 +307,11 @@ TestHelper.prototype.findClient = function (options) {
   return null;
 };
 
-TestHelper.prototype.getClient = Promise.promisify(function (config, callback) {
+TestHelper.prototype.getClient = function (config, callback, clientPassword) {
 
   if (typeof config != 'object') return callback('cannot get a client without a config');
 
-  if (config.happn){
-    config.name = config.name != null?config.name:config.happn.name;
-  }
+  if (config.happn) config.name = config.name != null?config.name:config.happn.name;
 
   if (!config.name) return callback('cannot get a client for unknown service name');
 
@@ -364,7 +362,7 @@ TestHelper.prototype.getClient = Promise.promisify(function (config, callback) {
     }
 
     credentials.username = username;
-    credentials.password = password;
+    credentials.password = clientPassword || password;
   }
 
   options.port = port;
@@ -375,7 +373,7 @@ TestHelper.prototype.getClient = Promise.promisify(function (config, callback) {
 
   if (secure) {
     clientConfig.username = username;
-    clientConfig.password = password;
+    clientConfig.password = clientPassword || password;
   }
 
   clientConfig.__testOptions = config.__testOptions != null?config.__testOptions:{};
@@ -398,7 +396,7 @@ TestHelper.prototype.getClient = Promise.promisify(function (config, callback) {
     .catch(function (e) {
       callback(e);
     });
-});
+};
 
 TestHelper.prototype.findService = function (options) {
 
@@ -466,7 +464,7 @@ TestHelper.prototype.__appendTestComponentConfig = function(config){
   config.components.testHelperComponent = {};
 };
 
-TestHelper.prototype.getService = Promise.promisify(function (config, callback) {
+TestHelper.prototype.getService = function (config, callback, clientPassword) {
 
   var _this = this;
 
@@ -509,7 +507,8 @@ TestHelper.prototype.getService = Promise.promisify(function (config, callback) 
       service.client = client;
 
       callback(null, service);
-    });
+
+    }, clientPassword);
 
     callback(null, service);
   });
@@ -522,24 +521,29 @@ TestHelper.prototype.getService = Promise.promisify(function (config, callback) 
 
     _this.__activeServices[config.name] = service;
 
-    if (config.__testOptions.getClient) return _this.getClient(config, function (e, client) {
+    if (config.__testOptions.getClient) {
 
-      if (e) {
-        service.stop(function(){
+      return _this.getClient(config, function (e, client) {
 
-          delete _this.__activeServices[config.name];
-          return callback(new Error('started service ok but failed to get client: ' + e.toString()));
-        });
-      }
+        if (e) {
+          return service.instance.stop(function(){
 
-      service.client = client;
+            delete _this.__activeServices[config.name];
 
-      callback(null, service);
-    });
+            return callback(new Error('started service ok but failed to get client: ' + e.toString()));
+          });
+        }
+
+        service.client = client;
+
+        callback(null, service);
+
+      }, clientPassword);
+    }
 
     callback(null, service);
   });
-});
+};
 
 TestHelper.prototype.disconnectClient = Promise.promisify(function (id, callback) {
 
