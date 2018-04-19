@@ -332,11 +332,11 @@ based on happner 1.28.1
 ----------------
   - integrated happn stats into existing happner stats
   - deprecated system.activateStatistics & deactivateStatistics (always on)
-  
+
 6.1.1 2017-02-26
 ----------------
   - happn: fixed 401 issue with auth invalid credentials failure
-  
+
 7.0.0 2017-04-12
 ----------------
   - happn: upgraded to 6.0.0, security changes
@@ -353,9 +353,6 @@ based on happner 1.28.1
 ----------------
   - happn: upgraded to 6.2.0
   - admin password now saves ok
+  - happner-client: upgraded to 4.0.0
   
-
-
-
-
-
+  
