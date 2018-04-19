@@ -348,7 +348,11 @@ based on happner 1.28.1
   - happn: merge only subscriptions
   - REST component correct 401 error
   - init and start methods
-
-7.1.1 (NOT RELEASED YET)
+  
+7.1.1 2017-04-18
 ----------------
+  - happn: upgraded to 6.2.0
+  - admin password now saves ok
   - happner-client: upgraded to 4.0.0
+  
+  
