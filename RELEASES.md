@@ -355,4 +355,7 @@ based on happner 1.28.1
   - admin password now saves ok
   - happner-client: upgraded to 4.0.0
   
+7.1.2 2017-04-20
+----------------
+  - happn: upgraded to 6.2.1
   
