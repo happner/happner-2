@@ -97,6 +97,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         var bodyParsed = JSON.parse(body);
 
         expect(bodyParsed.origin.username).to.equal('_ADMIN');
+        expect(bodyParsed.origin.info._browser).to.be(false);
 
         adminClient.disconnect({reconnect:false});
 
