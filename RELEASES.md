@@ -359,3 +359,11 @@ based on happner 1.28.1
 ----------------
   - happn: upgraded to 6.2.1
   
+7.1.3 2017-04-24
+----------------
+ - happn: upgraded to 6.2.2
+ 
+7.1.4 2017-04-25
+----------------
+ - generated package-lock
+  
