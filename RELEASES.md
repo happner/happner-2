@@ -366,4 +366,9 @@ based on happner 1.28.1
 7.1.4 2017-04-25
 ----------------
  - generated package-lock
+
+7.2.0 2017-04-26
+----------------
+  - happn: upgraded to 6.3.0
+  - feature: listUsers now optimised and filterable at the db via criteria
   

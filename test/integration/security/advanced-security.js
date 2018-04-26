@@ -315,7 +315,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   });
 
-  it('should list all users', function (done) {
+  it('should list all users, no options', function (done) {
 
     adminClient.exchange.security.listUsers('*', function (e, users) {
 
@@ -323,7 +323,17 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       expect(users.length).to.be(3);
       done();
+    });
 
+  });
+
+  it('should list all users, options with criteria', function (done) {
+
+    adminClient.exchange.security.listUsers('*', {criteria:{"_meta.path":'/_SYSTEM/_SECURITY/_USER/_ADMIN'}}, function (e, users) {
+
+      if (e) return done(e);
+      expect(users.length).to.be(1);
+      done();
     });
 
   });
