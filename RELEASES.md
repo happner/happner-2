@@ -372,3 +372,7 @@ based on happner 1.28.1
   - happn: upgraded to 6.3.0
   - feature: listUsers now optimised and filterable at the db via criteria
   
+7.2.1 2017-05-01
+----------------
+  - happn: upgraded to 6.3.1
+  
