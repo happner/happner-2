@@ -376,3 +376,8 @@ based on happner 1.28.1
 ----------------
   - happn: upgraded to 6.3.1
   
+7.2.2 2017-05-08
+----------------
+  - happn: upgraded to 6.3.2
+  
+  
