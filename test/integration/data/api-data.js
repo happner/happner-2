@@ -6,6 +6,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'data'].join(path.sep);
   var Mesh = require('../../..');
   var should = require('chai').should();
+  var expect = require('expect.js');
 
   this.timeout(120000);
 
@@ -89,6 +90,19 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       done();
     });
 
+  });
+
+  it('increments a guage using $happn.data on the test component', function(done){
+
+    this.mesh.exchange.component1.incrementGuage('my/test/guage', 'custom_counter', 1, function(e, result){
+
+      if (e) return done(e);
+
+      expect(result.value).to.be(1);
+      expect(result.guage).to.be('custom_counter');
+
+      done();
+    });
   });
 
 });

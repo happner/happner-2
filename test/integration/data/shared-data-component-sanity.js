@@ -346,6 +346,85 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         })
       });
     });
+
+    it('increments a value on a path', function (done) {
+
+      var async = require('async');
+
+      async.timesSeries(10, function (time, timeCB) {
+
+        dataComponent.set('test/increment/multiple', 'counter', {increment: 1, noPublish: true}, timeCB);
+
+      }, function (e) {
+
+        if (e) return done(e);
+
+        dataComponent.get('test/increment/multiple', function (e, result) {
+
+          if (e) return done(e);
+
+          expect(result.counter.value).to.be(10);
+
+          done();
+        });
+      });
+    });
+
+    it('increments a value on a path, multiple guages', function (done) {
+
+      var async = require('async');
+
+      async.timesSeries(10, function (time, timeCB) {
+
+        dataComponent.set('test/increment/multiple/guages', 'counter-' + time, {increment: 1, noPublish: true}, function (e) {
+
+          timeCB(e);
+        });
+
+      }, function (e) {
+
+        if (e) return done(e);
+
+        dataComponent.get('test/increment/multiple/guages', function (e, result) {
+
+          if (e) return done(e);
+
+          expect(result['counter-0'].value).to.be(1);
+          expect(result['counter-1'].value).to.be(1);
+          expect(result['counter-2'].value).to.be(1);
+          expect(result['counter-3'].value).to.be(1);
+          expect(result['counter-4'].value).to.be(1);
+          expect(result['counter-5'].value).to.be(1);
+          expect(result['counter-6'].value).to.be(1);
+          expect(result['counter-7'].value).to.be(1);
+          expect(result['counter-8'].value).to.be(1);
+          expect(result['counter-9'].value).to.be(1);
+
+          done();
+        });
+      });
+    });
+
+    it('increments a value on a path, convenience method, listens on path receives event', function (done) {
+
+      dataComponent.on('increment/event', function (data) {
+
+        expect(data.value).to.be(1);
+        expect(data.guage).to.be('counter');
+
+        done();
+
+      }, function (e) {
+
+        if (e) return done(e);
+
+        dataComponent.increment('increment/event', 1, function (e) {
+
+          if (e) return done(e);
+        });
+      });
+    });
+
   });
 
   context('shared use', function () {

@@ -13,21 +13,19 @@ function Component1(options) {
 
   this.storeData = function ($happn, path, data, parameters, callback) {
 
-    try {
-
-      // console.log('setting:::', path);
-      $happn.data.set(path, data, parameters, callback);
-
-    } catch (e) {
-      callback(e);
-    }
-  }
+    // console.log('setting:::', path);
+    $happn.data.set(path, data, parameters, callback);
+  };
 
   this.onCount = 0;
 
   this.getOnCount = function ($happn, callback) {
     callback(null, this.onCount);
-  }
+  };
+
+  this.incrementGuage = function ($happn, path, guage, increment, callback) {
+    $happn.data.increment(path, guage, increment, callback);
+  };
 
   this.start = function ($happn, arg, callback) {
 
