@@ -380,4 +380,14 @@ based on happner 1.28.1
 ----------------
   - happn: upgraded to 6.3.2
   
+8.0.0 2017-05-15
+----------------
+  - happn: upgraded to 7.1.0
+      - allowed set and on paths are more permissive with regards to special characters '(' ')' '&'
+      - set paths are not allowed to contain the * character
+      - server side path checking
+  - getUser now has {includeGroups: false} functionality
+  - $happn.data.increment functionality
+  
+  
   
