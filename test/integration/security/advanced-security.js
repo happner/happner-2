@@ -344,9 +344,22 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       if (e) return done(e);
 
-      expect(user.groups[testGroupSaved.name] != undefined).to.be(true);
-      done();
+      expect(user.groups[testGroupSaved.name]).to.not.be(undefined);
+      expect(user.groups[testGroupSaved.name]).to.not.be(null);
 
+      done();
+    });
+
+  });
+
+  it('should get a specific user, without rolled up group data, using includeGroups:false', function (done) {
+
+    adminClient.exchange.security.getUser(testUserSaved.username, {includeGroups:false}, function (e, user) {
+
+      if (e) return done(e);
+
+      expect(user.groups).to.be(undefined);
+      done();
     });
 
   });
