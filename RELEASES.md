@@ -348,21 +348,21 @@ based on happner 1.28.1
   - happn: merge only subscriptions
   - REST component correct 401 error
   - init and start methods
-  
+
 7.1.1 2017-04-18
 ----------------
   - happn: upgraded to 6.2.0
   - admin password now saves ok
   - happner-client: upgraded to 4.0.0
-  
+
 7.1.2 2017-04-20
 ----------------
   - happn: upgraded to 6.2.1
-  
+
 7.1.3 2017-04-24
 ----------------
  - happn: upgraded to 6.2.2
- 
+
 7.1.4 2017-04-25
 ----------------
  - generated package-lock
@@ -371,23 +371,28 @@ based on happner 1.28.1
 ----------------
   - happn: upgraded to 6.3.0
   - feature: listUsers now optimised and filterable at the db via criteria
-  
+
 7.2.1 2017-05-01
 ----------------
   - happn: upgraded to 6.3.1
-  
+
 7.2.2 2017-05-08
 ----------------
   - happn: upgraded to 6.3.2
-  
+
 8.0.0 2017-05-15
 ----------------
   - happn: upgraded to 7.1.0
       - allowed set and on paths are more permissive with regards to special characters '(' ')' '&'
       - set paths are not allowed to contain the * character
-      - server side path checking
+      - server side path checking on set
+      - increment functionality
+      - login returns a session user sans the groups, smaller payload
   - getUser now has {includeGroups: false} functionality
   - $happn.data.increment functionality
-  
-  
-  
+
+8.0.1 2017-05-19
+----------------
+  - component-instance secureData checks for happn client connectivity, raises proper error if disconnected
+  - happn: upgraded to 7.1.2
+    - set/on paths more permissive, : % also allowed now
