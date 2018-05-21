@@ -396,3 +396,7 @@ based on happner 1.28.1
   - component-instance secureData checks for happn client connectivity, raises proper error if disconnected
   - happn: upgraded to 7.1.2
     - set/on paths more permissive, : % also allowed now
+
+8.0.2 2017-05-20
+----------------
+  - component-instance - fixed issue with defaults and no connection
