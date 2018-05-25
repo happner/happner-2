@@ -400,3 +400,7 @@ based on happner 1.28.1
 8.0.2 2017-05-20
 ----------------
   - component-instance - fixed issue with defaults and no connection
+
+8.0.3 2017-05-25
+----------------
+  - upgraded happner-client v5.0.0
