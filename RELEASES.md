@@ -404,3 +404,8 @@ based on happner 1.28.1
 8.0.3 2017-05-25
 ----------------
   - upgraded happner-client v5.0.0
+
+8.0.4 2017-05-26
+----------------
+  - upgraded happn 7.1.3
+  - happn dependancy now ^
