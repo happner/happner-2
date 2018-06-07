@@ -370,13 +370,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       });
     });
 
-    it('increments a value on a path, multiple guages', function (done) {
+    it('increments a value on a path, multiple gauges', function (done) {
 
       var async = require('async');
 
       async.timesSeries(10, function (time, timeCB) {
 
-        dataComponent.set('test/increment/multiple/guages', 'counter-' + time, {increment: 1, noPublish: true}, function (e) {
+        dataComponent.set('test/increment/multiple/gauges', 'counter-' + time, {increment: 1, noPublish: true}, function (e) {
 
           timeCB(e);
         });
@@ -385,7 +385,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         if (e) return done(e);
 
-        dataComponent.get('test/increment/multiple/guages', function (e, result) {
+        dataComponent.get('test/increment/multiple/gauges', function (e, result) {
 
           if (e) return done(e);
 
@@ -410,7 +410,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       dataComponent.on('increment/event', function (data) {
 
         expect(data.value).to.be(1);
-        expect(data.guage).to.be('counter');
+        expect(data.gauge).to.be('counter');
 
         done();
 
@@ -442,4 +442,3 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     });
   });
 });
-

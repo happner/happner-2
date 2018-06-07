@@ -29,7 +29,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       setSibling: function(path, data, callback){
         return callback();
       },
-      increment: function(path, guage, increment, callback){
+      increment: function(path, gauge, increment, callback){
         return callback();
       },
       remove: function(path, opts, callback){
@@ -215,7 +215,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     var componentInstance = new ComponentInstance();
     var secureData = componentInstance.secureData(mockData(), 'test-component');
 
-    secureData.increment('test/path', 'test-guage', 1, done);
+    secureData.increment('test/path', 'test-gauge', 1, done);
   });
 
   it('test the increment without a connection', function(done){
@@ -223,7 +223,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     var componentInstance = new ComponentInstance();
     var secureData = componentInstance.secureData(mockData(2), 'test-component');
 
-    secureData.increment('test/path', 'test-guage', 1, function(e){
+    secureData.increment('test/path', 'test-gauge', 1, function(e){
       expect(e.toString()).to.be('Error: client state not active or connected, increment:' + 'test/path' + ', component:' + 'test-component');
       done();
     });
@@ -245,7 +245,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     var componentInstance = new ComponentInstance();
     var secureData = componentInstance.secureData(mockData(2), 'test-component');
 
-    secureData.increment('test/path', 'test-guage', function(e){
+    secureData.increment('test/path', 'test-gauge', function(e){
       expect(e.toString()).to.be('Error: client state not active or connected, increment:' + 'test/path' + ', component:' + 'test-component');
       done();
     });
