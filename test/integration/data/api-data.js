@@ -92,26 +92,17 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   });
 
-  it('increments a guage using $happn.data on the test component', function(done){
+  it('increments a gauge using $happn.data on the test component', function(done){
 
-    this.mesh.exchange.component1.incrementGuage('my/test/guage', 'custom_counter', 1, function(e, result){
+    this.mesh.exchange.component1.incrementGauge('my/test/gauge', 'custom_counter', 1, function(e, result){
 
       if (e) return done(e);
 
       expect(result.value).to.be(1);
-      expect(result.guage).to.be('custom_counter');
+      expect(result.gauge).to.be('custom_counter');
 
       done();
     });
   });
 
 });
-
-
-
-
-
-
-
-
-

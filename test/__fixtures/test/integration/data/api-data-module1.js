@@ -23,8 +23,8 @@ function Component1(options) {
     callback(null, this.onCount);
   };
 
-  this.incrementGuage = function ($happn, path, guage, increment, callback) {
-    $happn.data.increment(path, guage, increment, callback);
+  this.incrementGauge = function ($happn, path, gauge, increment, callback) {
+    $happn.data.increment(path, gauge, increment, callback);
   };
 
   this.start = function ($happn, arg, callback) {

@@ -460,6 +460,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         password: 'TEST PWD',
         custom_data: {
           something: 'useful'
+        },
+        application_data: {
+          something: 'sacred'
         }
       }
 
@@ -480,6 +483,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
             delete testUser.password;
             testUser.custom_data = {changedCustom: 'changedCustom'};
+            testUser.application_data = {something: 'profane'};
 
             //NB - we are using testUserSaved - so there is some _meta data - otherwise this wont work
 
@@ -488,19 +492,39 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               if (e) return done(e);
 
               expect(result.custom_data.changedCustom).to.be('changedCustom');
+              expect(result.application_data.something).to.be('sacred');
 
-              testUserClient.login({username: testUser.username, password: 'TEST PWD'}).then(done).catch(done);
+              testUserClient.login({username: testUser.username, password: 'TEST PWD'}).then(done).catch(function(e){
 
+                if (e) return done(e);
+
+                adminClient.getUser(testUser.username, function(e, user){
+
+                  if (e) return done(e);
+                  expect(result.application_data.something).to.be('sacred');
+
+                  testUser.application_data = {something: 'profane'};
+
+                  adminClient.exchange.security.updateUser(testUser, function (e, result) {
+                    if (e) return done(e);
+                    expect(result.application_data.something).to.be('profane');
+
+                    adminClient.getUser(testUser.username, function(e, user){
+
+                      if (e) return done(e);
+                      expect(result.application_data.something).to.be('profane');
+                      done();
+                    });
+                  });
+                });
+              });
             });
 
           }).catch(function (e) {
             done(e);
           });
-
         });
-
       });
-
     });
 
   });

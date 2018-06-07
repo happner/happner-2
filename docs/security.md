@@ -99,15 +99,15 @@ var removePermissions = {
 
 upserting groups:
 -----------------
-*a security group can be upserted, if the group does not exist, it is created, if it does its properties and permissions are merged with the passed group argument by default. The permissions of the group can be overwritten by setting the overwrite option to true* 
+*a security group can be upserted, if the group does not exist, it is created, if it does its properties and permissions are merged with the passed group argument by default. The permissions of the group can be overwritten by setting the overwrite option to true*
 
 ```javascript
 
 var testUpsertGroup = {
          name: 'TEST_UPSERT_EXISTING',
-   
+
          custom_data: 'TEST UPSERT EXISTING',
-   
+
          permissions: {
            methods: {
              //in a /Mesh name/component name/method name - with possible wildcards
@@ -119,16 +119,16 @@ var testUpsertGroup = {
            }
          }
        };
-   
+
    adminClient.exchange.security.upsertGroup(testUpsertGroup, function(e, upserted){
      //group was upserted, permissions were merged with existing group if it existed
    });
-   
+
    var testUpsertGroupOverwrite = {
          name: 'TEST_UPSERT_EXISTING',
-   
+
          custom_data: 'TEST UPSERT EXISTING',
-   
+
          permissions: {
            methods: {
              //in a /Mesh name/component name/method name - with possible wildcards
@@ -140,7 +140,7 @@ var testUpsertGroup = {
            }
          }
        };
-   
+
    adminClient.exchange.security.upsertGroup(testUpsertGroupOverwrite, {overwritePermissions:true}, function(e, upserted){
      //group was upserted, permissions were overwritten with existing group if it existed
    });
@@ -149,7 +149,7 @@ var testUpsertGroup = {
 
 upserting users:
 -----------------
-*a user can be upserted, if the user does not exist, it is created, if it does its properties and group subscriptions are merged with the passed user argument by default. The subscriptions of the user can be overwritten by setting the overwriteSubscriptions option to true* 
+*a user can be upserted, if the user does not exist, it is created, if it does its properties and group subscriptions are merged with the passed user argument by default. The subscriptions of the user can be overwritten by setting the overwriteSubscriptions option to true*
 
 ```javascript
 
@@ -159,15 +159,18 @@ upserting users:
     custom_data: {
       something: 'useful'
     },
+		application_data: {
+			something: 'untouchable by the user'
+		}
     groups:{}
   };
- 
+
  testUpsertUser.groups['TEST_UPSERT_EXISTING_6_1'] = true;
- 
+
  adminClient.exchange.security.upsertUser(testUpsertUser, function(e, result){
   //user was added and subscribed to group TEST_UPSERT_EXISTING_6_1
  });
-   
+
  var testUpsertUserOverwrite = {
     username: 'TEST_UPSERT_EXISTING_6',
     password: 'TEST PWD',
@@ -176,12 +179,39 @@ upserting users:
     },
     groups:{}
   };
- 
+
  testUpsertUserOverwrite.groups['TEST_UPSERT_EXISTING_6_1'] = true;
- 
+
  adminClient.exchange.security.upsertUser(testUpsertUserOverwrite, {overwriteMemberships:true}, function(e, result){
   //user was added and subscribed to group TEST_UPSERT_EXISTING_6_1 and unsibscribed from all other groups
  });
+
+```
+
+updateOwnUser
+-------------
+
+*all users are afforded the right to update their own passwords and custom_data, the application_data property is not editable by the user, and can only be updated by the administrator*
+
+```javascript
+
+//Assuming testUserClient is logged in as myUsername, with password myOldPassword
+
+var myUser = {
+	username:'myUsername',
+	password:'myNewPassword',
+	oldPassword:'myOldPassword',//don't forget the old password
+	custom_data:{
+		field:'profane'
+	},
+	application_data:{//NB: this will be ignored - and can only be changed by an administrator
+		field:'sacred'
+	}
+}
+
+testUserClient.exchange.security.updateOwnUser(myUser, function (e, result) {
+	//you have now updated your own user
+});
 
 ```
 
