@@ -150,7 +150,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
     // subscribe allowed/denied
   });
 
-  context.only('data', function () {
+  context('data', function () {
     var client;
 
     before('start client', function (done) {
@@ -199,7 +199,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           }
         }
       }).catch(function(e){
-        expect(e.toString()).to.be('Error: data permissions can not start with /_events, /_exchange or /@HTTP');
+        expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
         done();
       })
     });
@@ -215,7 +215,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           }
         }
       }).catch(function(e){
-        expect(e.toString()).to.be('Error: data permissions can not start with /_events, /_exchange or /@HTTP');
+        expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
         done();
       })
     });
@@ -231,7 +231,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           }
         }
       }).catch(function(e){
-        expect(e.toString()).to.be('Error: data permissions can not start with /_events, /_exchange or /@HTTP');
+        expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
         done();
       })
     });
@@ -258,7 +258,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       });
     });
 
-    it('removes group data permissions, we check we have access to the new path', function (done) {
+    it('removes group data permissions, we check we no longer have access to the new path, but still have access to other paths', function (done) {
 
       client.data.set('/toremove/1', {test:'data'}, function(e){
 
@@ -290,6 +290,35 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
             });
           })
           .catch(done);
+      });
+    });
+
+    it('adds group data permissions via a group upsert, we check we have access to the new path and the previous permissions', function (done) {
+
+      var security = server.exchange.security;
+
+      client.data.set('/upserted/1', {test:'data'}, function(e){
+
+        expect(e.toString()).to.be('AccessDenied: unauthorized');
+
+        security.upsertGroup({
+          name: 'group',
+          permissions: {
+            data: {
+              '/upserted/*': {actions:['get', 'set']}
+            }
+          }
+        })
+        .then(function () {
+          return client.data.set('/upserted/1', {test:'data'});
+        })
+        .then(function () {
+          return client.data.get('/upserted/1', {test:'data'});
+        })
+        .then(function () {
+          return client.data.get('/allowed/get/*', done);
+        })
+        .catch(done);
       });
     });
   });

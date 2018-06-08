@@ -697,7 +697,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                     'get'
                   ]
                 }
-              }
+              },
+              data:{}
             }
           });
         })
@@ -764,7 +765,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                     'get'
                   ]
                 }
-              }
+              },
+              data:{}
             }
           });
 
@@ -824,7 +826,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                     'get'
                   ]
                 }
-              }
+              },
+              data:{}
             }
           })
         })

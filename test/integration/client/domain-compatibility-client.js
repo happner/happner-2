@@ -147,7 +147,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             '/DOMAIN_NAME/testComponent/event': {authorized: true}
           },
           data: {
-            '/some/path': {authorized: true}
+            '/some/path': {actions: ['*']}
           },
           methods: {
             '/DOMAIN_NAME/testComponent/method': {authorized: true},
