@@ -7,6 +7,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
   var Promise = require('bluebird');
   var fs = require('fs');
   var should = require('chai').should();
+  var expect = require('expect.js');
 
   var server;
   var test_id = Date.now() + '_' + require('shortid').generate();
@@ -53,7 +54,12 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
             name: 'group',
             permissions: {
               events: {},
-              // data: {},
+              data: {
+                '/allowed/get/*': {actions:['get']},
+                '/allowed/on/*': {actions:['on','set']},
+                '/allowed/remove/*': {actions:['set','remove','get']},
+                '/allowed/all/*': {actions:['*']}
+              },
               methods: {
                 '/Server/ComponentName/allowedMethod': {authorized: true}
               }
@@ -145,7 +151,176 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
   });
 
   context('data', function () {
-    // ?
+    var client;
+
+    before('start client', function (done) {
+      client = new Happner.MeshClient();
+      client.login({
+        username: 'username',
+        password: 'password'
+      })
+        .then(function () {
+          done();
+        })
+        .catch(done);
+    });
+
+    after('stop client', function () {
+      client.disconnect();
+    });
+
+    it('allows access to allowed "on" data points', function (done) {
+      client.data.on('/allowed/on/*', function(data){
+        expect(data.test).to.be('data');
+        done();
+      }, function(e){
+        if (e) return done(e);
+        client.data.set('/allowed/on/1', {test:'data'}, function(e){
+          if (e) return done(e);
+        });
+      })
+    });
+
+    it('denies access to denied data points', function (done) {
+      client.data.set('/not/allowed/on/1', {test:'data'}, function(e){
+        expect(e.toString()).to.be('AccessDenied: unauthorized');
+        done();
+      });
+    });
+
+    it('prevents any attempts to save data permissions that may interfere with _events', function (done) {
+      var security = server.exchange.security;
+
+      security.addGroup({
+        name: 'badgroup',
+        permissions: {
+          data: {
+            '/_events/*': {actions:['*']}
+          }
+        }
+      }).catch(function(e){
+        expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
+        done();
+      })
+    });
+
+    it('prevents any attempts to save data permissions that may interfere with /_exchange', function (done) {
+      var security = server.exchange.security;
+
+      security.addGroup({
+        name: 'badgroup',
+        permissions: {
+          data: {
+            '/_exchange/*': {actions:['*']}
+          }
+        }
+      }).catch(function(e){
+        expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
+        done();
+      })
+    });
+
+    it('prevents any attempts to save data permissions that may interfere with /@HTTP', function (done) {
+      var security = server.exchange.security;
+
+      security.addGroup({
+        name: 'badgroup',
+        permissions: {
+          data: {
+            '/@HTTP/*': {actions:['*']}
+          }
+        }
+      }).catch(function(e){
+        expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
+        done();
+      })
+    });
+
+    it('adds group data permissions, we check we have access to the new path', function (done) {
+
+      client.data.set('/updated/1', {test:'data'}, function(e){
+
+        expect(e.toString()).to.be('AccessDenied: unauthorized');
+        var addPermissions = {
+          data: {
+            '/updated/*':{actions:['on', 'set']}
+          }
+        };
+
+        var security = server.exchange.security;
+
+        security.addGroupPermissions('group', addPermissions)
+
+          .then(function (updatedGroup) {
+            client.data.set('/updated/1', {test:'data'}, done);
+          })
+          .catch(done);
+      });
+    });
+
+    it('removes group data permissions, we check we no longer have access to the new path, but still have access to other paths', function (done) {
+
+      client.data.set('/toremove/1', {test:'data'}, function(e){
+
+        expect(e.toString()).to.be('AccessDenied: unauthorized');
+        var addPermissions = {
+          data: {
+            '/toremove/*':{actions:['on', 'set']}
+          }
+        };
+
+        var security = server.exchange.security;
+
+        security.addGroupPermissions('group', addPermissions)
+
+          .then(function (updatedGroup) {
+            return client.data.set('/toremove/1', {test:'data'});
+          })
+          .then(function(){
+            return security.removeGroupPermissions('group', addPermissions);
+          })
+          .then(function(){
+            //ensure we only removed one permission
+            return client.data.get('/allowed/get/*');
+          })
+          .then(function(){
+            client.data.set('/toremove/1', {test:'data'}, function(e){
+              expect(e.toString()).to.be('AccessDenied: unauthorized');
+              done();
+            });
+          })
+          .catch(done);
+      });
+    });
+
+    it('adds group data permissions via a group upsert, we check we have access to the new path and the previous permissions', function (done) {
+
+      var security = server.exchange.security;
+
+      client.data.set('/upserted/1', {test:'data'}, function(e){
+
+        expect(e.toString()).to.be('AccessDenied: unauthorized');
+
+        security.upsertGroup({
+          name: 'group',
+          permissions: {
+            data: {
+              '/upserted/*': {actions:['get', 'set']}
+            }
+          }
+        })
+        .then(function () {
+          return client.data.set('/upserted/1', {test:'data'});
+        })
+        .then(function () {
+          return client.data.get('/upserted/1', {test:'data'});
+        })
+        .then(function () {
+          return client.data.get('/allowed/get/*', done);
+        })
+        .catch(done);
+      });
+    });
   });
 
   context('exchange', function () {
@@ -192,6 +367,4 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         .catch(done);
     });
   });
-
-  //require('benchmarket').stop();
 });
