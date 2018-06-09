@@ -5,7 +5,7 @@ HAPPNER SECURITY
 
 users groups and permissions
 ----------------------------
-*happner meshes can run in secure mode, a scheme comprising of users, groups and permissions allows for this, we have yet to complete the documentation for this, but to get a comprehensive picture of how this works, please look at [the test for now](https://github.com/happner/happner-2/blob/master/test/integration/security/permissions-translation.js)*
+*happner meshes can run in secure mode, a scheme comprising of users, groups and permissions allows for this, we have yet to complete the documentation for this, but to get a comprehensive picture of how this works, please look at [the test for now](https://github.com/happner/happner-2/blob/master/test/integration/security/advanced-security.js)*
 
 
 payload encryption
@@ -32,7 +32,7 @@ adminClient.exchange.security.attachToSecurityChanges(function(e){
       });
 
 ```
-please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/permission-changes-events.js
+please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/permission-changes-events.js)
 
 
 security session events
@@ -50,7 +50,7 @@ security session events
 	      ...
 	    });
 ```
-please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/session-changes-events.js
+please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/session-changes-events.js)
 
 ## security service functions
 
