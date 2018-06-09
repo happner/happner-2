@@ -2,22 +2,25 @@
 
 <img src="https://raw.githubusercontent.com/happner/happner-website/master/images/HAPPNER%20Logo.png" width="300"></img>
 
-Happner-2 is a cloud application framework ideal for integrating multiple micro services into a unified offering. It enables the creation of an interconnected mesh of local and remote components. The mesh components can easily call upon each other's methods or listen to each other's events in a manner uncomplicated by remoteness.
+## premise
 
-## NB - this code is still in rapid development
-*On occassion, it may appear the build is failing - this is due to the amount and complexity of the tests we are now running on travis, some of which are timer based and others which are creating multiple processes etc. So please bear with us, we are almost complete with our initial development phase, we are now just merging backward compatible fixes made to happner version 1 (production) and then we will sort out the tests to ensure there are no intermittent issues.*
+Happner-2 is a cloud application and RPC framework ideal for integrating multiple micro services into a unified offering. It enables the creation of an interconnected mesh of local (within a single process) and remote (across multiple processes) components. The mesh components can easily call upon each other's methods or listen to each other's events in a manner uncomplicated by remoteness.
 
-## Changes from version 1
+## uses happn-3
+
+Happner uses [happn-3](https://github.com/happner/happn-3) as the pub/sub framework that allows for communication between happner services and components.
+
+## cluster-able
+
+It is possible to create a cluster of happner services, using [happner-cluster](https://github.com/happner/happner-cluster)
+
+## Changes from [version 1](https://github.com/happner/happner)
 
 * using happn-3
 * has happn configuration instead of datalayer, the cofiguration can take any happn-3 config in, and has a few convenience settings
 
 please check the [migration plan](https://github.com/happner/happner-2/blob/master/docs/migration-plan.md)
 ---------------------------------------------
-
-## ROADMAP
-
-* not 100% defined, but we have a [recommendations document](https://docs.google.com/document/d/1IQc-VBdun8gQTaJ6CSPD0-5BArc0AS6gIkFh-Dx59yE/edit?usp=sharing).
 
 ## installation
 
@@ -28,7 +31,6 @@ please check the [migration plan](https://github.com/happner/happner-2/blob/mast
 These walkthroughs use *happner* to create a rudimentary monitoring service.
 
 * [The Basics](https://github.com/happner/happner-2/blob/master/docs/walkthrough/the-basics.md)
-
 
 ## documentation
 
