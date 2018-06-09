@@ -10,7 +10,7 @@ users groups and permissions
 
 payload encryption
 ------------------
-*happners messaging payload can be encrypted, the mesh must be running in secure mode, to see how this works client to mesh, please look at [the test](https://github.com/happner/happner/blob/master/test/c9-payload-encryption-client-to-mesh.js) - there is also a test demonstrating how this works [mesh to mesh](https://github.com/happner/happner-2/blob/master/test/integration/security/payload-encryption-mesh-to-mesh.js)*
+*happners messaging payload can be encrypted, the mesh must be running in secure mode, to see how this works client to mesh, please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/payload-encryption-client-to-mesh.js) - there is also a test demonstrating how this works [mesh to mesh](https://github.com/happner/happner-2/blob/master/test/integration/security/payload-encryption-mesh-to-mesh.js)*
 
 
 security directory events
@@ -32,7 +32,7 @@ adminClient.exchange.security.attachToSecurityChanges(function(e){
       });
 
 ```
-please look at [the test](https://github.com/happner/happner/blob/master/test/d3-permission-changes-events.js
+please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/permission-changes-events.js
 
 
 security session events
@@ -50,7 +50,7 @@ security session events
 	      ...
 	    });
 ```
-please look at [the test](https://github.com/happner/happner/blob/master/test/d4-session-changes-events.js
+please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/session-changes-events.js
 
 ## security service functions
 
@@ -218,7 +218,7 @@ testUserClient.exchange.security.updateOwnUser(myUser, function (e, result) {
 hardening _responses:
 --------------------
 
-Currently happn clients are prevented from accessing the /_exchange/responses/[mesh name]/[component name]/[method name]/\* path using a regular expression check - injected into the underlying happn service by way of a [custom layer](https://github.com/happner/happner-2/blob/master/test/integration/mesh/happn-layer-middleware.js), [over here](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222)), a better solution to this, is to use the [targetClients functionality](https://github.com/happner/happn-3/blob/master/test/f3-targetClients.js) of happn-3, to push _response messages only to the origin of the _request. This is made possible by passing the directResponses:true option in the mesh config, as follows:
+Currently happn clients are prevented from accessing the /_exchange/responses/[mesh name]/[component name]/[method name]/\* path using a regular expression check - injected into the underlying happn service by way of a [custom layer](https://github.com/happner/happner-2/blob/master/test/integration/mesh/happn-layer-middleware.js), [over here](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222), a better solution to this, is to use the [targetClients functionality](https://github.com/happner/happn-3/blob/master/test/integration/api/targetclients.js) of happn-3, to push _response messages only to the origin of the _request. This is made possible by passing the directResponses:true option in the mesh config, as follows:
 
 ```javascript
 
