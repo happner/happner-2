@@ -10,7 +10,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var async = require('async');
   var exec = require('child_process').exec;
 
-  this.timeout(5000);
+  this.timeout(20000);
 
   var childPIDs = [];
 
@@ -52,8 +52,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var remote;
 
   before('starts a loader process, we analyze the loader logs to ensure it is all working', function (done) {
-
-    this.timeout(15000);
 
     var loaderPath = path.resolve(__dirname, '../../../bin/happner-loader');
     var confPath = path.resolve(libFolder + 'conf_cant_start.js');
@@ -100,7 +98,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   it('has restarted it at least twice', function (done) {
 
-    this.timeout(5000);
     checkLog();
 
     function checkLog() {
@@ -116,7 +113,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           done();
           return;
         }
-        setTimeout(checkLog, 500);
+        setTimeout(checkLog, 1000);
       }, 55010)
     }
   });
