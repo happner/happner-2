@@ -60,11 +60,11 @@ describe('01_browsertest_encryptedpayloads', function () {
 
     client.event.test.on('test-emmission', function (data) {
       done();
-    })
+    });
 
     client.exchange.test.doEmit({test: "test"}, function (e, result) {
       console.log('emit function went ok:::');
-    })
+    });
 
   });
 

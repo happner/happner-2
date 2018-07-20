@@ -10,14 +10,14 @@ DataComponent7.prototype.storeData = function ($happn, path, data, callback) {
 
     $happn.data.set(path, data, {}, function (e, response) {
 
-      return callback(e, response)
+      return callback(e, response);
 
     });
 
   } catch (e) {
     callback(e);
   }
-}
+};
 
 if (global.TESTING_7) return; // When 'requiring' the module above,
                               // don't run the tests below
@@ -96,7 +96,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     this.datastores.mem.db.update = function () {
       called = true;
       originalFn.apply(this, arguments);
-    }
+    };
 
     try {
 
@@ -133,7 +133,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     this.datastores.persist.db.update = function () {
       called = true;
       originalFn.apply(this, arguments);
-    }
+    };
 
     try {
 
@@ -160,7 +160,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       this.datastores.persist.update = originalFn;
     }
 
-  })
+  });
 
   xit('tests storing data routed to mem, in the data component', function (done) {
 
@@ -170,7 +170,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     this.datastores.mem.db.update = function () {
       called = true;
       originalFn.apply(this, arguments);
-    }
+    };
 
     try {
 
@@ -207,7 +207,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     this.datastores.persist.db.update = function () {
       called = true;
       originalFn.apply(this, arguments);
-    }
+    };
 
     try {
 
@@ -233,6 +233,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     } finally {
       this.datastores.persist.update = originalFn;
     }
-  })
+  });
 
 });

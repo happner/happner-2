@@ -93,7 +93,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               mesh: meshNoItem,
               component: j
             }
-          }
+          };
         }
       );
 
@@ -125,7 +125,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           if (err) return meshNoItemCB(err);
           meshes.push(mesh);
           meshNoItemCB();
-        })
+        });
       });
     }, done);
   });
@@ -235,7 +235,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         },
       }
     });
-    done()
+    done();
   });
 
 
@@ -273,12 +273,12 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                               });
                           });
                       }
-                    )
-                  }
+                    );
+                  };
                 }
               )
             );
-          }
+          };
         }
       )
     ).then(function (results) {
@@ -288,7 +288,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       results.forEach(function (meshResult) {
         meshResult.forEach(function (componentResults) {
           formatted[componentResults[0]] = componentResults[1];
-        })
+        });
       });
 
       formatted.should.eql({
@@ -384,7 +384,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     mesh.exchange['special-component2'].methodNameFront('ARG1', function (err, res) {
       if (err) return done(err);
       res.should.eql(['ARG1', {mesh: 1, component: 2}]);
-      done()
+      done();
     });
 
   });
@@ -395,7 +395,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     mesh.exchange['special-component3'].methodNameEnd('ARG1', function (err, res) {
       if (err) return done(err);
       res.should.eql(['ARG1', {mesh: 1, component: 3}]);
-      done()
+      done();
     });
   });
 
@@ -405,9 +405,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     mesh.exchange['special-component4'].methodNameMiddle('ARG1', function (err, res) {
       if (err) return done(err);
       res.should.eql(['ARG1', {mesh: 1, component: 4}]);
-      done()
+      done();
     });
-  })
+  });
 
   it('runs method without happn ok', function (done) {
 
@@ -416,7 +416,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     mesh.exchange['special-component5'].methodWithoutHappn('ARG1', function (err, res) {
       if (err) return done(err);
       res.should.eql(['ARG1']);
-      done()
+      done();
     });
   });
 
@@ -437,8 +437,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }
         }
       });
-      done()
-    })
+      done();
+    });
   });
 
   it('injects happn into front of webmethod args', function (done) {
@@ -447,8 +447,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       var response = JSON.parse(res.body);
       response.config.moduleName.should.equal('module3');
       response.next.slice(0, 8).should.equal('function');
-      done()
-    })
+      done();
+    });
   });
 
   it('injects happn into middle of webmethod args', function (done) {
@@ -457,8 +457,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       var response = JSON.parse(res.body);
       response.config.moduleName.should.equal('module3');
       response.next.slice(0, 8).should.equal('function');
-      done()
-    })
+      done();
+    });
   });
 
   it('injects happn into middle of webmethod args', function (done) {
@@ -467,16 +467,16 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       var response = JSON.parse(res.body);
       response.config.moduleName.should.equal('module3');
       response.next.slice(0, 8).should.equal('function');
-      done()
-    })
+      done();
+    });
   });
 
 
   it('runs webmethod ok without $happn', function (done) {
 
     request('http://localhost:3001/mesh1/webComponent1/methodWithoutHappn', function (err, res) {
-      res.body.should.eql('ok')
-      done()
-    })
+      res.body.should.eql('ok');
+      done();
+    });
   });
 });

@@ -19,7 +19,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                 callback = optional;
                 optional = {
                   some: 'default option'
-                }
+                };
               }
               callback(null, optional);
             },
@@ -28,7 +28,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                 callback = optional;
                 optional = {
                   some: 'default option'
-                }
+                };
               }
               callback(null, optional);
             }

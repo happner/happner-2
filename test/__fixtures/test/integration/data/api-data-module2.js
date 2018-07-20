@@ -20,7 +20,7 @@ function Component2(options) {
     } catch (e) {
       callback(e);
     }
-  }
+  };
 
   this.lookForForbiddenMethods = function ($happn, callback) {
     try {
@@ -42,7 +42,7 @@ function Component2(options) {
       return callback(e);
     }
 
-  }
+  };
 
   this.subscribeToData = function ($happn, options) {
     $happn.data.on(options.path, {event_type: 'set', count: 0}, options.handler, options.callback);
@@ -62,5 +62,5 @@ function Component2(options) {
 
   this.stop = function () {
 
-  }
+  };
 }

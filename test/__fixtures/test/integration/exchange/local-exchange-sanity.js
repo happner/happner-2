@@ -41,6 +41,6 @@ function E7Module() {
 
   this.synchronousMethod = function($origin, object, $happn) {
     console.log(arguments);
-  }
+  };
 
 }

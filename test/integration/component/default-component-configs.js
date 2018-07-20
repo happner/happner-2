@@ -34,7 +34,7 @@ SeeAbove.prototype.$happner = {
       }
     }
   }
-}
+};
 
 if (global.TESTING_15) return; // When 'requiring' the module above,
 
@@ -84,7 +84,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   it('created the module with the method schema as defaulted', function (done) {
 
     // console.log(this.mesh.exchange);
-    should.not.exist(this.mesh.exchange['see-above'].methodName2)
+    should.not.exist(this.mesh.exchange['see-above'].methodName2);
     var _this = this;
     this.mesh.exchange['see-above'].methodName1(function (err, res) {
       //   res.should.equal('OK-GOOD');
@@ -100,7 +100,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       if (err) return done(err);
       body.should.equal('OK-GOOD');
       done();
-    })
+    });
 
   });
 });

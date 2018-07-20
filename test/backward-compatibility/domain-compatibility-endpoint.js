@@ -136,7 +136,7 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
     it('can use $happn.data', function (done) {
       endpoint.exchange.DOMAIN_NAME.testComponent.useOwnData()
         .then(function (result) {
-          expect(result).to.eql({some: 'DATA'})
+          expect(result).to.eql({some: 'DATA'});
         })
         .then(done).catch(done);
     });
@@ -312,7 +312,7 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
     it('can use $happn.data', function (done) {
       endpoint.exchange.DOMAIN_NAME.testComponent.useOwnData()
         .then(function (result) {
-          expect(result).to.eql({some: 'DATA'})
+          expect(result).to.eql({some: 'DATA'});
         })
         .then(done).catch(done);
     });

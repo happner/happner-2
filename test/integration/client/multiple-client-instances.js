@@ -34,7 +34,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       if (err) return done(err);
       mesh1 = mesh;
       mesh1.exchange.data.set('testval', {val: 1}, done);
-    })
+    });
   });
 
   before(function (done) {
@@ -42,7 +42,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       if (err) return done(err);
       mesh2 = mesh;
       mesh2.exchange.data.set('testval', {val: 2}, done);
-    })
+    });
   });
 
   before(function (done) {
@@ -89,8 +89,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           val1.should.eql(1);
           val2.should.eql(2);
           done();
-        })
-      })
-    })
+        });
+      });
+    });
   });
 });

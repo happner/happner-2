@@ -24,7 +24,7 @@ describe('Using the clientside only', function () {
   after(function (done) {
     remote.kill();
     done();
-  })
+  });
 
   context('with clientside bits', function () {
 
@@ -52,5 +52,5 @@ describe('Using the clientside only', function () {
       });
 
     });
-  })
+  });
 });

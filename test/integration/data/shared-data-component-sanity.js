@@ -13,13 +13,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     setSharedData: function ($happn, path, data, callback) {
       $happn.exchange.data.set(path, data, callback);
     }
-  }
+  };
 
   var TestModule2 = {
     getSharedData: function ($happn, path, callback) {
       $happn.exchange.data.get(path, callback);
     }
-  }
+  };
 
   before(function (done) {
 
@@ -85,7 +85,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (e) return done(e);
         dataComponent.set('/some/path/three', {key: 'VAL'}, {}, function (e) {
           if (e) return done(e);
-        })
+        });
       });
     });
 
@@ -98,7 +98,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (e) return done(e);
         dataComponent.set('/some/path/four', {key: 'VALUE'}, function (e) {
           if (e) return done(e);
-        })
+        });
       });
     });
 
@@ -214,21 +214,21 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (e) return done(e);
         dataComponent.set('/some/path/five', {key: 1}) // <--------------- 1
           .then(function () {
-            return dataComponent.set('/some/path/five', {key: 1}) // <------ 2
+            return; dataComponent.set('/some/path/five', {key: 1}); // <------ 2
           })
           .then(function () {
-            return dataComponent.offPath('/some/path/five') // <------------- unsub
+            return; dataComponent.offPath('/some/path/five'); // <------------- unsub
           })
           .then(function () {
-            return dataComponent.set('/some/path/five', {key: 1}) // <------- 3
+            return; dataComponent.set('/some/path/five', {key: 1}); // <------- 3
           })
           .then(function () {
             received.length.should.equal(2);
             done();
           })
-          .catch(done)
+          .catch(done);
       });
-    })
+    });
 
     it('can unsubscribe from all', function (done) {
       var received = [];
@@ -238,19 +238,19 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (e) return done(e);
         dataComponent.set('/some/path/six', {key: 1}) // <--------------- 1
           .then(function () {
-            return dataComponent.set('/some/path/six', {key: 1}) // <------ 2
+            return dataComponent.set('/some/path/six', {key: 1}); // <------ 2
           })
           .then(function () {
-            return dataComponent.offAll()
+            return dataComponent.offAll();
           })
           .then(function () {
-            return dataComponent.set('/some/path/six', {key: 1}) // <------- 3
+            return dataComponent.set('/some/path/six', {key: 1}); // <------- 3
           })
           .then(function () {
             received.length.should.equal(2);
             done();
           })
-          .catch(done)
+          .catch(done);
       });
     });
 
@@ -262,19 +262,19 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (e) return done(e);
         dataComponent.set('/some/path/seven', {key: 1}) // <--------------- 1
           .then(function () {
-            return dataComponent.set('/some/path/seven', {key: 1}) // <------ 2
+            return dataComponent.set('/some/path/seven', {key: 1}); // <------ 2
           })
           .then(function () {
             return dataComponent.offPath('/some/path/seven');
           })
           .then(function () {
-            return dataComponent.set('/some/path/seven', {key: 1}) // <------- 3
+            return dataComponent.set('/some/path/seven', {key: 1}); // <------- 3
           })
           .then(function () {
             received.length.should.equal(2);
             done();
           })
-          .catch(done)
+          .catch(done);
       });
     });
 
@@ -285,7 +285,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         })
         .then(function (six) {
           six.value.should.equal(6);
-          return dataComponent.remove('some/path/eight')
+          return dataComponent.remove('some/path/eight');
         })
         .then(function (res) {
           return dataComponent.get('some/path/eight');
@@ -294,7 +294,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           should.not.exist(res);
           done();
         })
-        .catch(done)
+        .catch(done);
     });
 
     it('can get paths', function (done) {
@@ -304,7 +304,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           dataComponent.set('this/three', 3),
         ])
         .then(function () {
-          return dataComponent.getPaths('this/*')
+          return dataComponent.getPaths('this/*');
         })
         .then(function (paths) {
           paths.length.should.equal(3);
@@ -326,7 +326,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (e) return done(e);
         dataComponent.set('/some/path/five', {key: 'VALUE'}, function (e) {
           if (e) return done(e);
-        })
+        });
       });
     });
 
@@ -342,8 +342,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           if (e) return done(e);
           dataComponent.set('/some/path/testNoPublish2', {val: 'must be emitted'}, undefined, function (e) {
             if (e) return done(e);
-          })
-        })
+          });
+        });
       });
     });
 
@@ -432,7 +432,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     it('can set from one component and getted from another', function (done) {
       meshInstance.exchange.module1.setSharedData('/my/thing', {'y': 'x'})
         .then(function () {
-          return meshInstance.exchange.module2.getSharedData('/my/thing')
+          return meshInstance.exchange.module2.getSharedData('/my/thing');
         })
         .then(function (d) {
           d.y.should.equal('x');

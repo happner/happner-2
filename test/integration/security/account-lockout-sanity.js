@@ -106,7 +106,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           .catch(function (error) {
             error.toString().should.equal('AccessDenied: Invalid credentials');
             itemCB();
-          })
+          });
       },
       function(itemCB){
 
@@ -118,7 +118,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           .catch(function (error) {
             error.toString().should.equal('AccessDenied: Invalid credentials');
             itemCB();
-          })
+          });
       },
       function(itemCB){
 
@@ -130,7 +130,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           .catch(function (error) {
             error.toString().should.equal('AccessDenied: Account locked out');
             setTimeout(itemCB, 3000);
-          })
+          });
       },
       function(itemCB){
 
@@ -140,7 +140,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             password: 'password'
           })
           .then(itemCB)
-          .catch(itemCB)
+          .catch(itemCB);
       }
     ], done);
   });

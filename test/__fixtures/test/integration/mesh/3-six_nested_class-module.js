@@ -5,4 +5,4 @@ function Thing() {
 
 Thing.prototype.method = function (callback) {
   callback(null, 'RESULT');
-}
+};

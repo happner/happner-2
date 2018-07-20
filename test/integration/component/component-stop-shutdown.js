@@ -20,7 +20,7 @@ Explicit.prototype.asyncStop = function ($happn, opts, optionalOpts, callback) {
   setTimeout(function () {
     global.STOPPED = true;
     global.STOPPEDTIME = new Date();
-    callback(null)
+    callback(null);
   }, 200);
 };
 
@@ -33,7 +33,7 @@ Explicit.prototype.asyncShutdown = function ($happn, opts, optionalOpts, callbac
   setTimeout(function () {
     global.SHUTDOWN = true;
     global.SHUTDOWNTIME = new Date();
-    callback(null)
+    callback(null);
   }, 200);
 };
 

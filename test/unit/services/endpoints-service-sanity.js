@@ -2,7 +2,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   this.timeout(120000);
 
-  var expect = require('expect.js')
+  var expect = require('expect.js');
 
   var config = {
     name: "testMesh",
@@ -129,7 +129,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }
         }
       }
-    }
+    };
 
     return mockMesh;
   };
@@ -147,7 +147,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         this.action('_updateEndpoint', arguments);
         callback();
       }
-    }
+    };
   };
 
   var mockExchangeAPI = function(){
@@ -214,7 +214,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     if (createError){
       happn.client.create = function(config, callback){
         callback(new Error(createError));
-      }
+      };
     }
 
     return happn;

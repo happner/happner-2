@@ -10,19 +10,19 @@ Explicit.prototype.asyncStart = function ($happn, opts, optionalOpts, callback) 
 
   setTimeout(function () {
     DONE = true;
-    callback(null)
+    callback(null);
   }, 200);
 };
 
 Explicit.prototype.asyncStartFails = function (callback) {
 
   callback(new Error('erm'));
-}
+};
 
 Explicit.prototype.methodName1 = function (opts, blob, callback) {
   if (typeof blob == 'function') callback = blob;
   callback(null, {yip: 'eee'});
-}
+};
 
 
 if (global.TESTING_16) return; // When 'requiring' the module above,
@@ -114,7 +114,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   it('has called and finished the component async start method', function (done) {
 
-    DONE.should.eql(true)
+    DONE.should.eql(true);
     done();
   });
 

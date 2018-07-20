@@ -216,7 +216,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       })
 
-      .catch(done)
+      .catch(done);
   });
 });
-

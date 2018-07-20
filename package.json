@@ -16,11 +16,12 @@
     "test-integration": "_mocha -- silence.js test/integration/**",
     "test-cover": "istanbul cover _mocha -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
     "test-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm test",
-    "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**"
+    "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**",
+    "test-lint": "gulp lint"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/happner/happner-2.git"
+    "url": "git+https://github.com/happner/happner-2.git"
   },
   "author": "",
   "license": "MIT",
@@ -34,11 +35,13 @@
     "expect.js": "0.3.1",
     "fxt": "1.0.2",
     "gulp": "3.9.0",
+    "gulp-jshint": "^2.1.0",
     "happn-util-crypto": "0.2.3",
     "happner": "1.33.4",
     "happner-serial-mocha": "1.5.2",
     "happner-test-modules": "1.0.2",
     "istanbul": "0.4.1",
+    "jshint": "^2.9.5",
     "karma": "0.13.22",
     "karma-chai": "0.1.0",
     "karma-chrome-launcher": "0.2.3",
@@ -77,5 +80,10 @@
     "request": "2.67.0",
     "shortid": "2.2.4",
     "uglify-js": "2.6.1"
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
   }
 }

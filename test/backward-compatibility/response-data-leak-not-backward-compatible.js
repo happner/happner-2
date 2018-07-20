@@ -8,22 +8,22 @@ function SecuredComponent() {
 SecuredComponent.prototype.method1 = function ($happn, options, callback) {
   options.methodName = 'method1';
   callback(null, options);
-}
+};
 
 SecuredComponent.prototype.method2 = function ($happn, options, callback) {
   options.methodName = 'method2';
   callback(null, options);
-}
+};
 
 SecuredComponent.prototype.method3 = function ($happn, options, callback) {
   options.methodName = 'method3';
   callback(null, options);
-}
+};
 
 SecuredComponent.prototype.fireEvent = function ($happn, eventName, callback) {
   $happn.emit(eventName, eventName);
   callback(null, eventName + ' emitted');
-}
+};
 
 SecuredComponent.prototype.webGetPutPost = function (req, res, next) {
   res.setHeader('Content-Type', 'application/json');
@@ -126,8 +126,8 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
 
                 if (e) return done(e);
                 done();
-              })
-            })
+              });
+            });
           }
 
         }).catch(done);
@@ -185,7 +185,7 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, done);
       });
     });
-  };
+  }
 
   function createUser2 (done) {
 
@@ -231,7 +231,7 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, done);
       });
     });
-  };
+  }
 
   it('we log in with both users, then listen for responses on SecuredComponent/method1/* with user1, and then run user2\'s web method', function (done) {
 

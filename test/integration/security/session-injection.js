@@ -68,7 +68,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         var credentials = {
           username: '_ADMIN', // pending
           password: test_id
-        }
+        };
 
         secureClient.login(credentials).then(function () {
           done();
@@ -117,7 +117,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         // Credentials for the login method
         var credentials = {
           port: 8001
-        }
+        };
 
         unsecureClient.login(credentials).then(function () {
           done();

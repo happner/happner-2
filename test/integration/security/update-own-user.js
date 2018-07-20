@@ -63,7 +63,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         var credentials = {
           username: '_ADMIN', // pending
           password: test_id
-        }
+        };
 
         adminClient.login(credentials).then(function () {
           done();
@@ -91,7 +91,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       permissions: {
         methods: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -109,7 +109,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -231,7 +231,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       permissions: {
         methods: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -249,7 +249,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -302,7 +302,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       permissions: {
         methods: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -320,7 +320,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -372,7 +372,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       permissions: {
         methods: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -390,7 +390,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -443,7 +443,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       permissions: {
         methods: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -464,7 +464,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         application_data: {
           something: 'sacred'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 

@@ -46,5 +46,5 @@ function Component1(options) {
 
   this.stop = function () {
 
-  }
+  };
 }

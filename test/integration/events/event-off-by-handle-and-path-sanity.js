@@ -53,7 +53,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         mesh.exchange.data.set(path, 20, function () {
           setTimeout(checkCount, 500);
         });
-      })
+      });
     }
 
     function checkCount() {
@@ -82,7 +82,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         mesh.exchange.data.set(path, event_count, function () {
           setTimeout(checkCount, 500);
         });
-      })
+      });
     }
 
     function checkCount() {
@@ -111,7 +111,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         mesh.exchange.data.set(path, event_count, function () {
           setTimeout(checkCount, 500);
         });
-      })
+      });
     }
 
     function checkCount() {

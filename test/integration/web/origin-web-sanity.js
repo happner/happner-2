@@ -61,7 +61,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   after(function (done) {
     mesh.stop({reconnect: false}, done);
-  })
+  });
 
   var http = require('http');
 
