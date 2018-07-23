@@ -214,13 +214,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (e) return done(e);
         dataComponent.set('/some/path/five', {key: 1}) // <--------------- 1
           .then(function () {
-            return; dataComponent.set('/some/path/five', {key: 1}); // <------ 2
+            return dataComponent.set('/some/path/five', {key: 1}); // <------ 2
           })
           .then(function () {
-            return; dataComponent.offPath('/some/path/five'); // <------------- unsub
+            return dataComponent.offPath('/some/path/five'); // <------------- unsub
           })
           .then(function () {
-            return; dataComponent.set('/some/path/five', {key: 1}); // <------- 3
+            return dataComponent.set('/some/path/five', {key: 1}); // <------- 3
           })
           .then(function () {
             received.length.should.equal(2);

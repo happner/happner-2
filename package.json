@@ -8,7 +8,7 @@
     "happner-loader": "bin/happner-loader"
   },
   "scripts": {
-    "test": "mocha -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
+    "test": "npm run test-lint && mocha -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
     "test-bc": "mocha test/backward-compatibility/*",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-browser": "gulp --gulpfile test/browser/gulp-01.js",
