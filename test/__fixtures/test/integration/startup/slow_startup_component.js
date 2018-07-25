@@ -8,5 +8,5 @@ function SlowStartup() {
       console.log('started after delay:::', delay);
       callback();
     }, delay);
-  }
+  };
 }

@@ -14,6 +14,6 @@ function Moonface() {
       e = new Error('Stray patch of glue.'),
         e.name = 'SlipFailure',
         e
-    )
-  }
+    );
+  };
 }

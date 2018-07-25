@@ -44,9 +44,9 @@ describe('001-compact-dbfile', function () {
     var stats = fs.statSync(filepath);
 
     if (!stats) return 0;
-    if (!stats["size"]) return 0;
+    if (!stats.size) return 0;
 
-    return stats["size"];
+    return stats.size;
   }
 
   before(function (done) {
@@ -75,19 +75,19 @@ describe('001-compact-dbfile', function () {
 
     async.series([
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback);
       }
     ], function (e) {
 
@@ -111,34 +111,34 @@ describe('001-compact-dbfile', function () {
 
     async.series([
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback);
       },
       function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback)
+        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback);
       }
     ], function (e) {
 

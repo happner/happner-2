@@ -36,7 +36,7 @@ describe('01_browsertest_security', function() {
       .then(function() {
         client.disconnect();
         done(new Error('should not allow'));
-      })
+      });
   });
 
   it('emits login/allow on good credentials', function(done) {
@@ -48,7 +48,7 @@ describe('01_browsertest_security', function() {
       username: 'username',
       password: 'password'
     })
-      .catch(done)
+      .catch(done);
   });
 
   context('events', function() {
@@ -122,7 +122,7 @@ describe('01_browsertest_security', function() {
 
             error.toString().should.equal('AccessDenied: unauthorized');
             done();
-          })
+          });
 
       }catch(e){
         done(e);

@@ -124,7 +124,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         return secureMesh.stop({reconnect: false}, done);
       }
       done();
-    })
+    });
   });
 
   before('start mesh2', function (done) {

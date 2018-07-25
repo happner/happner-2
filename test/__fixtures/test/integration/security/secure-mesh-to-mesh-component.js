@@ -14,6 +14,6 @@ function RemoteComponent() {
       e = new Error('Error string'),
         e.name = 'ErrorType',
         e
-    )
-  }
+    );
+  };
 }

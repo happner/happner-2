@@ -46,7 +46,7 @@ SeeAbove.prototype.promisePromiseCaller = Promise.promisify(function (opts, call
     .then(function () {
       callback(null, opts);
     })
-    .catch(callback)
+    .catch(callback);
 
 });
 
@@ -56,7 +56,7 @@ SeeAbove.prototype.promiseCaller = function (opts, callback) {
     .then(function () {
       callback(null, opts);
     })
-    .catch(callback)
+    .catch(callback);
 
 };
 
@@ -170,7 +170,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .then(function (res) {
         res.should.eql({number: 2});
         done();
-      })
+      });
 
   });
 
@@ -186,7 +186,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .catch(function (err) {
         err.should.match(/THIS IS JUST A TEST/);
         done();
-      })
+      });
 
   });
 
@@ -203,7 +203,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .catch(function (err) {
         err.should.match(/THIS IS JUST A TEST/);
         done();
-      })
+      });
 
   });
 
@@ -217,7 +217,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-  })
+  });
 
 
   it('supports promises on the alias', function (done) {
@@ -290,7 +290,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .then(function (res) {
         res.should.eql({number: 2});
         done();
-      })
+      });
 
   });
 
@@ -304,7 +304,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .then(function (res) {
         res.should.eql({number: 2});
         done();
-      }.bind(_this))
+      }.bind(_this));
 
   });
 
@@ -317,7 +317,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .then(function (res) {
         res.should.eql({number: 2});
         done();
-      })
+      });
 
   });
 
@@ -330,7 +330,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .then(function (res) {
         res.should.eql({number: 2});
         done();
-      })
+      });
 
   });
 
@@ -342,7 +342,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .then(function (res) {
         res.should.eql({number: 2});
         done();
-      })
+      });
 
   });
 
@@ -402,4 +402,3 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
 });
-

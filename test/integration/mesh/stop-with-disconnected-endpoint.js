@@ -54,7 +54,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         done();
 
-      })
+      });
     });
   });
 });

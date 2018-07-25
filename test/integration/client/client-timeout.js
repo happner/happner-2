@@ -140,7 +140,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       timeoutConfigMesh.stop({reconnect: false}, done);
 
     });
-  })
+  });
 
   it('runs a method on the timeout configured mesh', function (done) {
 

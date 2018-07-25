@@ -135,7 +135,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           testClient.event.data.on('some/random/path', function call1() {
           }, function (err, handle) {
             subID = handle;
-            resolve()
+            resolve();
           });
         });
       },
@@ -158,7 +158,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
       .catch(function (err) {
         done(err);
-      })
+      });
   });
 });
-

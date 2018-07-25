@@ -93,7 +93,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           expect(result).to.eql({val: 'ue'});
           done();
         });
-      })
+      });
     });
   });
 
@@ -236,7 +236,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           expect(result).to.eql({val: 'ue'});
           done();
         });
-      })
+      });
     });
   });
 

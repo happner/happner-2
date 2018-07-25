@@ -91,7 +91,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               break;
             }
           }
-        }, 55010)
+        }, 55010);
       }
     });
   });
@@ -114,7 +114,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           return;
         }
         setTimeout(checkLog, 1000);
-      }, 55010)
+      }, 55010);
     }
   });
 

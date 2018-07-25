@@ -31,7 +31,7 @@ function Component2(options) {
     } catch (e) {
       callback(e);
     }
-  }
+  };
 
   this.startData = function ($happn, callback) {
     var count = 0;
@@ -73,5 +73,5 @@ function Component2(options) {
   // huh?
   this.stop = function ($happn) {
     $happn.mesh.api.date.off('/module1/testDataCount');
-  }
+  };
 }

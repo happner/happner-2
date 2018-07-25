@@ -42,14 +42,14 @@ describe('config suites with happner.js', function () {
     this.mockMeshInstance = {
       log: {
         error: function () {
-          console.error('ERROR', arguments)
+          console.error('ERROR', arguments);
         },
         $$DEBUG: function () { /*console.log('debug', arguments) */
         }
       },
       __supplementSuites: Mesh.prototype.__supplementSuites,
       loadPackagedModules: Mesh.prototype.loadPackagedModules,
-    }
+    };
   });
 
   beforeEach('create a fake module called xyz with a happner.js', function () {
@@ -75,7 +75,7 @@ describe('config suites with happner.js', function () {
         return _this.happnerJSContent;
       }
       return originalreadFileSync.apply(this, arguments);
-    }
+    };
 
     fs.statSync = function (filename) {
       // console.log('statSync', filename);
@@ -83,19 +83,19 @@ describe('config suites with happner.js', function () {
         isDirectory: function () {
           return true;
         }
-      }
+      };
       if (filename.match(/xyz\/index.js/)) return {
         isDirectory: function () {
           return false;
         }
-      }
+      };
       if (filename.match(/xyz\/happner.js/)) return {
         isDirectory: function () {
           return false;
         }
-      }
+      };
       return originalstatSync.apply(this, arguments);
-    }
+    };
 
     fs.lstatSync = function (filename) {
       // console.log('lstatSync', filename);
@@ -106,7 +106,7 @@ describe('config suites with happner.js', function () {
         isSymbolicLink: function () {
           return false;
         }
-      }
+      };
       if (filename.match(/lib\/node_modules\/xyz$/)) return {
         isDirectory: function () {
           return true;
@@ -114,7 +114,7 @@ describe('config suites with happner.js', function () {
         isSymbolicLink: function () {
           return false;
         }
-      }
+      };
       if (filename.match(/lib\/node_modules\/xyz\/index.js$/)) return {
         isDirectory: function () {
           return false;
@@ -122,7 +122,7 @@ describe('config suites with happner.js', function () {
         isSymbolicLink: function () {
           return false;
         }
-      }
+      };
       if (filename.match(/xyz\/happner.js/)) return {
         isDirectory: function () {
           return false;
@@ -130,9 +130,9 @@ describe('config suites with happner.js', function () {
         isSymbolicLink: function () {
           return false;
         }
-      }
+      };
       return originallstatSync.apply(this, arguments);
-    }
+    };
   });
 
 
@@ -144,7 +144,7 @@ describe('config suites with happner.js', function () {
           $config: 'suite-name'
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      module.exports = {
@@ -190,7 +190,7 @@ describe('config suites with happner.js', function () {
           $config: 'suite-name'
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      module.exports = {
@@ -263,7 +263,7 @@ describe('config suites with happner.js', function () {
           }
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      module.exports = {
@@ -326,7 +326,7 @@ describe('config suites with happner.js', function () {
           $config: 'configname'
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      var Promise = require('bluebird');
@@ -362,7 +362,7 @@ describe('config suites with happner.js', function () {
             from: 'factory promise'
           }
         }
-      })
+      });
 
       done();
     });
@@ -378,7 +378,7 @@ describe('config suites with happner.js', function () {
           $config: 'configname'
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      module.exports = {
@@ -411,7 +411,7 @@ describe('config suites with happner.js', function () {
             from: 'factory promise'
           }
         }
-      })
+      });
 
       done();
     });
@@ -431,7 +431,7 @@ describe('config suites with happner.js', function () {
           }
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      module.exports = {
@@ -463,7 +463,7 @@ describe('config suites with happner.js', function () {
             from: 'happner.js'
           }
         }
-      })
+      });
 
       done();
     });
@@ -480,7 +480,7 @@ describe('config suites with happner.js', function () {
           }
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      module.exports = {
@@ -512,7 +512,7 @@ describe('config suites with happner.js', function () {
             from: 'happner.js'
           }
         }
-      })
+      });
 
       done();
     });
@@ -532,7 +532,7 @@ describe('config suites with happner.js', function () {
           }
         }
       }
-    }
+    };
 
     this.happnerJSContent = fxt(function () {/*
      module.exports = {
@@ -567,13 +567,10 @@ describe('config suites with happner.js', function () {
             addedByPassthroughPromise: 'this'
           }
         }
-      })
+      });
 
       done();
     });
   });
 
 });
-
-
-

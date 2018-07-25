@@ -35,9 +35,9 @@ function Component2(options) {
     } catch (e) {
       callback(e);
     }
-  }
+  };
 
   this.stop = function () {
 
-  }
+  };
 }

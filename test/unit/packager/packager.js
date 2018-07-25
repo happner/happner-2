@@ -84,7 +84,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             if (response.statusCode !== 200) return reject(new Error('unexpected ' + response.statusCode));
 
             resolve(body);
-          })
+          });
         });
       })
 

@@ -16,7 +16,7 @@ Explicit.prototype.asyncStart = function ($happn, opts, optionalOpts, callback) 
 
   setTimeout(function () {
     DONE = true;
-    callback(null)
+    callback(null);
   }, 200);
 };
 
@@ -28,7 +28,7 @@ Explicit.prototype.asyncInit = function ($happn, opts, optionalOpts, callback) {
 
   setTimeout(function () {
     INITIALIZED = true;
-    callback(null)
+    callback(null);
   }, 200);
 };
 

@@ -92,11 +92,11 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           var options = {
             fields: {"name": 1}
-          }
+          };
 
           var criteria = {
             "genre": "ww2"
-          }
+          };
 
           meshInstance.exchange.data.get('movie/*', {criteria: criteria, options: options},
             function (e, result) {
@@ -132,11 +132,11 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         var options = {
           sort: {"_meta.created": -1},
           limit: 1
-        }
+        };
 
         var criteria = {
           "genre": "family"
-        }
+        };
 
         var latestResult;
 
@@ -192,11 +192,11 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           var options = {
             sort: {"_meta.created": 1}
-          }
+          };
 
           var criteria = {
             "genre": "comedy"
-          }
+          };
 
           meshClientInstance.exchange.data.get('movie/*', {criteria: criteria, options: options},
             function (e, result) {
@@ -226,11 +226,11 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           var options = {
             sort: {"name": 1}
-          }
+          };
 
           var criteria = {
             "genre": "drama"
-          }
+          };
 
           meshClientInstance.data.get('movie/*', {criteria: criteria, options: options},
             function (e, result) {
@@ -248,4 +248,3 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
 });
-

@@ -8,22 +8,22 @@ function SecuredComponent() {
 SecuredComponent.prototype.method1 = function ($happn, options, callback) {
   options.methodName = 'method1';
   callback(null, options);
-}
+};
 
 SecuredComponent.prototype.method2 = function ($happn, options, callback) {
   options.methodName = 'method2';
   callback(null, options);
-}
+};
 
 SecuredComponent.prototype.method3 = function ($happn, options, callback) {
   options.methodName = 'method3';
   callback(null, options);
-}
+};
 
 SecuredComponent.prototype.fireEvent = function ($happn, eventName, callback) {
   $happn.emit(eventName, eventName);
   callback(null, eventName + ' emitted');
-}
+};
 
 SecuredComponent.prototype.webGetPutPost = function (req, res, next) {
   res.setHeader('Content-Type', 'application/json');
@@ -106,7 +106,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         var credentials = {
           username: '_ADMIN', // pending
           password: test_id
-        }
+        };
 
         adminClient.login(credentials).then(function () {
           done();
@@ -174,7 +174,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -233,7 +233,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           '/b4_permissions_translation/SecuredComponent/*': {authorized: true, description: 'a test method'}
         }
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -251,7 +251,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -314,7 +314,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           //'/b4_permissions_translation/SecuredComponent/method3':{authorized:true, description:'a test method'}
         }
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -332,7 +332,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -398,7 +398,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           '/b4_permissions_translation/SecuredComponent/*': {authorized: true, description: 'a test method'}
         }
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -417,7 +417,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -482,7 +482,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         methods: {},
         events: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -500,7 +500,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -563,7 +563,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           '/b4_permissions_translation/SecuredComponent/event-3a': {authorized: true, description: 'a test method'}
         }
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -581,7 +581,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -652,7 +652,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     http_request_options.path = path;
 
-    http_request_options.headers = {'Cookie': ['happn_token=' + token]}
+    http_request_options.headers = {'Cookie': ['happn_token=' + token]};
 
     http.request(http_request_options, callback).end();
   }
@@ -682,7 +682,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           '/b4_permissions_translation/SecuredComponent/WebAny': {actions: ['*'], description: 'allow any'}
         }
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -700,7 +700,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 

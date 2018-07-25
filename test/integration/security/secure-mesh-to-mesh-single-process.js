@@ -51,7 +51,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         .then(function () {
           done();
         })
-        .catch(done)
+        .catch(done);
     });
 
     after(function (done) {

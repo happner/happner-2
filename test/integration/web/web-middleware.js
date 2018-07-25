@@ -68,7 +68,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             multiActive: ['multiMethod1', multiActive, 'multiMethod3'],
             injectHappn: 'injectHappnMethod',
             injectOrigin: ['injectOriginMethod', function (req, res) {
-              res.end()
+              res.end();
             }],
             injectForwardOrder: 'injectForwardOrder',
             injectReverseOrder: 'injectReverseOrder'
@@ -288,7 +288,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       } catch (e) {
         done(e);
       }
-    })
+    });
   });
 
   it('can get from inline root web route', function (done) {
