@@ -215,6 +215,46 @@ testUserClient.exchange.security.updateOwnUser(myUser, function (e, result) {
 
 ```
 
+listing users
+-------------
+
+*users can be listed by username (partial match possible) or group name (exact match only)*
+
+```javascript
+
+	//assuming we have a happner-2 client that is logged in with admin rights:
+	//list all users with a username starting with "test"
+	adminClient.exchange.security.listUsers('test*').then(function(users){
+		//returns:
+		// [
+		// 	{username:'test1', custom_data:{test:1}},
+		// 	{username:'test2', custom_data:{test:2}}
+		// ]
+		//list all users that belong to the 'test' group (with name 'test')
+		// NOTE: optional criteria
+		return adminClient.exchange.security.listUsersByGroup('test', {criteria:{'custom_data.extra':8}});
+	})
+	.then(function(users){
+		//returns:
+		// [
+		// 	{username:'test1', custom_data:{extra:8}},
+		// 	{username:'test3', custom_data:{extra:8}}
+		// ]
+
+		//much faster - just list usernames for users belonging to the 'test' group (with name 'test')
+		return adminClient.exchange.security.listUserNamesByGroup('test');
+	})
+	.then(function(usernames){
+		//returns:
+		// [
+		// 'test1',
+		// 'test3',
+		// 'test4'
+		// ]
+	})
+
+```
+
 hardening _responses:
 --------------------
 
