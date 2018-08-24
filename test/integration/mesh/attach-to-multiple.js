@@ -43,7 +43,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                 });
 
                 kid.on('exit', function () {
-                  reject(new Error('kid ' + i + ' exited'))
+                  reject(new Error('kid ' + i + ' exited'));
                   // this also runs in the after hook, but the rejection will
                   // be ignored because the promise will have already resolved()
                   // (cannot resolve and then reject)
@@ -55,10 +55,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                     port: 3000 + i,
                     host: 'localhost'
                   }
-                }
+                };
               }
-            )
-          }
+            );
+          };
         }
       )
     ).then(function () {
@@ -113,8 +113,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                   resolve([i, pid]);
                 });
               }
-            )
-          }
+            );
+          };
         }
       )
     ).then(function (iPids) {
@@ -122,6 +122,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       iPids.should.eql(expecting);
       done();
 
-    }).catch(done)
+    }).catch(done);
   });
 });

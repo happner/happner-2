@@ -128,7 +128,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       .then(function () {
         client.disconnect();
         done(new Error('should not allow'));
-      })
+      });
   });
 
   it('emits login/allow on good credentials', function (done) {
@@ -140,7 +140,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       username: 'username',
       password: 'password'
     })
-      .catch(done)
+      .catch(done);
   });
 
   context('events', function () {
@@ -178,7 +178,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         client.data.set('/allowed/on/1', {test:'data'}, function(e){
           if (e) return done(e);
         });
-      })
+      });
     });
 
     it('denies access to denied data points', function (done) {
@@ -201,7 +201,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       }).catch(function(e){
         expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
         done();
-      })
+      });
     });
 
     it('prevents any attempts to save data permissions that may interfere with /_exchange', function (done) {
@@ -217,7 +217,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       }).catch(function(e){
         expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
         done();
-      })
+      });
     });
 
     it('prevents any attempts to save data permissions that may interfere with /@HTTP', function (done) {
@@ -233,7 +233,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       }).catch(function(e){
         expect(e.toString()).to.be('Error: data permissions cannot start with /_events, /_exchange or /@HTTP');
         done();
-      })
+      });
     });
 
     it('adds group data permissions, we check we have access to the new path', function (done) {

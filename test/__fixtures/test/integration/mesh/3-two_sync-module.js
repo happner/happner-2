@@ -3,5 +3,5 @@ module.exports = function () {
     method: function (callback) {
       callback(null, 'RESULT');
     }
-  }
-}
+  };
+};

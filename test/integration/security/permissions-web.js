@@ -274,7 +274,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       permissions: {
         web: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;

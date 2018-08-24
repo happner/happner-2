@@ -33,7 +33,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
             $happn.data.set(options.path, options.data, {}, function (e, response) {
 
-              return callback(e, response)
+              return callback(e, response);
             });
           }
         }

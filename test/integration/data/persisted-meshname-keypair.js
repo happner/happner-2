@@ -38,7 +38,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         .then(function () {
           _this.unpersistedMesh.stop({reconnect: false}, done);
         })
-        .catch(done)
+        .catch(done);
     });
   });
 

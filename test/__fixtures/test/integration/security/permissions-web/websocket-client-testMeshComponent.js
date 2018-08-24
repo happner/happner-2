@@ -4,7 +4,7 @@
 
 module.exports = function () {
   return new Component();
-}
+};
 
 function Component() {
 

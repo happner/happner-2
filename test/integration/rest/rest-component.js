@@ -287,7 +287,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       expect(body).to.not.be(null);
       expect(body).to.not.be(undefined);
-      expect(body.parameters['opts'].number).to.be(1);
+      expect(body.parameters.opts.number).to.be(1);
 
       done();
 

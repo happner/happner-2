@@ -228,7 +228,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           error.toString().should.equal('Error: Some problem');
           done();
         })
-        .catch(done)
+        .catch(done);
     });
 
     it('can inject $happn into position 1', function (done) {
@@ -276,12 +276,3 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     });
   });
 });
-
-
-
-
-
-
-
-
-

@@ -3,7 +3,7 @@ var path = require('path');
 
 module.exports = function () {
   return new ModuleFive();
-}
+};
 
 function ModuleFive() {
 
@@ -20,6 +20,6 @@ function ModuleFive() {
       res.statusCode = 500;
     }
     res.end();
-  }
+  };
 
 }

@@ -46,7 +46,7 @@ function Component1(options) {
     } catch (e) {
       callback(e);
     }
-  }
+  };
 
   this.start = function (arg, $happn) {
 
@@ -60,12 +60,12 @@ function Component1(options) {
       "timestamp": Date.now(),
       "pingCount": 0
     }, function (e, response) {
-      if (e) return //console.log('call to component2 broke...' + e);
+      if (e) return; //console.log('call to component2 broke...' + e);
 
     });
   };
 
   this.stop = function () {
 
-  }
+  };
 }

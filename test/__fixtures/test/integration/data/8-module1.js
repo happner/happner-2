@@ -43,7 +43,7 @@ function Component1(options) {
     } catch (e) {
       callback(e);
     }
-  }
+  };
 
   this.start = function ($happn) {
 
@@ -57,14 +57,14 @@ function Component1(options) {
       "timestamp": Date.now(),
       "pingCount": 0
     }, function (e, response) {
-      if (e) return //console.log('call to component2 broke...' + e);
+      if (e) return; //console.log('call to component2 broke...' + e);
 
     });
-  }
+  };
 
   this.stop = function () {
 
-  }
+  };
 
   this.startData = function ($happn) {
 
@@ -72,5 +72,5 @@ function Component1(options) {
     for (var i = 0; i < options.maximumPings; i++) {
       $happn._mesh.data.set('/component1/testDataCount', {count: i});
     }
-  }
+  };
 }

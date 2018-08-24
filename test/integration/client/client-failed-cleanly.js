@@ -20,7 +20,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     return Mesh.create(config)
       .then(function (meshInstance) {
         serverMesh = meshInstance;
-      })
+      });
   }
 
   before(function () {
@@ -65,7 +65,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         return newClient.login({
           username: '_ADMIN',
           password: 'bad_password'
-        })
+        });
       })
       .catch(function (err) {
         expect(err.message).to.equal('Invalid credentials');

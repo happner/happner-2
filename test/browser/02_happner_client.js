@@ -80,7 +80,7 @@ describe('02_happner-client', function () {
           }, function (e) {
             if (e) return reject(e);
             resolve(e);
-          })
+          });
         });
       })
 

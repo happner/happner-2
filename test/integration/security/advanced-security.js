@@ -133,7 +133,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         '/meshname/security/*': {authorized: true}
       }
     }
-  }
+  };
 
   var testGroupSaved;
 
@@ -233,7 +233,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         methods: {},
         events: {}
       }
-    }
+    };
 
     var testGroupSaved;
     var testUserSaved;
@@ -251,7 +251,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         custom_data: {
           something: 'useful'
         }
-      }
+      };
 
       adminClient.exchange.security.addUser(testUser, function (e, result) {
 
@@ -608,7 +608,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         return request({method: method, url: url, jar: j})
           .then(function (res) {
             return res[1]; //body
-          })
+          });
       };
 
       webmethod('get', '/component/webmethod1')
@@ -627,7 +627,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       webmethod('get', '/component/webmethod2')
         .then(function (body) {
           if (!body.match(/^unauthorized access/)) {
-            return done(new Error('Failed to not fail to access inaccessible'))
+            return done(new Error('Failed to not fail to access inaccessible'));
           }
           done();
         })
@@ -787,7 +787,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             }
           };
 
-          return adminClient.exchange.security.removeGroupPermissions(groupName, removePermissions)
+          return adminClient.exchange.security.removeGroupPermissions(groupName, removePermissions);
         })
 
         .then(function (updatedGroup) {
@@ -829,7 +829,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               },
               data:{}
             }
-          })
+          });
         })
 
         // cant do method1 anymore
@@ -840,13 +840,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                 return reject(new Error('Not AccessDenied'));
               }
               resolve();
-            })
+            });
           });
         })
 
         // cant put
         .then(function () {
-          return webmethod('put', '/component/webmethod1')
+          return webmethod('put', '/component/webmethod1');
         })
 
         .then(function (body) {
@@ -855,7 +855,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         // can still get
         .then(function () {
-          return webmethod('get', '/component/webmethod1')
+          return webmethod('get', '/component/webmethod1');
         })
 
         .then(function (body) {
@@ -1278,7 +1278,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
               expect(!e).to.be(true);
 
-              testUpsertUser.groups['TEST_UPSERT_EXISTING_6_1'] = true;
+              testUpsertUser.groups.TEST_UPSERT_EXISTING_6_1 = true;
 
               adminClient.exchange.security.upsertUser(testUpsertUser, function (e, result) {
 
@@ -1549,7 +1549,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
               expect(!e).to.be(true);
 
-              testUpsertUser.groups['TEST_UPSERT_EXISTING_NON_EXISTING'] = true;
+              testUpsertUser.groups.TEST_UPSERT_EXISTING_NON_EXISTING = true;
 
               adminClient.exchange.security.upsertUser(testUpsertUser, function (e, result) {
 

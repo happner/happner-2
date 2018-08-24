@@ -142,7 +142,7 @@ TestHelper.prototype.getRecordFromHappn = function(options, callback){
 
       callback(null, response);
     });
-  })
+  });
 };
 
 TestHelper.prototype.getRecordFromSmallFile = function(options){
@@ -350,7 +350,7 @@ TestHelper.prototype.getClient = function (config, callback, clientPassword) {
     if (!password) {
 
       if (happnConfig.adminPassword)
-        password = happnConfig.adminPassword
+        password = happnConfig.adminPassword;
 
       else if (happnConfig.services && happnConfig.services.security &&
         happnConfig.services.security.config &&
@@ -358,7 +358,7 @@ TestHelper.prototype.getClient = function (config, callback, clientPassword) {
         password = happnConfig.services.security.config.adminUser.password;
 
       else
-        password = 'happn'
+        password = 'happn';
     }
 
     credentials.username = username;
@@ -455,7 +455,7 @@ TestHelper.prototype.__appendTestComponentConfig = function(config){
     instance: {
 
       testHelperFunction : function($happn, val, callback){
-        $happn.emit('test-function-called', {message:'test-message', value:val})
+        $happn.emit('test-function-called', {message:'test-message', value:val});
         callback();
       }
     }

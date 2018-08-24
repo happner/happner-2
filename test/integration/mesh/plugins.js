@@ -29,7 +29,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               mesh.xxx = 1;
               callback();
             }
-          }
+          };
         },
         // plugin 2 (start and stop)
         function(mesh, logger) {
@@ -44,7 +44,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               mesh.yyy = 0;
               callback();
             }
-          }
+          };
         },
         // plugin 3 (only stop)
         function(mesh, logger) {
@@ -53,13 +53,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               mesh.zzz = 0;
               callback();
             }
-          }
+          };
         },
 
         // plugin 4 (pointless: not start or stop)
         function(mesh, logger) {
           return {
-          }
+          };
         },
 
         // plugin 5 (pointless: no object returned)
@@ -77,7 +77,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(function () {
-        return server.stop({reconnect: false})
+        return server.stop({reconnect: false});
       })
 
       .then(function () {
@@ -90,7 +90,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(done)
-      .catch(done)
+      .catch(done);
 
   });
 

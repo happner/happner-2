@@ -69,7 +69,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           clientInstance
             .login({username: '_ADMIN', password: 'happn'})
             .then(function(){
-              setTimeout(callback, 1000)
+              setTimeout(callback, 1000);
             })
             .catch(callback);
 

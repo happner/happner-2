@@ -31,7 +31,7 @@ var Server = function () {
   this.doSomethingSpecial = function (data, callback, $happn) {
     $happn.emit('special', data);
     callback(null, 'success');
-  }
+  };
 };
 
 

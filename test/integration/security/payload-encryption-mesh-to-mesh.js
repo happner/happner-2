@@ -78,7 +78,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
           assert(eventFired);
-          done()
+          done();
 
         });
     });
@@ -87,7 +87,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       mesh.exchange.theFarawayTree.moonface.haveAnAccident(function (err, res) {
 
-        assert(err.toString().match(/SlipFailure: Stray patch of glue./))
+        assert(err.toString().match(/SlipFailure: Stray patch of glue./));
         done();
 
       });

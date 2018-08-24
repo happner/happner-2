@@ -174,7 +174,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(function () {
-        return mesh._destroyElement('newComponent1')
+        return mesh._destroyElement('newComponent1');
       })
 
       .then(function () {
@@ -199,7 +199,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(function () {
-        return mesh._destroyElement('componentName2')
+        return mesh._destroyElement('componentName2');
       })
 
       .then(function () {
@@ -241,7 +241,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(function () {
-        return mesh._mesh.elements['factory'].component.instance.exchange.newComponent2.method();
+        return mesh._mesh.elements.factory.component.instance.exchange.newComponent2.method();
       })
 
       .then(function (result) {
@@ -249,7 +249,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(function () {
-        return mesh._mesh.elements['factory'].component.instance.exchange.MESH_NAME.newComponent2.method();
+        return mesh._mesh.elements.factory.component.instance.exchange.MESH_NAME.newComponent2.method();
       })
 
       .then(function (result) {
@@ -301,7 +301,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     // cluster may have replaced component exchange entry (will be marked as custom),
     // adding a new element should not overwrite in that component's exchange entry
 
-    var componentInstance = mesh._mesh.elements['factory'].component.instance;
+    var componentInstance = mesh._mesh.elements.factory.component.instance;
 
     // fake the cluster having added 'clusterComponent' to 'factory's exchange
 
@@ -327,7 +327,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .then(function () {
         componentInstance.exchange.clusterComponent.should.eql({
           __custom: true // still the same
-        })
+        });
       })
 
       .then(done).catch(done);
@@ -364,7 +364,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     })
 
       .then(function () {
-        return mesh.exchange.anotherComponent.method()
+        return mesh.exchange.anotherComponent.method();
       })
 
       .then(function (result) {
@@ -372,7 +372,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(function () {
-        return request('http://localhost:55000/anotherComponent/page')
+        return request('http://localhost:55000/anotherComponent/page');
       })
 
       .then(function (result) {
@@ -381,7 +381,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       // now remove the component
       .then(function () {
-        return mesh._destroyElement('anotherComponent')
+        return mesh._destroyElement('anotherComponent');
       })
 
       // exchange reference is gone
@@ -399,7 +399,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(done)
-      .catch(done)
+      .catch(done);
   });
 
 
@@ -417,7 +417,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       .then(function () {
 
-        var componentInstance = mesh._mesh.elements['factory'].component.instance;
+        var componentInstance = mesh._mesh.elements.factory.component.instance;
         var exchange = componentInstance.exchange;
         var event = componentInstance.event;
         var localEvent = componentInstance.localEvent;
@@ -435,7 +435,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   it('does not remove per component exchange if it is marked as custom', function (done) {
 
-    var componentInstance = mesh._mesh.elements['factory'].component.instance;
+    var componentInstance = mesh._mesh.elements.factory.component.instance;
 
     // fake factory using using remote instance of 'remove2' via cluster
     componentInstance.exchange.remove2.__custom = true;
@@ -452,7 +452,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       .then(function () {
 
-        var componentInstance = mesh._mesh.elements['factory'].component.instance;
+        var componentInstance = mesh._mesh.elements.factory.component.instance;
         var exchange = componentInstance.exchange;
         var event = componentInstance.event;
         var localEvent = componentInstance.localEvent;
@@ -580,7 +580,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             name: 'component3',
             config: {}
           }
-        })
+        });
       })
 
       .catch(function (e) {
