@@ -320,67 +320,67 @@ based on happner 1.28.1
   - happn-3 v5 dependancy updated
   - breaking: off and offPath changes, due to happn-3 v5 release
 
-6.0.1 2017-01-27
+6.0.1 2018-01-27
 ----------------
   - update happner-client
 
-6.0.2 2017-01-27
+6.0.2 2018-01-27
 ----------------
   - update happn-3
 
-6.1.0 2017-02-06
+6.1.0 2018-02-06
 ----------------
   - integrated happn stats into existing happner stats
   - deprecated system.activateStatistics & deactivateStatistics (always on)
 
-6.1.1 2017-02-26
+6.1.1 2018-02-26
 ----------------
   - happn: fixed 401 issue with auth invalid credentials failure
 
-7.0.0 2017-04-12
+7.0.0 2018-04-12
 ----------------
   - happn: upgraded to 6.0.0, security changes
   - fix #303 - make shared datalayer respect the noPublish set option
 
-7.1.0 2017-04-13
+7.1.0 2018-04-13
 ----------------
   - happn: upgraded to 6.1.0
   - happn: merge only subscriptions
   - REST component correct 401 error
   - init and start methods
 
-7.1.1 2017-04-18
+7.1.1 2018-04-18
 ----------------
   - happn: upgraded to 6.2.0
   - admin password now saves ok
   - happner-client: upgraded to 4.0.0
 
-7.1.2 2017-04-20
+7.1.2 2018-04-20
 ----------------
   - happn: upgraded to 6.2.1
 
-7.1.3 2017-04-24
+7.1.3 2018-04-24
 ----------------
  - happn: upgraded to 6.2.2
 
-7.1.4 2017-04-25
+7.1.4 2018-04-25
 ----------------
  - generated package-lock
 
-7.2.0 2017-04-26
+7.2.0 2018-04-26
 ----------------
   - happn: upgraded to 6.3.0
   - feature: listUsers now optimised and filterable at the db via criteria
 
-7.2.1 2017-05-01
+7.2.1 2018-05-01
 ----------------
   - happn: upgraded to 6.3.1
 
-7.2.2 2017-05-08
+7.2.2 2018-05-08
 ----------------
   - happn: upgraded to 6.3.2
 
-8.0.0 2017-05-15
+8.0.0 2018-05-15
 ----------------
   - happn: upgraded to 7.1.0
       - allowed set and on paths are more permissive with regards to special characters '(' ')' '&'
@@ -391,25 +391,42 @@ based on happner 1.28.1
   - getUser now has {includeGroups: false} functionality
   - $happn.data.increment functionality
 
-8.0.1 2017-05-19
+8.0.1 2018-05-19
 ----------------
   - component-instance secureData checks for happn client connectivity, raises proper error if disconnected
   - happn: upgraded to 7.1.2
     - set/on paths more permissive, : % also allowed now
 
-8.0.2 2017-05-20
+8.0.2 2018-05-20
 ----------------
   - component-instance - fixed issue with defaults and no connection
 
-8.0.3 2017-05-25
+8.0.3 2018-05-25
 ----------------
   - upgraded happner-client v5.0.0
 
-8.0.4 2017-05-26
+8.0.4 2018-05-26
 ----------------
   - upgraded happn 7.1.3
   - happn dependency now ^
 
-8.0.5 2017-05-29
+8.0.5 2018-05-29
 ----------------
   - happner-client dependency now ^
+
+8.1.0 2018-06-07
+----------------
+  - increment functionality
+  - application_data, sacred field for users
+
+8.2.0 2018-06-08
+----------------
+  - data permissions
+
+8.2.1 2018-06-15
+----------------
+  - bugfix: stats emit
+
+8.3.0 2018-08-24
+----------------
+  - feature: security.listUsersByGroup, security.listUserNamesByGroup
