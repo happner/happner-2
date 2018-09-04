@@ -6,7 +6,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   var server, stoppedServer;
 
-  after(function (done) {
+  afterEach(function (done) {
 
     this.timeout(10000);
 
@@ -110,6 +110,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         }
       ]
     }, function(e, mesh){
+      server = mesh;
       expect(mesh.initializedServer).to.be(false);
       done();
     });
@@ -131,6 +132,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         }
       ]
     }, function(e, mesh){
+      server = mesh;
       expect(mesh.initializedServer).to.be(true);
       done();
     });

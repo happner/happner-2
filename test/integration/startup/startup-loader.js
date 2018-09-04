@@ -176,18 +176,15 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         var logMessage = logs[logIndex];
 
-        if (logMessage.indexOf('(mesh) started component \'security\'') >= 0) {
+        if (logMessage.indexOf('(mesh) initialized component \'security\'') >= 0) {
           logScore++;
         }
-
-        if (logMessage.indexOf('(mesh) started component \'system\'') >= 0) {
+        if (logMessage.indexOf('(mesh) initialized component \'system\'') >= 0) {
           logScore++;
         }
-
         if (logMessage.indexOf('happner ready to start listening') >= 0) {
           logScore++;
         }
-
         if (logMessage.indexOf('happner process is now listening, killing parent process in 5 seconds') >= 0) {
           logScore++;
         }
@@ -251,12 +248,3 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   });
 });
-
-
-
-
-
-
-
-
-

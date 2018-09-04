@@ -67,20 +67,15 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       mesh.stop({reconnect: false}, function (e, mesh, log) {
 
         if (e) return done(e);
-
         var stopScore = 0;
 
-        log.map(function(item){
-
+        log.forEach(function(item){
           if (['stopped components','stopped happn','unsubscribed from process events'].indexOf(item.message) >= 0)
             stopScore++;
-
         });
 
         if (stopScore < 3) return done('stop events did not happen or were not logged properly');
-
         done();
-
       });
     });
   });
