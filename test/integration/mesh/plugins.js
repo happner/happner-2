@@ -6,7 +6,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   var server, stoppedServer;
 
-  after(function (done) {
+  afterEach(function (done) {
 
     this.timeout(10000);
 
@@ -94,4 +94,47 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   });
 
+  it('we load a plugin that breaks the startup cycle of the server, we insure that the happn.server is stopped', function (done) {
+
+    this.timeout(10000);
+
+    Happner.create({
+      plugins: [
+        // plugin 1 (only start)
+        function(mesh, logger) {
+          return {
+            start: function (callback) {
+              callback(new Error('test serror'));
+            }
+          };
+        }
+      ]
+    }, function(e, mesh){
+      server = mesh;
+      expect(mesh.initializedServer).to.be(false);
+      done();
+    });
+  });
+
+  it('we load a plugin that does not break the startup cycle of the server, we insure that the initializedServer property is true', function (done) {
+
+    this.timeout(10000);
+
+    Happner.create({
+      plugins: [
+        // plugin 1 (only start)
+        function(mesh, logger) {
+          return {
+            start: function (callback) {
+              callback();
+            }
+          };
+        }
+      ]
+    }, function(e, mesh){
+      server = mesh;
+      expect(mesh.initializedServer).to.be(true);
+      done();
+    });
+  });
 });

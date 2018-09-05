@@ -430,3 +430,8 @@ based on happner 1.28.1
 8.3.0 2018-08-24
 ----------------
   - feature: security.listUsersByGroup, security.listUserNamesByGroup
+
+8.3.1 2018-09-04
+----------------
+  - update: all system components that have initialize code moved to initMethod
+  - update: mesh happn server is stopped on mesh start failure when the happn server has been started but a subsequent call has failed
