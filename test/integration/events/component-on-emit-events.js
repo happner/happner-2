@@ -163,7 +163,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var clientEvents = [];
 
-    client.data.on('/*test-concurrent-event*', function(data){
+    client.data.on('/_events/*/component1/test-concurrent-event', function(data){
 
       clientEvents.push(data);
 
@@ -231,7 +231,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     var clientEvents = [];
     var currentListenerId;
 
-    client.data.on('/*test-listener-id*', function(data){
+    client.data.on('/_events/*/component1/test-listener-id', function(data){
 
       clientEvents.push(data);
 
