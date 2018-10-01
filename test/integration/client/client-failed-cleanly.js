@@ -39,7 +39,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var currentData = testClient.data;
 
-    expect(currentData.state).to.equal(1);
+    expect(currentData.status).to.equal(1);
 
     return testClient.login({
         username: '_ADMIN',
@@ -50,9 +50,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
         expect(newData).to.not.equal(currentData);
 
-        expect(currentData.state).to.equal(2);
+        expect(currentData.status).to.equal(2);
 
-        expect(newData.state).to.equal(1);
+        expect(newData.status).to.equal(1);
       });
   });
 
@@ -76,7 +76,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           })
           .then(function () {
             serverMesh._mesh.happn.server.services.session.primus.on('connection', waitForNoConnection);
-
             setTimeout(function () {
               serverMesh._mesh.happn.server.services.session.primus.removeListener('connection', waitForNoConnection);
               done();

@@ -873,9 +873,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var testUpsertGroup = {
       name: 'TEST_UPSERT_EXISTING',
-
       custom_data: 'TEST UPSERT EXISTING',
-
       permissions: {
         methods: {
           //in a /Mesh name/component name/method name - with possible wildcards
@@ -890,9 +888,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var testUpsertGroup1 = {
       name: 'TEST_UPSERT_EXISTING',
-
       custom_data: 'TEST UPSERT EXISTING 1',
-
       permissions: {
         methods: {
           //in a /Mesh name/component name/method name - with possible wildcards
@@ -933,10 +929,11 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
             adminClient.exchange.security.upsertGroup(testUpsertGroup1, function (e, upserted) {
 
+              expect(e).to.be(null);
+
               testUpsertClient.exchange.component.method2(function (e, result) {
 
                 expect(e).to.be(null);
-
                 done();
               });
             });
