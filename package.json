@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -67,7 +67,7 @@
     "happn-3": "^8.0.0",
     "happn-logger": "0.0.2",
     "happn-sillyname": "0.1.1",
-    "happner-client": "^6.0.0",
+    "happner-client": "^6.0.1",
     "happner-hyperid": "2.0.0",
     "happner-terminal": "0.0.8",
     "homedir": "0.6.0",
