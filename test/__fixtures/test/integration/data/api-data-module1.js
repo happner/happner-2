@@ -12,8 +12,6 @@ module.exports = function (options) {
 function Component1(options) {
 
   this.storeData = function ($happn, path, data, parameters, callback) {
-
-    // console.log('setting:::', path);
     $happn.data.set(path, data, parameters, callback);
   };
 
@@ -32,13 +30,12 @@ function Component1(options) {
     var _this = this;
 
     //path, parameters, handler, done
-    $happn.data.on('*', {}, function (result) {
-        // console.log('on happned:::');
+    $happn.data.on('*/*/*/*', function (result) {
         _this.onCount++;
       },
       function (e) {
         if (e) return callback(e);
-        // console.log('on ok:::');
+        console.log('on ok:::');
         callback();
       });
 

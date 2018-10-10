@@ -7,7 +7,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     if (!state) state = 1;//active
 
     return {
-      state:state,
+      status:state,
       get: function(path, opts, callback){
         return callback();
       },

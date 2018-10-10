@@ -18,7 +18,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     var _this = this;
 
     if (process.env.INTRAVENOUS) return done();
-
     var kids = this.kids = [];
 
     var config = {
@@ -88,7 +87,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       // console.log('killing kid', kid);
       kid.kill();
     });
-
     this.mesh.stop({reconnect: false}, done);
   });
 

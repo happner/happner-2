@@ -77,16 +77,14 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       setTimeout(done, 200); //so the on picks something up?
 
     });
-
   });
 
+  //relies on above store test!!!
   it('checks the on count on component1 must be greater than 0', function (done) {
 
     this.mesh.exchange.component1.getOnCount(function (e, result) {
 
-      if (!result || result == 0)
-        return done(new Error('result should be greater than 0'));
-
+      if (!result || result == 0) return done(new Error('result should be greater than 0'));
       done();
     });
 

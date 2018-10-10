@@ -44,12 +44,10 @@ Component.prototype.onEmit = function(event, data){
 };
 
 Component.prototype.onEmitConcurrent = function(event, data){
-
   this.emitConcurrentData.push(data);
 };
 
 Component.prototype.onEmitListener = function(event, data){
-
   this.emitListenerData.push(data);
 };
 

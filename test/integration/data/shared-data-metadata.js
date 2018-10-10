@@ -110,9 +110,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             expect(meta.modified).to.not.be(undefined);
           }
           onScore++;
-
-          if (onScore == 3)
-            done();
+          if (onScore == 3) done();
 
         } catch (e) {
           if (!doneAlready) {
