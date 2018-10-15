@@ -436,14 +436,14 @@ based on happner 1.28.1
   - update: all system components that have initialize code moved to initMethod
   - update: mesh happn server is stopped on mesh start failure when the happn server has been started but a subsequent call has failed
 
-9.0.0 2018-10-12
+9.0.0 2018-09-12
 ----------------
   - update of happn-3 to version 8.0.0
 
-9.0.1 2018-10-12
+9.0.1 2018-09-12
 ----------------
   - dependency of happner-client updated
 
-9.0.2 2018-10-15
+9.0.2 2018-09-15
 ----------------
   - happn-3 fix to disconnect issue with protocol 2 client to protocol 3 server
