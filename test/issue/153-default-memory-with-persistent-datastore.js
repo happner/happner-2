@@ -4,11 +4,19 @@ var happner2 = require('../../');
 var path = require('path');
 var async = require('async');
 
-describe('datastores', function () {
+describe.only('default-memory-with-persistent-datastore', function () {
 
-  it.only('should test persistency', function (done) {
-    var c = getConfig();
+  it('should test persistency using convenience settings', function (done) {
+    var c = getConfig(true);
+    runTest(c, done)
+  });
 
+  it('should test persistency using normal settings', function (done) {
+    var c = getConfig(false);
+    runTest(c, done)
+  });
+
+  function runTest(c, done) {
     var mesh;
     async.series([
       function (cb) {
@@ -19,6 +27,9 @@ describe('datastores', function () {
       },
       function (cb) {
         mesh.exchange.myComponent.setData('a', {value: 1}, cb);
+      },
+      function (cb) {
+        mesh.exchange.myComponent.setData2('b', {value: 2}, cb);
       },
       function (cb) {
         mesh.stop(cb);
@@ -34,10 +45,18 @@ describe('datastores', function () {
           data.should.property('value', 1);
           cb(err);
         });
+      },
+      function (cb) {
+        mesh.exchange.myComponent.getData2('b', function (err, data) {
+          should.not.exist(data);
+          cb(err);
+        });
+      },
+      function (cb) {
+        mesh.stop(cb);
       }
     ], done);
-
-  });
+  }
 
 });
 
@@ -49,8 +68,11 @@ function startMesh(c, cb) {
     .catch(cb);
 }
 
-function getConfig() {
-  return {
+function getConfig(useConvenienceSettings) {
+  var filename = path.join(__dirname, '../tmp/' + shortId() + '.nedb');
+  var compactInterval = 5000;
+
+  var c = {
     happn: {
       port: 55000,
       secure: true,
@@ -59,23 +81,6 @@ function getConfig() {
         timeout: 60000
       },
       services: {
-        data: {
-          config: {
-            datastores: [
-              {
-                name: 'persist',
-                settings: {
-                  filename: path.join(__dirname, '../tmp/' + shortId() + '.nedb'),
-                  compactInterval: 5000
-                }
-              },
-              {
-                name: 'memory',
-                isDefault: true
-              }
-            ]
-          }
-        },
         security: {
           config: {
             adminUser: {
@@ -104,6 +109,12 @@ function getConfig() {
           },
           getData: function ($happn, key, callback) {
             $happn.data.get('myData/' + key, callback);
+          },
+          setData2: function ($happn, key, data, callback) {
+            $happn.data.set('myOtherData/' + key, data, {}, callback);
+          },
+          getData2: function ($happn, key, callback) {
+            $happn.data.get('myOtherData/' + key, callback);
           }
         }
       }
@@ -112,10 +123,37 @@ function getConfig() {
       myComponent: {
         data: {
           routes: {
-            "myData": 'persist'
+            "myData/*": 'persist'
           }
         }
       }
     }
   };
+
+
+  if (useConvenienceSettings) {
+    c.happn.filename = filename;
+    c.happn.defaultRoute = "mem";
+    c.happn.compactInterval = compactInterval;
+  } else {
+    c.happn.services.data = {
+      config: {
+        datastores: [
+          {
+            name: 'memory',
+            isDefault: true
+          },
+          {
+            name: 'persist',
+            settings: {
+              filename: filename,
+              compactInterval: compactInterval
+            }
+          }
+        ]
+      }
+    };
+  }
+
+  return c;
 }
