@@ -35,10 +35,8 @@ function Component1(options) {
       },
       function (e) {
         if (e) return callback(e);
-        console.log('on ok:::');
         callback();
       });
-
   };
 
   this.stop = function () {

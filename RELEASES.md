@@ -447,3 +447,11 @@ based on happner 1.28.1
 9.0.2 2018-09-15
 ----------------
   - happn-3 fix to disconnect issue with protocol 2 client to protocol 3 server
+
+9.0.3 2018-10-28
+----------------
+  - happn-3 release 8.0.3
+
+9.1.0 2018-11-06
+----------------
+  - happn-3 release 8.1.1
