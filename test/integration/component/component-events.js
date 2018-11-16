@@ -12,6 +12,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     causeEmitLocal: function ($happn, callback) {
       $happn.emitLocal('test/event2', {some: 'thing'});
       callback();
+    },
+    causeEmitToSpecificPath: function($happn, path, callback){
+      $happn.emit(path, {some: 'thing'});
+      callback();
     }
   };
 
@@ -69,5 +73,78 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   });
 
-});
+  it('components can subscribe to variable depth events, default depth', function (done) {
 
+    this.timeout(5000);
+
+    var capturedEvents = [];
+
+    server.event.component1.on('*', function (data, meta) {
+      capturedEvents.push({channel:meta.channel, path:meta.path});
+    });
+
+    server.exchange.component1.causeEmitToSpecificPath('test/path/1')
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+    })
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+    })
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+    })
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+    })
+    .then(function(){
+
+      setTimeout(function(){
+        expect(capturedEvents).to.eql([
+          { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1' },
+          { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1/2' },
+          { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1/2/3' },
+        ]);
+        done();
+      }, 2000);
+    })
+    .catch(done);
+  });
+
+  it('components can subscribe to variable depth events, specified depth', function (done) {
+
+    this.timeout(5000);
+
+    var capturedEvents = [];
+
+    server.event.component1.on('*', {depth:6}, function (data, meta) {
+      capturedEvents.push({channel:meta.channel, path:meta.path});
+    });
+
+    server.exchange.component1.causeEmitToSpecificPath('test/path/1')
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+    })
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+    })
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+    })
+    .then(function(){
+      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+    })
+    .then(function(){
+
+      setTimeout(function(){
+        expect(capturedEvents).to.eql([
+          { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1' },
+          { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1/2' },
+          { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1/2/3' },
+          { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1/2/3/4' }
+        ]);
+        done();
+      }, 2000);
+    })
+    .catch(done);
+  });
+});
