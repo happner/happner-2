@@ -19,3 +19,7 @@ TestComponent2.prototype.stop = function ($happn, callback) {
 TestComponent2.prototype.method1 = function ($happn, callback) {
   callback(null, 'OK:method1');
 };
+
+TestComponent2.prototype.emitEvent = function ($happn, key, data, callback) {
+  $happn.emit(key, data, callback);
+};

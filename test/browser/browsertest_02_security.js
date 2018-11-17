@@ -95,38 +95,22 @@ describe('01_browsertest_security', function() {
 
     it('denies access to denied methods cb', function(done) {
 
-      try{
-
         client.exchange.test.deniedMethod({key: 'value'}, function(e, result) {
-
-            if (!e) done(new Error('should not allow'));
-          });
-
-      }catch(e){
-
-        done(e);
-      }
+          if (!e) done(new Error('should not allow'));
+          done();
+        });
     });
 
     it('denies access to denied methods', function(done) {
 
-      try{
-
         client.exchange.test.deniedMethod({key: 'value'})
-
-          .then(function(result) {
-
-            done(new Error('should not allow'));
-          })
-          .catch(function(error) {
-
-            error.toString().should.equal('AccessDenied: unauthorized');
-            done();
-          });
-
-      }catch(e){
-        done(e);
-      }
+        .then(function(result) {
+          done(new Error('should not allow'));
+        })
+        .catch(function(error) {
+          error.toString().should.equal('AccessDenied: unauthorized');
+          done();
+        });
     });
   });
 });
