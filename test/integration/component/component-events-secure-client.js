@@ -242,4 +242,71 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       .catch(done);
     });
   });
+
+  it('components can subscribe to variable depth events, specified depth, with off handle - partial path', function (done) {
+
+    this.timeout(5000);
+
+    var capturedEvents = [];
+
+    testClient.event.component1.on('test/path/**', {depth:3}, function (data, meta) {
+      capturedEvents.push({channel:meta.channel, path:meta.path});
+    }, function(e, handle){
+
+      if (e) return done(e);
+
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1')
+      .then(function(){
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+      })
+      .then(function(){
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+      })
+      .then(function(){
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+      })
+      .then(function(){
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+      })
+      .then(function(){
+
+        setTimeout(function(){
+
+          expect(capturedEvents).to.eql([
+            { channel: '/SET@/_events/MESH_NAME/component1/test/path/**', path: '/_events/MESH_NAME/component1/test/path/1' },
+            { channel: '/SET@/_events/MESH_NAME/component1/test/path/**', path: '/_events/MESH_NAME/component1/test/path/1/2' },
+            { channel: '/SET@/_events/MESH_NAME/component1/test/path/**', path: '/_events/MESH_NAME/component1/test/path/1/2/3' }
+          ]);
+
+          testClient.event.component1.off(handle, function(e){
+
+            if (e) return done(e);
+
+            capturedEvents = [];
+
+            testClient.exchange.component1.causeEmitToSpecificPath('test/path/1')
+            .then(function(){
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+            })
+            .then(function(){
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+            })
+            .then(function(){
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+            })
+            .then(function(){
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+            })
+            .then(function(){
+              setTimeout(function(){
+                expect(capturedEvents).to.eql([]);
+                done();
+              }, 2000);
+            });
+          });
+        }, 2000);
+      })
+      .catch(done);
+    });
+  });
 });
