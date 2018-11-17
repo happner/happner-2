@@ -22,6 +22,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   before(function (done) {
     Happner.create({
       name: 'MESH_NAME',
+      secure:true,
       modules: {
         'component1': {
           instance: Module1
@@ -38,12 +39,23 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     .catch(done);
   });
 
-  beforeEach(function () {
-    this.originalSet = server._mesh.data.set;
+  var testClient;
+
+  beforeEach(function (done) {
+    //this.originalSet = server._mesh.data.set;
+    testClient = new Happner.MeshClient();
+
+    testClient.login({
+      username: '_ADMIN',
+      password: 'happn'
+    }).then(function () {
+      done();
+    }).catch(done);
   });
 
-  afterEach(function () {
-    server._mesh.data.set = this.originalSet;
+  afterEach(function (done) {
+    //server._mesh.data.set = this.originalSet;
+    if (testClient) testClient.disconnect(done);
   });
 
   after(function (done) {
@@ -53,22 +65,12 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   it('components can emit events', function (done) {
 
-    server.event.component1.on('test/event1', function (data, meta) {
+    testClient.event.component1.on('test/event1', function (data, meta) {
       expect(data).to.eql({some: 'thing'});
       done();
     });
 
-    server.exchange.component1.causeEmit().catch(done);
-  });
-
-  it('components can emit events with noCluster', function (done) {
-
-    server._mesh.data.set = function (path, data, options) {
-      expect(options.noCluster).to.be(true);
-      done();
-    };
-
-    server.exchange.component1.causeEmitLocal().catch(done);
+    testClient.exchange.component1.causeEmit().catch(done);
   });
 
   it('components can subscribe to variable depth events, default depth', function (done) {
@@ -77,22 +79,22 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var capturedEvents = [];
 
-    server.event.component1.on('*', function (data, meta) {
+    testClient.event.component1.on('*', function (data, meta) {
       capturedEvents.push({channel:meta.channel, path:meta.path});
     });
 
-    server.exchange.component1.causeEmitToSpecificPath('test/path/1')
+    testClient.exchange.component1.causeEmitToSpecificPath('test/path/1')
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
     })
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
     })
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
     })
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
     })
     .then(function(){
 
@@ -114,22 +116,22 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var capturedEvents = [];
 
-    server.event.component1.on('*', {depth:6}, function (data, meta) {
+    testClient.event.component1.on('*', {depth:6}, function (data, meta) {
       capturedEvents.push({channel:meta.channel, path:meta.path});
     });
 
-    server.exchange.component1.causeEmitToSpecificPath('test/path/1')
+    testClient.exchange.component1.causeEmitToSpecificPath('test/path/1')
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
     })
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
     })
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
     })
     .then(function(){
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
     })
     .then(function(){
 
@@ -142,24 +144,24 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1/2/3/4' }
         ]);
 
-        server.event.component1.offPath('*', function(e){
+        testClient.event.component1.offPath('*', function(e){
 
           if (e) return done(e);
 
           capturedEvents = [];
 
-          server.exchange.component1.causeEmitToSpecificPath('test/path/1')
+          testClient.exchange.component1.causeEmitToSpecificPath('test/path/1')
           .then(function(){
-            server.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+            testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
           })
           .then(function(){
-            server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+            testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
           })
           .then(function(){
-            server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+            testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
           })
           .then(function(){
-            server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+            testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
           })
           .then(function(){
             setTimeout(function(){
@@ -179,24 +181,24 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var capturedEvents = [];
 
-    server.event.component1.on('*', {depth:6}, function (data, meta) {
+    testClient.event.component1.on('*', {depth:6}, function (data, meta) {
       capturedEvents.push({channel:meta.channel, path:meta.path});
     }, function(e, handle){
 
       if (e) return done(e);
 
-      server.exchange.component1.causeEmitToSpecificPath('test/path/1')
+      testClient.exchange.component1.causeEmitToSpecificPath('test/path/1')
       .then(function(){
-        server.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
       })
       .then(function(){
-        server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
       })
       .then(function(){
-        server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
       })
       .then(function(){
-        server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+        testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
       })
       .then(function(){
 
@@ -209,24 +211,24 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             { channel: '/SET@/_events/MESH_NAME/component1/**', path: '/_events/MESH_NAME/component1/test/path/1/2/3/4' }
           ]);
 
-          server.event.component1.off(handle, function(e){
+          testClient.event.component1.off(handle, function(e){
 
             if (e) return done(e);
 
             capturedEvents = [];
 
-            server.exchange.component1.causeEmitToSpecificPath('test/path/1')
+            testClient.exchange.component1.causeEmitToSpecificPath('test/path/1')
             .then(function(){
-              server.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2');
             })
             .then(function(){
-              server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3');
             })
             .then(function(){
-              server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4');
             })
             .then(function(){
-              server.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
+              testClient.exchange.component1.causeEmitToSpecificPath('test/path/1/2/3/4/5');
             })
             .then(function(){
               setTimeout(function(){
