@@ -1,37 +1,34 @@
 /**
  * Created by craigsampson on 28/06/2016.
  */
+const log = require('why-is-node-running');
 var path = require('path');
 
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   require('chai').should();
 
+  var testServer;
   var expect = require('expect.js');
   var async = require('async');
   var exec = require('child_process').exec;
   var http = require('http');
   var spawn = require('child_process').spawn;
+  var tree_kill = require('tree-kill');
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'startup'].join(path.sep) + path.sep;
 
   this.timeout(15000);
 
-  var childPIDs = [];
-
+  var childPS = {};
   var mesh;
 
-  function killProc(pid, callback, removeFromChildPIDs) {
+  function killProc(pid, cb) {
+    tree_kill(pid);
+  }
 
-    exec("kill -9 " + pid, function (error, stdout, stderr) {
-
-      if (removeFromChildPIDs)
-        childPIDs.map(function (childPid, ix) {
-          if (childPid == pid)
-            childPIDs.splice(ix, 1);
-        });
-
-      callback();
-    });
+  function addProc (pid, process){
+    //console.log('added pid: ', pid);
+    childPS[pid] = process;
   }
 
   function doRequest(reqPath, callback, port) {
@@ -65,6 +62,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     // spawn remote mesh in another process
     var remote = spawn('node', [loaderPath, '--conf', confPath], {env:spawnEnv});
 
+    addProc(remote.pid, remote);
+
     remote.stderr.on('data', function (data) {
 
       remote.stderr.removeAllListeners();
@@ -74,19 +73,15 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     remote.stdout.on('data', function (data) {
 
-      if (childPIDs.length == 0) {
-        childPIDs.push(remote.pid);
-      }
-
       var logMessage = data.toString().toLowerCase();
 
       logs.push(logMessage);
 
       if (logMessage.indexOf('cache service loaded') >= 0) {
-
         var childPIDLog = logMessage.split(':::');
         var childPID = parseInt(childPIDLog[childPIDLog.length - 1]);
-        childPIDs.push(childPID);
+        addProc(childPID, {});
+        remote.stdout.removeAllListeners();
         done();
       }
     });
@@ -114,14 +109,16 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var http = require("http");
 
-    http.createServer(function (req, res) {
+    testServer = http.createServer(function (req, res) {
       if (req.url == '/index.htm')
         res.writeHead(200, {"Content-Type": "text/html"});
       else
         res.writeHead(404, {"Content-Type": "text/html"});
       res.write("Marker");
       res.end();
-    }).listen(55019);
+    });
+
+    testServer.listen(55019);
 
     doRequest('index.htm', function (error, response, body) {
       body.should.eql("Marker");
@@ -141,12 +138,16 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   after('kills the proxy and stops the mesh if its running', function (done) {
 
-      if (childPIDs.length > 0) {
-        async.eachSeries(childPIDs, function (pid, cb) {
-          killProc(pid, cb);
-        }, done);
+    this.timeout(10000);
 
-      } else done();
+    if (testServer) testServer.close();
+
+    Object.keys(childPS).forEach(killProc);
+
+    setTimeout(function(){
+      // console.log('UNRELEASED HANDLES:::');
+      // log();
+      done();
+    }, 2000);
   });
-
 });

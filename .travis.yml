@@ -15,7 +15,6 @@ language: node_js
 node_js:
   - "10"
   - "8"
-  - "7"
 #script: "npm run-script test"
 script: "npm run-script test-cover"
 after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
