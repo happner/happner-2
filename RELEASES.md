@@ -463,3 +463,8 @@ based on happner 1.28.1
 9.2.1 2018-11-17
 ----------------
   - happner-client release 6.2.0
+
+9.2.2 2018-12-02
+----------------
+  - fix: packager file watcher now releases process
+  - test: integration/startup/startup-proxy uses kill-tree to remove test processes
