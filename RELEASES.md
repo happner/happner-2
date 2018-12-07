@@ -448,8 +448,29 @@ based on happner 1.28.1
 ----------------
   - happn-3 fix to disconnect issue with protocol 2 client to protocol 3 server
 
+9.0.3 2018-10-28
+----------------
+  - happn-3 release 8.0.3
 
-9.0.3 2018-12-07
+9.1.0 2018-11-06
+----------------
+  - happn-3 release 8.1.1
+
+9.2.0 2018-11-06
+----------------
+  - happn-3 release 8.2.1
+
+9.2.1 2018-11-17
+----------------
+  - happner-client release 6.2.0
+
+9.2.2 2018-12-02
+----------------
+  - fix: packager file watcher now releases process
+  - test: integration/startup/startup-proxy uses kill-tree to remove test processes
+  
+TBD 2018-12-07
 ----------------
   - fix #159 - allow unknown cli options to be passed through
   - fix #160 - disable terminal from being started in bin file
+

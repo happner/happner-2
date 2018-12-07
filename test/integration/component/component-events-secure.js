@@ -22,6 +22,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   before(function (done) {
     Happner.create({
       name: 'MESH_NAME',
+      secure:true,
       modules: {
         'component1': {
           instance: Module1

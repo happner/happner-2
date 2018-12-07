@@ -8,6 +8,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var dataEvents;
   var config;
   var expect = require('expect.js');
+  var bluebird = require('bluebird');
 
   var TestModule1 = {
     setSharedData: function ($happn, path, data, callback) {
@@ -439,6 +440,215 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           done();
         })
         .catch(done);
+    });
+  });
+
+  context('subscribe to all events to specific depth, variable depth subscription capability added to happn', function () {
+
+    it('does a variable depth on which eclipses another .on, do off and ensure the correct handlers are called', function(done){
+
+      var variableDepthHandle;
+      var results = [];
+
+      dataComponent.on('/test/path/**', { depth:4 }, function(data, meta){
+        results.push({data:data, channel:meta.channel, path:meta.path});
+      }, function(e, handle1){
+        if (e) return done(e);
+        dataComponent.on('/test/path/1/**', { depth:4 }, function(data, meta){
+          results.push({data:data, channel:meta.channel, path:meta.path});
+        }, function(e, handle2){
+          if (e) return done(e);
+          dataComponent.set('/test/path/1/1', {set:1}, function(e){
+            if (e) return done(e);
+            dataComponent.off(handle1, function(e){
+              if (e) return done(e);
+              dataComponent.set('/test/path/1/1', {set:2}, function(e){
+                if (e) return done(e);
+                expect(results).to.eql([
+                  { data: { set: 1 }, channel: '/ALL@/_data/data/test/path/1/**', path: "/_data/data/test/path/1/1" },
+                  { data: { set: 1 }, channel: '/ALL@/_data/data/test/path/**', path: "/_data/data/test/path/1/1" },
+                  { data: { set: 2 }, channel: '/ALL@/_data/data/test/path/1/**', path: "/_data/data/test/path/1/1" }]
+                );
+                done();
+              });
+            });
+          });
+        });
+      });
+    });
+
+    it('should subscribe and get initial values on the callback', function (callback) {
+
+      dataComponent.set('/initialCallback/testsubscribe/data/values_on_callback_test/1', {
+        "test": "data"
+      }, function (e) {
+        if (e) return callback(e);
+
+        dataComponent.set('/initialCallback/testsubscribe/data/values_on_callback_test/2', {
+          "test": "data1"
+        }, function (e) {
+          if (e) return callback(e);
+
+          dataComponent.on('/initialCallback/**', {
+            "event_type": "set",
+            "initialCallback": true
+          }, function (message) {
+
+            expect(message.updated).to.be(true);
+            callback();
+
+          }, function (e, reference, response) {
+            if (e) return callback(e);
+            try {
+
+              expect(response.length).to.be(2);
+              expect(response[0].test).to.be('data');
+              expect(response[1].test).to.be('data1');
+
+              dataComponent.set('/initialCallback/testsubscribe/data/values_on_callback_test/1', {
+                "test": "data",
+                "updated": true
+              }, function (e) {
+                if (e) return callback(e);
+              });
+
+            } catch (err) {
+              return callback(err);
+            }
+          });
+        });
+      });
+    });
+
+    it('should subscribe and get initial values emitted immediately', function (callback) {
+
+      var caughtEmitted = 0;
+
+      dataComponent.set('/initialEmitSpecific/testsubscribe/data/values_emitted_test/1', {
+        "test": "data"
+      }, function (e) {
+        if (e) return callback(e);
+
+        dataComponent.set('/initialEmitSpecific/testsubscribe/data/values_emitted_test/2', {
+          "test": "data1"
+        }, function (e) {
+          if (e) return callback(e);
+
+          dataComponent.on('/initialEmitSpecific/**', {
+            "event_type": "set",
+            "initialEmit": true
+          }, function (message, meta) {
+
+            caughtEmitted++;
+
+            if (caughtEmitted == 2) {
+              expect(message.test).to.be("data1");
+              callback();
+            }
+          }, function (e) {
+            if (e) return callback(e);
+          });
+        });
+      });
+    });
+
+    it('should subscribe and get initial values on the callback, to the correct depth', async () => {
+
+      this.timeout(10000);
+
+      var caughtEmitted = [];
+
+      dataComponent.onAsync = bluebird.promisify(dataComponent.on);
+
+      await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/1', {
+        "test": "data1"
+      });
+
+      await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/2', {
+        "test": "data2"
+      });
+
+      await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/3', {
+        "test": "data3"
+      });
+
+      await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/3/4', {
+        "test": "data4"
+      });
+
+      await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/3/4/5', {
+        "test": "data5"
+      });
+
+      await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/3/4/5/6', {
+        "test": "data6"
+      });
+
+      await dataComponent.onAsync('/initialEmitSpecificCorrectDepth/testsubscribe/**', {
+        "event_type": "set",
+        "initialEmit": true,
+        depth:2
+      }, function (data) {
+        caughtEmitted.push(data._meta.path);
+      });
+
+      expect(caughtEmitted.sort()).to.eql([
+        '/_data/data/initialEmitSpecificCorrectDepth/testsubscribe/1',
+        '/_data/data/initialEmitSpecificCorrectDepth/testsubscribe/2',
+        '/_data/data/initialEmitSpecificCorrectDepth/testsubscribe/3',
+        '/_data/data/initialEmitSpecificCorrectDepth/testsubscribe/3/4'
+      ]);
+    });
+
+    it('should subscribe and get initial values emitted immediately, to the correct depth', async () => {
+
+      this.timeout(10000);
+
+      var caughtEmitted = [];
+
+      await dataComponent.set('/initialCallbackCorrectDepth/testsubscribe/1', {
+        "test": "data1"
+      });
+
+      await dataComponent.set('/initialCallbackCorrectDepth/testsubscribe/2', {
+        "test": "data2"
+      });
+
+      await dataComponent.set('/initialCallbackCorrectDepth/testsubscribe/3', {
+        "test": "data3"
+      });
+
+      await dataComponent.set('/initialCallbackCorrectDepth/testsubscribe/3/4', {
+        "test": "data4"
+      });
+
+      await dataComponent.set('/initialCallbackCorrectDepth/testsubscribe/3/4/5', {
+        "test": "data5"
+      });
+
+      await dataComponent.set('/initialCallbackCorrectDepth/testsubscribe/3/4/5/6', {
+        "test": "data6"
+      });
+
+      var results = await new Promise(function(resolve, reject){
+        dataComponent.on('/initialCallbackCorrectDepth/testsubscribe/**', {
+          "event_type": "set",
+          "initialCallback": true,
+          depth:2
+        }, function (message) {}, function (e, reference, response) {
+          if (e) return reject(e);
+          resolve(response.map(function(item){
+            return item._meta.path;
+          }).sort());
+        });
+      });
+
+      expect(results).to.eql([
+        '/_data/data/initialCallbackCorrectDepth/testsubscribe/1',
+        '/_data/data/initialCallbackCorrectDepth/testsubscribe/2',
+        '/_data/data/initialCallbackCorrectDepth/testsubscribe/3',
+        '/_data/data/initialCallbackCorrectDepth/testsubscribe/3/4'
+      ]);
     });
   });
 });

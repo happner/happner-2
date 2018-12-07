@@ -88,12 +88,14 @@ gulp.task('start', function (done) {
           name: 'group',
           permissions: {
             events: {
-              '/Server/testComponent2/test/event': {authorized: true}
+              '/Server/testComponent2/test/event': {authorized: true},
+              '/Server/testComponent2/variable-depth/event/*': {authorized: true}
             },
             // data: {},
             methods: {
               '/Server/test/allowedMethod': {authorized: true},
-              '/Server/testComponent2/method1': {authorized: true}
+              '/Server/testComponent2/method1': {authorized: true},
+              '/Server/testComponent2/emitEvent': {authorized: true}
             }
           }
         }),
