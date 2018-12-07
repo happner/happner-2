@@ -447,3 +447,9 @@ based on happner 1.28.1
 9.0.2 2018-09-15
 ----------------
   - happn-3 fix to disconnect issue with protocol 2 client to protocol 3 server
+
+
+TBD 2018-12-07
+----------------
+  - fix #159 - allow unknown cli options to be passed through
+
