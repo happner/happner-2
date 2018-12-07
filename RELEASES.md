@@ -449,7 +449,7 @@ based on happner 1.28.1
   - happn-3 fix to disconnect issue with protocol 2 client to protocol 3 server
 
 
-TBD 2018-12-07
+9.0.3 2018-12-07
 ----------------
   - fix #159 - allow unknown cli options to be passed through
   - fix #160 - disable terminal from being started in bin file
