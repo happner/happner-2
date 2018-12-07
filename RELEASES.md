@@ -452,4 +452,4 @@ based on happner 1.28.1
 TBD 2018-12-07
 ----------------
   - fix #159 - allow unknown cli options to be passed through
-
+  - fix #160 - disable terminal from being started in bin file
