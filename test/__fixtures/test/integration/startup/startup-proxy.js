@@ -1,4 +1,4 @@
-var Mesh = require('../../..');
+var Mesh = require("../../../../../");
 
 var configDifferentPortRedirect = {
   name: "startupProxiedDifferentPort",
@@ -9,10 +9,10 @@ var configDifferentPortRedirect = {
   }
 };
 
-console.log('STARTING MESH:::');
+console.log("STARTING MESH:::");
 
-Mesh.create(configDifferentPortRedirect, function (e, created) {
-    if (e) return console.log('ERROR HAPPENED:::', e);
+Mesh.create(configDifferentPortRedirect, function(e, created) {
+  if (e) return console.log("ERROR HAPPENED:::", e);
 
-    console.log('STARTED:::');
+  console.log("STARTED:::");
 });

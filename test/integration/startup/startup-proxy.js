@@ -1,153 +1,162 @@
 /**
  * Created by craigsampson on 28/06/2016.
  */
-const log = require('why-is-node-running');
-var path = require('path');
+var path = require("path");
 
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(
+  require("../../__fixtures/utils/test_helper")
+    .create()
+    .testName(__filename, 3),
+  function() {
+    require("chai").should();
 
-  require('chai').should();
+    var testServer;
 
-  var testServer;
-  var expect = require('expect.js');
-  var async = require('async');
-  var exec = require('child_process').exec;
-  var http = require('http');
-  var spawn = require('child_process').spawn;
-  var tree_kill = require('tree-kill');
-  var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'startup'].join(path.sep) + path.sep;
+    var spawn = require("child_process").spawn;
+    var tree_kill = require("tree-kill");
+    var libFolder =
+      path.resolve(__dirname, "../../..") +
+      path.sep +
+      ["test", "__fixtures", "test", "integration", "startup"].join(path.sep) +
+      path.sep;
 
-  this.timeout(15000);
+    this.timeout(15000);
 
-  var childPS = {};
-  var mesh;
+    var childPS = {};
 
-  function killProc(pid, cb) {
-    tree_kill(pid);
-  }
+    function killProc(pid, cb) {
+      tree_kill(pid);
+    }
 
-  function addProc (pid, process){
-    //console.log('added pid: ', pid);
-    childPS[pid] = process;
-  }
+    function addProc(pid, process) {
+      //console.log('added pid: ', pid);
+      childPS[pid] = process;
+    }
 
-  function doRequest(reqPath, callback, port) {
+    function doRequest(reqPath, callback, port) {
+      var request = require("request");
 
-    var request = require('request');
+      if (!port) port = 55000;
 
-    if (!port) port = 55000;
+      if (reqPath[0] != "/") reqPath = "/" + reqPath;
 
-    if (reqPath[0] != '/')
-      reqPath = '/' + reqPath;
+      var options = {
+        url: "http://127.0.0.1:" + port.toString() + reqPath
+      };
 
-    var options = {
-      url: 'http://127.0.0.1:' + port.toString() + reqPath
-    };
+      request(options, callback);
+    }
 
-    request(options, callback);
-  }
+    before("Set up Loader with Proxy", function(done) {
+      var loaderPath = path.resolve(__dirname, "../../../bin/happner-loader");
 
-  before('Set up Loader with Proxy', function (done) {
+      var confPath = path.resolve(libFolder + "conf_w_proxy.js");
 
-    var loaderPath = path.resolve(__dirname, '../../../bin/happner-loader');
+      var logs = [];
 
-    var confPath = path.resolve(libFolder + 'conf_w_proxy.js');
+      var spawnEnv = JSON.parse(JSON.stringify(process.env));
 
-    var logs = [];
+      spawnEnv.LOG_LEVEL = "info";
 
-    var spawnEnv = JSON.parse(JSON.stringify(process.env));
+      // spawn remote mesh in another process
+      var remote = spawn("node", [loaderPath, "--conf", confPath], {
+        env: spawnEnv
+      });
 
-    spawnEnv.LOG_LEVEL = 'info';
+      addProc(remote.pid, remote);
 
-    // spawn remote mesh in another process
-    var remote = spawn('node', [loaderPath, '--conf', confPath], {env:spawnEnv});
+      remote.stderr.on("data", function(data) {
+        remote.stderr.removeAllListeners();
 
-    addProc(remote.pid, remote);
+        done(new Error(data.toString()));
+      });
 
-    remote.stderr.on('data', function (data) {
+      remote.stdout.on("data", function(data) {
+        var logMessage = data.toString().toLowerCase();
 
-      remote.stderr.removeAllListeners();
+        logs.push(logMessage);
 
-      done(new Error(data.toString()));
+        if (logMessage.indexOf("cache service loaded") >= 0) {
+          var childPIDLog = logMessage.split(":::");
+          var childPID = parseInt(childPIDLog[childPIDLog.length - 1]);
+          addProc(childPID, {});
+          remote.stdout.removeAllListeners();
+          done();
+        }
+      });
     });
 
-    remote.stdout.on('data', function (data) {
+    it("Get the content of the loader target", function(done) {
+      doRequest(
+        "loader.htm",
+        function(error, response, body) {
+          response.statusCode.should.eql(200);
+          done();
+        },
+        55009
+      );
+    });
 
-      var logMessage = data.toString().toLowerCase();
+    it("Get the content of a proxy file, with no server (error response)", function(done) {
+      doRequest(
+        "index.htm",
+        function(error, response, body) {
+          response.statusCode.should.eql(502);
+          done();
+        },
+        55009
+      );
+    });
 
-      logs.push(logMessage);
+    it("Get the content of a proxy file, with remote http server", function(done) {
+      var http = require("http");
 
-      if (logMessage.indexOf('cache service loaded') >= 0) {
-        var childPIDLog = logMessage.split(':::');
-        var childPID = parseInt(childPIDLog[childPIDLog.length - 1]);
-        addProc(childPID, {});
-        remote.stdout.removeAllListeners();
+      testServer = http.createServer(function(req, res) {
+        if (req.url == "/index.htm")
+          res.writeHead(200, { "Content-Type": "text/html" });
+        else res.writeHead(404, { "Content-Type": "text/html" });
+        res.write("Marker");
+        res.end();
+      });
+
+      testServer.listen(55019);
+
+      doRequest(
+        "index.htm",
+        function(error, response, body) {
+          body.should.eql("Marker");
+          response.statusCode.should.eql(200);
+          done();
+        },
+        55009
+      );
+    });
+
+    it("Get the content of a 404 file, should have valid content", function(done) {
+      doRequest(
+        "bad/url/location",
+        function(error, response, body) {
+          body.should.not.eql("Marker"); // We have the loader.htm body
+          response.statusCode.should.eql(200);
+          response.request.path.should.eql("/bad/url/location"); // We do not want to redirect.
+          done();
+        },
+        55009
+      );
+    });
+
+    after("kills the proxy and stops the mesh if its running", function(done) {
+      this.timeout(10000);
+
+      if (testServer) testServer.close();
+
+      Object.keys(childPS).forEach(killProc);
+
+      setTimeout(function() {
+        // console.log('UNRELEASED HANDLES:::');
+        // log();
         done();
-      }
+      }, 2000);
     });
-  });
-
-
-  it('Get the content of the loader target', function (done) {
-    doRequest('loader.htm', function (error, response, body) {
-
-      response.statusCode.should.eql(200);
-      done();
-    }, 55009);
-  });
-
-
-  it('Get the content of a proxy file, with no server (error response)', function (done) {
-    doRequest('index.htm', function (error, response, body) {
-      response.statusCode.should.eql(502);
-      done();
-    }, 55009);
-  });
-
-
-  it('Get the content of a proxy file, with remote http server', function (done) {
-
-    var http = require("http");
-
-    testServer = http.createServer(function (req, res) {
-      if (req.url == '/index.htm')
-        res.writeHead(200, {"Content-Type": "text/html"});
-      else
-        res.writeHead(404, {"Content-Type": "text/html"});
-      res.write("Marker");
-      res.end();
-    });
-
-    testServer.listen(55019);
-
-    doRequest('index.htm', function (error, response, body) {
-      body.should.eql("Marker");
-      response.statusCode.should.eql(200);
-      done();
-    }, 55009);
-  });
-
-  it('Get the content of a 404 file, should have valid content', function (done) {
-    doRequest('bad/url/location', function (error, response, body) {
-      body.should.not.eql("Marker"); // We have the loader.htm body
-      response.statusCode.should.eql(200);
-      response.request.path.should.eql("/bad/url/location"); // We do not want to redirect.
-      done();
-    }, 55009);
-  });
-
-  after('kills the proxy and stops the mesh if its running', function (done) {
-
-    this.timeout(10000);
-
-    if (testServer) testServer.close();
-
-    Object.keys(childPS).forEach(killProc);
-
-    setTimeout(function(){
-      // console.log('UNRELEASED HANDLES:::');
-      // log();
-      done();
-    }, 2000);
-  });
-});
+  }
+);

@@ -1,17 +1,21 @@
-describe('001-compact-dbfile', function () {
+describe("001-compact-dbfile", function() {
+  var path = require("path");
 
-  var Mesh = require('../../');
-  var path = require('path');
+  var fs = require("fs");
 
-  var fs = require('fs');
+  var test_file_call =
+    path.resolve(__dirname, "../") +
+    path.sep +
+    "temp/1-compact-dbfile-call.nedb";
+  var test_file_interval =
+    path.resolve(__dirname, "../") +
+    path.sep +
+    "temp/1-compact-dbfile-interval.nedb";
 
-  var test_file_call = path.resolve(__dirname, '../') + path.sep + 'temp/1-compact-dbfile-call.nedb';
-  var test_file_interval = path.resolve(__dirname, '../') + path.sep + 'temp/1-compact-dbfile-interval.nedb';
+  var expect = require("expect.js");
+  var test_helper = require("../../__fixtures/utils/test_helper");
 
-  var expect = require('expect.js');
-  var test_helper = require('../lib/test_helper');
-
-  var async = require('async');
+  var async = require("async");
 
   var config_call = {
     happn: {
@@ -19,7 +23,7 @@ describe('001-compact-dbfile', function () {
       filename: test_file_call
     },
     components: {
-      "data": {}
+      data: {}
     }
   };
 
@@ -27,10 +31,10 @@ describe('001-compact-dbfile', function () {
     happn: {
       port: 55007,
       filename: test_file_interval,
-      compactInterval: 10000//compact every 5 seconds
+      compactInterval: 10000 //compact every 5 seconds
     },
     components: {
-      "data": {}
+      data: {}
     }
   };
 
@@ -49,110 +53,172 @@ describe('001-compact-dbfile', function () {
     return stats.size;
   }
 
-  before(function (done) {
-    test_helper.startHappnerInstance('1-compact-dbfile',
-      config_call,
-      function (e, mesh, client) {
-        if (e) return done(e);
-        callMeshInstance = mesh;
-        callMeshClient = client;
-        test_helper.startHappnerInstance('1-compact-dbfile',
-          config_interval,
-          function (e, mesh, client) {
-            if (e) return done(e);
-            intervalMeshInstance = mesh;
-            intervalMeshClient = client;
-            done();
-          });
-      });
-  });
-
-  after(function (done) {
-    test_helper.stopHappnerInstances('1-compact-dbfile', done);
-  });
-
-  it('should add and update some data, check the filesize - then call compact and check the size is smaller', function (done) {
-
-    async.series([
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback);
-      }
-    ], function (e) {
-
+  before(function(done) {
+    test_helper.startHappnerInstance("1-compact-dbfile", config_call, function(
+      e,
+      mesh,
+      client
+    ) {
       if (e) return done(e);
-      var fileSizeUncompacted = getFileSize(test_file_call);
-
-      callMeshInstance.exchange.system.compactDBFile(function (e) {
-
-        if (e) return done(e);
-
-        var fileSizeCompacted = getFileSize(test_file_call);
-        expect(fileSizeCompacted < fileSizeUncompacted).to.be(true);
-
-        done();
-
-      });
+      callMeshInstance = mesh;
+      callMeshClient = client;
+      test_helper.startHappnerInstance(
+        "1-compact-dbfile",
+        config_interval,
+        function(e, mesh, client) {
+          if (e) return done(e);
+          intervalMeshInstance = mesh;
+          intervalMeshClient = client;
+          done();
+        }
+      );
     });
   });
 
-  it('should add and update some data on the interval system, then wait for 15 seconds and check the filesize is the expected compact size', function (done) {
+  after(function(done) {
+    test_helper.stopHappnerInstances("1-compact-dbfile", done);
+  });
 
-    async.series([
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 1}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 2}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 3}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 4}, callback);
-      },
-      function (callback) {
-        callMeshClient.exchange.data.set('/some/test/data', {'test': 5}, callback);
+  it("should add and update some data, check the filesize - then call compact and check the size is smaller", function(done) {
+    async.series(
+      [
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 1 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 2 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 3 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 4 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 5 },
+            callback
+          );
+        }
+      ],
+      function(e) {
+        if (e) return done(e);
+        var fileSizeUncompacted = getFileSize(test_file_call);
+
+        callMeshInstance.exchange.system.compactDBFile(function(e) {
+          if (e) return done(e);
+
+          var fileSizeCompacted = getFileSize(test_file_call);
+          expect(fileSizeCompacted < fileSizeUncompacted).to.be(true);
+
+          done();
+        });
       }
-    ], function (e) {
+    );
+  });
 
-      if (e) return done(e);
+  it("should add and update some data on the interval system, then wait for 15 seconds and check the filesize is the expected compact size", function(done) {
+    async.series(
+      [
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 1 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 2 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 3 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 4 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 5 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 1 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 2 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 3 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 4 },
+            callback
+          );
+        },
+        function(callback) {
+          callMeshClient.exchange.data.set(
+            "/some/test/data",
+            { test: 5 },
+            callback
+          );
+        }
+      ],
+      function(e) {
+        if (e) return done(e);
 
-      var fileSizeUncompacted = getFileSize(test_file_interval);
+        var fileSizeUncompacted = getFileSize(test_file_interval);
 
-      setTimeout(function () {
-
-        var fileSizeCompacted = getFileSize(test_file_interval);
-        expect(fileSizeCompacted < fileSizeUncompacted).to.be(true);
-        done();
-
-      }, 15000);
-    });
+        setTimeout(function() {
+          var fileSizeCompacted = getFileSize(test_file_interval);
+          expect(fileSizeCompacted < fileSizeUncompacted).to.be(true);
+          done();
+        }, 15000);
+      }
+    );
   });
 });
