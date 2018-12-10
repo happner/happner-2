@@ -59,7 +59,7 @@ var config = {
   components: {}
 };
 
-// commenting out terminal until https://github.com/happner/happner-2/issues/160 is fixed
+// commenting out terminal until https://github.com/happner/happner-2/issues/163 is fixed
 // if (os.platform() !== 'win32') {
 //   config.components.terminal = {}; // <--- first component, so that other's start methods can write in command actions
 // }
