@@ -39,13 +39,13 @@ gulp.task('start', function (done) {
     callback();
   };
 
-  TestComponent.prototype.allowedMethod = function($origin, input, callback, $happn) { // "max-nasty" injection
+  TestComponent.prototype.allowedMethod = function ($origin, input, callback, $happn) { // "max-nasty" injection
     input.meshName = $happn.info.mesh.name;
     input.originUser = $origin.username;
     callback(null, input);
   };
 
-  TestComponent.prototype.deniedMethod = function(input, callback) {
+  TestComponent.prototype.deniedMethod = function (input, callback) {
     callback(null, input);
   };
 
@@ -77,25 +77,25 @@ gulp.task('start', function (done) {
 
   Happner.create(meshConfig)
 
-    .then(function(_mesh) {
+    .then(function (_mesh) {
       mesh = _mesh;
     })
 
-    .then(function() {
+    .then(function () {
       var security = mesh.exchange.security;
       return Promise.all([
         security.addGroup({
           name: 'group',
           permissions: {
             events: {
-              '/Server/testComponent2/test/event': {authorized: true},
-              '/Server/testComponent2/variable-depth/event/*': {authorized: true}
+              '/Server/testComponent2/test/event': { authorized: true },
+              '/Server/testComponent2/variable-depth/event/*': { authorized: true }
             },
             // data: {},
             methods: {
-              '/Server/test/allowedMethod': {authorized: true},
-              '/Server/testComponent2/method1': {authorized: true},
-              '/Server/testComponent2/emitEvent': {authorized: true}
+              '/Server/test/allowedMethod': { authorized: true },
+              '/Server/testComponent2/method1': { authorized: true },
+              '/Server/testComponent2/emitEvent': { authorized: true }
             }
           }
         }),
@@ -103,17 +103,17 @@ gulp.task('start', function (done) {
           username: 'username',
           password: 'password'
         })
-      ]).spread(function(group, user) {
+      ]).spread(function (group, user) {
         return security.linkGroup(group, user);
       });
     })
 
-    .then(function() {
+    .then(function () {
 
       var karma = new Server({
         configFile: __dirname + '/01.karma.conf.js',
-        singleRun: true
-      }, function() {
+        singleRun: false
+      }, function () {
         done();
       });
 
@@ -124,8 +124,8 @@ gulp.task('start', function (done) {
 });
 
 
-gulp.task('default', ['start'], function(done) {
+gulp.task('default', ['start'], function (done) {
 
-  mesh.stop({reconnect: false}, done);
+  mesh.stop({ reconnect: false }, done);
   process.exit(0); // ? stopping gulp
 });

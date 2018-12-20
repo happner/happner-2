@@ -1,5 +1,5 @@
 var should = require('chai').should();
-var Mesh = require('../');
+var Mesh = require('../../lib/mesh');
 var Promise = require('bluebird');
 var fxt = require('fxt');
 

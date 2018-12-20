@@ -1,10 +1,12 @@
-describe("02_happner-client", function() {
+describe("02_happner-client", function () {
   // test new happner-client
 
   //expect = window.expect;
 
-  it("can connect a new client", function(done) {
+  it("can connect a new client", function (done) {
     var client = new Happner.HappnerClient();
+
+    console.log(client);
 
     client
       .connect([
@@ -14,16 +16,16 @@ describe("02_happner-client", function() {
         }
       ])
 
-      .then(function() {
+      .then(function () {
         done();
       })
 
-      .catch(function(error) {
+      .catch(function (error) {
         done(error);
       });
   });
 
-  it("can call exchange method", function(done) {
+  it("can call exchange method", function (done) {
     var client = new Happner.HappnerClient();
 
     var api = client.construct({
@@ -43,11 +45,11 @@ describe("02_happner-client", function() {
         }
       ])
 
-      .then(function() {
+      .then(function () {
         return api.exchange.testComponent2.method1();
       })
 
-      .then(function(result) {
+      .then(function (result) {
         expect(result).to.eql("OK:method1");
       })
 
@@ -55,7 +57,7 @@ describe("02_happner-client", function() {
       .catch(done);
   });
 
-  it("can receive events", function(done) {
+  it("can receive events", function (done) {
     var count = 0;
 
     var client = new Happner.HappnerClient();
@@ -77,14 +79,14 @@ describe("02_happner-client", function() {
         }
       ])
 
-      .then(function() {
-        return new Promise(function(resolve, reject) {
+      .then(function () {
+        return new Promise(function (resolve, reject) {
           api.event.testComponent2.on(
             "test/event",
-            function(data, meta) {
+            function (data, meta) {
               count++;
             },
-            function(e) {
+            function (e) {
               if (e) return reject(e);
               resolve(e);
             }
@@ -92,11 +94,11 @@ describe("02_happner-client", function() {
         });
       })
 
-      .then(function() {
+      .then(function () {
         return Promise.delay(200);
       })
 
-      .then(function() {
+      .then(function () {
         expect(count > 0).to.equal(true);
       })
 
