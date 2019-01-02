@@ -472,5 +472,9 @@ based on happner 1.28.1
 9.2.3 2018-12-07
 ----------------
   - fix #159 - allow unknown cli options to be passed through
-  - fix #160 - disable terminal from being started in bin file
+  - fix #160 - disable terminal from being started in bin file 
+
+9.2.4 2019-01-02
+----------------
+  - onward release of happn-3@8.2.2
 
