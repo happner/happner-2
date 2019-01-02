@@ -7,3 +7,8 @@ temp/*
 .DS_Store
 .travis.yml
 examine
+test
+.*
+*.yml
+*.properties
+silence.js
