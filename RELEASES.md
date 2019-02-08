@@ -476,4 +476,5 @@ based on happner 1.28.1
 
 9.3.0 2019-01-02
 ----------------
-  - onward release of happn-3@8.2.2
+  - onward release of happn-3@8.2.7
+  - fix #170
