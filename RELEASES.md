@@ -468,13 +468,17 @@ based on happner 1.28.1
 ----------------
   - fix: packager file watcher now releases process
   - test: integration/startup/startup-proxy uses kill-tree to remove test processes
-  
+
 9.2.3 2018-12-07
 ----------------
   - fix #159 - allow unknown cli options to be passed through
-  - fix #160 - disable terminal from being started in bin file 
+  - fix #160 - disable terminal from being started in bin file
 
 9.2.4 2019-01-02
 ----------------
   - onward release of happn-3@8.2.2
 
+9.2.5 2019-01-06
+----------------
+  - fix: disallow exchange/response subscriptions that do not contain the session id of the subscriber
+  - onward release of happn-3@8.2.7
