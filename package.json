@@ -69,7 +69,7 @@
     "happn-3": "^8.2.7",
     "happn-logger": "0.0.2",
     "happn-sillyname": "0.1.1",
-    "happner-client": "^6.2.0",
+    "happner-client": "^6.3.0",
     "happner-hyperid": "2.0.0",
     "happner-terminal": "0.0.8",
     "homedir": "0.6.0",
