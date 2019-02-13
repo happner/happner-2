@@ -69,13 +69,15 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       expect(config.happn.port).to.be(55008);
       expect(config.happn.secure).to.be(true);
       expect(config.happn.persist).to.be(true);
+
+      delete config.happn.services.data.config.datastores[0].settings.filename;
+
       expect(config.happn.services.data.config).to.eql({
         "datastores": [
           {
             "name": "persist",
             "isDefault": true,
             "settings": {
-              "filename": "/Users/simonbishop/.happn/data/test.nedb",
               "autoload": true,
               "timestampData": true
             },
