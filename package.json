@@ -14,7 +14,7 @@
     "test-browser": "gulp --gulpfile test/browser/gulp-01.js",
     "test-unit": "_mocha -- silence.js test/unit/**",
     "test-integration": "_mocha -- silence.js test/integration/**",
-    "test-cover": "istanbul cover _mocha test/integration/** test/unit/** test/backward-compatibility/** --exit",
+    "test-cover": "istanbul cover _mocha -- silence.js test/integration/** test/unit/** test/backward-compatibility/** --exit",
     "test-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm test",
     "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**",
     "test-lint": "gulp lint"
