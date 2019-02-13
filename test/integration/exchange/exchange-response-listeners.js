@@ -179,7 +179,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       return count == expectedCount;
     }
 
-    it('it calls components methods from old happner, we flip flop the new server, and ensure that the subscription service does not have hanging subscriptions', function (done) {
+    it('it calls components methods from new happner, we flip flop the new server, and ensure that the subscription service does not have hanging subscriptions', function (done) {
       this.timeout(10000);
       var async = require('async');
 
