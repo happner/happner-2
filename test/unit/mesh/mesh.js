@@ -7,8 +7,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     const Mesh = require('../../../lib/mesh');
     const mesh = new Mesh({});
 
-
-
     mesh.log = {
       info:function(){},
       error:function(){},
