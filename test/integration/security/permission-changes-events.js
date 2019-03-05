@@ -1,3 +1,5 @@
+const log = require('why-is-node-running');
+
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
@@ -10,6 +12,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   var test_id = Date.now() + '_' + require('shortid').generate();
   var async = require('async');
+
+  const log = require('why-is-node-running');
 
   before(function (done) {
 
@@ -46,7 +50,22 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   after(function (done) {
-    mesh.stop({reconnect: false}, done);
+    this.timeout(20000);
+    if (this.adminClient) return this.adminClient.disconnect(()=>{
+      this.adminClient.event.security.offPath('upsert-user');
+      this.adminClient.event.security.offPath('upsert-group');
+      this.adminClient.event.security.offPath('link-group');
+      this.adminClient.event.security.offPath('unlink-group');
+      this.adminClient.event.security.offPath('delete-group');
+      this.adminClient.event.security.offPath('delete-user');
+      mesh.stop({reconnect: false}, function(){
+        setTimeout(()=>{
+          //log();
+          done();
+        }, 11000);
+      });
+    });
+    return done();
   });
 
   it('tests that all security events are being bubbled back from happn to happner security - and are consumable from an admin client', function (done) {
@@ -170,9 +189,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                   if (e) return done(e);
 
                   _this.adminClient.exchange.security.deleteUser(testUser, function (e, result) {
-
-                    if (e) return done(e);
-
+                    //this will error because when we do done in event, the server closes its connections
                   });
                 });
               });

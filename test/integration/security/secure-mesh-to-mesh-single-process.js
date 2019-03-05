@@ -77,7 +77,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       mesh.event.remoteMesh.remoteComponent.on(
         'whoops',
         function handler(data) {
-          console.log(data);
+          //console.log(data);
           done();
         },
         function callback(err) {

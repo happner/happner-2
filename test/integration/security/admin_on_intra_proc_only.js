@@ -1,3 +1,4 @@
+const log = require('why-is-node-running');
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function() {
 
   var happner = require('../../../lib/mesh');
@@ -12,21 +13,25 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var serviceInstanceLocked;
   var serviceInstanceLockedConvenient;
 
-  var getService = async function(config) {
-    return happner.create(config);
+  var getService = function(config, cb) {
+    return happner.create(config, cb);
   };
 
-  before('it starts secure defaulted service', async () => {
+  before('it starts secure defaulted service', function(done) {
 
-    serviceInstance = await getService({
+    getService({
       secure: true,
       port: 55000
+    }, function(e, instance){
+      if (e) return done(e);
+      serviceInstance = instance;
+      done();
     });
   });
 
-  before('it starts secure locked down service', async () => {
+  before('it starts secure locked down service', function(done) {
 
-    serviceInstanceLocked = await getService({
+    getService({
       secure: true,
       port: 55001,
       happn: {
@@ -69,48 +74,68 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }
         }
       }
+    }, function(e, instance){
+      if (e) return done(e);
+      serviceInstanceLocked = instance;
+      done();
     });
   });
 
-  before('it starts secure locked down service, convenience option', async () => {
+  before('it starts secure locked down service, convenience option', function(done) {
 
-    serviceInstanceLockedConvenient = await getService({
+    getService({
       secure: true,
       port: 55002,
       happn: {
         disableDefaultAdminNetworkConnections: true
       }
+    }, function(e, instance){
+      if (e) return done(e);
+      serviceInstanceLockedConvenient = instance;
+      done();
     });
   });
 
-  after('should disconnect the test clients', async () => {
+  after('should disconnect the test clients', function(done) {
 
     this.timeout(10000);
 
-    if (testClient) await testClient.disconnect({
+    if (!testClient) return done();
+
+    testClient.disconnect({
       reconnect: false
-    });
+    }, done);
   });
 
-  after('should stop the test services', async () => {
+  after('should stop the serviceInstance', function(done) {
 
     this.timeout(10000);
-
-    if (serviceInstance) await serviceInstance.stop();
-
-    if (serviceInstanceLocked) await serviceInstanceLocked.stop();
-
-    if (serviceInstanceLockedConvenient) await serviceInstanceLockedConvenient.stop();
+    if (!serviceInstance) return done();
+    serviceInstance.stop(done);
   });
 
-  it('authenticates with the _ADMIN user, using the default password on the non-locked service', async () => {
+  after('should stop the serviceInstanceLocked', function(done) {
+
+    this.timeout(10000);
+    if (!serviceInstanceLocked) return done();
+    serviceInstanceLocked.stop(done);
+  });
+
+  after('should stop the serviceInstanceLockedConvenient', function(done) {
+
+    this.timeout(10000);
+    if (!serviceInstanceLockedConvenient) return done();
+    serviceInstanceLockedConvenient.stop(done);
+  });
+
+  it('authenticates with the _ADMIN user, using the default password on the non-locked service', function(done) {
 
     var testClient = new happner.MeshClient();
 
-    await testClient.login({
+    testClient.login({
         username: '_ADMIN',
         password: 'happn'
-    });
+    }, done);
   });
 
   it('fails to authenticate with the _ADMIN user, on the locked service', function(done) {

@@ -14,6 +14,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var test_id = Date.now() + '_' + require('shortid').generate();
   var async = require('async');
 
+  const log = require('why-is-node-running');
+
   before(function (done) {
 
     mesh.initialize({
@@ -45,7 +47,19 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   after(function (done) {
-    mesh.stop({reconnect: false}, done);
+    this.timeout(20000);
+
+    adminClient.event.security.offPath('connect');
+    adminClient.event.security.offPath('disconnect');
+
+    setTimeout(function(){
+      mesh.stop({reconnect: false}, () => {
+        setTimeout(() => {
+          //log();
+          done();
+        }, 11000);
+      });
+    }, 2000);
   });
 
   var eventsToFire = {
@@ -53,7 +67,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     'disconnect': false
   };
 
-  it('tests the connect and disconnect events, by logging on and off with the admin client', function (done) {
+  it('tests the connect and disconnect events, by logging on and off with the test client', function (done) {
 
     var fireEvent = function (key) {
 
