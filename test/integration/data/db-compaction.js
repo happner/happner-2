@@ -1,7 +1,7 @@
 const { exec } = require('child_process');
 
 
-describe.only(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   it('test to see that the child process does exit if database filename and compactInterval params have been specified', function (done) {
 
@@ -17,7 +17,7 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
     });
 
     ls.stdout.on('data', (data) => {
-      console.log('stdout:::', data);
+      //console.log('stdout:::', data);
     });
 
     ls.on('close', () => {
