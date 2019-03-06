@@ -18,7 +18,6 @@ describe.only(require('../../__fixtures/utils/test_helper').create().testName(__
 
     ls.stdout.on('data', (data) => {
       console.log('stdout:::', data);
-      done(data);
     });
 
     ls.on('close', () => {
