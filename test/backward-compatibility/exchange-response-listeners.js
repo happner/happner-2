@@ -213,7 +213,7 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
     }
 
     it('it calls components methods from old happner, we flip flop the new server, and ensure that the subscription service does not have hanging subscriptions', function (done) {
-      this.timeout(10000);
+      this.timeout(20000);
       var async = require('async');
 
       async.series([
