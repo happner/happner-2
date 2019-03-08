@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "10.0.0-prerelease.2",
+  "version": "10.0.0-prerelease.3",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
