@@ -18,6 +18,7 @@ describe('02_happner-client', function () {
       })
 
       .catch(function (error) {
+        console.log(error);
         done(error);
       });
 

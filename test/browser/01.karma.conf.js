@@ -4,6 +4,8 @@
 module.exports = function (config) {
   config.set({
 
+    crossOriginAttribute: false,
+
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
@@ -13,7 +15,7 @@ module.exports = function (config) {
     frameworks: ['mocha', 'chai'],
 
     files: [
-      'http://localhost:55000/api/client',
+      {pattern:'http://localhost:55000/api/client', type:'js'},
       'browsertest_01_happner_client.js',
       'browsertest_02_security.js',
       'browsertest_03_events.js',

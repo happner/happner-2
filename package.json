@@ -7,15 +7,22 @@
     "happner": "bin/happner",
     "happner-loader": "bin/happner-loader"
   },
+  "nyc": {
+    "exclude": [
+      "test",
+      "docs",
+      "gulpfile.js"
+    ]
+  },
   "scripts": {
     "test": "npm run test-lint && _mocha --exit -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
     "test-bc": "mocha test/backward-compatibility/*",
     "test-benchmark": "node test/benchmark/serial-run.js",
-    "test-browser": "gulp --gulpfile test/browser/gulp-01.js",
+    "test-browser": "node_modules/.bin/gulp --gulpfile test/browser/gulp-01.js",
     "test-unit": "_mocha --exit -- silence.js test/unit/**",
     "test-integration": "_mocha  --exit -- silence.js test/integration/**",
     "test-cover": "nyc _mocha --exit -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
-    "test-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm test",
+    "release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm run test-cover && npm run test-browser",
     "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**",
     "test-lint": "gulp lint",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls"
