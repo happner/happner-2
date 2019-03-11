@@ -331,7 +331,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(done).catch(done);
-
   });
 
 
@@ -395,7 +394,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       })
 
       .then(function (result) {
-        result[1].should.equal('Cannot GET /anotherComponent/page\n');
+        result[1].should.equal('<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /anotherComponent/page</pre>\n</body>\n</html>\n');
       })
 
       .then(done)

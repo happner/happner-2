@@ -1,4 +1,5 @@
 var path = require('path');
+const log = require('why-is-node-running');
 
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
@@ -75,8 +76,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   after('tears down all services and clients', function (done) {
-
-    helper.tearDown(done);
+    this.timeout(10000);
+    helper.tearDown(() => {
+      setTimeout(() => {
+        //log();
+        done();
+      }, 5000)
+    });
   });
 
   it('changes the admin password, then restarts the service - we check the new admin password is still in place', function (done) {

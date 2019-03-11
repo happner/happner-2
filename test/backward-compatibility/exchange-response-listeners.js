@@ -1,5 +1,6 @@
 // connect old happner endpoint to new happner server
 // (use config.domain to support load balancer)
+const log = require('why-is-node-running');
 describe(require('../__fixtures/utils/test_helper').create().testName(__filename), function () {
 
   var OldHappner = require('happner');
@@ -7,6 +8,19 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
   var Promise = require('bluebird');
   var expect = require('expect.js');
   var async = require('async');
+  var fs = require('fs');
+  var path = require('path');
+
+  //this may need updating when we add other files
+  var OLDFILES_WATCHED = [
+    'happn/lib/client/base.js',
+    'happner/lib/system/shared/logger.js',
+    'happner/lib/system/shared/promisify.js',
+    'happner/lib/system/shared/mesh-error.js',
+    'happner/lib/system/shared/messenger.js',
+    'happner/lib/system/shared/internals.js',
+    'happner/lib/system/shared/mesh-client.js'
+  ]
 
   context('secure', function () {
 
@@ -37,6 +51,24 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
     after('stop server', function (done) {
       stopServer(false, done);
     });
+
+    after('unwatch files', function () {
+      //unwatch old happner files
+
+      var nodeModules = [path.resolve(__dirname, '..', '..'),'node_modules',''].join('/');
+
+      OLDFILES_WATCHED.forEach(function(filePath){
+        fs.unwatchFile(nodeModules + filePath);
+      });
+    });
+
+    after('why is node running', function(done){
+      this.timeout(10000);
+      setTimeout(function(){
+        //log();
+        done();
+      }, 5000);
+    })
 
     function stopEndpoint(endpoint, done, reconnect){
       endpoint.stop({reconnect: reconnect}, done);
@@ -181,7 +213,7 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
     }
 
     it('it calls components methods from old happner, we flip flop the new server, and ensure that the subscription service does not have hanging subscriptions', function (done) {
-      this.timeout(10000);
+      this.timeout(20000);
       var async = require('async');
 
       async.series([
