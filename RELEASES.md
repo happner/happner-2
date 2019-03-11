@@ -483,6 +483,11 @@ based on happner 1.28.1
 ----------------
   - fix: silent ignore exchange response reconnections
 
-9.3.2 2019-03/01
+9.3.2 2019-03-01
 ----------------
   - ensure bluebird declaration on modules where promisify is being used
+
+10.0.0 2019-03-11
+----------------
+  - latest version of happn-3 9.0.0
+  - issue #191 performance enhancements
