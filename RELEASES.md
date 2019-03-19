@@ -489,5 +489,13 @@ based on happner 1.28.1
 
 10.0.0 2019-03-11
 ----------------
+  - fix: removed happn client disconnect on server stop
+
+10.0.1 2019-03-14
+----------------
   - latest version of happn-3 9.0.0
   - issue #191 performance enhancements
+
+10.0.2 2019-03-19
+----------------
+  - latest version of happn-3 9.0.1
