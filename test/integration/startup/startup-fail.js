@@ -65,7 +65,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var logs = [];
 
+    // remote.stderr.on('data', function (data) {
+    //   console.log('on error:::', data.toString());
+    // })
+
     remote.stdout.on('data', function (data) {
+
+      //console.log('on data:::', data.toString());
 
       if (data == null) return;
 
