@@ -9,7 +9,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   this.timeout(5000);
 
   var test_id = Date.now() + '_' + require('shortid').generate();
-  var logFileName = './temp/' + test_id + '.nedb';
+  var logFileName = path.resolve(__dirname, '../../tmp') + '/' + test_id + '.nedb';
 
   before('start server', function (done) {
 

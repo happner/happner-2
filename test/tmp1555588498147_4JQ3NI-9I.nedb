@@ -1,0 +1,38 @@
+2019-04-18 13:54:58.184 [ INFO] - 4ms	Server (HappnServer) utils service loaded.
+2019-04-18 13:54:58.189 [ INFO] - 5ms	Server (HappnServer) error service loaded.
+2019-04-18 13:54:58.192 [ INFO] - 3ms	Server (HappnServer) log service loaded.
+2019-04-18 13:54:58.270 [ INFO] - 78ms	Server (HappnServer) data service loaded.
+2019-04-18 13:54:58.280 [ INFO] - 10ms	Server (HappnServer) system service loaded.
+2019-04-18 13:54:58.295 [ INFO] - 15ms	Server (HappnServer) cache service loaded.
+2019-04-18 13:54:58.504 [ INFO] - 209ms	Server (HappnServer) connect service loaded.
+2019-04-18 13:54:58.505 [ INFO] - 1ms	Server (HappnServer) crypto service loaded.
+2019-04-18 13:54:58.525 [ INFO] - 20ms	Server (HappnServer) transport service loaded.
+2019-04-18 13:54:58.528 [ INFO] - 3ms	Server (HappnServer) session service loaded.
+2019-04-18 13:54:58.529 [ INFO] - 1ms	Server (HappnServer) protocol service loaded.
+2019-04-18 13:54:58.536 [ INFO] - 7ms	Server (HappnServer) security service loaded.
+2019-04-18 13:54:58.546 [ INFO] - 10ms	Server (HappnServer) subscription service loaded.
+2019-04-18 13:54:58.549 [ INFO] - 3ms	Server (HappnServer) publisher service loaded.
+2019-04-18 13:54:58.549 [ INFO] - 0ms	Server (HappnServer) stats service loaded.
+2019-04-18 13:54:58.600 [ INFO] - 51ms	Server (System) instance name: Server
+2019-04-18 13:54:58.781 [ INFO] - 181ms	Server (Happn) '_ADMIN' connected
+2019-04-18 13:54:58.787 [ INFO] - 6ms	Server (Mesh) home /Users/simonbishop/Documents/Projects/happner-2/test/integration/logger
+2019-04-18 13:54:58.787 [ INFO] - 0ms	Server (Mesh) happner v10.0.3
+2019-04-18 13:54:58.787 [ INFO] - 0ms	Server (Mesh) config v..
+2019-04-18 13:54:58.787 [ INFO] - 0ms	Server (Mesh) localnode 'Server' at pid 64155
+2019-04-18 13:54:59.014 [ INFO] - 227ms	Server (Mesh) initialized!
+2019-04-18 13:54:59.021 [ INFO] - 7ms	Server (Mesh) initialized component 'security'
+2019-04-18 13:54:59.021 [ INFO] - 0ms	Server (Mesh) initialized component 'system'
+2019-04-18 13:54:59.022 [ INFO] - 1ms	Server (Mesh) initialized component 'rest'
+2019-04-18 13:54:59.025 [ INFO] - 3ms	Server (HappnServer) port available, about to listen
+2019-04-18 13:54:59.034 [ INFO] - 9ms	Server (HappnServer) listening at 0.0.0.0:55000
+2019-04-18 13:54:59.034 [ INFO] - 0ms	Server (HappnServer) happn version 9.0.4
+2019-04-18 13:54:59.034 [ INFO] - 0ms	Server (Mesh) started!
+2019-04-18 13:54:59.136 [ INFO] - 102ms	Server (Happn) 'username' connected
+2019-04-18 13:54:59.144 [ INFO] - 8ms	client (MeshClient) initialized!
+2019-04-18 13:54:59.149 [ERROR] - 5ms	Server (ComponentName) test error
+2019-04-18 13:54:59.149 [ERROR] -     at Object.logMethod (/Users/simonbishop/Documents/Projects/happner-2/test/integration/logger/logs-line-number-error.js:34:26)
+2019-04-18 13:55:04.070 [ INFO] - 4921ms	Server (Happn) '_ADMIN' disconnected
+2019-04-18 13:55:04.072 [ INFO] - 2ms	Server (Happn) 'username' disconnected
+2019-04-18 13:55:04.077 [ INFO] - 5ms	Server (HappnServer) released 0.0.0.0:55000
+2019-04-18 13:55:04.078 [ INFO] - 1ms	Server (Mesh) unsubscribed from process events
+2019-04-18 13:55:04.078 [ INFO] - 0ms	Server (Mesh) stopped!
