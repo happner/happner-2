@@ -13,6 +13,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   before('start server', function (done) {
 
+    if (process.env.INTRAVENOUS) return done();
+
     try {
       fs.unlinkSync(logFileName);
     } catch (e) {
@@ -73,6 +75,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   it('logs an error without an Error object, we read the logfile and check we have a location the error occurred on', function (done) {
+
+    if (process.env.INTRAVENOUS) return done();
+
     var client = new Happner.MeshClient();
     client.login({
       username: 'username',
@@ -82,7 +87,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       client.exchange.ComponentName.logMethod().then(function(){
         server.stop({reconnect: false}).then(function(){
           var logged = fs.readFileSync(logFileName).toString();
-          logged.should.match(/\/test\/integration\/logger\/logs-line-number-error.js:32:26/);
+          logged.should.match(/\/test\/integration\/logger\/logs-line-number-error.js:34:26/);
           done();
         });
       });
@@ -91,6 +96,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   after('delete file', function (done) {
+
+    if (process.env.INTRAVENOUS) return done();
 
     try {
       fs.unlinkSync(dbFileName);
