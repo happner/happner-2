@@ -42,7 +42,6 @@ describe('default-memory-with-persistent-datastore', function () {
       },
       function (cb) {
         mesh.exchange.myComponent.getData('a', function (err, data) {
-          console.log('err:::', err);
           data.should.property('value', 1);
           cb(err);
         });
