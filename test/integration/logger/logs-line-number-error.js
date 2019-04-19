@@ -80,24 +80,21 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     })
     .then(function(){
       client.exchange.ComponentName.logMethod().then(function(){
-        var logged = fs.readFileSync(logFileName).toString();
-        logged.should.match(/\/test\/integration\/logger\/logs-line-number-error.js:32:26/);
-        done();
+        server.stop({reconnect: false}).then(function(){
+          var logged = fs.readFileSync(logFileName).toString();
+          logged.should.match(/\/test\/integration\/logger\/logs-line-number-error.js:32:26/);
+          done();
+        });
       });
     })
     .catch(done);
   });
 
-  after('stop server', function (done) {
+  after('delete file', function (done) {
 
     try {
       fs.unlinkSync(dbFileName);
     } catch (e) {}
-
-    if (server) server.stop({reconnect: false}).then(function(){
-      done();
-    });
-    else done();
-
+    done();
   });
 });
