@@ -13,7 +13,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   before('start server', function (done) {
 
-    if (process.env.INTRAVENOUS) return done();
+    if (process.env.INTRAVENOUS || process.env.SILENCE) return done();
 
     try {
       fs.unlinkSync(logFileName);
@@ -76,7 +76,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   it('logs an error without an Error object, we read the logfile and check we have a location the error occurred on', function (done) {
 
-    if (process.env.INTRAVENOUS) return done();
+    if (process.env.INTRAVENOUS || process.env.SILENCE) return done();
 
     var client = new Happner.MeshClient();
     client.login({
@@ -97,7 +97,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   after('delete file', function (done) {
 
-    if (process.env.INTRAVENOUS) return done();
+    if (process.env.INTRAVENOUS || process.env.SILENCE) return done();
 
     try {
       fs.unlinkSync(dbFileName);
