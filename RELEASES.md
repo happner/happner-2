@@ -499,3 +499,7 @@ based on happner 1.28.1
 10.0.2 2019-03-19
 ----------------
   - latest version of happn-3 9.0.1
+
+10.0.3 2019-04-17
+----------------
+  - latest version of happn-3 9.0.4
