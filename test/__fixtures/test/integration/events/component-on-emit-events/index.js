@@ -20,7 +20,7 @@ Component.create = function(){
 };
 
 Component.prototype.onEmitOK = function(response){
-
+  console.log('onEmitOK:::');
   this.emitOKData = response;
 };
 

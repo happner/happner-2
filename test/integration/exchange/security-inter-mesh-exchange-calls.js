@@ -29,11 +29,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
   var mesh2;
 
   var SECURE = true;
-
   this.timeout(20000);
-
-  //require('benchmarket').start();
-  //after(//require('benchmarket').store());
 
   before('start secureMesh', function (done) {
 
@@ -48,25 +44,36 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         'service-name': {
           instance: {
             method1: function (callback) {
-              console.log('\nmethod is run, but callback goes nowhere\n');
               callback(null, 'service-name/method1 ok');
             },
             method2: function (callback) {
               callback(null, 'service-name/method2 ok');
+            },
+            allowedMethodNotData: function ($happn, callback) {
+              $happn.data.set('/data/forbidden', {test:'data'}, function(e){
+                if (!e || e.toString() != 'AccessDenied: unauthorized') return callback(new Error('unexpected success'));
+                callback(null, 'service-name/allowed denied');
+              });
             }
           }
         },
         'x-service-name': {
           instance: {
             method1: function (callback) {
-              callback(null, 'x-service-nam/method1 ok');
+              callback(null, 'x-service-name/method1 ok');
             }
           }
         }
       },
       components: {
-        'service-name': {},
-        'x-service-name': {}
+        'service-name': {
+          security:{
+            authorityDelegationOn:true
+          }
+        },
+        'x-service-name': {
+
+        }
       }
     }).then(function (_mesh) {
       secureMesh = _mesh;
@@ -78,8 +85,10 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         permissions: {
           methods: {
             '/secureMesh/service-name/method1': {authorized: true},
-            // '/secureMesh/service-name/method2': {authorized: true} // <----- not allowed
-            // '/secureMesh/x-service-name/method1': {authorized: true} // <----- not allowed
+            '/secureMesh/service-name/allowedMethodNotData': {authorized: true}
+          },
+          data: {
+            '/data/forbidden':{authorized: false, actions: ['set']}
           }
         }
       };
@@ -158,11 +167,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
   });
 
 
-  xit('allows access to allowed function', function (done) {
-    //
-    // test times out... no callback from allowed method
-    //                   (works if security is switched off)
-    //
+  it('allows access to allowed function', function (done) {
     mesh2.exchange.secureMesh['service-name'].method1()
       .then(function (result) {
         result.should.equal('service-name/method1 ok');
@@ -204,4 +209,16 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       });
   });
 
+  it('authority delegation: allows client access to a function, but then denies access to a data point being called by the allowed function', function (done) {
+    // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
+    mesh2.exchange.secureMesh['service-name'].allowedMethodNotData() // but this should actually be denied
+      .then(function (result) {
+        done();
+      })
+      .catch(done);
+  });
+
+  xit('authority delegation: allows client access to a function, but then denies access to a function called by the allowed function', function (done) {
+
+  });
 });

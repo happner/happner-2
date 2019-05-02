@@ -87,11 +87,13 @@ var serverConfig = {
             type: "sync",
             parameters: [
               {
-                "name": "options", "required": true, value: {
-                deviceKeepaliveInterval: DEVICE_KEEPALIVE_INTERVAL,
-                tunnelHealthInterval: TUNNEL_HEALTH_INTERVAL,
-                tunnelServiceEndpoint: TUNNEL_SERVICE_ENDPOINT
-              }
+                  "name": "options",
+                  "required": true,
+                  value: {
+                  deviceKeepaliveInterval: DEVICE_KEEPALIVE_INTERVAL,
+                  tunnelHealthInterval: TUNNEL_HEALTH_INTERVAL,
+                  tunnelServiceEndpoint: TUNNEL_SERVICE_ENDPOINT
+                }
               }
             ]
           }
@@ -212,7 +214,6 @@ function getOemAdminGroup() {
       methods: {}
     }
   };
-
   oemAdminGroup.permissions.methods[regesterDeviceMethodPath] = {authorized: true};
 
   return oemAdminGroup;
