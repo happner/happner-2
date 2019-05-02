@@ -50,10 +50,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
               callback(null, 'service-name/method2 ok');
             },
             allowedMethodNotData: function ($happn, callback) {
-              $happn.data.set('/data/forbidden', {test:'data'}, function(e){
-                if (!e || e.toString() != 'AccessDenied: unauthorized') return callback(new Error('unexpected success'));
-                callback(null, 'service-name/allowed denied');
-              });
+              $happn.data.set('/data/forbidden', {test:'data'}, callback);
             }
           }
         },
@@ -61,6 +58,9 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           instance: {
             method1: function (callback) {
               callback(null, 'x-service-name/method1 ok');
+            },
+            allowedMethodNotData: function ($happn, callback) {
+              $happn.data.set('/data/forbidden', {test:'data'}, callback);
             }
           }
         }
@@ -85,7 +85,8 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         permissions: {
           methods: {
             '/secureMesh/service-name/method1': {authorized: true},
-            '/secureMesh/service-name/allowedMethodNotData': {authorized: true}
+            '/secureMesh/service-name/allowedMethodNotData': {authorized: true},
+            '/secureMesh/x-service-name/allowedMethodNotData': {authorized: true}
           },
           data: {
             '/data/forbidden':{authorized: false, actions: ['set']}
@@ -212,6 +213,18 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
   it('authority delegation: allows client access to a function, but then denies access to a data point being called by the allowed function', function (done) {
     // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
     mesh2.exchange.secureMesh['service-name'].allowedMethodNotData() // but this should actually be denied
+      .then(function (result) {
+        done(new Error('unexpected success'));
+      })
+      .catch(function(e){
+        e.toString().should.equal('AccessDenied: unauthorized');
+        done();
+      });
+  });
+
+  it('authority delegation: allows client access to a function, but then denies access to a data point being called by the allowed function, negative test', function (done) {
+    // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
+    mesh2.exchange.secureMesh['x-service-name'].allowedMethodNotData() // this is now allowed...
       .then(function (result) {
         done();
       })
