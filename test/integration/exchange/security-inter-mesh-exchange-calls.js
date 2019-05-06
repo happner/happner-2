@@ -51,6 +51,13 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
             },
             allowedMethodNotData: function ($happn, callback) {
               $happn.data.set('/data/forbidden', {test:'data'}, callback);
+            },
+            allowedMethodNotOtherMethod: function ($happn, callback) {
+              try{
+                $happn.exchange['x-service-name'].otherMethod(callback);
+              }catch(e){
+                callback(e);
+              }
             }
           }
         },
@@ -61,6 +68,22 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
             },
             allowedMethodNotData: function ($happn, callback) {
               $happn.data.set('/data/forbidden', {test:'data'}, callback);
+            },
+            otherMethod: function ($happn, callback) {
+              callback(new Error('unexpected success'))
+            }
+          }
+        },
+        'y-service-name': {
+          instance: {
+            method1: function (callback) {
+              callback(null, 'y-service-name/method1 ok');
+            },
+            allowedMethodNotData: function ($happn, callback) {
+              $happn.data.set('/data/forbidden', {test:'data'}, callback);
+            },
+            otherMethod: function ($happn, callback) {
+              callback(new Error('unexpected success'))
             }
           }
         }
@@ -72,7 +95,14 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           }
         },
         'x-service-name': {
-
+          security:{
+            authorityDelegationOn:true
+          }
+        },
+        'y-service-name': {
+          security:{
+            authorityDelegationOn:false
+          }
         }
       }
     }).then(function (_mesh) {
@@ -86,7 +116,9 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           methods: {
             '/secureMesh/service-name/method1': {authorized: true},
             '/secureMesh/service-name/allowedMethodNotData': {authorized: true},
-            '/secureMesh/x-service-name/allowedMethodNotData': {authorized: true}
+            '/secureMesh/x-service-name/allowedMethodNotData': {authorized: true},
+            '/secureMesh/y-service-name/allowedMethodNotData': {authorized: true},
+            '/secureMesh/service-name/allowedMethodNotOtherMethod': {authorized: true}
           },
           data: {
             '/data/forbidden':{authorized: false, actions: ['set']}
@@ -224,14 +256,22 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
 
   it('authority delegation: allows client access to a function, but then denies access to a data point being called by the allowed function, negative test', function (done) {
     // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
-    mesh2.exchange.secureMesh['x-service-name'].allowedMethodNotData() // this is now allowed...
+    mesh2.exchange.secureMesh['y-service-name'].allowedMethodNotData() // this is now allowed...
       .then(function (result) {
         done();
       })
       .catch(done);
   });
 
-  xit('authority delegation: allows client access to a function, but then denies access to a function called by the allowed function', function (done) {
-
+  it('authority delegation: allows client access to a function, but then denies access to a method called by the allowed method', function (done) {
+    // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
+    mesh2.exchange.secureMesh['service-name'].allowedMethodNotOtherMethod() // this is now allowed...
+    .then(function (result) {
+      done(new Error('unexpected success'));
+    })
+    .catch(function(e){
+      e.toString().should.equal('AccessDenied: unauthorized');
+      done();
+    });
   });
 });

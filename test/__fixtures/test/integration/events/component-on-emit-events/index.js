@@ -12,7 +12,6 @@ function Component() {
   this.emitListenerData = [];
 
   this.subscribed = false;
-
 }
 
 Component.create = function(){
@@ -20,7 +19,6 @@ Component.create = function(){
 };
 
 Component.prototype.onEmitOK = function(response){
-  console.log('onEmitOK:::');
   this.emitOKData = response;
 };
 

@@ -1,6 +1,6 @@
 {
-  "name": "happner-2-prerelease.1",
-  "version": "11.0.0",
+  "name": "happner-2",
+  "version": "11.0.0-prerelease.1",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -77,7 +77,7 @@
     "happn-3": "prerelease",
     "happn-logger": "^0.1.1",
     "happn-sillyname": "0.1.1",
-    "happner-client": "^7.0.1",
+    "happner-client": "prerelease",
     "happner-hyperid": "2.0.0",
     "happner-terminal": "0.0.8",
     "homedir": "0.6.0",
