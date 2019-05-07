@@ -13,6 +13,7 @@ node_js:
   - "11"
   - "10"
   - "8"
+
 #script: "npm run-script test"
 script: "npm run-script test-cover"
 after_success: "npm run report-coverage"
