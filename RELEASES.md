@@ -503,3 +503,7 @@ based on happner 1.28.1
 10.0.3 2019-04-17
 ----------------
   - latest version of happn-3 9.0.4
+
+10.0.4 2019-05-07
+-----------------
+  - update to lodash@^4.17.11 to improve deduping
