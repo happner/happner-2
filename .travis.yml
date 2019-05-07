@@ -8,9 +8,6 @@ branches:
   only:
     - master
 
-before_install:
-  - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-
 language: node_js
 node_js:
   - "11"
