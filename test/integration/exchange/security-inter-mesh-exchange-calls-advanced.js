@@ -54,7 +54,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
                 test: 'data'
               }, callback);
             },
-            allowedMethodNotOtherMethod: function($happn, callback) {
+            allowedMethodNotOtherMethod: function($happn, $origin, callback) {
               try {
                 $happn.exchange['x-service-name'].otherMethod(callback);
               } catch (e) {
@@ -74,7 +74,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
               }, callback);
             },
             otherMethod: function($happn, callback) {
-              callback(new Error('unexpected success'))
+              callback();
             }
           }
         },
@@ -113,57 +113,57 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       }
     }).then(function(_mesh) {
       secureMesh = _mesh;
+      done();
+    }).catch(done);
+  });
 
-      if (!SECURE) return done();
-
-      var theGroup = {
-        name: 'group',
-        permissions: {
-          methods: {
-            '/secureMesh/service-name/method1': {
-              authorized: true
-            },
-            '/secureMesh/service-name/allowedMethodNotData': {
-              authorized: true
-            },
-            '/secureMesh/x-service-name/allowedMethodNotData': {
-              authorized: true
-            },
-            '/secureMesh/y-service-name/allowedMethodNotData': {
-              authorized: true
-            },
-            '/secureMesh/service-name/allowedMethodNotOtherMethod': {
-              authorized: true
-            }
+  before('setup secureMesh user', function(done){
+    var theGroup = {
+      name: 'group',
+      permissions: {
+        methods: {
+          '/secureMesh/service-name/method1': {
+            authorized: true
           },
-          data: {
-            '/data/forbidden': {
-              authorized: false,
-              actions: ['set']
-            }
+          '/secureMesh/service-name/allowedMethodNotData': {
+            authorized: true
+          },
+          '/secureMesh/x-service-name/allowedMethodNotData': {
+            authorized: true
+          },
+          '/secureMesh/y-service-name/allowedMethodNotData': {
+            authorized: true
+          },
+          '/secureMesh/service-name/allowedMethodNotOtherMethod': {
+            authorized: true
+          }
+        },
+        data: {
+          '/data/forbidden': {
+            authorized: false,
+            actions: ['set']
           }
         }
-      };
+      }
+    };
 
-      var theUser = {
-        username: 'username',
-        password: 'password'
-      };
+    var theUser = {
+      username: 'username',
+      password: 'password'
+    };
 
-      var security = secureMesh.exchange.security;
+    var security = secureMesh.exchange.security;
 
-      return Promise.all([
-          security.addGroup(theGroup),
-          security.addUser(theUser)
-        ])
-        .spread(function(group, user) {
-          return security.linkGroup(group, user);
-        })
-        .then(function() {
-          done();
-        });
-
-    }).catch(done);
+    Promise.all([
+        security.addGroup(theGroup),
+        security.addUser(theUser)
+      ])
+      .spread(function(group, user) {
+        return security.linkGroup(group, user);
+      })
+      .then(function() {
+        done();
+      });
   });
 
   after('stop mesh2', function(done) {
@@ -205,8 +205,8 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         'secureMesh': {
           config: {
             host: 'localhost',
-            username: 'username',
-            password: 'password',
+            username: '_ADMIN',
+            password: testId,
             secure: true
           }
         }
@@ -244,93 +244,65 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       done();
 
     }).catch(function(e) {
-
       done(e);
     });
   });
 
+  before('setup mesh2 user', function(done){
+    var theGroup = {
+      name: 'group',
+      permissions: {
+        methods: {
+          '/service-name/allowedMethodNotOtherRemoteMethod': {
+            authorized: true
+          }
+        },
+        data: {
+          '/data/forbidden': {
+            authorized: false,
+            actions: ['set']
+          }
+        }
+      }
+    };
 
-  it('allows access to allowed function', function(done) {
-    mesh2.exchange.secureMesh['service-name'].method1()
-      .then(function(result) {
-        result.should.equal('service-name/method1 ok');
+    var theUser = {
+      username: 'username',
+      password: 'password'
+    };
+
+    var security = mesh2.exchange.security;
+
+    Promise.all([
+        security.addGroup(theGroup),
+        security.addUser(theUser)
+      ])
+      .spread(function(group, user) {
+        return security.linkGroup(group, user);
       })
-      .then(done)
-      .catch(done);
-  });
+      .then(function() {
+        done();
+      });
+  })
 
+  it('authority delegation: allows client access to a function, but then denies access to a remote method, called by an allowed remote method, of the allowed method', function(done) {
 
-  it('denies access to denied function', function(done) {
-    mesh2.exchange.secureMesh['service-name'].method2()
-      .then(function(result) {
-        throw new Error('should have been denied');
-      })
-      .catch(function(e) {
-        try {
+    var testClient = new Happner.MeshClient({port: 55001});
+
+    testClient.login({
+      username: 'username',
+      password: 'password',
+    }).then(function () {
+      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
+        .then(function(result) {
+          done(new Error('unexpected success'));
+        })
+        .catch(function(e) {
           e.toString().should.equal('AccessDenied: unauthorized');
           done();
-        } catch (e) {
-          done(e);
-        }
-      });
-  });
-
-
-  it('denies access to denied function with similar name to allowed function', function(done) {
-    // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
-    mesh2.exchange.secureMesh['x-service-name'].method1() // but this should denied
-      .then(function(result) {
-        throw new Error('should have been denied');
-      })
-      .catch(function(e) {
-        try {
-          e.toString().should.equal('AccessDenied: unauthorized');
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a data point being called by the allowed function', function(done) {
-    // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
-    mesh2.exchange.secureMesh['service-name'].allowedMethodNotData() // but this should actually be denied
-      .then(function(result) {
-        done(new Error('unexpected success'));
-      })
-      .catch(function(e) {
-        e.toString().should.equal('AccessDenied: unauthorized');
-        done();
-      });
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a data point being called by the allowed function, negative test', function(done) {
-    mesh2.exchange.secureMesh['y-service-name'].allowedMethodNotData() // this is now allowed...
-      .then(function(result) {
-        done();
-      })
-      .catch(done);
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a method called by the allowed method', function(done) {
-    mesh2.exchange.secureMesh['service-name'].allowedMethodNotOtherMethod() // this is now allowed...
-      .then(function(result) {
-        done(new Error('unexpected success'));
-      })
-      .catch(function(e) {
-        e.toString().should.equal('AccessDenied: unauthorized');
-        done();
-      });
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a remote method called by the allowed method', function(done) {
-    mesh2.exchange['service-name'].allowedMethodNotOtherMethod()
-      .then(function(result) {
-        done(new Error('unexpected success'));
-      })
-      .catch(function(e) {
-        e.toString().should.equal('AccessDenied: unauthorized');
-        done();
-      });
+        });
+    }).catch(function (e) {
+      done(e);
+    });
   });
 });
