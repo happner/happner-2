@@ -56,7 +56,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
             },
             allowedMethodNotOtherMethod: function($happn, $origin, callback) {
               try {
-                $happn.exchange['x-service-name'].otherMethod(callback);
+                $happn.exchange['secureMesh']['x-service-name'].otherMethod(callback);
               } catch (e) {
                 callback(e);
               }
