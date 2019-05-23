@@ -8,14 +8,12 @@ branches:
   only:
     - master
 
-before_install:
-  - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-
 language: node_js
 node_js:
   - "11"
   - "10"
   - "8"
+
 #script: "npm run-script test"
 script: "npm run-script test-cover"
 after_success: "npm run report-coverage"
