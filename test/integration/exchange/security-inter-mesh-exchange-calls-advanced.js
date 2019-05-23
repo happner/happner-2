@@ -305,4 +305,32 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       done(e);
     });
   });
+
+  it('authority delegation: allows client access to a function, updates the group to disallow access to the allowed function, we retry the function call and ensure that the client is unable to access the disallowed function', function(done) {
+
+    var testClient = new Happner.MeshClient({port: 55001});
+
+    testClient.login({
+      username: 'username',
+      password: 'password',
+    }).then(function () {
+      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
+        .then(function(result) {
+          done(new Error('unexpected success'));
+        })
+        .catch(function(e) {
+          e.toString().should.equal('AccessDenied: unauthorized');
+          done();
+        });
+    }).then(function () {
+      var security = mesh2.exchange.security;
+      security.addGroupPermissions('group', {
+        methods:{
+          
+        }
+      });
+    }).catch(function (e) {
+      done(e);
+    });
+  });
 });
