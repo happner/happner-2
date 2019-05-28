@@ -1,4 +1,4 @@
-describe('01_browsertest_security', function() {
+describe('browsertest_02_security', function() {
 
   this.timeout(10000);
 

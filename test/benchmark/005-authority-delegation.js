@@ -1,11 +1,12 @@
 describe.skipWindows = (process.platform === 'win32') ? describe.skip : describe;
 
 // skip for issue 223
-describe.skipWindows(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function() {
+describe.skipWindows(require('../__fixtures/utils/test_helper').create().testName(__filename, 3), function() {
 
   var path = require('path');
+  var async = require('async');
   var should = require('chai').should();
-  var Happner = require('../../..');
+  var Happner = require('../..');
   var shortid = require('shortid');
   var fs = require('fs');
   var Promise = require('bluebird');
@@ -125,7 +126,10 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           },
           '/secureMesh/service-name/allowedMethodNotOtherMethod': {
             authorized: true
-          }
+          },
+          '/secureMesh/x-service-name/otherMethod': {
+            authorized: true
+          },
         },
         data: {
           '/data/forbidden': {
@@ -203,7 +207,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       modules: {
         'service-name': {
           instance: {
-            allowedMethodNotOtherRemoteMethod: function($happn, callback) {
+            allowedMethodAndOtherRemoteMethod: function($happn, callback) {
               try {
                 $happn.exchange['secureMesh']['service-name'].allowedMethodNotOtherMethod(callback);
               } catch (e) {
@@ -242,7 +246,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       name: 'group',
       permissions: {
         methods: {
-          '/service-name/allowedMethodNotOtherRemoteMethod': {
+          '/service-name/allowedMethodAndOtherRemoteMethod': {
             authorized: true
           }
         },
@@ -274,28 +278,28 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       });
   })
 
-  it('authority delegation: allows client access to a function, but then denies access to a remote method, called by an allowed remote method, of the allowed method', function(done) {
+  const TIMES = 2000;
+
+  it('authority delegation: over multiple methods, _ADMIN user, ' + TIMES + ' times', function(done) {
 
     var testClient = new Happner.MeshClient({port: 55001});
 
     testClient.login({
-      username: 'username',
-      password: 'password',
+      username: '_ADMIN',
+      password: testId2,
     }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
-        .then(function(result) {
-          done(new Error('unexpected success'));
-        })
-        .catch(function(e) {
-          e.toString().should.equal('AccessDenied: unauthorized');
-          done();
-        });
+      async.times(TIMES, function(time, timeCb){
+        testClient.exchange['service-name'].allowedMethodAndOtherRemoteMethod()
+          .then(function(result) {
+            timeCb();
+          });
+      }, done);
     }).catch(function (e) {
       done(e);
     });
   });
 
-  it('authority delegation: allows client access to a function, test we are now allowed access to the function, then updates the group to disallow access to the allowed function, we retry the function call and ensure that the client is unable to access the disallowed function', function(done) {
+  it('authority delegation: over multiple methods, normal user, ' + TIMES + ' times', function(done) {
 
     var testClient = new Happner.MeshClient({port: 55001});
 
@@ -303,65 +307,16 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       username: 'username',
       password: 'password',
     }).then(function () {
-      return new Promise(function(resolve, reject){
-        testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
+      async.times(TIMES, function(time, timeCb){
+        testClient.exchange['service-name'].allowedMethodAndOtherRemoteMethod()
           .then(function(result) {
-            reject(new Error('unexpected success'));
+            timeCb();
           })
-          .catch(function(e) {
-            e.toString().should.equal('AccessDenied: unauthorized');
-            resolve();
+          .catch(function(){
+            timeCb();
           });
-      });
-    }).then(function () {
-      var security = secureMesh.exchange.security;
-      return security.addGroupPermissions('group', {
-        methods: {
-          '/secureMesh/x-service-name/otherMethod': {
-            authorized: true
-          }
-        }
-      });
-    }).then(function () {
-      return new Promise(function(resolve, reject){
-        setTimeout(()=>{
-          resolve();
-        }, 1000);
-      });
-    }).then(function () {
-      return new Promise(function(resolve, reject){
-      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
-        .then(function(result) {
-          resolve();
-        })
-        .catch(reject);
-      });
-    }).then(function () {
-      var security = secureMesh.exchange.security;
-      return security.removeGroupPermissions('group', {
-        methods: {
-          '/secureMesh/x-service-name/otherMethod': {
-            authorized: false
-          }
-        }
-      });
-    }).then(function () {
-      return new Promise(function(resolve, reject){
-        setTimeout(()=>{
-          resolve();
-        }, 1000);
-      });
-    }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
-        .then(function(result) {
-          done(new Error('unexpected success'));
-        })
-        .catch(function(e) {
-          e.toString().should.equal('AccessDenied: unauthorized');
-          done();
-        });
-    })
-    .catch(function (e) {
+      }, done);
+    }).catch(function (e) {
       done(e);
     });
   });

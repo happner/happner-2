@@ -1,4 +1,4 @@
-describe('02_happner-client', function () {
+describe('browsertest_01_happner_client', function () {
 
   // test new happner-client
 
@@ -8,19 +8,19 @@ describe('02_happner-client', function () {
 
     var client = new Happner.HappnerClient();
 
-    client.connect([{
-      username: 'username',
-      password: 'password'
-    }])
+    client.connect(null, {
+        username: 'username',
+        password: 'password'
+    })
 
-      .then(function () {
-        done();
-      })
+    .then(function () {
+      done();
+    })
 
-      .catch(function (error) {
-        console.log(error);
-        done(error);
-      });
+    .catch(function (error) {
+      console.log(error);
+      done(error);
+    });
 
   });
 
@@ -37,10 +37,10 @@ describe('02_happner-client', function () {
       }
     });
 
-    client.connect([{
+    client.connect(null, {
       username: 'username',
       password: 'password'
-    }])
+    })
 
       .then(function () {
         return api.exchange.testComponent2.method1();
@@ -69,10 +69,10 @@ describe('02_happner-client', function () {
       }
     });
 
-    client.connect([{
+    client.connect(null, {
       username: 'username',
       password: 'password'
-    }])
+    })
 
       .then(function () {
         return new Promise(function (resolve, reject) {
@@ -94,7 +94,5 @@ describe('02_happner-client', function () {
       })
 
       .then(done).catch(done);
-
   });
-
 });

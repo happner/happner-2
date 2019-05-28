@@ -1,17 +1,5 @@
-/**
- * Created by nomilous on 2016/07/31.
- */
-
-//TODO: test either incomplete or not started
-// secure->insecure - not tested
-// insecure->secure - timing out for allowed, access denied for not allowed
-// secure->secure - timing out on access denied
-// DONE - from insecure mesh to secure mesh
-// TODO - from secure mesh to secure mesh
-
 describe.skipWindows = (process.platform === 'win32') ? describe.skip : describe;
 
-// skip for issue 223
 describe.skipWindows(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function() {
 
   var path = require('path');
