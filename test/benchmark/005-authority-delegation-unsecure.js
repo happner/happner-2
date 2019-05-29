@@ -18,8 +18,7 @@ describe.skipWindows(require('../__fixtures/utils/test_helper').create().testNam
   var secureMesh;
   var mesh2;
 
-  var SECURE = true;
-  var DELEGATION_ON = true;
+  var SECURE = false;
   this.timeout(20000);
 
   before('start secureMesh', function(done) {
@@ -88,17 +87,17 @@ describe.skipWindows(require('../__fixtures/utils/test_helper').create().testNam
       components: {
         'service-name': {
           security: {
-            authorityDelegationOn: DELEGATION_ON
+            authorityDelegationOn: true
           }
         },
         'x-service-name': {
           security: {
-            authorityDelegationOn: DELEGATION_ON
+            authorityDelegationOn: true
           }
         },
         'y-service-name': {
           security: {
-            authorityDelegationOn: DELEGATION_ON
+            authorityDelegationOn: false
           }
         }
       }
@@ -146,18 +145,20 @@ describe.skipWindows(require('../__fixtures/utils/test_helper').create().testNam
       password: 'password'
     };
 
-    var security = secureMesh.exchange.security;
+    done();
 
-    Promise.all([
-        security.addGroup(theGroup),
-        security.addUser(theUser)
-      ])
-      .spread(function(group, user) {
-        return security.linkGroup(group, user);
-      })
-      .then(function() {
-        done();
-      });
+    // var security = secureMesh.exchange.security;
+    //
+    // Promise.all([
+    //     security.addGroup(theGroup),
+    //     security.addUser(theUser)
+    //   ])
+    //   .spread(function(group, user) {
+    //     return security.linkGroup(group, user);
+    //   })
+    //   .then(function() {
+    //     done();
+    //   });
   });
 
   after('stop mesh2', function(done) {
@@ -228,7 +229,7 @@ describe.skipWindows(require('../__fixtures/utils/test_helper').create().testNam
       components: {
         'service-name': {
           security: {
-            authorityDelegationOn: DELEGATION_ON
+            authorityDelegationOn: true
           }
         }
       }
@@ -242,42 +243,42 @@ describe.skipWindows(require('../__fixtures/utils/test_helper').create().testNam
     });
   });
 
-  before('setup mesh2 user', function(done){
-    var theGroup = {
-      name: 'group',
-      permissions: {
-        methods: {
-          '/service-name/allowedMethodAndOtherRemoteMethod': {
-            authorized: true
-          }
-        },
-        data: {
-          '/data/forbidden': {
-            authorized: false,
-            actions: ['set']
-          }
-        }
-      }
-    };
-
-    var theUser = {
-      username: 'username',
-      password: 'password'
-    };
-
-    var security = mesh2.exchange.security;
-
-    Promise.all([
-        security.addGroup(theGroup),
-        security.addUser(theUser)
-      ])
-      .spread(function(group, user) {
-        return security.linkGroup(group, user);
-      })
-      .then(function() {
-        done();
-      });
-  })
+  // before('setup mesh2 user', function(done){
+  //   var theGroup = {
+  //     name: 'group',
+  //     permissions: {
+  //       methods: {
+  //         '/service-name/allowedMethodAndOtherRemoteMethod': {
+  //           authorized: true
+  //         }
+  //       },
+  //       data: {
+  //         '/data/forbidden': {
+  //           authorized: false,
+  //           actions: ['set']
+  //         }
+  //       }
+  //     }
+  //   };
+  //
+  //   var theUser = {
+  //     username: 'username',
+  //     password: 'password'
+  //   };
+  //
+  //   var security = mesh2.exchange.security;
+  //
+  //   Promise.all([
+  //       security.addGroup(theGroup),
+  //       security.addUser(theUser)
+  //     ])
+  //     .spread(function(group, user) {
+  //       return security.linkGroup(group, user);
+  //     })
+  //     .then(function() {
+  //       done();
+  //     });
+  // })
 
   const TIMES = 2000;
 

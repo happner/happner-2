@@ -19,7 +19,7 @@ describe.skipWindows(require('../__fixtures/utils/test_helper').create().testNam
   var mesh2;
 
   var SECURE = true;
-  var DELEGATION_ON = true;
+  var DELEGATION_ON = false;
   this.timeout(20000);
 
   before('start secureMesh', function(done) {
