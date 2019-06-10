@@ -10,7 +10,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var async = require('async');
   var exec = require('child_process').exec;
 
-  this.timeout(20000);
+  this.timeout(30000);
 
   var childPIDs = [];
 
