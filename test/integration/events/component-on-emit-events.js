@@ -7,6 +7,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   var libFolder = path.resolve(__dirname, '../../..') + path.sep + ['test', '__fixtures', 'test', 'integration', 'events'].join(path.sep);
 
+  this.timeout(5000);
+
   beforeEach('start a mesh with 2 components, and a client', function (done) {
 
     Happner.create({
@@ -109,9 +111,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       client.exchange.component1.getEvents(function(e, events){
 
         if (e) return done(e);
-
         expect(events.ok).to.not.be(null);
-
         expect(events.publishOK.successful).to.be(1);
 
         done();
@@ -125,17 +125,15 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       if (e) return done(e);
 
-      client.exchange.component1.getEvents(function(e, events){
-
-        if (e) return done(e);
-
-        expect(events.ok).to.not.be(null);
-
-        expect(events.publishOK.successful).to.be(1);
-        done();
-      });
+      setTimeout(()=>{
+        client.exchange.component1.getEvents(function(e, events){
+          if (e) return done(e);
+          expect(events.ok).to.not.be(null);
+          expect(events.publishOK.successful).to.be(1);
+          done();
+        });
+      }, 2000)
     });
-
   });
 
   it('tests a failing event emit makes it to the on-emit-error event', function (done) {

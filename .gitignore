@@ -17,3 +17,5 @@ test-longrunning/reports/*
 examine
 .scannerwork
 .nyc_output
+*.dot
+*.svg

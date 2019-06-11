@@ -1,4 +1,4 @@
-describe('01_browsertest_encryptedpayloads', function () {
+describe('browsertest_04_encryptedpayloads', function () {
 
   expect = window.expect;
 

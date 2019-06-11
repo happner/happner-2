@@ -48,8 +48,6 @@ var Client = function () {
 
   this.registerDevice = function (credentials, deviceDetails, callback, $happn) {
 
-    // console.log('loggin in with creds:::', credentials);
-
     _this_module.login(credentials, afterLogin);
 
     function afterLogin(err) {
@@ -75,6 +73,4 @@ var Client = function () {
       });
     }
   };
-
-
 };

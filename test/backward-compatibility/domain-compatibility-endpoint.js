@@ -7,6 +7,8 @@ describe(require('../__fixtures/utils/test_helper').create().testName(__filename
   var Promise = require('bluebird');
   var expect = require('expect.js');
 
+  this.timeout(20000);
+
   context('insecure', function () {
 
     var server, endpoint;

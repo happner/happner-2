@@ -10,7 +10,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var async = require('async');
   var exec = require('child_process').exec;
 
-  this.timeout(20000);
+  this.timeout(30000);
 
   var childPIDs = [];
 
@@ -89,9 +89,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       if (logMessage.indexOf('could not start child') != -1) {
         doRequest('/log', function (body) {
+
           var logs = JSON.parse(body);
           for (var i = 0; i < logs.length; i++) {
-            if (logs[i].level == 'error' && logs[i].message == '"Error: Cannot find module \'badPath\'"') {
+            if (logs[i].level == 'error' && logs[i].message.indexOf('"Error: Cannot find module \'badPath\'') == 0) {
               done();
               remote.stdout.removeAllListeners();
               break;
@@ -111,7 +112,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       doRequest('/log', function (body) {
         var logs = JSON.parse(body);
         for (var i = 0; i < logs.length; i++) {
-          if (logs[i].level == 'error' && logs[i].message == '"Error: Cannot find module \'badPath\'"') {
+          if (logs[i].level == 'error' && logs[i].message.indexOf('"Error: Cannot find module \'badPath\'') == 0) {
             totalFound++;
           }
         }

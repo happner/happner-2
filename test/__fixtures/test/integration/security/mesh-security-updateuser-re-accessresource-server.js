@@ -74,6 +74,7 @@ function generateDeviceGroup(mesh_name, component_name) {
       methods: {}
     }
   };
+
   devicesGroup.permissions.methods[somethingSpecialPath] = {authorized: true};
   return devicesGroup;
 }
