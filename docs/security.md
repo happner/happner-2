@@ -255,7 +255,88 @@ listing users
 
 ```
 
-hardening _responses:
+authority delegation:
+--------------------
+
+By default inter mesh calls are done via the endpoint's user, and component to component calls are done using the _ADMIN user, this means security is enforced only between the external mesh/client and the edge node of the mesh. To ensure that the originator of a call is checked against the security directory regardless of how deep the exchange call stack execution goes, the authorityDelegationOn config option should be set to true on a secure mesh:
+
+```javascript
+var meshConfig = {secure:true, authorityDelegationOn:true}
+
+var myMesh = new Mesh.create(meshConfig, function(e, created){
+  ...
+});
+
+//this can be configured per component as well, here is an example that excludes a specific component
+var meshConfig = {
+	secure:true,
+	authorityDelegationOn:true,
+	modules:{
+		"test-module":{
+			instance:{
+				testMethod:function($happn, callback){
+
+				}
+			}
+		},
+		"test-module-1":{
+			instance:{
+				testMethod:function($happn, callback){
+
+				}
+			}
+		}
+	},
+	components:{
+		"test-module":{
+			authorityDelegationOn:false//this component will call all consecutive methods using _ADMIN or the configured endpoint user
+		},
+		"test-module-1":{
+			//this component will call all consecutive methods using the origin user
+		}
+	}
+}
+
+var myMesh = new Mesh.create(meshConfig, function(e, created){
+  ...
+});
+
+//here is an example that includes a specific component
+var meshConfig = {
+	secure:true,
+	//authorityDelegationOn:true, - by default for all components authority delegation is off
+	modules:{
+		"test-module":{
+			instance:{
+				testMethod:function($happn, callback){
+
+				}
+			}
+		},
+		"test-module-1":{
+			instance:{
+				testMethod:function($happn, callback){
+
+				}
+			}
+		}
+	},
+	components:{
+		"test-module":{
+			authorityDelegationOn:true//this component will call all consecutive methods using _ADMIN or the configured endpoint user
+		},
+		"test-module-1":{
+			//this component will call all consecutive methods using the origin user
+		}
+	}
+}
+
+var myMesh = new Mesh.create(meshConfig, function(e, created){
+  ...
+});
+```
+
+hardening responses:
 --------------------
 
 Currently happn clients are prevented from accessing the /_exchange/responses/[mesh name]/[component name]/[method name]/\* path using a regular expression check - injected into the underlying happn service by way of a [custom layer](https://github.com/happner/happner-2/blob/master/test/integration/mesh/happn-layer-middleware.js), [over here](https://github.com/happner/happner-2/blob/master/lib/system/happn.js#L222), a better solution to this, is to use the [targetClients functionality](https://github.com/happner/happn-3/blob/master/test/integration/api/targetclients.js) of happn-3, to push _response messages only to the origin of the _request. This is made possible by passing the directResponses:true option in the mesh config, as follows:

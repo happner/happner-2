@@ -8,7 +8,7 @@ var lintSrc = [
 ];
 
 gulp.task('lint', function () {
- return gulp.src(lintSrc)
+ return gulp.src(lintSrc, {allowEmpty: true})
    .pipe(jshint({ esversion: 6 }))
    .pipe(jshint.reporter('default'));
 });

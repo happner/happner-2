@@ -42,7 +42,7 @@
     "coveralls": "^3.0.2",
     "expect.js": "0.3.1",
     "fxt": "1.0.2",
-    "gulp": "3.9.0",
+    "gulp": "^4.0.0",
     "gulp-jshint": "^2.1.0",
     "happn-util-crypto": "^0.3.0",
     "happner": "1.33.4",
