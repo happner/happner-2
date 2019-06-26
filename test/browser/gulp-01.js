@@ -124,8 +124,8 @@ gulp.task('start', function (done) {
 });
 
 
-gulp.task('default', ['start'], function(done) {
+gulp.task('default', gulp.series('start', function(done) {
 
   mesh.stop({reconnect: false}, done);
-  process.exit(0); // ? stopping gulp
-});
+  //process.exit(0); // ? stopping gulp
+}));
