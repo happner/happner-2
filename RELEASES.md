@@ -507,3 +507,12 @@ based on happner 1.28.1
 10.0.4 2019-05-07
 -----------------
   - update to lodash@^4.17.11 to improve deduping
+
+10.1.0 2019-07-04
+-----------------
+  - authority delegation
+
+10.1.1 2019-07-09
+-----------------
+  - fix: happn-3 401 returned by missing token
+  - fix: authority delegation for convenience methods on component data

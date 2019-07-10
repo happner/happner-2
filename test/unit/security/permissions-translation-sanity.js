@@ -719,7 +719,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
             doRequest('/b4_permissions_translation/SecuredComponent/Web', null, 'GET', function (response) {
 
-              expect(response.statusCode).to.be(403);
+              expect(response.statusCode).to.be(401);
 
               doRequest('/b4_permissions_translation/SecuredComponent/Web', testUserClient.token, 'GET', function (response) {
 

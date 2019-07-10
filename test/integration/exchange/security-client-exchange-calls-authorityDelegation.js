@@ -24,6 +24,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
 
     Happner.create({
       name: 'secureMesh',
+      authorityDelegationOn:true,
       happn: {
         secure: SECURE,
         adminPassword: testId,
@@ -37,11 +38,6 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
             },
             method2: function(callback) {
               callback(null, 'service-name/method2 ok');
-            },
-            allowedMethodNotEvent: function($happn, asAdmin, callback) {
-              return $happn.events.on('/data/forbidden', ()=>{
-
-              }, callback);
             },
             allowedMethodNotData: function($happn, callback) {
               $happn.data.set('/data/forbidden', {
@@ -89,21 +85,9 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
         }
       },
       components: {
-        'service-name': {
-          security: {
-            authorityDelegationOn: true
-          }
-        },
-        'x-service-name': {
-          security: {
-            authorityDelegationOn: true
-          }
-        },
-        'y-service-name': {
-          security: {
-            authorityDelegationOn: false
-          }
-        }
+        'service-name': {},
+        'x-service-name': {},
+        'y-service-name': {}
       }
     }).then(function(_mesh) {
       secureMesh = _mesh;
@@ -117,9 +101,6 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       permissions: {
         methods: {
           '/secureMesh/service-name/method1': {
-            authorized: true
-          },
-          '/secureMesh/service-name/allowedMethodNotEvent': {
             authorized: true
           },
           '/secureMesh/service-name/allowedMethodNotData': {
@@ -192,6 +173,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
   before('start mesh2', function(done) {
 
     Happner.create({
+      authorityDelegationOn: true,
       port: 55001,
       happn: {
         secure: SECURE,
@@ -211,43 +193,25 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       modules: {
         'service-name': {
           instance: {
-            allowedMethodNotOtherRemoteMethod: function($happn, asAdmin, callback) {
+            allowedMethodNotOtherRemoteMethod: function($happn, callback) {
               try {
-                console.log('allowedMethodNotOtherRemoteMethod:::', asAdmin);
-                if (asAdmin) return $happn.asAdmin.exchange['secureMesh']['service-name'].allowedMethodNotOtherMethod(callback);
                 $happn.exchange['secureMesh']['service-name'].allowedMethodNotOtherMethod(callback);
               } catch (e) {
                 callback(e);
               }
             },
-            allowedMethodNotEvent: function($happn, asAdmin, callback) {
-              if (asAdmin) return $happn.asAdmin.event['secureMesh']['service-name'].on('/data/forbidden', ()=>{
-
-              }, callback);
-
-              $happn.event['secureMesh']['service-name'].on('/data/forbidden', ()=>{
-
-              }, callback);
-            },
-            allowedMethodNotData: function($happn, asAdmin, callback) {
-
-              if (asAdmin) return $happn.asAdmin.data.set('/data/forbidden', {
-                test: 'data'
-              }, callback);
-
-              $happn.data.set('/data/forbidden', {
-                test: 'data'
-              }, callback);
+            allowedMethodNotOtherMethod: function($happn, callback) {
+              try {
+                $happn.exchange['secureMesh']['x-service-name'].otherMethod(callback);
+              } catch (e) {
+                callback(e);
+              }
             }
           }
         }
       },
       components: {
-        'service-name': {
-          security: {
-            authorityDelegationOn: true
-          }
-        }
+        'service-name': {}
       }
     }).then(function(_mesh) {
 
@@ -265,12 +229,6 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       permissions: {
         methods: {
           '/service-name/allowedMethodNotOtherRemoteMethod': {
-            authorized: true
-          },
-          '/service-name/allowedMethodNotData': {
-            authorized: true
-          },
-          '/service-name/allowedMethodNotEvent': {
             authorized: true
           }
         },
@@ -302,7 +260,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       });
   })
 
-  it('authority delegation: allows client access to a function, but then denies access to a remote method', function(done) {
+  it('authority delegation: allows client access to a function, but then denies access to a remote method, called by an allowed remote method, of the allowed method', function(done) {
 
     var testClient = new Happner.MeshClient({port: 55001});
 
@@ -310,7 +268,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       username: 'username',
       password: 'password',
     }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod(false)
+      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
         .then(function(result) {
           done(new Error('unexpected success'));
         })
@@ -323,7 +281,7 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
     });
   });
 
-  it('authority delegation: allows client access to a function, but then denies access to a remote method - asAdmin on', function(done) {
+  it('authority delegation: allows client access to a function, test we are now allowed access to the function, then updates the group to disallow access to the allowed function, we retry the function call and ensure that the client is unable to access the disallowed function', function(done) {
 
     var testClient = new Happner.MeshClient({port: 55001});
 
@@ -331,64 +289,56 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
       username: 'username',
       password: 'password',
     }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod(true)
+      return new Promise(function(resolve, reject){
+        testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
+          .then(function(result) {
+            reject(new Error('unexpected success'));
+          })
+          .catch(function(e) {
+            e.toString().should.equal('AccessDenied: unauthorized');
+            resolve();
+          });
+      });
+    }).then(function () {
+      var security = secureMesh.exchange.security;
+      return security.addGroupPermissions('group', {
+        methods: {
+          '/secureMesh/x-service-name/otherMethod': {
+            authorized: true
+          }
+        }
+      });
+    }).then(function () {
+      return new Promise(function(resolve, reject){
+        setTimeout(()=>{
+          resolve();
+        }, 1000);
+      });
+    }).then(function () {
+      return new Promise(function(resolve, reject){
+      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
         .then(function(result) {
-          done();
+          resolve();
         })
-        .catch(done);
-    }).catch(function (e) {
-      done(e);
-    });
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a remote data point', function(done) {
-
-    var testClient = new Happner.MeshClient({port: 55001});
-
-    testClient.login({
-      username: 'username',
-      password: 'password',
+        .catch(reject);
+      });
     }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotData(false)
-        .then(function(result) {
-          done(new Error('unexpected success'));
-        })
-        .catch(function(e) {
-          e.toString().should.equal('AccessDenied: unauthorized');
-          done();
-        });
-    }).catch(function (e) {
-      done(e);
-    });
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a remote data point - asAdmin on', function(done) {
-
-    var testClient = new Happner.MeshClient({port: 55001});
-
-    testClient.login({
-      username: 'username',
-      password: 'password',
+      var security = secureMesh.exchange.security;
+      return security.removeGroupPermissions('group', {
+        methods: {
+          '/secureMesh/x-service-name/otherMethod': {
+            authorized: false
+          }
+        }
+      });
     }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotData(true)
-        .then(function(result) {
-          done();
-        })
-        .catch(done);
-    }).catch(function (e) {
-      done(e);
-    });
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a remote event', function(done) {
-
-    var testClient = new Happner.MeshClient({port: 55001});
-
-    testClient.login({
-      username: 'username',
-      password: 'password',
+      return new Promise(function(resolve, reject){
+        setTimeout(()=>{
+          resolve();
+        }, 1000);
+      });
     }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotEvent(false)
+      testClient.exchange['service-name'].allowedMethodNotOtherRemoteMethod()
         .then(function(result) {
           done(new Error('unexpected success'));
         })
@@ -396,25 +346,8 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           e.toString().should.equal('AccessDenied: unauthorized');
           done();
         });
-    }).catch(function (e) {
-      done(e);
-    });
-  });
-
-  it('authority delegation: allows client access to a function, but then denies access to a remote event - asAdmin on', function(done) {
-
-    var testClient = new Happner.MeshClient({port: 55001});
-
-    testClient.login({
-      username: 'username',
-      password: 'password',
-    }).then(function () {
-      testClient.exchange['service-name'].allowedMethodNotEvent(true)
-        .then(function(result) {
-          done();
-        })
-        .catch(done);
-    }).catch(function (e) {
+    })
+    .catch(function (e) {
       done(e);
     });
   });
