@@ -213,7 +213,6 @@ describe.skipWindows(require('../../__fixtures/utils/test_helper').create().test
           instance: {
             allowedMethodNotOtherRemoteMethod: function($happn, asAdmin, callback) {
               try {
-                console.log('allowedMethodNotOtherRemoteMethod:::', asAdmin);
                 if (asAdmin) return $happn.asAdmin.exchange['secureMesh']['service-name'].allowedMethodNotOtherMethod(callback);
                 $happn.exchange['secureMesh']['service-name'].allowedMethodNotOtherMethod(callback);
               } catch (e) {
