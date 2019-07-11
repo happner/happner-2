@@ -49,6 +49,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   before('Set up Loader with Proxy', function (done) {
 
+    if (process.env.INTRAVENOUS === 'yes') return done();
+
     var loaderPath = path.resolve(__dirname, '../../../bin/happner-loader');
 
     var confPath = path.resolve(libFolder + 'conf_w_proxy.js');
@@ -89,6 +91,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
 
   it('Get the content of the loader target', function (done) {
+
+    if (process.env.INTRAVENOUS === 'yes') return done();
+
     doRequest('loader.htm', function (error, response, body) {
 
       response.statusCode.should.eql(200);
@@ -98,6 +103,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
 
   it('Get the content of a proxy file, with no server (error response)', function (done) {
+
+    if (process.env.INTRAVENOUS === 'yes') return done();
+
     doRequest('index.htm', function (error, response, body) {
       response.statusCode.should.eql(502);
       done();
@@ -106,6 +114,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
 
   it('Get the content of a proxy file, with remote http server', function (done) {
+
+    if (process.env.INTRAVENOUS === 'yes') return done();
 
     var http = require("http");
 
@@ -128,6 +138,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   it('Get the content of a 404 file, should have valid content', function (done) {
+
+    if (process.env.INTRAVENOUS === 'yes') return done();
+
     doRequest('bad/url/location', function (error, response, body) {
       body.should.not.eql("Marker"); // We have the loader.htm body
       response.statusCode.should.eql(200);
@@ -137,6 +150,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   after('kills the proxy and stops the mesh if its running', function (done) {
+
+    if (process.env.INTRAVENOUS === 'yes') return done();
 
     this.timeout(10000);
 

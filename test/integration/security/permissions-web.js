@@ -122,7 +122,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     doRequest('/index.html', null, function (response) {
 
-      expect(response.statusCode).to.equal(403);
+      expect(response.statusCode).to.equal(401);
       done();
 
     });
