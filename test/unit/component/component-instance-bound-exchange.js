@@ -17,11 +17,12 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     componentInstance.clearCachedBoundExchange();
   });
 
-  it('tests the initializeCachedBoundExchange function, initialized cache', function(done){
+  it('tests the initializeCachedBoundExchange function, new cache', function(done){
     var ComponentInstance = require('../../../lib/system/component-instance');
     var componentInstance = new ComponentInstance();
     var EventEmitter = require('events').EventEmitter;
     var eventEmitter = new EventEmitter();
+    var cleared = false;
     var mesh = {
       config:{
         boundExchangeCacheSize:5
@@ -31,6 +32,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           services:{
             security:eventEmitter,
             cache:{
+              __caches:{},
               new:function(key, opts){
                 expect(opts).to.eql({
                   type: 'LRU',
@@ -39,7 +41,57 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                   }
                 });
                 return {
+                  clear:function(){
+                    if (cleared) return;
+                    cleared = true;
+                    done();
+                  }
+                };
+              }
+            }
+          }
+        }
+      }
+    }
+
+    componentInstance.initializeCachedBoundExchange(mesh, 'test-component');
+    mesh.happn.server.services.security.emit('security-data-changed', {});
+  });
+
+  it('tests the initializeCachedBoundExchange function, initialized cache', function(done){
+    var ComponentInstance = require('../../../lib/system/component-instance');
+    var componentInstance = new ComponentInstance();
+    var EventEmitter = require('events').EventEmitter;
+    var eventEmitter = new EventEmitter();
+    var cleared = false;
+
+    var mesh = {
+      config:{
+        boundExchangeCacheSize:5
+      },
+      happn:{
+        server:{
+          services:{
+            security:eventEmitter,
+            cache:{
+              __caches:{
+                'happner-bound-exchangeSecuredComponent':{
                   clear:done
+                }
+              },
+              new:function(key, opts){
+                expect(opts).to.eql({
+                  type: 'LRU',
+                  cache: {
+                    max: mesh.config.boundExchangeCacheSize || 10000
+                  }
+                });
+                return {
+                  clear:function(){
+                    if (cleared) return;
+                    cleared = true;
+                    done();
+                  }
                 };
               }
             }
