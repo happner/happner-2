@@ -516,3 +516,7 @@ based on happner 1.28.1
 -----------------
   - fix: happn-3 401 returned by missing token
   - fix: authority delegation for convenience methods on component data
+
+10.1.2 2019-07-09
+-----------------
+  - fix: mesh-client reconnect options tested
