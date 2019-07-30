@@ -2,10 +2,6 @@ var path = require('path');
 
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
-  var Promise = require('bluebird');
-
-  var request = Promise.promisify(require('request'));
-
   this.timeout(120000);
 
   var expect = require('expect.js');

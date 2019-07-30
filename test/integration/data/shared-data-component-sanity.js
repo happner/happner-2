@@ -8,7 +8,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var dataEvents;
   var config;
   var expect = require('expect.js');
-  var bluebird = require('bluebird');
+  var Promise = require('bluebird');
 
   var TestModule1 = {
     setSharedData: function ($happn, path, data, callback) {
@@ -299,7 +299,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     });
 
     it('can get paths', function (done) {
-      require('bluebird').all([
+      Promise.all([
           dataComponent.set('this/one', 1),
           dataComponent.set('this/two', 2),
           dataComponent.set('this/three', 3),
@@ -558,7 +558,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
       var caughtEmitted = [];
 
-      dataComponent.onAsync = bluebird.promisify(dataComponent.on);
+      dataComponent.onAsync = Promise.promisify(dataComponent.on);
 
       await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/1', {
         "test": "data1"
