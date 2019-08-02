@@ -516,3 +516,8 @@ based on happner 1.28.1
 -----------------
   - fix: happn-3 401 returned by missing token
   - fix: authority delegation for convenience methods on component data
+
+10.2.0 2019-07-26
+-----------------
+  - feature: ability to update a mesh element (component)
+  - fix: reconnect backoff now configurable

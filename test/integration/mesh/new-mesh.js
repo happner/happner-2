@@ -1,4 +1,4 @@
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function() {
 
   this.timeout(120000);
 
@@ -7,44 +7,121 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var Mesh = require('../../..');
   var mesh;
 
-  it('tests the client newMesh call', function (done) {
+  it('tests the client newMesh call', function(done) {
 
-    Mesh.create( function(e, instance){
+    Mesh.create(function(e, instance) {
 
-      if (e) return callback(e);
+      if (e) return done(e);
       mesh = instance;
 
-      mesh._mesh._createElement({component:{}, module:{config:{}}},{}, function(e){
-        mesh.stop({reconnect:false}, done);
+      mesh._mesh._createElement({
+        component: {},
+        module: {
+          config: {}
+        }
+      }, {}, function(e) {
+        mesh.stop({
+          reconnect: false
+        }, done);
       });
-
     });
-
   });
 
-  it('tests a re-initialized mesh', function (done) {
+  it('tests the client newMesh call, _updateElement', function(done) {
 
-    Mesh.create( function(e, instance){
+    Mesh.create(function(e, instance) {
 
-      if (e) return callback(e);
+      if (e) return done(e);
       mesh = instance;
 
-      mesh._mesh._createElement({component:{}, module:{config:{}}},{}, function(e){
+      var mockElement1 = {
+        component: {
+          name: 'testComponent',
+          config:{}
+        },
+        module: {
+          name: 'testComponent',
+          config:{
+            instance: {
+              testMethod: function(callback) {
+                callback(null, true);
+              }
+            }
+          }
+        }
+      };
 
-          mesh.stop({reconnect:false}, function(e){
+      var mockElement2 = {
+        component: {
+          name: 'testComponent',
+          config:{}
+        },
+        module: {
+          name: 'testComponent',
+          config:{
+            instance: {
+              testMethod: function(callback) {
+                callback(null, false);
+              }
+            }
+          }
+        }
+      };
 
+      mesh._mesh._createElement(mockElement1, {}, function(e) {
+        if (e) return done(e);
+        mesh.exchange.testComponent.testMethod(function(e, result) {
+          expect(result).to.be(true);
+          mesh._mesh._updateElement(mockElement2, function(e) {
             if (e) return done(e);
-
-            mesh.initialize({},function(e, instance){
-
-              instance._mesh._createElement({component:{}, module:{config:{}}},{}, function(e){
-
-                mesh.stop({reconnect:false},done);
-
-              });
+            mesh.exchange.testComponent.testMethod(function(e, result) {
+              expect(result).to.be(false);
+              mesh.stop({
+                reconnect: false
+              }, done);
             });
           });
         });
+      });
+    });
+  });
+
+  it('tests a re-initialized mesh', function(done) {
+
+    Mesh.create(function(e, instance) {
+
+      if (e) return done(e);
+      mesh = instance;
+
+      mesh._mesh._createElement({
+        component: {},
+        module: {
+          config: {}
+        }
+      }, {}, function(e) {
+
+        mesh.stop({
+          reconnect: false
+        }, function(e) {
+
+          if (e) return done(e);
+
+          mesh.initialize({}, function(e, instance) {
+
+            instance._mesh._createElement({
+              component: {},
+              module: {
+                config: {}
+              }
+            }, {}, function(e) {
+
+              mesh.stop({
+                reconnect: false
+              }, done);
+            });
+          });
+        });
+      });
     });
   });
 });
