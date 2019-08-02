@@ -520,3 +520,4 @@ based on happner 1.28.1
 10.2.0 2019-07-26
 -----------------
   - feature: ability to update a mesh element (component)
+  - fix: reconnect backoff now configurable
