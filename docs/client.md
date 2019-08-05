@@ -36,6 +36,10 @@ __something.html__
       var options = {
         hostname: window.location.hostname,
         port: window.location.port || 80,
+        reconnect:{
+          max:180000, //max interval for reconnect attempts - default is 3 minutes
+          retries: Infinity //will keep on retrying, forever
+        }
       };
 
 
@@ -49,10 +53,10 @@ __something.html__
         // username: 'username', // pending
         // password: 'password', // pending
       }
-      
+
       // login with callback
       client.login(credentials, function(e) { //...etc
-      
+
       // or login with promise
       client.login(credentials); // .then(function() { //... etc.
 
@@ -62,7 +66,7 @@ __something.html__
       });
 
       client.on('login/deny', function(err) {
-      
+
       });
 
       client.on('login/error', function(err) {
@@ -173,13 +177,13 @@ client.login({username:'_ADMIN', password:'happn'})
 .then(function(){
   //we now have a token we could use for web requests:
   var token = client.token;
-  
+
   //now we can disconnect, and revoke the token so it can never be used again:
   //NB, NB: disconnect is not a promise - use a callback
   client.disconnect({revokeSession:true}, function(e){
     if (!e) console.log('disconnection went fine, we have revoked the token ' + token);
   });
-  
+
 });
 
 ```
@@ -189,4 +193,3 @@ client.login({username:'_ADMIN', password:'happn'})
 ```bash
 gulp --gulpfile test/test-browser/gulp-01.js
 ```
-
