@@ -1,6 +1,6 @@
-describe('001-compact-dbfile', function () {
+describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
-  var Mesh = require('../../');
+  var Mesh = require('../../..');
   var path = require('path');
 
   var fs = require('fs');
@@ -9,7 +9,8 @@ describe('001-compact-dbfile', function () {
   var test_file_interval = path.resolve(__dirname, '../') + path.sep + 'temp/1-compact-dbfile-interval.nedb';
 
   var expect = require('expect.js');
-  var test_helper = require('../lib/test_helper');
+  var Helper = require('../../__fixtures/utils/test_helper');
+  var test_helper = new Helper();
 
   var async = require('async');
 
