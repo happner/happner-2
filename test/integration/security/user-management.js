@@ -10,7 +10,7 @@ TestMesh.prototype.method1 = function ($happn, options, callback) {
 
 if (global.TESTING_USER_MANAGEMENT) return; // When 'requiring' the module above,
 
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe.only(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 
@@ -499,7 +499,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     });
   });
 
-  it('adds a test user, we fetch the user using the listUsersByGroup method', function (done) {
+  it.only('adds a test user, we fetch the user using the listUsersByGroup method', function (done) {
 
     var testGroup = {
       name: 'TESTGROUP7' + test_id,
