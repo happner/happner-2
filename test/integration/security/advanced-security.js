@@ -4,7 +4,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   var Promise = require('bluebird');
 
-  var request = Promise.promisify(require('request'));
+  var request = Promise.promisify(require('request'), {multiArgs: true});
 
   this.timeout(15000);
 

@@ -7,7 +7,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   var should = require('chai').should();
   var Happner = require('../../..');
   var Promise = require('bluebird');
-  var request = Promise.promisify(require('request'));
+  var request = Promise.promisify(require('request'), {multiArgs: true});
 
   var mesh, mesh2;
 

@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "10.2.0",
+  "version": "10.2.1",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -65,8 +65,8 @@
     "why-is-node-running": "^2.0.3"
   },
   "dependencies": {
-    "async": "0.9.2",
-    "bluebird": "2.10.2",
+    "async": "^2.6.3",
+    "bluebird": "^3.5.0",
     "body": "5.1.0",
     "change-case": "2.3.0",
     "commander": "2.9.0",
@@ -74,7 +74,7 @@
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
     "glob": "5.0.15",
-    "happn-3": "^10.1.1",
+    "happn-3": "^10.1.2",
     "happn-logger": "^0.1.1",
     "happn-sillyname": "0.1.1",
     "happner-client": "^8.0.1",
@@ -87,9 +87,9 @@
     "merge": "1.2.0",
     "proc-stats": "0.0.4",
     "repl.history": "0.1.4",
-    "request": "2.67.0",
+    "request": "^2.67.0",
     "shortid": "2.2.4",
-    "uglify-js": "2.6.1"
+    "uglify-js": "^3.6.0"
   },
   "directories": {
     "doc": "docs",

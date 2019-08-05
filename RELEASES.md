@@ -521,3 +521,7 @@ based on happner 1.28.1
 -----------------
   - feature: ability to update a mesh element (component)
   - fix: reconnect backoff now configurable
+
+10.2.1 2019-08-02
+-----------------
+  - Update to latest Happn-3, Async, uglify, Bluebird and Request to make image size smaller.
