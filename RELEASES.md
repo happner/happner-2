@@ -525,3 +525,8 @@ based on happner 1.28.1
 10.2.1 2019-08-02
 -----------------
   - Update to latest Happn-3, Async, uglify, Bluebird and Request to make image size smaller.
+
+10.2.2 2019-08-08
+-----------------
+  - Security: tightened up the updateOwnUser security method
+  - happn-3 dependency bump
