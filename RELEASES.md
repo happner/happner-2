@@ -530,3 +530,7 @@ based on happner 1.28.1
 -----------------
   - Security: tightened up the updateOwnUser security method
   - happn-3 dependency bump
+
+10.2.2 2019-08-13
+-----------------
+  - Fix: better logging on inbound and outbound layer failures

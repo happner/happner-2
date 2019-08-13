@@ -46,6 +46,40 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     happnLayer.__inboundLayer({raw:{}}, done);
   });
 
+  it('tests the __inboundLayer function, error', function (done) {
+    try{
+
+      happnLayer.log = {
+        error:function(){
+          done();
+        }
+      };
+      happnLayer.__inboundLayer({raw:{}}, function(){
+        throw new Error('test error');
+      });
+    } catch(e){
+      expect(e.message.to.be('test error'));
+    }
+  });
+
+  it('tests the __outboundLayer function, error', function (done) {
+    try{
+
+      happnLayer.log = {
+        error:function(){
+          done();
+        }
+      };
+      happnLayer.__outboundLayer({request:{
+
+      }}, function(){
+        throw new Error('test error');
+      });
+    } catch(e){
+      expect(e.message.to.be('test error'));
+    }
+  });
+
   it('tests the __inboundLayer function, bad session id', function (done) {
 
     this.timeout(5000);
