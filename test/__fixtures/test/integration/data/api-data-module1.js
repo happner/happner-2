@@ -25,6 +25,10 @@ function Component1(options) {
     $happn.data.increment(path, gauge, increment, callback);
   };
 
+  this.getCount = function($happn, path, callback) {
+    $happn.data.count(path, callback);
+  };
+
   this.start = function ($happn, arg, callback) {
 
     var _this = this;

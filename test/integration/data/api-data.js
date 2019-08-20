@@ -90,9 +90,23 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   });
 
-  it('increments a gauge using $happn.data on the test component', function(done){
+  it('checks that component1 can count data values', function (done) {
 
-    this.mesh.exchange.component1.incrementGauge('my/test/gauge', 'custom_counter', 1, function(e, result){
+    var _this = this;
+
+    _this.mesh.exchange.component1.storeData('/test/integration/data/count-data', {"testprop1": "testval1"}, {}, function (e) {
+      expect(e).to.not.exist;
+      _this.mesh.exchange.component1.getCount('/test/integration/data/count-data', function (e, result) {
+        expect(result.value).to.eql(1);
+        done();
+      });
+    });
+
+  });
+
+  it('increments a gauge using $happn.data on the test component', function (done) {
+
+    this.mesh.exchange.component1.incrementGauge('my/test/gauge', 'custom_counter', 1, function (e, result) {
 
       if (e) return done(e);
 

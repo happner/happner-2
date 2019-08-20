@@ -82,6 +82,62 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
+    it('can count using criteria', function (done) {
+
+      meshInstance.exchange.data.set('movie/scifi', {name: 'interstellar', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "interstellar"
+          };
+
+          meshInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(1);
+              done();
+
+            });
+
+        });
+
+    });
+
+    it('can count using criteria that doesn\'t match', function (done) {
+
+      meshInstance.exchange.data.set('movie/scifi', {name: 'the martian', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "no name"
+          };
+
+          meshInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(0);
+              done();
+
+            });
+
+        });
+
+    });
+
     //DOESNT WORK USING NEDB PLUGIN
     it('can get using criteria, limit to fields', function (done) {
 
@@ -213,6 +269,62 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
+    it('can count using criteria', function (done) {
+
+      meshClientInstance.exchange.data.set('movie/scifi', {name: 'star wars', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "star wars"
+          };
+
+          meshClientInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(1);
+              done();
+
+            });
+
+        });
+
+    });
+
+    it('can count using criteria that doesn\'t match', function (done) {
+
+      meshClientInstance.exchange.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "no name"
+          };
+
+          meshClientInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(0);
+              done();
+
+            });
+
+        });
+
+    });
+
   });
 
   context('client data use', function () {
@@ -244,6 +356,62 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             });
 
         });
+    });
+
+    it('can count using criteria', function (done) {
+
+      meshClientInstance.data.set('movie/scifi', {name: 'star wars', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "star wars"
+          };
+
+          meshClientInstance.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(1);
+              done();
+
+            });
+
+        });
+
+    });
+
+    it('can count using criteria that doesn\'t match', function (done) {
+
+      meshClientInstance.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "no name"
+          };
+
+          meshClientInstance.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(0);
+              done();
+
+            });
+
+        });
+
     });
   });
 
