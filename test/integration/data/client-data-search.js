@@ -1,4 +1,4 @@
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+dondescribe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
 
@@ -110,7 +110,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-    it('can count using criteria that doesn\'t match', function (done) {
+    it('can count using criteria that don\'t match', function (done) {
 
       meshInstance.exchange.data.set('movie/scifi', {name: 'the martian', genre: 'scifi'},
         function (e, result) {
@@ -138,9 +138,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-    //DOESNT WORK USING NEDB PLUGIN
+    //DOES WORK USING NEDB PLUGIN
     it('can get using criteria, limit to fields', function (done) {
-
       meshInstance.exchange.data.set('movie/war/ww2', {name: 'crimson tide', genre: 'ww2'},
         function (e, result) {
 
@@ -156,19 +155,13 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           meshInstance.exchange.data.get('movie/*', {criteria: criteria, options: options},
             function (e, result) {
-
               if (e) return done(e);
-
               expect(result[0].genre).to.be(undefined);
               result[0].name.should.eql('crimson tide');
               result.length.should.eql(1);
-
               done();
-
             });
-
         });
-
     });
 
     it('can get the latest record', function (done) {
@@ -210,31 +203,19 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
             meshInstance.exchange.data.get('movie/family/*',
               function (e, result) {
-
                 if (e) return callback(e);
-
                 for (var resultItemIndex in result) {
-
                   var resultItem = result[resultItemIndex];
-
                   expect(resultItem._meta.created).to.not.be(null);
                   expect(resultItem._meta.created).to.not.be(undefined);
-
                   if ((resultItem._meta.path != latestResult._meta.path) && resultItem._meta.created > latestResult._meta.created)
                     return done(new Error('the latest result is not the latest result...'));
-
                 }
-
                 done();
-
               });
-
           });
-
       });
-
     });
-
   });
 
   context('client use', function () {
@@ -297,7 +278,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-    it('can count using criteria that doesn\'t match', function (done) {
+    it('can count using criteria that don\'t match', function (done) {
 
       meshClientInstance.exchange.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
         function (e, result) {
@@ -386,7 +367,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-    it('can count using criteria that doesn\'t match', function (done) {
+    it('can count using criteria that don\'t match', function (done) {
 
       meshClientInstance.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
         function (e, result) {

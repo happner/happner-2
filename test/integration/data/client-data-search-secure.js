@@ -125,7 +125,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-    it('can count using criteria that doesn\'t match', function (done) {
+    it('can count using criteria that don\'t match', function (done) {
 
       meshInstance.exchange.data.set('movie/scifi', {name: 'the martian', genre: 'scifi'},
         function (e, result) {
@@ -307,7 +307,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-    it('can count using criteria that doesn\'t match', function (done) {
+    it('can count using criteria that don\'t match', function (done) {
 
       meshClientInstance.exchange.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
         function (e, result) {
@@ -395,11 +395,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
-    it('can count using criteria that doesn\'t match', function (done) {
+    it('can count using criteria that don\'t match', function (done) {
 
       meshClientInstance.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
-        function (e, result) {
-
+        function (e) {
           if (e) return done(e);
 
           var options = {
@@ -416,11 +415,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
               expect(result.value).to.eql(0);
               done();
-
             });
-
         });
-
     });
   });
 });
