@@ -26,7 +26,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     Mesh.create(config = {
 
-      name:'mesh' + test_id,
+      name: 'mesh' + test_id,
 
       happn: {
         persist: true,
@@ -89,6 +89,62 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               if (e) return done(e);
 
               result.length.should.eql(1);
+              done();
+
+            });
+
+        });
+
+    });
+
+    it('can count using criteria', function (done) {
+
+      meshInstance.exchange.data.set('movie/scifi', {name: 'interstellar', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "interstellar"
+          };
+
+          meshInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(1);
+              done();
+
+            });
+
+        });
+
+    });
+
+    it('can count using criteria that don\'t match', function (done) {
+
+      meshInstance.exchange.data.set('movie/scifi', {name: 'the martian', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "no name"
+          };
+
+          meshInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(0);
               done();
 
             });
@@ -185,15 +241,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
                 }
 
                 done();
-
               });
-
           });
-
       });
-
     });
-
   });
 
   context('client use', function () {
@@ -228,6 +279,62 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     });
 
+    it('can count using criteria', function (done) {
+
+      meshClientInstance.exchange.data.set('movie/scifi', {name: 'star wars', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "star wars"
+          };
+
+          meshClientInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(1);
+              done();
+
+            });
+
+        });
+
+    });
+
+    it('can count using criteria that don\'t match', function (done) {
+
+      meshClientInstance.exchange.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "no name"
+          };
+
+          meshClientInstance.exchange.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(0);
+              done();
+
+            });
+
+        });
+
+    });
+
   });
 
   context('client data use', function () {
@@ -256,6 +363,58 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
               done();
 
+            });
+        });
+    });
+
+    it('can count using criteria', function (done) {
+
+      meshClientInstance.data.set('movie/scifi', {name: 'star wars', genre: 'scifi'},
+        function (e, result) {
+
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "star wars"
+          };
+
+          meshClientInstance.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(1);
+              done();
+
+            });
+
+        });
+
+    });
+
+    it('can count using criteria that don\'t match', function (done) {
+
+      meshClientInstance.data.set('movie/scifi', {name: 'star wars 2', genre: 'scifi'},
+        function (e) {
+          if (e) return done(e);
+
+          var options = {
+            sort: {"name": 1}
+          };
+
+          var criteria = {
+            "name": "no name"
+          };
+
+          meshClientInstance.data.count('movie/*', {criteria: criteria, options: options},
+            function (e, result) {
+              if (e) return done(e);
+
+              expect(result.value).to.eql(0);
+              done();
             });
         });
     });

@@ -534,3 +534,7 @@ based on happner 1.28.1
 10.2.3 2019-08-13
 -----------------
   - Fix: better logging on inbound and outbound layer failures
+
+10.3.0 2019-08-20
+-----------------
+  - Fix #206: Add count to data providers

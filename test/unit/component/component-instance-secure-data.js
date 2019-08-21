@@ -34,6 +34,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       },
       remove: function(path, opts, callback){
         return callback();
+      },
+      count: function(path, opts, callback){
+        return callback();
       }
     };
   }
@@ -156,6 +159,36 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     var secureData = componentInstance.secureData(mockData(2), 'test-component');
 
     secureData.get('test/path', function(e){
+      expect(e.toString()).to.be('Error: client state not active or connected, get:' + 'test/path' + ', component:' + 'test-component');
+      done();
+    });
+  });
+
+  it('test the count with a connection', function(done){
+    var ComponentInstance = require('../../../lib/system/component-instance');
+    var componentInstance = new ComponentInstance();
+    var secureData = componentInstance.secureData(mockData(), 'test-component');
+
+    secureData.count('test/path', {}, done);
+  });
+
+  it('test the count without a connection', function(done){
+    var ComponentInstance = require('../../../lib/system/component-instance');
+    var componentInstance = new ComponentInstance();
+    var secureData = componentInstance.secureData(mockData(2), 'test-component');
+
+    secureData.count('test/path', {}, function(e){
+      expect(e.toString()).to.be('Error: client state not active or connected, get:' + 'test/path' + ', component:' + 'test-component');
+      done();
+    });
+  });
+
+  it('test the count without a connection, default args', function(done){
+    var ComponentInstance = require('../../../lib/system/component-instance');
+    var componentInstance = new ComponentInstance();
+    var secureData = componentInstance.secureData(mockData(2), 'test-component');
+
+    secureData.count('test/path', function(e){
       expect(e.toString()).to.be('Error: client state not active or connected, get:' + 'test/path' + ', component:' + 'test-component');
       done();
     });
