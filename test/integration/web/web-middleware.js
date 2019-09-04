@@ -270,6 +270,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     expect(mesh._mesh.description.components.middlewareTest.routes)
       .to.eql({
       '/middlewareTest/root': {type: 'mware'},
+      '/middlewareTest/addRouteInfo': {type: 'mware'},
       '/middlewareTest/singular': {type: 'mware'},
       '/middlewareTest/multi': {type: 'mware'},
       '/middlewareTest/singularActive': {type: 'mware'},
