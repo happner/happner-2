@@ -538,3 +538,7 @@ based on happner 1.28.1
 10.3.0 2019-08-20
 -----------------
   - Fix #206: Add count to data providers
+
+10.4.0 2019-09-04
+-----------------
+  - Fix #212: Add route info to 'req' for middleware on component to use if request is directed to root web route
