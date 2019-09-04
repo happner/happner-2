@@ -15,6 +15,10 @@ function Module() {
     next();
   };
 
+  this.injectRouteInfo = function (req, res) {
+    res.end(req.rootWebRoute + '_' + req.componentWebRoute);
+  };
+
   this.content = serveStatic(__dirname + path.sep + 'static');
 
   this.singularMethod = function (req, res) {

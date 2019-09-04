@@ -48,6 +48,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     web: {
       routes: {
         '/': 'middlewareTest/root',
+        '/testAddRouteInfo': 'middlewareTest/addRouteInfo',
         '/inline': function(req, res) {res.end('OK!NESS');}
       }
     },
@@ -62,6 +63,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         web: {
           routes: {
             root: ['checkIndex', 'content'],
+            addRouteInfo: ['injectRouteInfo'],
             singular: 'singularMethod',
             multi: ['multiMethod1', 'multiMethod2', 'multiMethod3'],
             singularActive: singularActive,
@@ -268,6 +270,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     expect(mesh._mesh.description.components.middlewareTest.routes)
       .to.eql({
       '/middlewareTest/root': {type: 'mware'},
+      '/middlewareTest/addRouteInfo': {type: 'mware'},
       '/middlewareTest/singular': {type: 'mware'},
       '/middlewareTest/multi': {type: 'mware'},
       '/middlewareTest/singularActive': {type: 'mware'},
@@ -297,6 +300,19 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       try {
         expect(res.statusCode).to.be(200);
         expect(body).to.be('OK!NESS');
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+
+  it('should add route info to \'req\' for middleware on component to use if request is directed to root web route', function (done) {
+    cookieRequest('http://localhost:10000/testAddRouteInfo', function (e, res, body) {
+      if (e) return done(e);
+      try {
+        expect(res.statusCode).to.be(200);
+        expect(body).to.be('/testAddRouteInfo_middlewareTest/addRouteInfo');
         done();
       } catch (e) {
         done(e);
