@@ -104,4 +104,15 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       mesh.stop(done);
     });
   });
+
+  it('tests the _destroyElement nonexistent component', function (done) {
+
+    var config = {};
+    var mesh = mockMesh(config);
+
+    mesh._destroyElement('nonexistent-component', function(e){
+      expect(e).to.be(undefined);
+      done();
+    });
+  });
 });
