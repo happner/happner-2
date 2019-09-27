@@ -542,3 +542,8 @@ based on happner 1.28.1
 10.4.0 2019-09-04
 -----------------
   - Fix #212: Add route info to 'req' for middleware on component to use if request is directed to root web route
+
+10.4.1 2019-09-12
+-----------------
+  - component instance tweaks for cluster brokering
+  - cleanup of mesh.js, removed unused dependencies
