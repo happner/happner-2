@@ -547,3 +547,7 @@ based on happner 1.28.1
 -----------------
   - component instance tweaks for cluster brokering
   - cleanup of mesh.js, removed unused dependencies
+
+10.5.0 2019-10-03
+-----------------
+  - security component listUsers and listGroups with criteria

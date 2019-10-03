@@ -71,7 +71,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   after(function (done) {
     delete global.TESTING_USER_MANAGEMENT; //.............
-    mesh.stop({reconnect: false}, done);
+    adminClient.disconnect(()=>{
+      mesh.stop({reconnect: false}, done);
+    });
   });
 
   it('adds a test user, modifies the users password with the admin user, logs in with the test user', function (done) {
@@ -587,5 +589,105 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         });
       });
     });
+  });
+
+  it('tests the listUsers method with and without criteria', async () => {
+
+    await adminClient.exchange.security.addUser({
+      username: 'TESTUSER_LIST1',
+      password: 'TEST PWD',
+      custom_data: {
+        something: 'useful'
+      }
+    });
+
+    await adminClient.exchange.security.addUser({
+      username: 'TESTUSER_LIST2',
+      password: 'TEST PWD',
+      custom_data: {
+        something: 'useful'
+      }
+    });
+
+    await adminClient.exchange.security.addUser({
+      username: 'TESTUSER_LIST3',
+      password: 'TEST PWD',
+      custom_data: {
+        something: 'else'
+      }
+    });
+
+    await adminClient.exchange.security.addUser({
+      username: 'TESTUSER_LIST4',
+      password: 'TEST PWD',
+      custom_data: {
+        something: 'else'
+      }
+    });
+
+    let usersFiltered = await adminClient.exchange.security.listUsers('TESTUSER_LIST*', {
+      criteria:{
+        "custom_data.something":{$eq:"useful"}
+      }
+    });
+
+    let usersUnFiltered = await adminClient.exchange.security.listUsers('TESTUSER_LIST*');
+
+    expect(usersFiltered.length).to.be(2);
+    expect(usersUnFiltered.length).to.be(4);
+  });
+
+  //not ready yet in happn-3
+  xit('tests the listGroups method with and without criteria', async () => {
+    await adminClient.exchange.security.addGroup({
+      name: 'TESTGROUP_LIST1',
+      custom_data: {
+        something: 'useful'
+      },
+      permissions: {
+        methods: {}
+      }
+    });
+
+    await adminClient.exchange.security.addGroup({
+      name: 'TESTGROUP_LIST2',
+      custom_data: {
+        something: 'useful'
+      },
+      permissions: {
+        methods: {}
+      }
+    });
+
+    await adminClient.exchange.security.addGroup({
+      name: 'TESTGROUP_LIST3',
+      custom_data: {
+        something: 'else'
+      },
+      permissions: {
+        methods: {}
+      }
+    });
+
+    await adminClient.exchange.security.addGroup({
+      name: 'TESTGROUP_LIST4',
+      custom_data: {
+        something: 'else'
+      },
+      permissions: {
+        methods: {}
+      }
+    });
+
+    let groupsFiltered = await adminClient.exchange.security.listGroups('TESTGROUP_LIST*', {
+      criteria:{
+        "custom_data.something":{$eq:"useful"}
+      }
+    });
+
+    let groupsUnFiltered = await adminClient.exchange.security.listGroups('TESTGROUP_LIST*');
+
+    expect(groupsUnFiltered.length).to.be(4);
+    expect(groupsFiltered.length).to.be(2);
   });
 });
