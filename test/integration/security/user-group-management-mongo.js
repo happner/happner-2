@@ -31,11 +31,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   before(function (done) {
-
-    global.TESTING_USER_MANAGEMENT = true; //.............
-
+    global.TESTING_USER_MANAGEMENT = true;
     mesh = this.mesh = new Mesh();
-
     mesh.initialize({
       name: 'user-management',
       happn: {
