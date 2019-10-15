@@ -1,15 +1,3 @@
-module.exports = TestMesh;
-
-function TestMesh() {
-}
-
-TestMesh.prototype.method1 = function ($happn, options, callback) {
-  options.methodName = 'method1';
-  callback(null, options);
-};
-
-if (global.TESTING_USER_MANAGEMENT) return; // When 'requiring' the module above.
-
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
   this.timeout(120000);
@@ -31,7 +19,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   before(function (done) {
-    global.TESTING_USER_MANAGEMENT = true;
     mesh = this.mesh = new Mesh();
     mesh.initialize({
       name: 'user-management',
@@ -55,22 +42,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             }
           }
         }
-      },
-      modules: {
-        'TestMesh': {
-          path: __filename
-        }
-      },
-      components: {
-        'TestMesh': {
-          moduleName: 'TestMesh',
-          schema: {
-            exclusive: false,
-            methods: {}
-          }
-        }
       }
-
     }, function (err) {
       if (err) return done(err);
       mesh.start(function (err) {
@@ -81,15 +53,12 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           username: '_ADMIN',
           password: test_id
         };
-        adminClient.login(credentials).then(function () {
-          done();
-        }).catch(done);
+        adminClient.login(credentials).then(done).catch(done);
       });
     });
   });
 
   after(function (done) {
-    delete global.TESTING_USER_MANAGEMENT;
     adminClient.disconnect(()=>{
       mesh.stop({reconnect: false}, done);
     });
@@ -280,12 +249,11 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             testUser.custom_data = {changedCustom: 'changedCustom'};
 
             testUserClient.exchange.security.updateUser(testUser, function (e) {
+              if (!e) return done(new Error('error was expected'));
               expect(e.toString()).to.be('AccessDenied: unauthorized');
               done();
             });
-          }).catch(function (e) {
-            done(e);
-          });
+          }).catch(done);
         });
       });
     });
@@ -343,6 +311,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             testUser.custom_data = {changedCustom: 'changedCustom'};
 
             testUserClient.exchange.security.updateOwnUser(testUser, function (e) {
+              if (!e) return done(new Error('error was expected'));
               expect(e.toString()).to.be('Error: missing oldPassword parameter');
               done();
             });
@@ -407,6 +376,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             testUser.custom_data = {changedCustom: 'changedCustom'};
 
             testUserClient.exchange.security.updateOwnUser(testUser, function (e) {
+              if (!e) return done(new Error('error was expected'));
               expect(e.toString()).to.be('Error: old password incorrect');
               done();
             });
@@ -464,35 +434,32 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
           if (e) return done(e);
           testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
-          testUserClient.login(testUser).then(function () {
-            delete testUser.password;
-            testUser.custom_data = {changedCustom: 'changedCustom'};
-            testUser.application_data = {something: 'profane'};
-            testUserClient.exchange.security.updateOwnUser(testUser, function (e, result) {
-              if (e) return done(e);
+
+          testUserClient.login(testUser)
+            .then(function () {
+              delete testUser.password;
+              testUser.custom_data = {changedCustom: 'changedCustom'};
+              testUser.application_data = {something: 'profane'};
+              return testUserClient.exchange.security.updateOwnUser(testUser);
+            })
+            .then(function(result){
               expect(result.custom_data.changedCustom).to.be('changedCustom');
               expect(result.application_data.something).to.be('sacred');
-              testUserClient.login({username: testUser.username, password: 'TEST PWD'}).then(done).catch(function(e){
-                if (e) return done(e);
-                adminClient.getUser(testUser.username, function(e){
-                  if (e) return done(e);
-                  expect(result.application_data.something).to.be('sacred');
-                  testUser.application_data = {something: 'profane'};
-                  adminClient.exchange.security.updateUser(testUser, function (e, result) {
-                    if (e) return done(e);
-                    expect(result.application_data.something).to.be('profane');
-                    adminClient.getUser(testUser.username, function(e){
-                      if (e) return done(e);
-                      expect(result.application_data.something).to.be('profane');
-                      done();
-                    });
-                  });
-                });
-              });
-            });
-          }).catch(function (e) {
-            done(e);
-          });
+              return adminClient.exchange.security.getUser(testUser.username);
+            })
+            .then(function(result){
+              expect(result.application_data.something).to.be('sacred');
+              testUser.application_data = {something: 'profane'};
+              return adminClient.exchange.security.updateUser(testUser);
+            })
+            .then(function(){
+              return adminClient.exchange.security.getUser(testUser.username);
+            })
+            .then(function(result){
+              expect(result.application_data.something).to.be('profane');
+              done();
+            })
+            .catch(done);
         });
       });
     });
@@ -578,6 +545,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
               return adminClient.exchange.security.listUsersByGroup(null);
             })
             .catch(function(e){
+              if (!e) return done(new Error('error was expected'));
               expect(e.toString()).to.be('Error: validation error: groupName must be specified');
               expect(steps.length).to.be(5);
               done();

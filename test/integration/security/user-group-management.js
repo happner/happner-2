@@ -460,42 +460,35 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         expect(result.username).to.be(testUser.username);
         testUserSaved = result;
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
+
           if (e) return done(e);
           testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
-          testUserClient.login(testUser).then(function () {
-            delete testUser.password;
-            testUser.custom_data = {changedCustom: 'changedCustom'};
-            testUser.application_data = {something: 'profane'};
-            //NB - we are using testUserSaved - so there is some _meta data - otherwise this wont work
-            testUserClient.exchange.security.updateOwnUser(testUser, function (e, result) {
 
-              if (e) return done(e);
-
+          testUserClient.login(testUser)
+            .then(function () {
+              delete testUser.password;
+              testUser.custom_data = {changedCustom: 'changedCustom'};
+              testUser.application_data = {something: 'profane'};
+              return testUserClient.exchange.security.updateOwnUser(testUser);
+            })
+            .then(function(result){
               expect(result.custom_data.changedCustom).to.be('changedCustom');
               expect(result.application_data.something).to.be('sacred');
-
-              testUserClient.login({username: testUser.username, password: 'TEST PWD'}).then(done).catch(function(e){
-                if (e) return done(e);
-                adminClient.getUser(testUser.username, function(e, user){
-                  if (e) return done(e);
-                  expect(result.application_data.something).to.be('sacred');
-                  testUser.application_data = {something: 'profane'};
-                  adminClient.exchange.security.updateUser(testUser, function (e, result) {
-                    if (e) return done(e);
-                    expect(result.application_data.something).to.be('profane');
-                    adminClient.getUser(testUser.username, function(e, user){
-                      if (e) return done(e);
-                      expect(result.application_data.something).to.be('profane');
-                      done();
-                    });
-                  });
-                });
-              });
-            });
-          }).catch(function (e) {
-            done(e);
-          });
+              return adminClient.exchange.security.getUser(testUser.username);
+            })
+            .then(function(result){
+              expect(result.application_data.something).to.be('sacred');
+              testUser.application_data = {something: 'profane'};
+              return adminClient.exchange.security.updateUser(testUser);
+            })
+            .then(function(){
+              return adminClient.exchange.security.getUser(testUser.username);
+            })
+            .then(function(result){
+              expect(result.application_data.something).to.be('profane');
+              done();
+            })
+            .catch(done);
         });
       });
     });

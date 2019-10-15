@@ -19,9 +19,10 @@ class HappnerTestHelper {
   }
 
   createClient() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       var adminClient = new happner.MeshClient({});
-      adminClient.login({username:'_ADMIN', password:'happn'}).then(() => {
+      adminClient.login({username:'_ADMIN', password:'happn'}).then((e) => {
+        if (e) return reject(e);
         resolve(adminClient);
       });
     });
