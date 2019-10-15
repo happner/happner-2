@@ -8,7 +8,7 @@ TestMesh.prototype.method1 = function ($happn, options, callback) {
   callback(null, options);
 };
 
-if (global.TESTING_USER_MANAGEMENT) return; // When 'requiring' the module above,
+if (global.TESTING_USER_MANAGEMENT) return; // When 'requiring' the module above.
 
 describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
 
@@ -80,9 +80,8 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         if (err) {
           return done(err);
         }
-        // Credentials for the login method
         var credentials = {
-          username: '_ADMIN', // pending
+          username: '_ADMIN',
           password: test_id
         };
         adminClient.login(credentials).then(function () {
@@ -93,7 +92,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
   });
 
   after(function (done) {
-    delete global.TESTING_USER_MANAGEMENT; //.............
+    delete global.TESTING_USER_MANAGEMENT;
     adminClient.disconnect(()=>{
       mesh.stop({reconnect: false}, done);
     });
@@ -138,21 +137,16 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         testUserSaved = result;
 
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
           if (e) return done(e);
 
           testUser.password = 'NEW PWD';
           testUser.custom_data = {changedCustom: 'changedCustom'};
 
           adminClient.exchange.security.updateUser(testUser, function (e) {
-
             if (e) return done(e);
-
             testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
             return testUserClient.login(testUser).then(done).catch(done);
-
           });
-
         });
       });
     });
@@ -200,7 +194,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         testUserSaved = result;
 
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
           if (e) return done(e);
 
           testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
@@ -278,7 +271,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         testUserSaved = result;
 
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
+
           if (e) return done(e);
 
           testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
@@ -342,7 +335,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         testUserSaved = result;
 
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
+
           if (e) return done(e);
 
           testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
@@ -405,7 +398,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         testUserSaved = result;
 
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
+
           if (e) return done(e);
 
           testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
@@ -471,21 +464,17 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         expect(result.username).to.be(testUser.username);
         testUserSaved = result;
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
+
           if (e) return done(e);
           testUserClient = new Mesh.MeshClient({secure: true, port: 8003});
           testUserClient.login(testUser).then(function () {
             delete testUser.password;
             testUser.custom_data = {changedCustom: 'changedCustom'};
             testUser.application_data = {something: 'profane'};
-            //NB - we are using testUserSaved - so there is some _meta data - otherwise this wont work
             testUserClient.exchange.security.updateOwnUser(testUser, function (e, result) {
-
               if (e) return done(e);
-
               expect(result.custom_data.changedCustom).to.be('changedCustom');
               expect(result.application_data.something).to.be('sacred');
-
               testUserClient.login({username: testUser.username, password: 'TEST PWD'}).then(done).catch(function(e){
                 if (e) return done(e);
                 adminClient.getUser(testUser.username, function(e){
@@ -552,7 +541,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
         testUserSaved = result;
 
         adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-          //we'll need to fetch user groups, do that later
+
           if (e) return done(e);
           adminClient.exchange.security.listUsersByGroup('TESTGROUP7' + test_id)
             .then(function(users){
@@ -647,7 +636,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     expect(usersUnFiltered.length).to.be(4);
   });
 
-  //not ready yet in happn-3
   it('tests the listGroups method with and without criteria', async () => {
     await adminClient.exchange.security.addGroup({
       name: 'TESTGROUP_LIST1',
