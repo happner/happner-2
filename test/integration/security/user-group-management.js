@@ -637,7 +637,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     expect(usersUnFiltered.length).to.be(4);
   });
 
-  //not ready yet in happn-3
   it('tests the listGroups method with and without criteria', async () => {
     await adminClient.exchange.security.addGroup({
       name: 'TESTGROUP_LIST1',
