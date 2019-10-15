@@ -547,3 +547,10 @@ based on happner 1.28.1
 -----------------
   - component instance tweaks for cluster brokering
   - cleanup of mesh.js, removed unused dependencies
+
+10.5.0 2019-10-03
+-----------------
+  - security component listUsers and listGroups with criteria
+  - security component listUsers and listGroups with count, skip and limit
+  - mongo plugin aggregate, collation and count
+  - fix: uglify-es in packager
