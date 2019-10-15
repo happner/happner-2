@@ -9,7 +9,7 @@ class HappnerTestHelper {
     return new HappnerTestHelper(serverConfig);
   }
 
-  async createService() {
+  createService() {
     return new Promise((resolve, reject) => {
       happner.create(this.serverConfig, (e, happnInst) => {
         if (e) return reject(e);
@@ -18,7 +18,7 @@ class HappnerTestHelper {
     });
   }
 
-  async createClient() {
+  createClient() {
     return new Promise((resolve) => {
       var adminClient = new happner.MeshClient({});
       adminClient.login({username:'_ADMIN', password:'happn'}).then(() => {
