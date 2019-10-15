@@ -21,7 +21,14 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
   var adminClient = new Mesh.MeshClient({secure: true, port: 8003});
   var test_id = Date.now() + '_' + require('shortid').generate();
-  var async = require('async');
+
+  let DB_NAME = 'test-happner-2-user-group-management';
+  let COLL_NAME = 'test-happner-2-user-group-management-coll';
+
+  before('should clear the mongo collection', async() => {
+    let dropMongoDb = require('../../__fixtures/utils/drop-mongo-db');
+    await dropMongoDb(DB_NAME);
+  });
 
   before(function (done) {
 
@@ -34,7 +41,23 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
       happn: {
         secure: true,
         adminPassword: test_id,
-        port: 8003
+        port: 8003,
+        services:{
+          data: {
+            config: {
+              autoUpdateDBVersion: true,
+              datastores: [{
+                name: 'mongo',
+                provider:'happn-service-mongo-2',
+                isDefault: true,
+                settings: {
+                  database: DB_NAME,
+                  collection: COLL_NAME
+                }
+              }]
+            }
+          }
+        }
       },
       modules: {
         'TestMesh': {
@@ -121,7 +144,7 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           testUser.password = 'NEW PWD';
           testUser.custom_data = {changedCustom: 'changedCustom'};
 
-          adminClient.exchange.security.updateUser(testUser, function (e, result) {
+          adminClient.exchange.security.updateUser(testUser, function (e) {
 
             if (e) return done(e);
 
@@ -266,23 +289,16 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             testUser.password = 'NEW PWD';
             testUser.custom_data = {changedCustom: 'changedCustom'};
 
-            testUserClient.exchange.security.updateUser(testUser, function (e, result) {
-
+            testUserClient.exchange.security.updateUser(testUser, function (e) {
               expect(e.toString()).to.be('AccessDenied: unauthorized');
               done();
-
             });
-
           }).catch(function (e) {
             done(e);
           });
-
         });
-
       });
-
     });
-
   });
 
   it('adds a test user, logs in with the test user - fails to modify the password, as old password was not included', function (done) {
@@ -336,11 +352,9 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             testUser.password = 'NEW PWD';
             testUser.custom_data = {changedCustom: 'changedCustom'};
 
-            testUserClient.exchange.security.updateOwnUser(testUser, function (e, result) {
-
+            testUserClient.exchange.security.updateOwnUser(testUser, function (e) {
               expect(e.toString()).to.be('Error: missing oldPassword parameter');
               done();
-
             });
           }).catch(function (e) {
             done(e);
@@ -402,13 +416,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
             testUser.password = 'NEW PWD';
             testUser.custom_data = {changedCustom: 'changedCustom'};
 
-            testUserClient.exchange.security.updateOwnUser(testUser, function (e, result) {
-
+            testUserClient.exchange.security.updateOwnUser(testUser, function (e) {
               expect(e.toString()).to.be('Error: old password incorrect');
               done();
-
             });
-
           }).catch(function (e) {
             done(e);
           });
@@ -477,14 +488,14 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
               testUserClient.login({username: testUser.username, password: 'TEST PWD'}).then(done).catch(function(e){
                 if (e) return done(e);
-                adminClient.getUser(testUser.username, function(e, user){
+                adminClient.getUser(testUser.username, function(e){
                   if (e) return done(e);
                   expect(result.application_data.something).to.be('sacred');
                   testUser.application_data = {something: 'profane'};
                   adminClient.exchange.security.updateUser(testUser, function (e, result) {
                     if (e) return done(e);
                     expect(result.application_data.something).to.be('profane');
-                    adminClient.getUser(testUser.username, function(e, user){
+                    adminClient.getUser(testUser.username, function(e){
                       if (e) return done(e);
                       expect(result.application_data.something).to.be('profane');
                       done();
@@ -516,7 +527,6 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
 
     var testGroupSaved;
     var testUserSaved;
-    var testUserClient;
 
     adminClient.exchange.security.addGroup(testGroup, function (e, result) {
 
@@ -857,5 +867,49 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
     expect(resultscontrol.length).to.be(2);
 
     expect(results3.value).to.be(2);
+  });
+
+  it('should get users matching special criteria and collation', async () => {
+
+    await adminClient.exchange.security.addUser({
+      username: 'TEST_user_COLLATION1',
+      password: 'TEST PWD',
+      custom_data: {
+        cadre: 0
+      }
+    });
+
+    await adminClient.exchange.security.addUser({
+      username: 'TEST_USER_COLLATION1',
+      password: 'TEST PWD',
+      custom_data: {
+        cadre: 0
+      }
+    });
+
+    let results1 = await adminClient.exchange.security.listUsers(
+      '*',
+      {
+        criteria: {
+          'username': 'TEST_USER_COLLATION1'
+        },
+        collation:{
+          locale: 'en_US',
+          strength: 1
+        }
+      }
+    );
+
+    let results2 = await adminClient.exchange.security.listUsers(
+      '*',
+      {
+        criteria: {
+          'username': 'TEST_USER_COLLATION1'
+        }
+      }
+    );
+
+    expect(results1.length).to.be(2);
+    expect(results2.length).to.be(1);
   });
 });
