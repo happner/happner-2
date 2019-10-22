@@ -1,97 +1,95 @@
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(
+  require('../../__fixtures/utils/test_helper')
+    .create()
+    .testName(__filename, 3),
+  function() {
+    var expect = require('expect.js');
 
-  var expect = require('expect.js');
+    it('tests getting function parameters', function(done) {
+      var utils = require('../../../lib/system/utilities');
 
-  it('tests getting function parameters', function(done){
-    var utils = require('../../../lib/system/utilities');
+      var testFunc = function(
+        param1 /**param1 comment**/,
+        param2 /*param2 comment*/,
+        option1,
+        option2
+      ) {};
 
-    var testFunc = function(param1/**param1 comment**/, param2/*param2 comment*/, option1, option2){
+      var params = utils.getFunctionParameters(testFunc);
+      expect(params.length).to.be(4);
+      expect(params[1]).to.be('param2');
 
-    };
-
-    var params = utils.getFunctionParameters(testFunc);
-    expect(params.length).to.be(4);
-    expect(params[1]).to.be("param2");
-
-    done();
-
-  });
-
-  it('tests getting function parameters', function(done){
-
-    var utils = require('../../../lib/system/utilities');
-
-    var params = utils.findInModules('async', function(e, results){
       done();
     });
 
-  });
+    it('tests getting function parameters', function(done) {
+      var utils = require('../../../lib/system/utilities');
 
-  it('tests stringifying errors', function(done){
+      var params = utils.findInModules('async', function(e, results) {
+        done();
+      });
+    });
 
-    var utils = require('../../../lib/system/utilities');
+    it('tests stringifying errors', function(done) {
+      var utils = require('../../../lib/system/utilities');
 
-    var error = new Error('test error');
+      var error = new Error('test error');
 
-    var stringifiedError = utils.stringifyError(error);
+      var stringifiedError = utils.stringifyError(error);
 
-    var parsedError = JSON.parse(stringifiedError);
+      var parsedError = JSON.parse(stringifiedError);
 
-    expect(parsedError.stack).to.not.be(null);
-    expect(parsedError.message).to.be("test error");
+      expect(parsedError.stack).to.not.be(null);
+      expect(parsedError.message).to.be('test error');
 
-    done();
+      done();
+    });
 
-  });
+    it('tests removing characters from a string', function(done) {
+      var str = 'tthis is a test stringh';
 
-  it('tests removing characters from a string', function(done){
+      var utils = require('../../../lib/system/utilities');
 
-    var str = "tthis is a test stringh";
+      var removedLeading = utils.removeLeading('t', str);
+      var removedLast = utils.removeLast('h', removedLeading);
 
-    var utils = require('../../../lib/system/utilities');
+      var removedLeadingNull = utils.removeLeading('t', null);
+      var removedLastNull = utils.removeLast('t', null);
 
-    var removedLeading = utils.removeLeading('t', str);
-    var removedLast = utils.removeLast('h', removedLeading);
+      var removedLeadingUndefined = utils.removeLeading('t', undefined);
+      var removedLastUndefined = utils.removeLast('t', undefined);
 
-    var removedLeadingNull = utils.removeLeading('t', null);
-    var removedLastNull = utils.removeLast('t', null);
+      expect(removedLeading).to.be('this is a test stringh');
+      expect(removedLast).to.be('this is a test string');
+      expect(str).to.be('tthis is a test stringh');
 
-    var removedLeadingUndefined = utils.removeLeading('t', undefined);
-    var removedLastUndefined = utils.removeLast('t', undefined);
+      expect(removedLeadingNull).to.be(null);
+      expect(removedLastNull).to.be(null);
 
-    expect(removedLeading).to.be('this is a test stringh');
-    expect(removedLast).to.be('this is a test string');
-    expect(str).to.be('tthis is a test stringh');
+      expect(removedLeadingUndefined).to.be(undefined);
+      expect(removedLastUndefined).to.be(undefined);
 
-    expect(removedLeadingNull).to.be(null);
-    expect(removedLastNull).to.be(null);
+      done();
+    });
 
-    expect(removedLeadingUndefined).to.be(undefined);
-    expect(removedLastUndefined).to.be(undefined);
-
-    done();
-
-  });
-
-  it('tests the getNestedVal function', function(done){
-
-    var nestedObj = {
-      test1:{
-        test2:{
-          test3:'hooray!'
+    it('tests the getNestedVal function', function(done) {
+      var nestedObj = {
+        test1: {
+          test2: {
+            test3: 'hooray!'
+          }
         }
-      }
-    };
+      };
 
-    var utils = require('../../../lib/system/utilities');
+      var utils = require('../../../lib/system/utilities');
 
-    expect(utils.getNestedVal(nestedObj, 'test1.test2.test3')).to.be('hooray!');
+      expect(utils.getNestedVal(nestedObj, 'test1.test2.test3')).to.be('hooray!');
 
-    expect(utils.getNestedVal(nestedObj, 'test1.test2.testblah')).to.be(undefined);
+      expect(utils.getNestedVal(nestedObj, 'test1.test2.testblah')).to.be(undefined);
 
-    expect(utils.getNestedVal(nestedObj, 'test1.test2')).to.eql({test3:'hooray!'});
+      expect(utils.getNestedVal(nestedObj, 'test1.test2')).to.eql({ test3: 'hooray!' });
 
-    done();
-  });
-
-});
+      done();
+    });
+  }
+);

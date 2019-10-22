@@ -1,27 +1,32 @@
 const { exec } = require('child_process');
 
+describe(
+  require('../../__fixtures/utils/test_helper')
+    .create()
+    .testName(__filename, 3),
+  function() {
+    it('test to see that the child process does exit if database filename and compactInterval params have been specified', function(done) {
+      this.timeout(10000);
 
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+      var procPath = require('path').resolve(
+        __dirname,
+        '../../__fixtures/test/integration/data/db-compaction.js'
+      );
 
-  it('test to see that the child process does exit if database filename and compactInterval params have been specified', function (done) {
+      const ls = exec('node ' + procPath);
 
-    this.timeout(10000);
+      ls.stderr.on('data', data => {
+        console.log('stderr:::', data);
+        done(data);
+      });
 
-    var procPath = require('path').resolve(__dirname, '../../__fixtures/test/integration/data/db-compaction.js');
+      ls.stdout.on('data', data => {
+        //console.log('stdout:::', data);
+      });
 
-    const ls = exec('node ' + procPath);
-
-    ls.stderr.on('data', (data) => {
-      console.log('stderr:::', data);
-      done(data);
+      ls.on('close', () => {
+        done();
+      });
     });
-
-    ls.stdout.on('data', (data) => {
-      //console.log('stdout:::', data);
-    });
-
-    ls.on('close', () => {
-      done();
-    });
-  });
-});
+  }
+);

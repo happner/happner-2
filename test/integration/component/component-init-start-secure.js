@@ -7,22 +7,19 @@ var DONE = false;
 
 var INITIALIZED = false;
 
-function Explicit() {
-}
+function Explicit() {}
 
-Explicit.prototype.asyncStart = function ($happn, opts, optionalOpts, callback) {
+Explicit.prototype.asyncStart = function($happn, opts, optionalOpts, callback) {
+  if (typeof callback === 'undefined') callback = optionalOpts;
 
-  if (typeof callback == 'undefined') callback = optionalOpts;
-
-  setTimeout(function () {
+  setTimeout(function() {
     DONE = true;
     callback(null);
   }, 200);
 };
 
-Explicit.prototype.asyncInit = function ($happn, opts, optionalOpts, callback) {
-
-  if (typeof callback == 'undefined') callback = optionalOpts;
+Explicit.prototype.asyncInit = function($happn, opts, optionalOpts, callback) {
+  if (typeof callback === 'undefined') callback = optionalOpts;
 
   expect(opts.op).to.be('tions');
 
@@ -34,28 +31,24 @@ Explicit.prototype.asyncInit = function ($happn, opts, optionalOpts, callback) {
     }
   };
 
-  $happn.exchange.security.addUser(testUser)
-    .then(function(addedUser){
-      INITIALIZED = true;
-      callback(null);
-    });
+  $happn.exchange.security.addUser(testUser).then(function(addedUser) {
+    INITIALIZED = true;
+    callback(null);
+  });
 };
 
-Explicit.prototype.asyncStartFails = function (callback) {
-
+Explicit.prototype.asyncStartFails = function(callback) {
   callback(new Error('erm'));
 };
 
-Explicit.prototype.asyncInitFails = function (callback) {
-
+Explicit.prototype.asyncInitFails = function(callback) {
   callback(new Error('erm'));
 };
 
-Explicit.prototype.methodName1 = function ($happn, callback) {
-  $happn.exchange.security.getUser('TEST USER@blah.com')
-    .then(function(user){
-      callback(null, user);
-    });
+Explicit.prototype.methodName1 = function($happn, callback) {
+  $happn.exchange.security.getUser('TEST USER@blah.com').then(function(user) {
+    callback(null, user);
+  });
 };
 
 if (global.TESTING_INIT_START) return; // When 'requiring' the module above,
@@ -64,94 +57,92 @@ var mesh;
 var anotherMesh;
 var Mesh = require('../../..');
 
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(
+  require('../../__fixtures/utils/test_helper')
+    .create()
+    .testName(__filename, 3),
+  function() {
+    this.timeout(120000);
 
-  this.timeout(120000);
+    before(function(done) {
+      global.TESTING_INIT_START = true; //.............
 
-  before(function (done) {
+      mesh = this.mesh = new Mesh();
 
-    global.TESTING_INIT_START = true; //.............
-
-    mesh = this.mesh = new Mesh();
-
-    mesh.initialize({
-      happn: {
-        port: 8001,
-        secure:true
-      },
-      modules: {
-        'expliCit': {
-          path: __filename
-        }
-      },
-      components: {
-        'explicit': {
-          accessLevel: 'mesh',
-          moduleName: 'expliCit',
-          startMethod: 'asyncStart',
-          initMethod: 'asyncInit',
-          schema: {
-            exclusive: true,
-            methods: {
-              'asyncInit': {
-                type: 'async',
-                parameters: [
-                  {name: 'opts', required: true, value: {op: 'tions'}},
-                  {name: 'optionalOpts', required: false},
-                  {type: 'callback', required: true}
-                ],
-                callback: {
-                  parameters: [
-                    {type: 'error'}
-                  ]
+      mesh.initialize(
+        {
+          happn: {
+            port: 8001,
+            secure: true
+          },
+          modules: {
+            expliCit: {
+              path: __filename
+            }
+          },
+          components: {
+            explicit: {
+              accessLevel: 'mesh',
+              moduleName: 'expliCit',
+              startMethod: 'asyncStart',
+              initMethod: 'asyncInit',
+              schema: {
+                exclusive: true,
+                methods: {
+                  asyncInit: {
+                    type: 'async',
+                    parameters: [
+                      { name: 'opts', required: true, value: { op: 'tions' } },
+                      { name: 'optionalOpts', required: false },
+                      { type: 'callback', required: true }
+                    ],
+                    callback: {
+                      parameters: [{ type: 'error' }]
+                    }
+                  },
+                  asyncStart: {
+                    type: 'async',
+                    parameters: [
+                      { name: 'opts', required: true, value: { op: 'tions' } },
+                      { name: 'optionalOpts', required: false },
+                      { type: 'callback', required: true }
+                    ],
+                    callback: {
+                      parameters: [{ type: 'error' }]
+                    }
+                  },
+                  methodName1: {
+                    // alias: 'm1',
+                    parameters: [{ type: 'callback', required: true }]
+                  }
                 }
-              },
-              'asyncStart': {
-                type: 'async',
-                parameters: [
-                  {name: 'opts', required: true, value: {op: 'tions'}},
-                  {name: 'optionalOpts', required: false},
-                  {type: 'callback', required: true}
-                ],
-                callback: {
-                  parameters: [
-                    {type: 'error'}
-                  ]
-                }
-              },
-              'methodName1': {
-                // alias: 'm1',
-                parameters: [
-                  {type: 'callback', required: true}
-                ]
               }
             }
           }
+        },
+        function(err) {
+          if (err) return done(err);
+          mesh.start(function(err) {
+            if (err) {
+              console.log(err.stack);
+              return done(err);
+            }
+            return done();
+          });
         }
-      }
-    }, function (err) {
-      if (err) return done(err);
-      mesh.start(function (err) {
-        if (err) {
-          console.log(err.stack);
-          return done(err);
-        }
-        return done();
+      );
+    });
+
+    after(function(done) {
+      delete global.TESTING_INIT_START; //.............
+      mesh.stop({ reconnect: false }, done);
+    });
+
+    it('validates init method created a user', function(done) {
+      this.mesh.api.exchange.explicit.methodName1(function(err, user) {
+        expect(user.username).to.be('TEST USER@blah.com');
+        done();
       });
     });
-  });
-
-  after(function (done) {
-    delete global.TESTING_INIT_START; //.............
-    mesh.stop({reconnect: false}, done);
-  });
-
-  it('validates init method created a user', function (done) {
-
-    this.mesh.api.exchange.explicit.methodName1(function (err, user) {
-
-      expect(user.username).to.be('TEST USER@blah.com');
-      done();
-    });
-  });
-});
+  }
+);

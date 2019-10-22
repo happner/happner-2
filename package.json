@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "10.5.0",
+  "version": "10.5.1",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -11,20 +11,23 @@
     "exclude": [
       "test",
       "docs",
-      "gulpfile.js"
+      "gulpfile.js",
+      "lib/services/connect/public/browser_primus.js"
     ]
   },
   "scripts": {
-    "test": "npm run test-lint && _mocha --exit -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
+    "test": "npm run lint && _mocha --exit -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
     "test-bc": "mocha test/backward-compatibility/*",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-browser": "node_modules/.bin/gulp --gulpfile test/browser/gulp-01.js",
     "test-unit": "_mocha --exit -- silence.js test/unit/**",
     "test-integration": "_mocha  --exit -- silence.js test/integration/**",
-    "test-cover": "nyc _mocha --exit -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
-    "release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm run test-cover && npm run test-browser",
+    "test-cover": "npm run lint && nyc _mocha --exit -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
+    "pre-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm run test-cover && npm run test-browser",
+    "release": "rm -rf node_modules && npm install && npm run test-cover && npm run test-browser",
     "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**",
-    "test-lint": "gulp lint",
+    "lint": "eslint '**/*.js'",
+    "lint-fix": "eslint '**/*.js' --fix",
     "report-coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -41,6 +44,9 @@
     "chai": "4.2.0",
     "coveralls": "^3.0.2",
     "expect.js": "0.3.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.1",
     "fxt": "1.0.2",
     "gulp": "^4.0.0",
     "gulp-jshint": "^2.1.0",
@@ -57,6 +63,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
+    "prettier": "^1.18.2",
     "restler": "3.4.0",
     "serve-static": "1.10.0",
     "should": "7.1.0",
