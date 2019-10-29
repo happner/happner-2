@@ -98,7 +98,7 @@ describe(
     });
 
     it('starts the mesh, loads the middleware module - which loads the browser plugin', function(done) {
-      getBody('http://127.0.0.1:' + testport + '/testMiddleware/api/client', function(e, body) {
+      getBody('http://127.0.0.1:' + testport + '/testMiddleware/api/client', function(e) {
         return done(e);
       });
     });
@@ -121,7 +121,7 @@ describe(
           uri: 'http://127.0.0.1:' + testport + '/component5Module/testScope?scope=ModuleFive',
           method: 'GET'
         },
-        function(e, resp, body) {
+        function(e, resp) {
           resp.statusCode.should.eql(200);
           done(e);
         }

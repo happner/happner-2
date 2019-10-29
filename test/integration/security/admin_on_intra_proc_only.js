@@ -1,15 +1,11 @@
-const log = require('why-is-node-running');
 describe(
   require('../../__fixtures/utils/test_helper')
     .create()
     .testName(__filename, 3),
   function() {
     var happner = require('../../../lib/mesh');
-    var happner_client = happner.client;
 
-    var adminClient;
     var expect = require('expect.js');
-    var test_id = Date.now() + '_' + require('shortid').generate();
 
     var testClient;
     var serviceInstance;
@@ -156,7 +152,7 @@ describe(
           username: '_ADMIN',
           password: 'happn'
         },
-        function(e, instance) {
+        function(e) {
           expect(e.toString()).to.be(
             'AccessDenied: use of _ADMIN credentials over the network is disabled'
           );
@@ -181,8 +177,6 @@ describe(
         }
       );
     });
-
-    var http = require('http');
 
     function doRequest(path, token, port, callback) {
       var request = require('request');

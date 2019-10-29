@@ -6,7 +6,6 @@ describe(
     var expect = require('expect.js');
     var Mesh = require('../../..');
     var mesh;
-    var primusClient;
 
     function attachClient(reconnect, callback) {
       if (typeof reconnect === 'function') {
@@ -224,7 +223,7 @@ describe(
               stopService(function() {
                 setTimeout(function() {
                   instance.disconnect();
-                  if (reconnectCount != 10)
+                  if (reconnectCount !== 10)
                     return callback(new Error('expected reconnecvt count not 10'));
                   callback();
                 }, 13000);

@@ -6,7 +6,6 @@ describe(
     .create()
     .testName(__filename, 3),
   function() {
-    var path = require('path');
     var should = require('chai').should();
     var Happner = require('../../..');
     var Promise = require('bluebird');
@@ -376,7 +375,7 @@ describe(
         })
 
         // exchange reference is gone
-        .then(function(result) {
+        .then(function() {
           should.not.exist(mesh.exchange.anotherComponent);
         })
 
@@ -456,7 +455,7 @@ describe(
       mesh._mesh.data.on(
         '/mesh/schema/description',
         { count: 1 },
-        function(data, meta) {
+        function(data) {
           try {
             data.components.component1.methods.should.eql({
               method: {
@@ -516,7 +515,7 @@ describe(
           return mesh._mesh.data.on(
             '/mesh/schema/description',
             { count: 1 },
-            function(data, meta) {
+            function(data) {
               should.not.exist(data.components.component2);
               done();
             },

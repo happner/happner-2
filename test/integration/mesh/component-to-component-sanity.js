@@ -75,7 +75,7 @@ describe(
         } else {
           mesh.event.component1.on(
             'maximum-pings-reached',
-            function(message, meta) {
+            function(message) {
               console.log(message.m);
 
               //console.log(mesh.api.event.component1.off.toString());

@@ -40,7 +40,7 @@ describe(
 
       after(function(done) {
         remote.kill();
-        mesh.stop({ reconnect: false }, function(e) {
+        mesh.stop({ reconnect: false }, function() {
           // console.log('killed ok 1:::', remote.pid);
           done();
         });
@@ -49,8 +49,6 @@ describe(
       this.timeout(120000);
 
       it('cannot connect endpoint - mesh start fails', function(done) {
-        var _this = this;
-
         // spawn remote mesh in another process
         remote = spawn('node', [libFolder + 'secure-mesh-to-mesh-fails']);
 
@@ -67,7 +65,7 @@ describe(
             mesh.initialize(config, function(e) {
               if (!e) return done(new Error('this should not have been possible'));
 
-              assert(e.toString() == 'AccessDenied: Invalid credentials');
+              assert(e.toString() === 'AccessDenied: Invalid credentials');
 
               done();
             });

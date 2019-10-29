@@ -5,24 +5,24 @@ module.exports = SeeAbove;
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method2 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method3 = function($happn, $origin, opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
@@ -179,7 +179,7 @@ describe(
                 'one',
                 'two',
                 'three',
-                function(err, result) {
+                function(err) {
                   if (err) return done(err);
                   done();
                 }
@@ -259,6 +259,7 @@ describe(
       mockResponse.end = function(responseString) {
         try {
           var response = JSON.parse(responseString);
+          // eslint-disable-next-line default-case
           switch (testStage) {
             case 'success':
               expect(response.message).to.be('test success response');
@@ -291,7 +292,6 @@ describe(
               expect(response.error.message).to.be('a test error');
               return done();
           }
-
           //TODO: an unexpected GET or POST with a non-json content
         } catch (e) {
           done(e);
@@ -971,10 +971,7 @@ describe(
                             authorized: false
                           };
 
-                          testAdminClient.exchange.security.updateGroup(testGroup, function(
-                            e,
-                            result
-                          ) {
+                          testAdminClient.exchange.security.updateGroup(testGroup, function(e) {
                             if (e) return done(e);
 
                             var operation = {
@@ -1060,12 +1057,6 @@ describe(
 
                   var token = response.data.token;
                   var restClient = require('restler');
-
-                  var operation = {
-                    parameters: {
-                      opts: { number: 1 }
-                    }
-                  };
 
                   var params = '&userValue=' + testUser.username;
                   restClient

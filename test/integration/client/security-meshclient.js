@@ -5,11 +5,10 @@ describe.skipWindows(
     .create()
     .testName(__filename, 3),
   function() {
-    var path = require('path');
     var Happner = require('../../..');
     var Promise = require('bluebird');
     var fs = require('fs');
-    var should = require('chai').should();
+    require('chai').should();
     var expect = require('expect.js');
 
     var server;
@@ -21,7 +20,9 @@ describe.skipWindows(
     before('start server', function(done) {
       try {
         fs.unlinkSync(dbFileName);
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       Happner.create({
         name: 'Server',
         happn: {
@@ -84,7 +85,9 @@ describe.skipWindows(
     after('stop server', function(done) {
       try {
         fs.unlinkSync(dbFileName);
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
 
       if (server)
         server.stop({ reconnect: false }).then(function() {
@@ -269,7 +272,7 @@ describe.skipWindows(
           security
             .addGroupPermissions('group', addPermissions)
 
-            .then(function(updatedGroup) {
+            .then(function() {
               client.data.set('/updated/1', { test: 'data' }, done);
             })
             .catch(done);
@@ -290,7 +293,7 @@ describe.skipWindows(
           security
             .addGroupPermissions('group', addPermissions)
 
-            .then(function(updatedGroup) {
+            .then(function() {
               return client.data.set('/toremove/1', { test: 'data' });
             })
             .then(function() {
@@ -374,7 +377,7 @@ describe.skipWindows(
 
       it('denies access to denied methods', function(done) {
         client.exchange.ComponentName.deniedMethod({ key: 'value' })
-          .then(function(result) {
+          .then(function() {
             done(new Error('should not allow'));
           })
           .catch(function(error) {

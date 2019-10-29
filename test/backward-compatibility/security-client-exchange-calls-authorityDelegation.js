@@ -176,7 +176,7 @@ describe.skipWindows(
     });
 
     after('stop secureMesh', function(done) {
-      fs.unlink(dbFileName, function(e) {
+      fs.unlink(dbFileName, function() {
         // ignore e
         if (secureMesh) {
           return secureMesh.stop(
@@ -289,7 +289,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotOtherRemoteMethod()
-            .then(function(result) {
+            .then(function() {
               done(new Error('unexpected success'));
             })
             .catch(function(e) {
@@ -314,7 +314,7 @@ describe.skipWindows(
           return new Promise(function(resolve, reject) {
             testClient.exchange['service-name']
               .allowedMethodNotOtherRemoteMethod()
-              .then(function(result) {
+              .then(function() {
                 reject(new Error('unexpected success'));
               })
               .catch(function(e) {
@@ -334,7 +334,7 @@ describe.skipWindows(
           });
         })
         .then(function() {
-          return new Promise(function(resolve, reject) {
+          return new Promise(function(resolve) {
             setTimeout(() => {
               resolve();
             }, 1000);
@@ -344,7 +344,7 @@ describe.skipWindows(
           return new Promise(function(resolve, reject) {
             testClient.exchange['service-name']
               .allowedMethodNotOtherRemoteMethod()
-              .then(function(result) {
+              .then(function() {
                 resolve();
               })
               .catch(reject);
@@ -361,7 +361,7 @@ describe.skipWindows(
           });
         })
         .then(function() {
-          return new Promise(function(resolve, reject) {
+          return new Promise(function(resolve) {
             setTimeout(() => {
               resolve();
             }, 1000);
@@ -370,7 +370,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotOtherRemoteMethod()
-            .then(function(result) {
+            .then(function() {
               done(new Error('unexpected success'));
             })
             .catch(function(e) {

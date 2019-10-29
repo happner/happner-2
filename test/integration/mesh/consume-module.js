@@ -7,7 +7,6 @@ describe(
 
     require('chai').Should();
 
-    var sep = require('path').sep;
     var Mesh = require('../../..');
 
     var config = {
@@ -101,8 +100,6 @@ describe(
     });
 
     it('starts a local mesh, with a single component that wraps the happn client module and compares the response with a happn client instantiated outside of the mesh', function(done) {
-      var _this = this;
-
       //we require a 'real' happn client
       require('happn-3').client.create({ config: { host: 'localhost', secret: 'mesh' } }, function(
         e,

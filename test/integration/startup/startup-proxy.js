@@ -1,7 +1,6 @@
 /**
  * Created by craigsampson on 28/06/2016.
  */
-const log = require('why-is-node-running');
 var path = require('path');
 
 describe(
@@ -12,10 +11,6 @@ describe(
     require('chai').should();
 
     var testServer;
-    var expect = require('expect.js');
-    var async = require('async');
-    var exec = require('child_process').exec;
-    var http = require('http');
     var spawn = require('child_process').spawn;
     var tree_kill = require('tree-kill');
     var libFolder =
@@ -27,9 +22,8 @@ describe(
     this.timeout(15000);
 
     var childPS = {};
-    var mesh;
 
-    function killProc(pid, cb) {
+    function killProc(pid) {
       tree_kill(pid);
     }
 
@@ -43,7 +37,7 @@ describe(
 
       if (!port) port = 55000;
 
-      if (reqPath[0] != '/') reqPath = '/' + reqPath;
+      if (reqPath[0] !== '/') reqPath = '/' + reqPath;
 
       var options = {
         url: 'http://127.0.0.1:' + port.toString() + reqPath
@@ -96,7 +90,7 @@ describe(
 
       doRequest(
         'loader.htm',
-        function(error, response, body) {
+        function(error, response) {
           response.statusCode.should.eql(200);
           done();
         },
@@ -109,7 +103,7 @@ describe(
 
       doRequest(
         'index.htm',
-        function(error, response, body) {
+        function(error, response) {
           response.statusCode.should.eql(502);
           done();
         },
@@ -123,7 +117,7 @@ describe(
       var http = require('http');
 
       testServer = http.createServer(function(req, res) {
-        if (req.url == '/index.htm') res.writeHead(200, { 'Content-Type': 'text/html' });
+        if (req.url === '/index.htm') res.writeHead(200, { 'Content-Type': 'text/html' });
         else res.writeHead(404, { 'Content-Type': 'text/html' });
         res.write('Marker');
         res.end();

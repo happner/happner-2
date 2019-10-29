@@ -2,7 +2,6 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
   this.timeout(10000);
 
   let expect = require('expect.js');
-  let test_id;
   var happnerTestHelper;
 
   var publisherclient;
@@ -13,7 +12,7 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
   };
 
   before('should initialize the service and clients', async () => {
-    test_id = Date.now() + '_' + require('shortid').generate();
+    Date.now() + '_' + require('shortid').generate();
     happnerTestHelper = require('../../__fixtures/utils/happner-test-helper').create(config);
     await happnerTestHelper.initialize();
     publisherclient = happnerTestHelper.publisherclient;

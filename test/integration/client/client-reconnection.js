@@ -73,7 +73,7 @@ describe(
 
         eventsToFire[key] = true;
 
-        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] == false) return;
+        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] === false) return;
 
         eventsFired = true;
 
@@ -83,12 +83,12 @@ describe(
       adminClient.exchange.data.set('/test/path', { test: 'data' }, function(e) {
         if (e) return done(e);
 
-        adminClient.on('reconnect/scheduled', function(evt, data) {
+        adminClient.on('reconnect/scheduled', function() {
           //TODO some expect code
           fireEvent('reconnect/scheduled');
         });
 
-        adminClient.on('reconnect/successful', function(evt, data) {
+        adminClient.on('reconnect/successful', function() {
           //TODO some expect code
           fireEvent('reconnect/successful');
         });
@@ -116,7 +116,7 @@ describe(
         adminClient.on('reconnect/scheduled', function() {
           if (__doneMeasuring) return;
 
-          if (measuredCount == 0) {
+          if (measuredCount === 0) {
             lastMeasurement = Date.now();
             return measuredCount++;
           }
@@ -125,7 +125,7 @@ describe(
           measuredDifference += Date.now() - lastMeasurement;
           lastMeasurement = Date.now();
 
-          if (measuredCount == 4) {
+          if (measuredCount === 4) {
             __doneMeasuring = true;
             var measuredAverage = measuredDifference / 3;
 

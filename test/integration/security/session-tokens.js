@@ -3,24 +3,24 @@ module.exports = SeeAbove;
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method2 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method3 = function($happn, $origin, opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
@@ -51,8 +51,6 @@ SeeAbove.prototype.$happner = {
 };
 
 if (global.TESTING_E8) return; // When 'requiring' the module above,
-
-var path = require('path');
 
 describe(
   require('../../__fixtures/utils/test_helper')

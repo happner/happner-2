@@ -122,7 +122,7 @@ describe(
             testUser.password = 'NEW PWD';
             testUser.custom_data = { changedCustom: 'changedCustom' };
 
-            adminClient.exchange.security.updateUser(testUser, function(e, result) {
+            adminClient.exchange.security.updateUser(testUser, function(e) {
               if (e) return done(e);
 
               testUserClient = new Mesh.MeshClient({ secure: true, port: 8003 });
@@ -261,7 +261,7 @@ describe(
                 testUser.password = 'NEW PWD';
                 testUser.custom_data = { changedCustom: 'changedCustom' };
 
-                testUserClient.exchange.security.updateUser(testUser, function(e, result) {
+                testUserClient.exchange.security.updateUser(testUser, function(e) {
                   expect(e.toString()).to.be('AccessDenied: unauthorized');
                   done();
                 });
@@ -323,7 +323,7 @@ describe(
                 testUser.password = 'NEW PWD';
                 testUser.custom_data = { changedCustom: 'changedCustom' };
 
-                testUserClient.exchange.security.updateOwnUser(testUser, function(e, result) {
+                testUserClient.exchange.security.updateOwnUser(testUser, function(e) {
                   expect(e.toString()).to.be('Error: missing oldPassword parameter');
                   done();
                 });
@@ -386,7 +386,7 @@ describe(
                 testUser.password = 'NEW PWD';
                 testUser.custom_data = { changedCustom: 'changedCustom' };
 
-                testUserClient.exchange.security.updateOwnUser(testUser, function(e, result) {
+                testUserClient.exchange.security.updateOwnUser(testUser, function(e) {
                   expect(e.toString()).to.be('Error: old password incorrect');
                   done();
                 });
@@ -460,14 +460,14 @@ describe(
                     .then(done)
                     .catch(function(e) {
                       if (e) return done(e);
-                      adminClient.getUser(testUser.username, function(e, user) {
+                      adminClient.getUser(testUser.username, function(e) {
                         if (e) return done(e);
                         expect(result.application_data.something).to.be('sacred');
                         testUser.application_data = { something: 'profane' };
                         adminClient.exchange.security.updateUser(testUser, function(e, result) {
                           if (e) return done(e);
                           expect(result.application_data.something).to.be('profane');
-                          adminClient.getUser(testUser.username, function(e, user) {
+                          adminClient.getUser(testUser.username, function(e) {
                             if (e) return done(e);
                             expect(result.application_data.something).to.be('profane');
                             done();
@@ -499,7 +499,6 @@ describe(
 
       var testGroupSaved;
       var testUserSaved;
-      var testUserClient;
 
       adminClient.exchange.security.addGroup(testGroup, function(e, result) {
         if (e) return done(e);

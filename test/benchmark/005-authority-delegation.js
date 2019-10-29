@@ -8,7 +8,6 @@ describe.skipWindows(
   function() {
     var path = require('path');
     var async = require('async');
-    var should = require('chai').should();
     var Happner = require('../..');
     var shortid = require('shortid');
     var fs = require('fs');
@@ -191,7 +190,7 @@ describe.skipWindows(
     });
 
     after('stop secureMesh', function(done) {
-      fs.unlink(dbFileName, function(e) {
+      fs.unlink(dbFileName, function() {
         // ignore e
         if (secureMesh) {
           return secureMesh.stop(
@@ -314,7 +313,7 @@ describe.skipWindows(
             function(time, timeCb) {
               testClient.exchange['service-name']
                 .allowedMethodAndOtherRemoteMethod()
-                .then(function(result) {
+                .then(function() {
                   timeCb();
                 });
             },
@@ -342,7 +341,7 @@ describe.skipWindows(
             function(time, timeCb) {
               testClient.exchange['service-name']
                 .allowedMethodAndOtherRemoteMethod()
-                .then(function(result) {
+                .then(function() {
                   timeCb();
                 })
                 .catch(function() {

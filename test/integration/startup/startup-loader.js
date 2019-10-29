@@ -34,13 +34,12 @@ describe(
     };
 
     var meshes = [];
-    var mesh;
 
     function killProc(pid, callback, removeFromChildPIDs) {
-      exec('kill -9 ' + pid, function(error, stdout, stderr) {
+      exec('kill -9 ' + pid, function() {
         if (removeFromChildPIDs)
           childPIDs.map(function(childPid, ix) {
-            if (childPid == pid) childPIDs.splice(ix, 1);
+            if (childPid === pid) childPIDs.splice(ix, 1);
           });
 
         callback();
@@ -52,7 +51,7 @@ describe(
 
       if (!port) port = 55000;
 
-      if (reqPath[0] != '/') reqPath = '/' + reqPath;
+      if (reqPath[0] !== '/') reqPath = '/' + reqPath;
 
       var options = {
         url: 'http://127.0.0.1:' + port.toString() + reqPath
@@ -130,7 +129,7 @@ describe(
       Mesh.on('mesh-log', function(data) {
         meshLogs.push(data);
 
-        if (data.stack == 'started!') {
+        if (data.stack === 'started!') {
           expect(meshLogs.length > 16).to.be(true);
           if (!doneHappened) {
             doneHappened = true;
@@ -210,7 +209,7 @@ describe(
                 expect(data).to.be('pong');
                 var score = verifyLogs();
 
-                if (score == 4) killProc(childPID, done, true);
+                if (score === 4) killProc(childPID, done, true);
                 else done(new Error('log message score invalid:::' + score.toString()));
               },
               55004

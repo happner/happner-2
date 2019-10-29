@@ -1,5 +1,3 @@
-var path = require('path');
-
 describe(
   require('../../__fixtures/utils/test_helper')
     .create()
@@ -12,8 +10,6 @@ describe(
     var Mesh = require('../../..');
 
     var test_id = Date.now() + '_' + require('shortid').generate();
-
-    var fs = require('fs-extra');
 
     var mesh = new Mesh();
 
@@ -83,29 +79,25 @@ describe(
       }
     };
 
-    var testGroupSaved;
-
     it('saves and then fetches a group with custom_data - ensures the custom data is preserved', function(done) {
       adminClient.exchange.security.addGroup(testGroup, function(e, result) {
         if (e) return done(e);
 
-        expect(result.name == testGroup.name).to.be(true);
-        expect(result.custom_data.customString == testGroup.custom_data.customString).to.be(true);
-        expect(result.custom_data.customNumber == testGroup.custom_data.customNumber).to.be(true);
-
-        testGroupSaved = result;
+        expect(result.name === testGroup.name).to.be(true);
+        expect(result.custom_data.customString === testGroup.custom_data.customString).to.be(true);
+        expect(result.custom_data.customNumber === testGroup.custom_data.customNumber).to.be(true);
 
         mesh._mesh.happn.server.services.security.groups.__cache_groups.clear();
 
         adminClient.exchange.security.getGroup(testGroup.name, function(e, fetchedGroup) {
           if (e) return done(e);
 
-          expect(fetchedGroup.custom_data.customString == testGroup.custom_data.customString).to.be(
-            true
-          );
-          expect(fetchedGroup.custom_data.customNumber == testGroup.custom_data.customNumber).to.be(
-            true
-          );
+          expect(
+            fetchedGroup.custom_data.customString === testGroup.custom_data.customString
+          ).to.be(true);
+          expect(
+            fetchedGroup.custom_data.customNumber === testGroup.custom_data.customNumber
+          ).to.be(true);
 
           done();
         });

@@ -51,8 +51,8 @@ describe(
         suppressPrint: true,
 
         log: function(direction, packet) {
-          if (direction == 'incoming') packetsIn.push(packet);
-          if (direction == 'outgoing') packetsOut.push(packet);
+          if (direction === 'incoming') packetsIn.push(packet);
+          if (direction === 'outgoing') packetsOut.push(packet);
         }
       };
 

@@ -48,7 +48,7 @@ describe(
       var componentInstance = new ComponentInstance();
       var secureData = componentInstance.secureData(mockData(), 'test-component');
 
-      secureData.on('test/path', {}, function(data) {}, done);
+      secureData.on('test/path', {}, function() {}, done);
     });
 
     it('test the on without a connection', function(done) {
@@ -59,7 +59,7 @@ describe(
       secureData.on(
         'test/path',
         {},
-        function(data) {},
+        function() {},
         function(e) {
           expect(e.toString()).to.be(
             'Error: client state not active or connected, on:' +
@@ -79,7 +79,7 @@ describe(
 
       secureData.on(
         'test/path',
-        function(data) {},
+        function() {},
         function(e) {
           expect(e.toString()).to.be(
             'Error: client state not active or connected, on:' +

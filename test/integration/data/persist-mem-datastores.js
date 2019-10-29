@@ -91,7 +91,7 @@ describe(
           path: 'persist/some/data',
           data: { data: 'isPersisted' }
         },
-        function(e, response) {
+        function(e) {
           if (e) return done(e);
 
           var record = helper.getRecordFromSmallFile({
@@ -106,7 +106,7 @@ describe(
               path: 'mem/some/data',
               data: { data: 'isVolatile' }
             },
-            function(e, response) {
+            function(e) {
               if (e) return done(e);
 
               helper.getRecordFromHappn(

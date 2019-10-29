@@ -6,7 +6,6 @@ describe('Using the clientside only', function() {
   var remote;
   var assert = require('assert');
   var path = require('path');
-  var sep = path.sep;
   var libFolder = path.resolve(__dirname, '../' + sep + 'lib');
 
   console.log(libFolder);
@@ -27,8 +26,6 @@ describe('Using the clientside only', function() {
 
   context('with clientside bits', function() {
     it('can ride the slippery slip', function(done) {
-      var happn = require('happn');
-
       var MeshClient = require('../../lib/system/api');
 
       new MeshClient('localhost', 3001, 'mesh', function(err, client) {
@@ -40,7 +37,7 @@ describe('Using the clientside only', function() {
           'three!',
           function(err, res) {
             if (err) return done(err);
-            assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
+            assert(res === 'one! two! three!, wheeeeeeeeeeeeheeee!');
             done();
           }
         );

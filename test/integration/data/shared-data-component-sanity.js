@@ -9,7 +9,6 @@ describe(
     var Mesh = require('../../..');
     var meshInstance;
     var dataEvents;
-    var config;
     var expect = require('expect.js');
     var Promise = require('bluebird');
 
@@ -26,24 +25,22 @@ describe(
     };
 
     before(function(done) {
-      Mesh.create(
-        (config = {
-          port: 9898,
-          modules: {
-            module1: {
-              instance: TestModule1
-            },
-            module2: {
-              instance: TestModule2
-            }
+      Mesh.create({
+        port: 9898,
+        modules: {
+          module1: {
+            instance: TestModule1
           },
-          components: {
-            data: {},
-            module1: {},
-            module2: {}
+          module2: {
+            instance: TestModule2
           }
-        })
-      )
+        },
+        components: {
+          data: {},
+          module1: {},
+          module2: {}
+        }
+      })
         .then(function(mesh) {
           meshInstance = mesh;
           dataComponent = mesh.exchange.data;
@@ -59,7 +56,7 @@ describe(
 
     context('direct use', function() {
       it('can set and get with opts', function(done) {
-        dataComponent.set('some/path/one', { key: 'value' }, {}, function(e, result) {
+        dataComponent.set('some/path/one', { key: 'value' }, {}, function(e) {
           if (e) return done(e);
           dataComponent.get('some/path/one', {}, function(e, result) {
             if (e) return done(e);
@@ -70,7 +67,7 @@ describe(
       });
 
       it('can set and get without opts', function(done) {
-        dataComponent.set('some/path/two', { key: 'value' }, function(e, result) {
+        dataComponent.set('some/path/two', { key: 'value' }, function(e) {
           if (e) return done(e);
           dataComponent.get('some/path/two', function(e, result) {
             if (e) return done(e);
@@ -84,7 +81,7 @@ describe(
         dataComponent.on(
           '/some/path/three',
           {},
-          function(data, meta) {
+          function(data) {
             data.should.eql({ key: 'VAL' });
             done();
           },
@@ -100,7 +97,7 @@ describe(
       it('can subscribe without opts', function(done) {
         dataComponent.on(
           '/some/path/four',
-          function(data, meta) {
+          function(data) {
             data.should.eql({ key: 'VALUE' });
             done();
           },
@@ -227,10 +224,10 @@ describe(
                     event_type: 'set',
                     initialEmit: true
                   },
-                  function(message, meta) {
+                  function(message) {
                     caughtEmitted++;
 
-                    if (caughtEmitted == 2) {
+                    if (caughtEmitted === 2) {
                       expect(message.test).to.be('data1');
                       callback();
                     }
@@ -249,7 +246,7 @@ describe(
         var received = [];
         dataComponent.on(
           '/some/path/five',
-          function(data, meta) {
+          function(data) {
             received.push(data);
           },
           function(e) {
@@ -278,7 +275,7 @@ describe(
         var received = [];
         dataComponent.on(
           '/some/path/six',
-          function(data, meta) {
+          function(data) {
             received.push(data);
           },
           function(e) {
@@ -307,7 +304,7 @@ describe(
         var received = [];
         dataComponent.on(
           '/some/path/seven',
-          function(data, meta) {
+          function(data) {
             received.push(data);
           },
           function(e) {
@@ -342,7 +339,7 @@ describe(
             six.value.should.equal(6);
             return dataComponent.remove('some/path/eight');
           })
-          .then(function(res) {
+          .then(function() {
             return dataComponent.get('some/path/eight');
           })
           .then(function(res) {
@@ -373,7 +370,7 @@ describe(
           '/some/path/five',
           function(data) {
             data.should.property('key', 'VALUE');
-            dataEvents.off('/some/path/five', function(data, meta) {
+            dataEvents.off('/some/path/five', function() {
               done();
             });
           },
@@ -389,7 +386,7 @@ describe(
       it('works with noPublish option', function(done) {
         meshInstance.event.data.on(
           '/some/path/testNoPublish2',
-          function(data, meta) {
+          function(data) {
             delete data._meta;
             data.should.eql({ val: 'must be emitted' });
             // allow time for possible wrong event
@@ -521,7 +518,6 @@ describe(
       'subscribe to all events to specific depth, variable depth subscription capability added to happn',
       function() {
         it('does a variable depth on which eclipses another .on, do off and ensure the correct handlers are called', function(done) {
-          var variableDepthHandle;
           var results = [];
 
           dataComponent.on(
@@ -538,7 +534,7 @@ describe(
                 function(data, meta) {
                   results.push({ data: data, channel: meta.channel, path: meta.path });
                 },
-                function(e, handle2) {
+                function(e) {
                   if (e) return done(e);
                   dataComponent.set('/test/path/1/1', { set: 1 }, function(e) {
                     if (e) return done(e);
@@ -653,10 +649,10 @@ describe(
                       event_type: 'set',
                       initialEmit: true
                     },
-                    function(message, meta) {
+                    function(message) {
                       caughtEmitted++;
 
-                      if (caughtEmitted == 2) {
+                      if (caughtEmitted === 2) {
                         expect(message.test).to.be('data1');
                         callback();
                       }
@@ -725,8 +721,6 @@ describe(
         it('should subscribe and get initial values emitted immediately, to the correct depth', async () => {
           this.timeout(10000);
 
-          var caughtEmitted = [];
-
           await dataComponent.set('/initialCallbackCorrectDepth/testsubscribe/1', {
             test: 'data1'
           });
@@ -759,7 +753,7 @@ describe(
                 initialCallback: true,
                 depth: 2
               },
-              function(message) {},
+              function() {},
               function(e, reference, response) {
                 if (e) return reject(e);
                 resolve(

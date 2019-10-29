@@ -19,12 +19,12 @@ describe(
       options._mesh.happn.server.services = options._mesh.happn.server.services || {};
 
       options._mesh.happn.server.services.stats = options._mesh.happn.server.services.stats || {
-        on: function(path, handler) {}
+        on: function() {}
       };
 
       $happn._mesh = options._mesh;
 
-      $happn.emitLocal = options.emitLocal || function(path, data) {};
+      $happn.emitLocal = options.emitLocal || function() {};
 
       $happn.log = options.log || {
         info: function() {},
@@ -47,7 +47,7 @@ describe(
           log: {
             info: function() {},
             error: function() {},
-            trace: function(message) {},
+            trace: function() {},
             warn: function() {}
           }
         });

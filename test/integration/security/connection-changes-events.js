@@ -5,7 +5,6 @@ describe(
   function() {
     this.timeout(120000);
 
-    var expect = require('expect.js');
     require('chai').should();
 
     var Mesh = require('../../..');
@@ -14,7 +13,6 @@ describe(
     var adminClient = new Mesh.MeshClient({ secure: true, port: 8004 });
 
     var test_id = Date.now() + '_' + require('shortid').generate();
-    var async = require('async');
 
     before(function(done) {
       mesh.initialize(
@@ -62,20 +60,20 @@ describe(
 
         eventsToFire[key] = true;
 
-        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] == false) return;
+        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] === false) return;
 
         eventsFired = true;
 
         done();
       };
 
-      adminClient.on('reconnect/scheduled', function(evt, data) {
+      adminClient.on('reconnect/scheduled', function() {
         //TODO some expect code
 
         fireEvent('reconnect/scheduled');
       });
 
-      adminClient.on('reconnect/successful', function(evt, data) {
+      adminClient.on('reconnect/successful', function() {
         //TODO some expect code
         fireEvent('reconnect/successful');
       });

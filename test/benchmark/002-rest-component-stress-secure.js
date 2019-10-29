@@ -1,31 +1,28 @@
 /* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
 
-var Promise = require('bluebird');
-var sep = require('path').sep;
-var spawn = require('child_process').spawn;
 module.exports = SeeAbove;
 
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method2 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method3 = function($happn, $origin, opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
@@ -74,8 +71,6 @@ describe(
     var expect = require('expect.js');
 
     var Mesh = require('..' + sep + '..');
-
-    var path = require('path');
 
     var libFolder = __dirname + sep + '__fixtures' + sep;
 
@@ -151,8 +146,7 @@ describe(
 
             if (err) return done(err);
             mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one', 'two', 'three', function(
-              err,
-              result
+              err
             ) {
               if (err) return done(err);
               done();
@@ -208,7 +202,7 @@ describe(
         }
       });
 
-      if (errors.length == 0) return done();
+      if (errors.length === 0) return done();
       else {
         return done(new Error('failures found in responses:::'));
       }
@@ -240,7 +234,7 @@ describe(
         }
       });
 
-      if (errors.length == 0) return done();
+      if (errors.length === 0) return done();
       else {
         return done(new Error('failures found in responses:::'));
       }
@@ -282,7 +276,7 @@ describe(
             .on('complete', function(result) {
               loginCounter++;
 
-              if (loginCounter % 100 == 0) console.log(loginCounter.toString() + ' logins');
+              if (loginCounter % 100 === 0) console.log(loginCounter.toString() + ' logins');
 
               responses.push({ request: request, response: result });
 
@@ -315,7 +309,7 @@ describe(
             .on('complete', function(result) {
               loginCounter++;
 
-              if (loginCounter % 100 == 0) console.log(loginCounter.toString() + ' logins');
+              if (loginCounter % 100 === 0) console.log(loginCounter.toString() + ' logins');
 
               responses.push({ request: request, response: result });
 

@@ -83,8 +83,7 @@ describe(
     it('created the module with the method schema as defaulted', function(done) {
       // console.log(this.mesh.exchange);
       should.not.exist(this.mesh.exchange['see-above'].methodName2);
-      var _this = this;
-      this.mesh.exchange['see-above'].methodName1(function(err, res) {
+      this.mesh.exchange['see-above'].methodName1(function() {
         //   res.should.equal('OK-GOOD');
         //   _this.mesh.exchange['see-above'].moo(function(err, res) {
         //     res.should.equal('OK-GOOD');

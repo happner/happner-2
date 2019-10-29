@@ -11,8 +11,6 @@ describe(
     EventEmitter = require('events').EventEmitter;
 
     it('tests the __initializeAccess function', function() {
-      var config = {};
-
       var initialAccess = happnLayer.__initializeAccess();
 
       expect(initialAccess.listen != null).to.be(true);
@@ -28,8 +26,6 @@ describe(
     });
 
     it('tests the __initializeStore function', function() {
-      var config = {};
-
       happnLayer.access = happnLayer.__initializeAccess();
 
       var initialStore = happnLayer.__initializeStore();
@@ -90,9 +86,9 @@ describe(
               }
             },
             protocol: {
-              __getProtocol: function(message) {
+              __getProtocol: function() {
                 return {
-                  success: function(message) {
+                  success: function() {
                     return {
                       response: {}
                     };
@@ -141,9 +137,9 @@ describe(
               }
             },
             protocol: {
-              __getProtocol: function(message) {
+              __getProtocol: function() {
                 return {
-                  success: function(message) {
+                  success: function() {
                     return {
                       response: {}
                     };

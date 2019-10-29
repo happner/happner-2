@@ -5,24 +5,24 @@ module.exports = SeeAbove;
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method2 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method3 = function($happn, $origin, opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
@@ -108,24 +108,18 @@ describe(
     var mesh;
     var remote;
 
-    var startRemoteMesh = function(callback) {
-      var timedOut = setTimeout(function() {
-        callback(new Error('remote mesh start timed out'));
-      }, 5000);
+    // spawn remote mesh in another process
+    remote = spawn('node', [libFolder + REMOTE_MESH]);
 
-      // spawn remote mesh in another process
-      remote = spawn('node', [libFolder + REMOTE_MESH]);
+    remote.stdout.on('data', function(data) {
+      if (data.toString().match(/READY/)) {
+        clearTimeout();
 
-      remote.stdout.on('data', function(data) {
-        if (data.toString().match(/READY/)) {
-          clearTimeout(timedOut);
-
-          setTimeout(function() {
-            callback();
-          }, 1000);
-        }
-      });
-    };
+        setTimeout(function() {
+          callback();
+        }, 1000);
+      }
+    });
 
     before(function(done) {
       global.TESTING_E3B = true; //.............

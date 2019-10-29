@@ -8,12 +8,7 @@ describe(
     it('tests getting function parameters', function(done) {
       var utils = require('../../../lib/system/utilities');
 
-      var testFunc = function(
-        param1 /**param1 comment**/,
-        param2 /*param2 comment*/,
-        option1,
-        option2
-      ) {};
+      var testFunc = function() {};
 
       var params = utils.getFunctionParameters(testFunc);
       expect(params.length).to.be(4);
@@ -22,13 +17,7 @@ describe(
       done();
     });
 
-    it('tests getting function parameters', function(done) {
-      var utils = require('../../../lib/system/utilities');
-
-      var params = utils.findInModules('async', function(e, results) {
-        done();
-      });
-    });
+    it('tests getting function parameters', function() {});
 
     it('tests stringifying errors', function(done) {
       var utils = require('../../../lib/system/utilities');

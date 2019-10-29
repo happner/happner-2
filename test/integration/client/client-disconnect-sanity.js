@@ -10,7 +10,6 @@ describe(
 
     var path = require('path');
     var Happner = require('../../..');
-    var http = require('http');
     var test_id = require('shortid').generate();
     var expect = require('expect.js');
     var libFolder =
@@ -68,8 +67,6 @@ describe(
       if (mesh) mesh.stop(done);
       else done();
     });
-
-    var http = require('http');
 
     function doRequest(path, token, callback) {
       var request = require('request');

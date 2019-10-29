@@ -41,8 +41,6 @@ describe(
       this.timeout(120000);
 
       before(function(done) {
-        var _this = this;
-
         // spawn remote mesh in another process
         remote = spawn('node', [libFolder + 'secure-mesh-to-mesh']);
 
@@ -65,7 +63,7 @@ describe(
 
       after(function(done) {
         remote.kill();
-        mesh.stop({ reconnect: false }, function(e) {
+        mesh.stop({ reconnect: false }, function() {
           // console.log('killed ok:::', remote.pid);
           done();
         });
@@ -76,13 +74,13 @@ describe(
           err,
           res
         ) {
-          assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
+          assert(res === 'one! two! three!, wheeeeeeeeeeeeheeee!');
           done();
         });
       });
 
       it('we know when there was an accident', function(done) {
-        mesh.exchange.remoteMesh.remoteComponent.causeError(function(err, res) {
+        mesh.exchange.remoteMesh.remoteComponent.causeError(function(err) {
           assert(err.toString().match(/ErrorType: Error string/));
           done();
         });

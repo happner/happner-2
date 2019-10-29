@@ -3,7 +3,6 @@ describe(
     .create()
     .testName(__filename, 3),
   function() {
-    var Mesh = require('../../..');
     var path = require('path');
 
     var fs = require('fs');
@@ -43,8 +42,6 @@ describe(
     this.timeout(30000);
     var callMeshInstance;
     var callMeshClient;
-    var intervalMeshInstance;
-    var intervalMeshClient;
 
     function getFileSize(filepath) {
       var stats = fs.statSync(filepath);
@@ -61,13 +58,12 @@ describe(
         callMeshInstance = mesh;
         callMeshClient = client;
         test_helper.startHappnerInstance('1-compact-dbfile', config_interval, function(
-          e,
+          e /*,
           mesh,
           client
+          */
         ) {
           if (e) return done(e);
-          intervalMeshInstance = mesh;
-          intervalMeshClient = client;
           done();
         });
       });

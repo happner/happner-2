@@ -67,9 +67,9 @@ describe(
       startMesh(function(e) {
         if (e) return done(e);
         expect(mesh.__packager.__fileWatchers.length > 0).to.be(true);
-        mesh.stop({ reconnect: false }, function(e, mesh, log) {
+        mesh.stop({ reconnect: false }, function(e, mesh) {
           if (e) return done(e);
-          expect(mesh.__packager.__fileWatchers.length == 0).to.be(true);
+          expect(mesh.__packager.__fileWatchers.length === 0).to.be(true);
           done();
         });
       });
@@ -81,7 +81,7 @@ describe(
         expect(mesh.__packager.__fileWatchers.length > 0).to.be(true);
         mesh.stop({ reconnect: false }, function(e) {
           if (e) return done(e);
-          expect(mesh.__packager.__fileWatchers.length == 0).to.be(true);
+          expect(mesh.__packager.__fileWatchers.length === 0).to.be(true);
           mesh.initialize(config, function(e) {
             if (e) return done(e);
             expect(mesh.__packager.__fileWatchers.length > 0).to.be(true);

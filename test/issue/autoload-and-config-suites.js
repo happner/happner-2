@@ -1,4 +1,4 @@
-var should = require('chai').should();
+require('chai').should();
 var Mesh = require('../');
 var Promise = require('bluebird');
 var fxt = require('fxt');

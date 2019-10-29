@@ -1,6 +1,6 @@
 // connect old happner endpoint to new happner server
 // (use config.domain to support load balancer)
-const log = require('why-is-node-running');
+// const log = require('why-is-node-running');
 describe(
   require('../__fixtures/utils/test_helper')
     .create()
@@ -42,7 +42,7 @@ describe(
       });
 
       after('stop endpoints', function(done) {
-        if (endpoints.length == 0) return done();
+        if (endpoints.length === 0) return done();
         async.eachSeries(
           endpoints,
           function(endpoint, endpointCB) {
@@ -203,28 +203,21 @@ describe(
           .catch(done);
       }
 
-      function reconnectClient(callback) {
-        callback();
-      }
-
       function expectedCount(subscriptions, expectedCount) {
         var count = 0;
         subscriptions.forEach(function(subscription) {
-          if (subscription.data.path.indexOf('/_exchange/responses/DOMAIN_NAME') == 0) {
+          if (subscription.data.path.indexOf('/_exchange/responses/DOMAIN_NAME') === 0) {
             count++;
           }
         });
-        return count == expectedCount;
+        return count === expectedCount;
       }
 
       it('it calls components methods from old happner, we flip flop the new server, and ensure that the subscription service does not have hanging subscriptions', function(done) {
         this.timeout(20000);
         var async = require('async');
 
-        async.series([executeMethod, executeMethod, executeMethod, executeMethod], function(
-          e,
-          results
-        ) {
+        async.series([executeMethod, executeMethod, executeMethod, executeMethod], function(e) {
           if (e) return done(e);
 
           var originalSubscriptions = server._mesh.happn.__toListenInstance.services.subscription.subscriptions.searchAll();
@@ -233,7 +226,7 @@ describe(
             if (e) return done(e);
             var subscriptions = server._mesh.happn.__toListenInstance.services.subscription.subscriptions.searchAll();
             expect(expectedCount(subscriptions, 0)).to.be(true);
-            startServer(function(e) {
+            startServer(function() {
               setTimeout(() => {
                 executeMethod(function() {
                   var subscriptions = server._mesh.happn.__toListenInstance.services.subscription.subscriptions.searchAll();

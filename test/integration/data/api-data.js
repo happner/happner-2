@@ -11,7 +11,7 @@ describe(
       path.sep +
       ['test', '__fixtures', 'test', 'integration', 'data'].join(path.sep);
     var Mesh = require('../../..');
-    var should = require('chai').should();
+    require('chai').should();
     var expect = require('expect.js');
 
     this.timeout(120000);
@@ -88,7 +88,7 @@ describe(
     //relies on above store test!!!
     it('checks the on count on component1 must be greater than 0', function(done) {
       this.mesh.exchange.component1.getOnCount(function(e, result) {
-        if (!result || result == 0) return done(new Error('result should be greater than 0'));
+        if (!result || result === 0) return done(new Error('result should be greater than 0'));
         done();
       });
     });

@@ -6,7 +6,7 @@ describe(
     this.timeout(120000);
 
     var expect = require('expect.js');
-
+    // eslint-disable-next-line no-unused-vars
     var config = {
       name: 'testMesh',
       modules: {
@@ -161,8 +161,6 @@ describe(
       onDescriptionError,
       disconnectError
     ) {
-      var haveDescription1 = false;
-
       var happn = {
         client: {
           create: function(config, callback) {
@@ -174,7 +172,7 @@ describe(
                   opts = {};
                 }
 
-                if (url == '/mesh/schema/description') {
+                if (url === '/mesh/schema/description') {
                   if (descriptionError) return callback(new Error('getting description broke'));
 
                   if (descriptionErrorName) return callback(null, { name: 'crapBag' });

@@ -20,7 +20,9 @@ describe(
     before('start server', function(done) {
       try {
         fs.unlinkSync(dbFileName);
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       Happner.create({
         name: 'Server',
         happn: {
@@ -89,7 +91,9 @@ describe(
     after('stop server', function(done) {
       try {
         fs.unlinkSync(dbFileName);
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       if (!server) return done();
       server.stop({ reconnect: false }, done);
     });

@@ -44,7 +44,7 @@ describe(
                   var subscriberId;
                   $happn.event.component1.on(
                     'test/event',
-                    function(data, meta) {
+                    function(data) {
                       $happn.event.component1.off(subscriberId);
                       callback(null, data);
                     },

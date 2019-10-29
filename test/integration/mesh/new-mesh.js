@@ -23,7 +23,7 @@ describe(
             }
           },
           {},
-          function(e) {
+          function() {
             mesh.stop(
               {
                 reconnect: false
@@ -108,7 +108,7 @@ describe(
             }
           },
           {},
-          function(e) {
+          function() {
             mesh.stop(
               {
                 reconnect: false
@@ -125,7 +125,7 @@ describe(
                       }
                     },
                     {},
-                    function(e) {
+                    function() {
                       mesh.stop(
                         {
                           reconnect: false

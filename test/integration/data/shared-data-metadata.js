@@ -15,8 +15,6 @@ describe(
     var TestHelper = require(libFolder + '/test_helper');
     var test_helper = new TestHelper();
     var test_id = Date.now() + '_' + require('shortid').generate();
-    var async = require('async');
-    var meshClient;
     var meshInstance;
 
     before(function(done) {
@@ -33,11 +31,10 @@ describe(
             data: {}
           }
         },
-        function(e, mesh, client) {
+        function(e, mesh) {
           if (e) return done(e);
 
           meshInstance = mesh;
-          meshClient = client;
           done();
         }
       );
@@ -117,7 +114,7 @@ describe(
               expect(meta.modified).to.not.be(undefined);
             }
             onScore++;
-            if (onScore == 3) done();
+            if (onScore === 3) done();
           } catch (e) {
             if (!doneAlready) {
               doneAlready = true;
@@ -129,19 +126,15 @@ describe(
           if (e) return done(e);
 
           meshInstance.exchange.data.set('/some/test/data/to/listen/on', { test: 'on' }, function(
-            e,
-            response
+            e
           ) {
             if (e) return done(e);
             meshInstance.exchange.data.set(
               '/some/test/data/to/listen/on',
               { test: 'on-update' },
-              function(e, response) {
+              function(e) {
                 if (e) return done(e);
-                meshInstance.exchange.data.remove('/some/test/data/to/listen/on', function(
-                  e,
-                  response
-                ) {
+                meshInstance.exchange.data.remove('/some/test/data/to/listen/on', function(e) {
                   if (e) return done(e);
                 });
               }

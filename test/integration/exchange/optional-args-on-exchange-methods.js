@@ -2,7 +2,6 @@
  * Created by nomilous on 2016/07/28.
  */
 
-var path = require('path');
 var Happner = require('../../..');
 
 describe(

@@ -125,7 +125,7 @@ describe(
       async.eachSeries(
         meshes,
         function(mesh, meshCB) {
-          mesh.stop({ reconnect: false }, function(e) {
+          mesh.stop({ reconnect: false }, function() {
             meshCB();
           });
         },

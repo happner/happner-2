@@ -5,18 +5,16 @@ describe(
   function() {
     this.timeout(120000);
 
-    var expect = require('expect.js');
-
     var Mesh = require('../../..');
     var mesh;
 
-    var client = new Mesh.MeshClient({
-      secure: true,
-      port: 8884,
-      reconnect: {
-        max: 500 //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
-      }
-    });
+    // var client = new Mesh.MeshClient({
+    //   secure: true,
+    //   port: 8884,
+    //   reconnect: {
+    //     max: 500 //we can then wait 10 seconds and should be able to reconnect before the next 10 seconds,
+    //   }
+    // });
 
     var startMesh = function(callback) {
       Mesh.create(

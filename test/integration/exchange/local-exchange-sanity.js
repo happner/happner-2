@@ -16,7 +16,7 @@ describe(
       sep;
     var Happner = require('../../..');
     var async = require('async');
-    var should = require('chai').should();
+    require('chai').should();
     var test_id = Date.now() + '_' + require('shortid').generate();
     var dbFileName = '.' + path.sep + 'temp' + path.sep + test_id + '.nedb';
     var mesh;
@@ -24,9 +24,11 @@ describe(
 
     try {
       fs.unlinkSync(dbFileName);
-    } catch (e) {}
+    } catch (e) {
+      // do nothing
+    }
 
-    var exchangeIterations = process.arch == 'arm' ? 100 : 1000;
+    var exchangeIterations = process.arch === 'arm' ? 100 : 1000;
 
     var allowedOverhead = 1500; // Based on tests with node 6. setImmediate introduces variation in the test result
 
@@ -81,7 +83,9 @@ describe(
     after(function(done) {
       try {
         fs.unlinkSync(dbFileName);
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       mesh.stop({ reconnect: false }, done);
     });
 
@@ -162,7 +166,7 @@ describe(
       });
 
       it('can call with error', function(done) {
-        mesh.exchange.component.methodError(function(err, result) {
+        mesh.exchange.component.methodError(function(err) {
           try {
             err.toString().should.equal('Error: Some problem');
             done();

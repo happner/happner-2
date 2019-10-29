@@ -24,8 +24,6 @@ if (global.TESTING_C5) return; // When 'requiring' the module above,
 // don't run the tests below
 //.............
 
-var path = require('path');
-
 describe(
   require('../../__fixtures/utils/test_helper')
     .create()
@@ -122,7 +120,7 @@ describe(
     var doneCalled = false;
 
     it('server can listen for an event - then recieve an event by calling a method', function(done) {
-      mesh.event.test.on('test-emmission', function(args) {
+      mesh.event.test.on('test-emmission', function() {
         if (doneCalled) return;
 
         doneCalled = true;
@@ -189,11 +187,11 @@ describe(
         .login({ username: '_ADMIN', password: 'happn' })
 
         .then(function() {
-          client.event.test.on('test-emmission', function(data) {
+          client.event.test.on('test-emmission', function() {
             done();
           });
 
-          client.exchange.test.doEmit({ test: 'test' }, function(e, result) {});
+          client.exchange.test.doEmit({ test: 'test' }, function() {});
         })
 
         .catch(done);

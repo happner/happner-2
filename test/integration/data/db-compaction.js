@@ -20,8 +20,8 @@ describe(
         done(data);
       });
 
-      ls.stdout.on('data', data => {
-        //console.log('stdout:::', data);
+      ls.stdout.on('data', (/*data*/) => {
+        //do nothing
       });
 
       ls.on('close', () => {

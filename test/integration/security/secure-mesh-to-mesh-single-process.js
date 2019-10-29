@@ -81,7 +81,7 @@ describe(
       it('can call remote component function', function(done) {
         mesh.event.remoteMesh.remoteComponent.on(
           'whoops',
-          function handler(data) {
+          function handler() {
             //console.log(data);
             done();
           },
@@ -94,12 +94,12 @@ describe(
           err,
           res
         ) {
-          assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
+          assert(res === 'one! two! three!, wheeeeeeeeeeeeheeee!');
         });
       });
 
       it('we know when there was an accident', function(done) {
-        mesh.exchange.remoteMesh.remoteComponent.causeError(function(err, res) {
+        mesh.exchange.remoteMesh.remoteComponent.causeError(function(err) {
           assert(err.toString().match(/ErrorType: Error string/));
           done();
         });

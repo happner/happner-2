@@ -9,22 +9,41 @@
     "mocha": true,
     "node": true
   },
-  "extends": [
-    "eslint:recommended",
-    "prettier"
-  ],
+  "extends": ["eslint:recommended", "prettier"],
   "globals": {
+    "Mesh": "writable",
+    "meshInstance": "writable",
+    "EventEmitter": "writable",
+    "dbFileName": "writable",
+    "server": "writable",
+    "dataComponent": "writable",
+    "callback": "writable",
+    "argDecl": "writable",
+    "fnText": "writable",
+    "remote": "writable",
+    "expect": "writable",
+    "mesh": "writable",
+    "e": "writable",
+    "address": "writable",
+    "HappnClient": "writable",
+    "Primus": "writable",
+    "LOG_LEVEL": "writable",
+    "_this": "writable",
+    "targetFileStream": "writable",
+    "promise": "writable",
+    "Nanobar": "writable",
+    "ActiveXObject": "writable",
+    "define": "writable",
+    "Happner": "writable",
     "angular": "readonly",
     "d3": "readonly",
     "Crypto": "writable",
     "MeshClient": "readonly"
   },
-  "plugins": [
-    "prettier"
-  ],
+  "plugins": ["prettier"],
   "rules": {
     "default-case": "error",
-    "eqeqeq": ["error", "always", {"null": "ignore"}],
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
     "no-console": "warn",
     "no-useless-return": "error",
     "prettier/prettier": "error"

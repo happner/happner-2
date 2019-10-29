@@ -8,7 +8,6 @@ describe(
     var Mesh = require('../../..');
     var meshInstance;
     var meshClientInstance;
-    var config;
     var expect = require('expect.js');
     var async = require('async');
 
@@ -25,24 +24,22 @@ describe(
     };
 
     before(function(done) {
-      Mesh.create(
-        (config = {
-          modules: {
-            module1: {
-              instance: TestModule1
-            },
-            module2: {
-              instance: TestModule2
-            }
+      Mesh.create({
+        modules: {
+          module1: {
+            instance: TestModule1
           },
-
-          components: {
-            data: {},
-            module1: {},
-            module2: {}
+          module2: {
+            instance: TestModule2
           }
-        })
-      )
+        },
+
+        components: {
+          data: {},
+          module1: {},
+          module2: {}
+        }
+      })
         .then(function(mesh) {
           meshInstance = mesh;
           meshClientInstance = new Mesh.MeshClient();
@@ -60,7 +57,7 @@ describe(
         meshInstance.exchange.data.set(
           'movie/war',
           { name: 'crimson tide', genre: 'war' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {
@@ -89,7 +86,7 @@ describe(
         meshInstance.exchange.data.set(
           'movie/scifi',
           { name: 'interstellar', genre: 'scifi' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {
@@ -118,7 +115,7 @@ describe(
         meshInstance.exchange.data.set(
           'movie/scifi',
           { name: 'the martian', genre: 'scifi' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {
@@ -148,7 +145,7 @@ describe(
         meshInstance.exchange.data.set(
           'movie/war/ww2',
           { name: 'crimson tide', genre: 'ww2' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {
@@ -220,7 +217,7 @@ describe(
                     expect(resultItem._meta.created).to.not.be(null);
                     expect(resultItem._meta.created).to.not.be(undefined);
                     if (
-                      resultItem._meta.path != latestResult._meta.path &&
+                      resultItem._meta.path !== latestResult._meta.path &&
                       resultItem._meta.created > latestResult._meta.created
                     )
                       return done(new Error('the latest result is not the latest result...'));
@@ -239,7 +236,7 @@ describe(
         meshClientInstance.exchange.data.set(
           'movie/comedy',
           { name: 'nkandla', genre: 'comedy' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {
@@ -269,7 +266,7 @@ describe(
         meshClientInstance.exchange.data.set(
           'movie/scifi',
           { name: 'star wars', genre: 'scifi' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {
@@ -298,7 +295,7 @@ describe(
         meshClientInstance.exchange.data.set(
           'movie/scifi',
           { name: 'star wars 2', genre: 'scifi' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {
@@ -327,8 +324,7 @@ describe(
     context('client data use', function() {
       it('can get using criteria', function(done) {
         meshClientInstance.data.set('movie/drama', { name: 'nkandla2', genre: 'drama' }, function(
-          e,
-          result
+          e
         ) {
           if (e) return done(e);
 
@@ -356,8 +352,7 @@ describe(
 
       it('can count using criteria', function(done) {
         meshClientInstance.data.set('movie/scifi', { name: 'star wars', genre: 'scifi' }, function(
-          e,
-          result
+          e
         ) {
           if (e) return done(e);
 
@@ -386,7 +381,7 @@ describe(
         meshClientInstance.data.set(
           'movie/scifi',
           { name: 'star wars 2', genre: 'scifi' },
-          function(e, result) {
+          function(e) {
             if (e) return done(e);
 
             var options = {

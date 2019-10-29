@@ -192,7 +192,7 @@ describe.skipWindows(
     });
 
     after('stop secureMesh', function(done) {
-      fs.unlink(dbFileName, function(e) {
+      fs.unlink(dbFileName, function() {
         // ignore e
         if (secureMesh) {
           return secureMesh.stop(
@@ -343,7 +343,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotOtherRemoteMethod(false)
-            .then(function(result) {
+            .then(function() {
               done(new Error('unexpected success'));
             })
             .catch(function(e) {
@@ -367,7 +367,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotOtherRemoteMethod(true)
-            .then(function(result) {
+            .then(function() {
               done();
             })
             .catch(done);
@@ -388,7 +388,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotData(false)
-            .then(function(result) {
+            .then(function() {
               done(new Error('unexpected success'));
             })
             .catch(function(e) {
@@ -412,7 +412,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotData(true)
-            .then(function(result) {
+            .then(function() {
               done();
             })
             .catch(done);
@@ -433,7 +433,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotEvent(false)
-            .then(function(result) {
+            .then(function() {
               done(new Error('unexpected success'));
             })
             .catch(function(e) {
@@ -457,7 +457,7 @@ describe.skipWindows(
         .then(function() {
           testClient.exchange['service-name']
             .allowedMethodNotEvent(true)
-            .then(function(result) {
+            .then(function() {
               done();
             })
             .catch(done);

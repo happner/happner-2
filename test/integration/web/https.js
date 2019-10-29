@@ -29,15 +29,6 @@ describe(
     before(function(done) {
       // spawn remote mesh in another process
       remote = spawn('node', [libFolder + 'https-mesh']);
-
-      //NB - the remote mesh is configured to initialize the datalayer with https, by setting the transport option:
-      //   dataLayer: {
-      //   transport:{
-      //     mode:'https'
-      //   },
-      //   port: 3111,
-      // },
-
       remote.stdout.on('data', function(data) {
         if (data.toString().match(/READY/)) {
           testClient = new Mesh.MeshClient({
@@ -54,11 +45,10 @@ describe(
 
     it('fails to connect, wrong transport on client', function(done) {
       var nodeProc = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
-      var timeout;
       var beenDone = false;
 
-      if (nodeProc == '0.10') {
-        timeout = setTimeout(function() {
+      if (nodeProc === '0.10') {
+        setTimeout(function() {
           beenDone = true;
           done();
         }, 3000);
@@ -67,13 +57,13 @@ describe(
       var badClient = new Mesh.MeshClient({ port: 3111 });
       badClient
         .login()
-        .then(function(e) {
+        .then(function() {
           done(new Error('this was not meant to happen'));
         })
         .catch(function(e) {
           if (!beenDone) {
             expect(e.toString()).to.equal('Error: socket hang up');
-            if (nodeProc != '0.10') done();
+            if (nodeProc !== '0.10') done();
           }
         });
     });
@@ -125,10 +115,7 @@ describe(
 
           expect(getresult.val).to.be('delete');
 
-          testClient.exchange.https_mesh.data.remove('/https_mesh/delete', {}, function(
-            e,
-            removeresult
-          ) {
+          testClient.exchange.https_mesh.data.remove('/https_mesh/delete', {}, function(e) {
             if (e) return done(e);
 
             // console.log('delete happened:::', removeresult);

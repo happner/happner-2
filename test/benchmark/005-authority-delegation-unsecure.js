@@ -8,11 +8,10 @@ describe.skipWindows(
   function() {
     var path = require('path');
     var async = require('async');
-    var should = require('chai').should();
     var Happner = require('../..');
     var shortid = require('shortid');
     var fs = require('fs');
-    var Promise = require('bluebird');
+    // var Promise = require('bluebird');
 
     var testId = shortid.generate();
     var testId2 = shortid.generate();
@@ -124,42 +123,42 @@ describe.skipWindows(
     });
 
     before('setup secureMesh user', function(done) {
-      var theGroup = {
-        name: 'group',
-        permissions: {
-          methods: {
-            '/secureMesh/service-name/method1': {
-              authorized: true
-            },
-            '/secureMesh/service-name/allowedMethodNotData': {
-              authorized: true
-            },
-            '/secureMesh/x-service-name/allowedMethodNotData': {
-              authorized: true
-            },
-            '/secureMesh/y-service-name/allowedMethodNotData': {
-              authorized: true
-            },
-            '/secureMesh/service-name/allowedMethodNotOtherMethod': {
-              authorized: true
-            },
-            '/secureMesh/x-service-name/otherMethod': {
-              authorized: true
-            }
-          },
-          data: {
-            '/data/forbidden': {
-              authorized: false,
-              actions: ['set']
-            }
-          }
-        }
-      };
+      // var theGroup = {
+      //   name: 'group',
+      //   permissions: {
+      //     methods: {
+      //       '/secureMesh/service-name/method1': {
+      //         authorized: true
+      //       },
+      //       '/secureMesh/service-name/allowedMethodNotData': {
+      //         authorized: true
+      //       },
+      //       '/secureMesh/x-service-name/allowedMethodNotData': {
+      //         authorized: true
+      //       },
+      //       '/secureMesh/y-service-name/allowedMethodNotData': {
+      //         authorized: true
+      //       },
+      //       '/secureMesh/service-name/allowedMethodNotOtherMethod': {
+      //         authorized: true
+      //       },
+      //       '/secureMesh/x-service-name/otherMethod': {
+      //         authorized: true
+      //       }
+      //     },
+      //     data: {
+      //       '/data/forbidden': {
+      //         authorized: false,
+      //         actions: ['set']
+      //       }
+      //     }
+      //   }
+      // };
 
-      var theUser = {
-        username: 'username',
-        password: 'password'
-      };
+      // var theUser = {
+      //   username: 'username',
+      //   password: 'password'
+      // };
 
       done();
 
@@ -195,7 +194,7 @@ describe.skipWindows(
     });
 
     after('stop secureMesh', function(done) {
-      fs.unlink(dbFileName, function(e) {
+      fs.unlink(dbFileName, function() {
         // ignore e
         if (secureMesh) {
           return secureMesh.stop(
@@ -321,7 +320,7 @@ describe.skipWindows(
             function(time, timeCb) {
               testClient.exchange['service-name']
                 .allowedMethodAndOtherRemoteMethod()
-                .then(function(result) {
+                .then(function() {
                   timeCb();
                 });
             },
@@ -349,7 +348,7 @@ describe.skipWindows(
             function(time, timeCb) {
               testClient.exchange['service-name']
                 .allowedMethodAndOtherRemoteMethod()
-                .then(function(result) {
+                .then(function() {
                   timeCb();
                 })
                 .catch(function() {

@@ -23,7 +23,6 @@ describe(
 
     var adminClient = new Mesh.MeshClient({ secure: true, port: 8003 });
     var test_id = Date.now() + '_' + require('shortid').generate();
-    var async = require('async');
 
     before(function(done) {
       global.TESTING_USER_MANAGEMENT = true; //.............
@@ -124,7 +123,7 @@ describe(
             testUser.password = 'NEW PWD';
             testUser.custom_data = { changedCustom: 'changedCustom' };
 
-            adminClient.exchange.security.updateUser(testUser, function(e, result) {
+            adminClient.exchange.security.updateUser(testUser, function(e) {
               if (e) return done(e);
 
               testUserClient = new Mesh.MeshClient({ secure: true, port: 8003 });
@@ -263,7 +262,7 @@ describe(
                 testUser.password = 'NEW PWD';
                 testUser.custom_data = { changedCustom: 'changedCustom' };
 
-                testUserClient.exchange.security.updateUser(testUser, function(e, result) {
+                testUserClient.exchange.security.updateUser(testUser, function(e) {
                   expect(e.toString()).to.be('AccessDenied: unauthorized');
                   done();
                 });
@@ -325,7 +324,7 @@ describe(
                 testUser.password = 'NEW PWD';
                 testUser.custom_data = { changedCustom: 'changedCustom' };
 
-                testUserClient.exchange.security.updateOwnUser(testUser, function(e, result) {
+                testUserClient.exchange.security.updateOwnUser(testUser, function(e) {
                   expect(e.toString()).to.be('Error: missing oldPassword parameter');
                   done();
                 });
@@ -388,7 +387,7 @@ describe(
                 testUser.password = 'NEW PWD';
                 testUser.custom_data = { changedCustom: 'changedCustom' };
 
-                testUserClient.exchange.security.updateOwnUser(testUser, function(e, result) {
+                testUserClient.exchange.security.updateOwnUser(testUser, function(e) {
                   expect(e.toString()).to.be('Error: old password incorrect');
                   done();
                 });
@@ -489,7 +488,6 @@ describe(
 
       var testGroupSaved;
       var testUserSaved;
-      var testUserClient;
 
       adminClient.exchange.security.addGroup(testGroup, function(e, result) {
         if (e) return done(e);

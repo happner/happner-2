@@ -5,24 +5,24 @@ module.exports = SeeAbove;
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method2 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method3 = function($happn, $origin, opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
@@ -65,9 +65,8 @@ describe(
     .testName(__filename),
   function() {
     // Uses unit test 2 modules
-    var expect = require('expect.js');
+    // var expect = require('expect.js');
     var Mesh = require('..' + sep + '..');
-    var path = require('path');
     var libFolder = __dirname + sep + '__fixtures' + sep;
     var async = require('async');
 
@@ -181,7 +180,7 @@ describe(
         }
       });
 
-      if (errors.length == 0) {
+      if (errors.length === 0) {
         console.log(verifications + ' verified');
         return done();
       } else {

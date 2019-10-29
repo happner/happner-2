@@ -124,7 +124,7 @@ describe(
       });
 
       it('can subscribe to events', function(done) {
-        endpoint.event.DOMAIN_NAME.testComponent.on('/event', function(data) {
+        endpoint.event.DOMAIN_NAME.testComponent.on('/event', function() {
           done();
         });
         endpoint.exchange.DOMAIN_NAME.testComponent.causeEvent().catch(done);
@@ -306,7 +306,7 @@ describe(
       });
 
       it('can subscribe to events', function(done) {
-        endpoint.event.DOMAIN_NAME.testComponent.on('event', function(data) {
+        endpoint.event.DOMAIN_NAME.testComponent.on('event', function() {
           done();
         });
         endpoint.exchange.DOMAIN_NAME.testComponent.causeEvent().catch(done);

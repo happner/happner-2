@@ -1,5 +1,4 @@
 var path = require('path');
-const log = require('why-is-node-running');
 
 describe(
   require('../../__fixtures/utils/test_helper')

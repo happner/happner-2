@@ -10,7 +10,7 @@ fs.readdirSync(testDir).forEach(function(filename) {
 
   var file = fs.statSync(filePath);
 
-  if (!file.isDirectory() && filename.indexOf('.js') > -1 && filename.indexOf('serial-run') == -1)
+  if (!file.isDirectory() && filename.indexOf('.js') > -1 && filename.indexOf('serial-run') === -1)
     files.push(filePath);
 });
 
@@ -18,7 +18,7 @@ var reportDir = testDir + path.sep + 'reports';
 
 sm.runTasks(files, null, reportDir)
 
-  .then(function(results) {
+  .then(function() {
     console.log('tests completed, check the latest report file in ' + reportDir);
   })
 

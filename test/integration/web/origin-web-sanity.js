@@ -13,7 +13,6 @@ describe(
     this.timeout(120000);
 
     var Mesh = require('../../..');
-    var http = require('http');
     var test_id = require('shortid').generate();
     var expect = require('expect.js');
 
@@ -69,8 +68,6 @@ describe(
     after(function(done) {
       mesh.stop({ reconnect: false }, done);
     });
-
-    var http = require('http');
 
     function doRequest(path, token, callback) {
       var request = require('request');

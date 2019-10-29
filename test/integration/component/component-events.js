@@ -55,7 +55,7 @@ describe(
     });
 
     it('components can emit events', function(done) {
-      server.event.component1.on('test/event1', function(data, meta) {
+      server.event.component1.on('test/event1', function(data) {
         expect(data).to.eql({ some: 'thing' });
         done();
       });

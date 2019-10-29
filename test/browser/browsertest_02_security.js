@@ -98,7 +98,7 @@ describe('browsertest_02_security', function() {
     });
 
     it('denies access to denied methods cb', function(done) {
-      client.exchange.test.deniedMethod({ key: 'value' }, function(e, result) {
+      client.exchange.test.deniedMethod({ key: 'value' }, function(e) {
         if (!e) done(new Error('should not allow'));
         done();
       });
@@ -107,7 +107,7 @@ describe('browsertest_02_security', function() {
     it('denies access to denied methods', function(done) {
       client.exchange.test
         .deniedMethod({ key: 'value' })
-        .then(function(result) {
+        .then(function() {
           done(new Error('should not allow'));
         })
         .catch(function(error) {

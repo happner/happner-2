@@ -5,7 +5,6 @@ describe(
   function() {
     this.timeout(120000);
 
-    var expect = require('expect.js');
     require('chai').should();
 
     var Mesh = require('../../..');
@@ -15,9 +14,6 @@ describe(
     var testClient = new Mesh.MeshClient({ secure: true, port: 8004 });
 
     var test_id = Date.now() + '_' + require('shortid').generate();
-    var async = require('async');
-
-    const log = require('why-is-node-running');
 
     before(function(done) {
       mesh.initialize(
@@ -75,7 +71,7 @@ describe(
       var fireEvent = function(key) {
         eventsToFire[key] = true;
 
-        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] == false) return;
+        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] === false) return;
 
         done();
       };
@@ -88,17 +84,17 @@ describe(
         }
       };
 
-      adminClient.exchange.security.addUser(testUser, function(e, result) {
+      adminClient.exchange.security.addUser(testUser, function(e) {
         if (e) return done(e);
 
         adminClient.exchange.security.attachToSessionChanges(function(e) {
           if (e) return callback(e);
 
-          adminClient.event.security.on('connect', function(data) {
+          adminClient.event.security.on('connect', function() {
             fireEvent('connect');
           });
 
-          adminClient.event.security.on('disconnect', function(data) {
+          adminClient.event.security.on('disconnect', function() {
             fireEvent('disconnect');
           });
 

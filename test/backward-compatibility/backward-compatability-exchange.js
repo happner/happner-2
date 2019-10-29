@@ -26,10 +26,10 @@ describe(
             server = child_process.fork(scriptPath, [security]);
 
             server.on('message', function(message) {
-              if (message == 'READY') {
+              if (message === 'READY') {
                 resolve();
               }
-              if (message == 'ERROR') {
+              if (message === 'ERROR') {
                 reject(new Error('failed to start server'));
               }
             });
@@ -70,7 +70,7 @@ describe(
             OldHappner.create({
               port: 55001,
               datalayer: {
-                secure: security == 'secure'
+                secure: security === 'secure'
               },
               endpoints: {
                 SERVER: {
@@ -95,7 +95,7 @@ describe(
             client.stop({ reconnect: false }, done);
           });
 
-          (security == 'insecure'
+          (security === 'insecure'
             ? xit
             : it)('exchange calls survive server restart', function(done) {
             this.timeout(20 * 1000);
@@ -155,12 +155,12 @@ describe(
 
           after('stop happner meshclient', function(done) {
             this.timeout(30000);
-            client.disconnect(function(e) {
+            client.disconnect(function() {
               done();
             });
           });
 
-          (security == 'insecure'
+          (security === 'insecure'
             ? xit
             : it)('exchange calls survive server restart', function(done) {
             this.timeout(20 * 1000);

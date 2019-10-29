@@ -183,7 +183,7 @@ describe(
       var found = false;
 
       log.forEach(function(entry) {
-        if (entry.message == message) found = true;
+        if (entry.message === message) found = true;
       });
 
       return found;

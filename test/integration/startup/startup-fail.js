@@ -13,7 +13,6 @@ describe(
       ['test', '__fixtures', 'test', 'integration', 'startup'].join(path.sep) +
       path.sep;
     var spawn = require('child_process').spawn;
-    var expect = require('expect.js');
     var async = require('async');
     var exec = require('child_process').exec;
 
@@ -22,13 +21,12 @@ describe(
     var childPIDs = [];
 
     var meshes = [];
-    var mesh;
 
     function killProc(pid, callback, removeFromChildPIDs) {
-      exec('kill -9 ' + pid, function(error, stdout, stderr) {
+      exec('kill -9 ' + pid, function() {
         if (removeFromChildPIDs)
           childPIDs.map(function(childPid, ix) {
-            if (childPid == pid) childPIDs.splice(ix, 1);
+            if (childPid === pid) childPIDs.splice(ix, 1);
           });
 
         callback();
@@ -40,7 +38,7 @@ describe(
 
       if (!port) port = 55000;
 
-      if (reqPath[0] != '/') reqPath = '/' + reqPath;
+      if (reqPath[0] !== '/') reqPath = '/' + reqPath;
 
       var options = {
         url: 'http://127.0.0.1:' + port.toString() + reqPath
@@ -88,15 +86,15 @@ describe(
             childPIDs.push(childPID);
           }
 
-          if (logMessage.indexOf('could not start child') != -1) {
+          if (logMessage.indexOf('could not start child') !== -1) {
             doRequest(
               '/log',
               function(body) {
                 var logs = JSON.parse(body);
                 for (var i = 0; i < logs.length; i++) {
                   if (
-                    logs[i].level == 'error' &&
-                    logs[i].message.indexOf("\"Error: Cannot find module 'badPath'") == 0
+                    logs[i].level === 'error' &&
+                    logs[i].message.indexOf("\"Error: Cannot find module 'badPath'") === 0
                   ) {
                     done();
                     remote.stdout.removeAllListeners();
@@ -122,8 +120,8 @@ describe(
             var logs = JSON.parse(body);
             for (var i = 0; i < logs.length; i++) {
               if (
-                logs[i].level == 'error' &&
-                logs[i].message.indexOf("\"Error: Cannot find module 'badPath'") == 0
+                logs[i].level === 'error' &&
+                logs[i].message.indexOf("\"Error: Cannot find module 'badPath'") === 0
               ) {
                 totalFound++;
               }

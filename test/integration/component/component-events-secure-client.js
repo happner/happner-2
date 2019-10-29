@@ -70,7 +70,7 @@ describe(
     });
 
     it('components can emit events', function(done) {
-      testClient.event.component1.on('test/event1', function(data, meta) {
+      testClient.event.component1.on('test/event1', function(data) {
         expect(data).to.eql({ some: 'thing' });
         done();
       });

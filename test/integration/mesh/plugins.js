@@ -22,7 +22,7 @@ describe(
       Happner.create({
         plugins: [
           // plugin 1 (only start)
-          function(mesh, logger) {
+          function(mesh) {
             return {
               start: function(callback) {
                 mesh.xxx = 1;
@@ -46,7 +46,7 @@ describe(
             };
           },
           // plugin 3 (only stop)
-          function(mesh, logger) {
+          function(mesh) {
             return {
               stop: function(callback) {
                 mesh.zzz = 0;
@@ -56,12 +56,12 @@ describe(
           },
 
           // plugin 4 (pointless: not start or stop)
-          function(mesh, logger) {
+          function() {
             return {};
           },
 
           // plugin 5 (pointless: no object returned)
-          function(mesh, logger) {}
+          function() {}
         ]
       })
 
@@ -96,7 +96,7 @@ describe(
         {
           plugins: [
             // plugin 1 (only start)
-            function(mesh, logger) {
+            function() {
               return {
                 start: function(callback) {
                   callback(new Error('test serror'));
@@ -120,7 +120,7 @@ describe(
         {
           plugins: [
             // plugin 1 (only start)
-            function(mesh, logger) {
+            function() {
               return {
                 start: function(callback) {
                   callback();

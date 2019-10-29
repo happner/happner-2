@@ -131,7 +131,7 @@ describe(
     };
 
     it('can get from a singular route', function(done) {
-      cookieRequest('http://localhost:10000/middlewareTest/singular', function(e, res, body) {
+      cookieRequest('http://localhost:10000/middlewareTest/singular', function(e, res) {
         if (e) return done(e);
         try {
           expect(res.statusCode).to.be(200);
@@ -303,7 +303,7 @@ describe(
     });
 
     it('can get index.html that middleware renames to index.htm', function(done) {
-      request('http://localhost:10000/index.html', function(e, res, body) {
+      request('http://localhost:10000/index.html', function(e, res) {
         if (e) return done(e);
         try {
           expect(res.statusCode).to.be(200);

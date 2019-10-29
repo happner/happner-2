@@ -10,7 +10,6 @@ describe(
     var mesh;
     var Mesh = require('../../..');
     var should = require('chai').should();
-    var path = require('path');
 
     var config = {
       happn: {
@@ -46,7 +45,7 @@ describe(
         mesh.exchange.data.set(path, 10);
       });
 
-      function event_handler(message, _meta) {
+      function event_handler() {
         event_count++;
 
         mesh.event.data.offPath(path, function(err) {
@@ -74,7 +73,7 @@ describe(
         mesh.exchange.data.set(path, 10);
       });
 
-      function event_handler(message, _meta) {
+      function event_handler() {
         event_count++;
 
         mesh.event.data.off(handle, function(err) {
@@ -94,15 +93,13 @@ describe(
     it('02 - should subscribe to an event then unsubscribe by path', function(done) {
       var event_count = 0;
       var path = 'test2/path';
-      var handle = null;
 
-      mesh.event.data.on(path, event_handler, function(err, _handle) {
+      mesh.event.data.on(path, event_handler, function(err) {
         should.not.exist(err);
-        handle = _handle;
         mesh.exchange.data.set(path, 10);
       });
 
-      function event_handler(message, _meta) {
+      function event_handler() {
         event_count++;
 
         mesh.event.data.offPath(path, function(err) {

@@ -3,24 +3,24 @@ module.exports = SeeAbove;
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method2 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method3 = function($happn, $origin, opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
@@ -148,8 +148,7 @@ describe(
 
             if (err) return done(err);
             mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one', 'two', 'three', function(
-              err,
-              result
+              err
             ) {
               if (err) return done(err);
               done();
@@ -208,13 +207,13 @@ describe(
 
       mockResponse.end = function(responseString) {
         try {
-          if (testStage == 'done') return;
+          if (testStage === 'done') return;
 
           var response = JSON.parse(responseString);
 
           //TODO: an unexpected GET or POST with a non-json content
 
-          if (testStage == 'success') {
+          if (testStage === 'success') {
             expect(response.message).to.be('test success response');
             expect(response.data.test).to.be('data');
             testStage = 'error';
@@ -228,7 +227,7 @@ describe(
             );
           }
 
-          if (testStage == 'error') {
+          if (testStage === 'error') {
             expect(response.error).to.not.be(null);
             expect(response.error.message).to.be('a test error');
 

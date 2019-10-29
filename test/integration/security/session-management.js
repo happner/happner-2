@@ -146,7 +146,7 @@ describe(
                           clientInstance.exchange.security.listRevokedSessions(function(e, items) {
                             expect(items.length).to.be(1);
 
-                            newInstance.exchange.security.listActiveSessions(function(err, list) {
+                            newInstance.exchange.security.listActiveSessions(function(err) {
                               if (!err) return callback(new Error('this was not meant to happn'));
                               expect(err.toString()).to.be('AccessDenied: unauthorized');
 
@@ -175,10 +175,10 @@ describe(
         function(e) {
           if (e) return callback(e);
 
-          clientInstance.exchange.security.listActiveSessions(function(e, list) {
+          clientInstance.exchange.security.listActiveSessions(function(e) {
             expect(e.toString()).to.be('Error: session management not activated');
 
-            clientInstance.exchange.security.listSessionActivity(function(e, list) {
+            clientInstance.exchange.security.listSessionActivity(function(e) {
               expect(e.toString()).to.be('Error: session activity logging not activated');
 
               clientInstance.exchange.security.activateSessionManagement(function(e) {
@@ -190,7 +190,7 @@ describe(
 
                     expect(list.length <= 2).to.be(true);
 
-                    clientInstance.exchange.security.listSessionActivity(function(e, list) {
+                    clientInstance.exchange.security.listSessionActivity(function(e) {
                       expect(e.toString()).to.be('Error: session activity logging not activated');
                       callback();
                     });
@@ -213,10 +213,10 @@ describe(
         function(e) {
           if (e) return callback(e);
 
-          clientInstance.exchange.security.listActiveSessions(function(e, list) {
+          clientInstance.exchange.security.listActiveSessions(function(e) {
             expect(e.toString()).to.be('Error: session management not activated');
 
-            clientInstance.exchange.security.listSessionActivity(function(e, list) {
+            clientInstance.exchange.security.listSessionActivity(function(e) {
               expect(e.toString()).to.be('Error: session activity logging not activated');
 
               clientInstance.exchange.security.activateSessionManagement(true, function(e) {
@@ -250,10 +250,10 @@ describe(
         function(e) {
           if (e) return callback(e);
 
-          clientInstance.exchange.security.listActiveSessions(function(e, list) {
+          clientInstance.exchange.security.listActiveSessions(function(e) {
             expect(e.toString()).to.be('Error: session management not activated');
 
-            clientInstance.exchange.security.listSessionActivity(function(e, list) {
+            clientInstance.exchange.security.listSessionActivity(function(e) {
               expect(e.toString()).to.be('Error: session activity logging not activated');
 
               clientInstance.exchange.security.activateSessionManagement(true, function(e) {
@@ -270,10 +270,10 @@ describe(
                     clientInstance.exchange.security.deactivateSessionManagement(true, function(e) {
                       if (e) return callback(e);
 
-                      clientInstance.exchange.security.listActiveSessions(function(e, list) {
+                      clientInstance.exchange.security.listActiveSessions(function(e) {
                         expect(e.toString()).to.be('Error: session management not activated');
 
-                        clientInstance.exchange.security.listSessionActivity(function(e, list) {
+                        clientInstance.exchange.security.listSessionActivity(function(e) {
                           expect(e.toString()).to.be(
                             'Error: session activity logging not activated'
                           );
@@ -328,7 +328,7 @@ describe(
 
                         expect(list.length <= 2).to.be(true);
 
-                        clientInstance.exchange.security.listSessionActivity(function(e, list) {
+                        clientInstance.exchange.security.listSessionActivity(function(e) {
                           expect(e.toString()).to.be(
                             'Error: session activity logging not activated'
                           );

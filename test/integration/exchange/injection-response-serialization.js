@@ -37,14 +37,13 @@ describe(
 
     it('starts the mesh, listens for the ping pong completed event, that module1 emits', function(done) {
       mesh = new Mesh();
-      var onEventRef;
 
       mesh.initialize(config, function(err) {
         if (err) {
           console.log(err.stack);
           done(err);
         } else {
-          mesh.exchange.component1.exposedMethod('a message', function(e, response) {
+          mesh.exchange.component1.exposedMethod('a message', function() {
             setTimeout(function() {
               done();
             }, 2000);

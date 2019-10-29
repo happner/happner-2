@@ -27,7 +27,7 @@ describe(
       });
 
       after('stop endpoints', function(done) {
-        if (endpoints.length == 0) return done();
+        if (endpoints.length === 0) return done();
         async.eachSeries(
           endpoints,
           function(endpoint, endpointCB) {
@@ -170,28 +170,21 @@ describe(
           .catch(done);
       }
 
-      function reconnectClient(callback) {
-        callback();
-      }
-
       function expectedCount(subscriptions, expectedCount) {
         var count = 0;
         subscriptions.forEach(function(subscription) {
-          if (subscription.data.path.indexOf('/_exchange/responses/DOMAIN_NAME') == 0) {
+          if (subscription.data.path.indexOf('/_exchange/responses/DOMAIN_NAME') === 0) {
             count++;
           }
         });
-        return count == expectedCount;
+        return count === expectedCount;
       }
 
       it('it calls components methods from new happner, we flip flop the new server, and ensure that the subscription service does not have hanging subscriptions', function(done) {
         this.timeout(10000);
         var async = require('async');
 
-        async.series([executeMethod, executeMethod, executeMethod, executeMethod], function(
-          e,
-          results
-        ) {
+        async.series([executeMethod, executeMethod, executeMethod, executeMethod], function(e) {
           if (e) return done(e);
 
           var originalSubscriptions = server._mesh.happn.__toListenInstance.services.subscription.subscriptions.searchAll();
@@ -200,7 +193,7 @@ describe(
             if (e) return done(e);
             var subscriptions = server._mesh.happn.__toListenInstance.services.subscription.subscriptions.searchAll();
             expect(expectedCount(subscriptions, 0)).to.be(true);
-            startServer(function(e) {
+            startServer(function() {
               setTimeout(() => {
                 executeMethod(function() {
                   var subscriptions = server._mesh.happn.__toListenInstance.services.subscription.subscriptions.searchAll();

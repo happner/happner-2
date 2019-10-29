@@ -15,7 +15,6 @@ describe(
 
     require('chai').should();
     var Mesh = require('../../..');
-    var http = require('http');
     var test_id = require('shortid').generate();
     var expect = require('expect.js');
 
@@ -101,8 +100,6 @@ describe(
       mesh.stop({ reconnect: false }, done);
     });
 
-    var http = require('http');
-
     function doRequest(path, token, callback) {
       var request = require('request');
       var options;
@@ -117,7 +114,7 @@ describe(
         };
       }
 
-      request(options, function(error, response, body) {
+      request(options, function(error, response) {
         callback(response);
       });
     }
@@ -224,10 +221,7 @@ describe(
                         }
                       };
 
-                      adminClient.exchange.security.updateGroup(testGroupSaved, function(
-                        e,
-                        updated
-                      ) {
+                      adminClient.exchange.security.updateGroup(testGroupSaved, function(e) {
                         if (e) return done(e);
 
                         doRequest('/index.html', testUserClient.token, function(response) {

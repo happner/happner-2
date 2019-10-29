@@ -102,7 +102,7 @@ describe(
       });
 
       client.exchange.componentName.causeEmit('event/one', function(e) {
-        if (eventHappenedOK && e == 'Request timed out') {
+        if (eventHappenedOK && e === 'Request timed out') {
           //this is ok, what happens here is the test moves on but the event handler has still
           //got a timeout
           console.warn('we already moved on to the next test - so no handler for this anymore');

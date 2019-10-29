@@ -105,7 +105,7 @@ describe(
 
         clientInstance.data.on(
           '/did/both',
-          function(data) {
+          function() {
             expect(layerLog1.length > 0).to.be(true);
             expect(layerLog2.length > 0).to.be(true);
             expect(layerLog3.length > 0).to.be(true);

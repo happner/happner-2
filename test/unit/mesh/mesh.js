@@ -5,7 +5,7 @@ describe(
   function() {
     var expect = require('expect.js');
 
-    function mockMesh(config) {
+    function mockMesh() {
       const Mesh = require('../../../lib/mesh');
       const mesh = new Mesh({});
 
@@ -27,7 +27,7 @@ describe(
       var config = {};
       var mesh = mockMesh(config);
 
-      mesh._initializeDataLayer(config, function(e) {
+      mesh._initializeDataLayer(config, function() {
         expect(config.happn.name).to.be(undefined);
         expect(config.happn.port).to.be(55000);
         expect(config.happn.secure).to.be(undefined);
@@ -64,7 +64,7 @@ describe(
 
       var mesh = mockMesh(config);
 
-      mesh._initializeDataLayer(config, function(e) {
+      mesh._initializeDataLayer(config, function() {
         expect(config.happn.name).to.be('test');
         expect(config.happn.port).to.be(55008);
         expect(config.happn.secure).to.be(true);

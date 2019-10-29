@@ -1,5 +1,3 @@
-const log = require('why-is-node-running');
-
 describe(
   require('../../__fixtures/utils/test_helper')
     .create()
@@ -14,9 +12,6 @@ describe(
     var mesh = new Mesh();
 
     var test_id = Date.now() + '_' + require('shortid').generate();
-    var async = require('async');
-
-    const log = require('why-is-node-running');
 
     before(function(done) {
       var _this = this;
@@ -94,14 +89,6 @@ describe(
 
       var testGroupSaved;
       var testUserSaved;
-      var testUserClient;
-
-      var userUpsertedEventFired = false;
-      var groupUpsertedEventFired = false;
-      var linkGroupEventFired = false;
-      var unlinkGroupEventFired = false;
-      var deleteGroupEventFired = false;
-      var deleteUserEventFired = false;
 
       //link-group
       //
@@ -118,7 +105,7 @@ describe(
       var fireEvent = function(key) {
         eventsToFire[key] = true;
 
-        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] == false) return;
+        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] === false) return;
 
         done();
       };
@@ -126,27 +113,27 @@ describe(
       _this.adminClient.exchange.security.attachToSecurityChanges(function(e) {
         if (e) return done(e);
 
-        _this.adminClient.event.security.on('upsert-user', function(data) {
+        _this.adminClient.event.security.on('upsert-user', function() {
           fireEvent('upsert-user');
         });
 
-        _this.adminClient.event.security.on('upsert-group', function(data) {
+        _this.adminClient.event.security.on('upsert-group', function() {
           fireEvent('upsert-group');
         });
 
-        _this.adminClient.event.security.on('link-group', function(data) {
+        _this.adminClient.event.security.on('link-group', function() {
           fireEvent('link-group');
         });
 
-        _this.adminClient.event.security.on('unlink-group', function(data) {
+        _this.adminClient.event.security.on('unlink-group', function() {
           fireEvent('unlink-group');
         });
 
-        _this.adminClient.event.security.on('delete-group', function(data) {
+        _this.adminClient.event.security.on('delete-group', function() {
           fireEvent('delete-group');
         });
 
-        _this.adminClient.event.security.on('delete-user', function(data) {
+        _this.adminClient.event.security.on('delete-user', function() {
           fireEvent('delete-user');
         });
 
@@ -178,22 +165,19 @@ describe(
               testUser.password = 'NEW PWD';
               testUser.custom_data = { changedCustom: 'changedCustom' };
 
-              _this.adminClient.exchange.security.updateUser(testUser, function(e, result) {
+              _this.adminClient.exchange.security.updateUser(testUser, function(e) {
                 if (e) return done(e);
 
                 _this.adminClient.exchange.security.unlinkGroup(
                   testGroupSaved,
                   testUserSaved,
-                  function(e, result) {
+                  function(e) {
                     if (e) return done(e);
 
-                    _this.adminClient.exchange.security.deleteGroup(testGroupSaved, function(
-                      e,
-                      result
-                    ) {
+                    _this.adminClient.exchange.security.deleteGroup(testGroupSaved, function(e) {
                       if (e) return done(e);
 
-                      _this.adminClient.exchange.security.deleteUser(testUser, function(e, result) {
+                      _this.adminClient.exchange.security.deleteUser(testUser, function() {
                         //this will error because when we do done in event, the server closes its connections
                       });
                     });

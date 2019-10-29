@@ -1,7 +1,5 @@
 module.exports = TestMesh;
 
-var DONE = false;
-
 function TestMesh() {}
 
 TestMesh.prototype.method1 = function($happn, $origin, callback) {
@@ -30,7 +28,6 @@ describe(
     var unsecureClient = new Mesh.MeshClient({ port: 8001 });
 
     var test_id = Date.now() + '_' + require('shortid').generate();
-    var async = require('async');
 
     before('starts a secure mesh', function(done) {
       global.TESTING_D1 = true; //.............

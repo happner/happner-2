@@ -1,5 +1,5 @@
 var path = require('path');
-var should = require('chai').should();
+require('chai').should();
 var Happner = require('../../..');
 var Promise = require('bluebird');
 var fs = require('fs');
@@ -19,7 +19,9 @@ describe(
 
       try {
         fs.unlinkSync(logFileName);
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       Happner.create({
         name: 'Server',
         util: {
@@ -102,7 +104,9 @@ describe(
 
       try {
         fs.unlinkSync(dbFileName);
-      } catch (e) {}
+      } catch (e) {
+        // do nothing
+      }
       done();
     });
   }

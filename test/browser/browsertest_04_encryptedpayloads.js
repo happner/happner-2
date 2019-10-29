@@ -51,11 +51,11 @@ describe('browsertest_04_encryptedpayloads', function() {
   });
 
   it('client can listen for an event - then recieve an event by calling a method', function(done) {
-    client.event.test.on('test-emmission', function(data) {
+    client.event.test.on('test-emmission', function() {
       done();
     });
 
-    client.exchange.test.doEmit({ test: 'test' }, function(e, result) {
+    client.exchange.test.doEmit({ test: 'test' }, function() {
       console.log('emit function went ok:::');
     });
   });

@@ -7,7 +7,6 @@ describe(
 
     var expect = require('expect.js');
     var Happner = require('../../..');
-    var async = require('async');
 
     var happnerInstance1 = null;
     var happnerInstance2 = null;

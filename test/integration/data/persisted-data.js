@@ -1,7 +1,5 @@
 module.exports = DataComponent7;
 
-var DONE = false;
-
 function DataComponent7() {}
 
 DataComponent7.prototype.storeData = function($happn, path, data, callback) {

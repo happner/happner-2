@@ -31,7 +31,6 @@ describe(
     var defaultConfigClient = new Mesh.MeshClient({ port: 8001 });
 
     var test_id = Date.now() + '_' + require('shortid').generate();
-    var async = require('async');
 
     before('starts a timeoutConfig mesh', function(done) {
       global.TESTING_D9 = true; //.............
@@ -147,14 +146,14 @@ describe(
     });
 
     it('runs a method on the timeout configured mesh', function(done) {
-      timeoutConfigClient.exchange.TestMesh.method1(function(e, result) {
+      timeoutConfigClient.exchange.TestMesh.method1(function(e) {
         if (e) return done(e);
         done();
       });
     });
 
     it('runs a method on the default configured mesh', function(done) {
-      defaultConfigClient.exchange.TestMesh.method1(function(e, result) {
+      defaultConfigClient.exchange.TestMesh.method1(function(e) {
         expect(e).to.be('Request timed out');
         done();
       });

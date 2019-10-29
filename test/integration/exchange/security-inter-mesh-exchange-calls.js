@@ -6,7 +6,7 @@ describe.skipWindows(
     .testName(__filename, 3),
   function() {
     var path = require('path');
-    var should = require('chai').should();
+    require('chai').should();
     var Happner = require('../../..');
     var shortid = require('shortid');
     var fs = require('fs');
@@ -184,7 +184,7 @@ describe.skipWindows(
     });
 
     after('stop secureMesh', function(done) {
-      fs.unlink(dbFileName, function(e) {
+      fs.unlink(dbFileName, function() {
         // ignore e
         if (secureMesh) {
           return secureMesh.stop(
@@ -268,7 +268,7 @@ describe.skipWindows(
     it('denies access to denied function', function(done) {
       mesh2.exchange.secureMesh['service-name']
         .method2()
-        .then(function(result) {
+        .then(function() {
           throw new Error('should have been denied');
         })
         .catch(function(e) {
@@ -285,7 +285,7 @@ describe.skipWindows(
       // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
       mesh2.exchange.secureMesh['x-service-name']
         .method1() // but this should denied
-        .then(function(result) {
+        .then(function() {
           throw new Error('should have been denied');
         })
         .catch(function(e) {
@@ -302,7 +302,7 @@ describe.skipWindows(
       // mesh2.exchange.secureMesh['service-name'].method1() // almost identical name is allowed
       mesh2.exchange.secureMesh['service-name']
         .allowedMethodNotData() // but this should actually be denied
-        .then(function(result) {
+        .then(function() {
           done(new Error('unexpected success'));
         })
         .catch(function(e) {
@@ -314,7 +314,7 @@ describe.skipWindows(
     it('authority delegation: allows client access to a function, but then denies access to a data point being called by the allowed function, negative test', function(done) {
       mesh2.exchange.secureMesh['y-service-name']
         .allowedMethodNotData() // this is now allowed...
-        .then(function(result) {
+        .then(function() {
           done();
         })
         .catch(done);
@@ -323,7 +323,7 @@ describe.skipWindows(
     it('authority delegation: allows client access to a function, but then denies access to a method called by the allowed method', function(done) {
       mesh2.exchange.secureMesh['service-name']
         .allowedMethodNotOtherMethod() // this is now allowed...
-        .then(function(result) {
+        .then(function() {
           done(new Error('unexpected success'));
         })
         .catch(function(e) {
@@ -335,7 +335,7 @@ describe.skipWindows(
     it('authority delegation: allows client access to a function, but then denies access to a remote method called by the allowed method', function(done) {
       mesh2.exchange['service-name']
         .allowedMethodNotOtherMethod()
-        .then(function(result) {
+        .then(function() {
           done(new Error('unexpected success'));
         })
         .catch(function(e) {

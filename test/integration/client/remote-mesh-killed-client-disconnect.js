@@ -18,13 +18,11 @@ describe(
       ['test', '__fixtures', 'test', 'integration', 'client'].join(path.sep);
     var REMOTE_MESH = 'pleasant-victim-secure';
     var REMOTE_PORT = 11111;
-    var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
     var spawn = require('child_process').spawn;
     var async = require('async');
 
     this.timeout(120000);
 
-    var mesh;
     var remote;
 
     var CONNECTION_COUNT = 3;

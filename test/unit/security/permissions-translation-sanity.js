@@ -1,7 +1,5 @@
 module.exports = SecuredComponent;
 
-var DONE = false;
-
 function SecuredComponent() {}
 
 SecuredComponent.prototype.method1 = function($happn, options, callback) {
@@ -24,17 +22,17 @@ SecuredComponent.prototype.fireEvent = function($happn, eventName, callback) {
   callback(null, eventName + ' emitted');
 };
 
-SecuredComponent.prototype.webGetPutPost = function(req, res, next) {
+SecuredComponent.prototype.webGetPutPost = function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify({ method: req.method }));
 };
 
-SecuredComponent.prototype.webDelete = function(req, res, next) {
+SecuredComponent.prototype.webDelete = function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify({ method: req.method }));
 };
 
-SecuredComponent.prototype.webAny = function(req, res, next) {
+SecuredComponent.prototype.webAny = function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify({ method: req.method }));
 };
@@ -131,9 +129,9 @@ describe(
       ) {
         if (e) return done(e);
 
-        expect(permissions.events != undefined).to.be(true);
-        expect(permissions.methods != undefined).to.be(true);
-        expect(permissions.web != undefined).to.be(true);
+        expect(permissions.events !== undefined).to.be(true);
+        expect(permissions.methods !== undefined).to.be(true);
+        expect(permissions.web !== undefined).to.be(true);
 
         expect(
           permissions.methods['/b4_permissions_translation/SecuredComponent/*'].authorized
@@ -207,7 +205,7 @@ describe(
                   function(method, methodCB) {
                     testUserClient.exchange.b4_permissions_translation.SecuredComponent[method](
                       {},
-                      function(e, result) {
+                      function(e) {
                         if (!e) return methodCB(new Error("this wasn't meant to be"));
 
                         expect(e.toString()).to.be('AccessDenied: unauthorized');
@@ -272,37 +270,37 @@ describe(
             //we'll need to fetch user groups, do that later
             if (e) return done(e);
 
-            adminClient.exchange.security.getGroup('B4_TESTGROUP_ALLOWED_ALL_' + test_id, function(
-              e,
-              linkedGroup
-            ) {
-              testUserClient = new Mesh.MeshClient({ secure: true });
-              testUserClient
-                .login(testUser)
-                .then(function() {
-                  //do some stuff with the security manager here
-                  //securityManager = testUserClient.exchange.security;
-                  //NB - we dont have the security checks on method/component calls yet
+            adminClient.exchange.security.getGroup(
+              'B4_TESTGROUP_ALLOWED_ALL_' + test_id,
+              function() {
+                testUserClient = new Mesh.MeshClient({ secure: true });
+                testUserClient
+                  .login(testUser)
+                  .then(function() {
+                    //do some stuff with the security manager here
+                    //securityManager = testUserClient.exchange.security;
+                    //NB - we dont have the security checks on method/component calls yet
 
-                  async.eachSeries(
-                    ['method1', 'method2', 'method3'],
-                    function(method, methodCB) {
-                      testUserClient.exchange.b4_permissions_translation.SecuredComponent[method](
-                        {},
-                        function(e, result) {
-                          if (e) return methodCB(e);
-                          expect(result.methodName).to.be(method);
-                          methodCB();
-                        }
-                      );
-                    },
-                    done
-                  );
-                })
-                .catch(function(e) {
-                  done(e);
-                });
-            });
+                    async.eachSeries(
+                      ['method1', 'method2', 'method3'],
+                      function(method, methodCB) {
+                        testUserClient.exchange.b4_permissions_translation.SecuredComponent[method](
+                          {},
+                          function(e, result) {
+                            if (e) return methodCB(e);
+                            expect(result.methodName).to.be(method);
+                            methodCB();
+                          }
+                        );
+                      },
+                      done
+                    );
+                  })
+                  .catch(function(e) {
+                    done(e);
+                  });
+              }
+            );
           });
         });
       });
@@ -371,7 +369,7 @@ describe(
                     testUserClient.exchange.b4_permissions_translation.SecuredComponent[method](
                       {},
                       function(e, result) {
-                        if (method == 'method2') {
+                        if (method === 'method2') {
                           if (e) return methodCB(e);
 
                           expect(result.methodName).to.be(method);
@@ -468,10 +466,10 @@ describe(
                           methodCB();
                         }
                       },
-                      function(e) {
+                      function() {
                         adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(
                           eventName,
-                          function(e, result) {
+                          function(e) {
                             if (e) return done(e);
                             //now we are waiting
                           }
@@ -546,7 +544,7 @@ describe(
                   function(eventName, methodCB) {
                     testUserClient.event.b4_permissions_translation.SecuredComponent.on(
                       eventName,
-                      function(message) {
+                      function() {
                         //this should get fired
                         methodCB(new Error("this shouldn't have happened"));
                       },
@@ -636,11 +634,11 @@ describe(
                         methodCB();
                       },
                       function(e) {
-                        if (eventName == 'event-3a') {
+                        if (eventName === 'event-3a') {
                           if (e) return methodCB(e);
                           adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(
                             eventName,
-                            function(e, result) {
+                            function(e) {
                               if (e) return methodCB(e);
                             }
                           );
@@ -768,7 +766,7 @@ describe(
 
                               var nodeProc = Number(process.version.match(/^v(\d+\.\d+)/)[1]);
 
-                              if (nodeProc == '0.10') return done();
+                              if (nodeProc === '0.10') return done();
 
                               doRequest(
                                 '/b4_permissions_translation/SecuredComponent/Web',

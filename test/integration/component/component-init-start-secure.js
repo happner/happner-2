@@ -1,11 +1,6 @@
 module.exports = Explicit;
 
-var should = require('chai').should();
 var expect = require('expect.js');
-
-var DONE = false;
-
-var INITIALIZED = false;
 
 function Explicit() {}
 
@@ -13,7 +8,6 @@ Explicit.prototype.asyncStart = function($happn, opts, optionalOpts, callback) {
   if (typeof callback === 'undefined') callback = optionalOpts;
 
   setTimeout(function() {
-    DONE = true;
     callback(null);
   }, 200);
 };
@@ -31,8 +25,7 @@ Explicit.prototype.asyncInit = function($happn, opts, optionalOpts, callback) {
     }
   };
 
-  $happn.exchange.security.addUser(testUser).then(function(addedUser) {
-    INITIALIZED = true;
+  $happn.exchange.security.addUser(testUser).then(function() {
     callback(null);
   });
 };
@@ -54,7 +47,6 @@ Explicit.prototype.methodName1 = function($happn, callback) {
 if (global.TESTING_INIT_START) return; // When 'requiring' the module above,
 
 var mesh;
-var anotherMesh;
 var Mesh = require('../../..');
 
 describe(

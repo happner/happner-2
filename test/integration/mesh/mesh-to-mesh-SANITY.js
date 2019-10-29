@@ -69,22 +69,22 @@ describe(
       it('can call remote component function and subscribe to event', function(done) {
         var eventFired = false;
 
-        mesh.event.remoteMesh.remoteComponent.on('*', function(data, meta) {
-          if (data.value == 'whoa') eventFired = true;
+        mesh.event.remoteMesh.remoteComponent.on('*', function(data) {
+          if (data.value === 'whoa') eventFired = true;
         });
 
         mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one!', 'two!', 'three!', function(
           err,
           res
         ) {
-          assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
+          assert(res === 'one! two! three!, wheeeeeeeeeeeeheeee!');
           assert(eventFired);
           done();
         });
       });
 
       it('can receive remotely caught error', function(done) {
-        mesh.exchange.remoteMesh.remoteComponent.causeError(function(err, res) {
+        mesh.exchange.remoteMesh.remoteComponent.causeError(function(err) {
           assert(err.toString().match(/ErrorType: Error string/));
           done();
         });

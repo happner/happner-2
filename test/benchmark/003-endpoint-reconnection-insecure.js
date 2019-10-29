@@ -123,7 +123,7 @@ describe(
               'one!',
               'two!',
               'three!',
-              function(err, result) {
+              function(err) {
                 if (err) {
                   lastError = err;
                   return setTimeout(whileCB, 2000);
@@ -297,7 +297,7 @@ describe(
           mesh.on('endpoint-reconnect-scheduled', function() {
             if (__doneMeasuring) return;
 
-            if (measuredCount == 0) {
+            if (measuredCount === 0) {
               lastMeasurement = Date.now();
               return measuredCount++;
             }
@@ -310,7 +310,7 @@ describe(
             // console.log('measuredCount:::',measuredCount);
             // console.log('measuredDifference:::',measuredDifference);
 
-            if (measuredCount == 4) {
+            if (measuredCount === 4) {
               __doneMeasuring = true;
 
               var measuredAverage = measuredDifference / 3;

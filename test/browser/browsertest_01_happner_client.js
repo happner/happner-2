@@ -76,7 +76,7 @@ describe('browsertest_01_happner_client', function() {
         return new Promise(function(resolve, reject) {
           api.event.testComponent2.on(
             'test/event',
-            function(data, meta) {
+            function() {
               count++;
             },
             function(e) {

@@ -1,7 +1,7 @@
 // Uses unit test 2 modules
 var Mesh = require('../../..');
 
-describe(require('path').basename(__filename), function(done) {
+describe(require('path').basename(__filename), function() {
   this.timeout(120000);
 
   var maximumPings = 1000;
@@ -56,7 +56,7 @@ describe(require('path').basename(__filename), function(done) {
   before(function(done) {
     console.time('startup');
     mesh = new Mesh();
-    mesh.initialize(config, function(err) {
+    mesh.initialize(config, function() {
       console.timeEnd('startup');
       done();
     });
@@ -100,7 +100,7 @@ describe(require('path').basename(__filename), function(done) {
           message.m.should.contain('Hooray');
           done();
         },
-        function(e) {
+        function() {
           mesh.exchange.component1.startData();
         }
       );

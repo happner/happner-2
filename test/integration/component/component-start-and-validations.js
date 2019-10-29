@@ -151,7 +151,7 @@ describe(
         function(err) {
           if (err) return done(err);
 
-          anotherMesh.start(function(err, mesh) {
+          anotherMesh.start(function(err) {
             // console.log('ERROR', err);
             should.exist(err);
             done();

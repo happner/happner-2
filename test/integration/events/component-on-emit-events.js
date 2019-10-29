@@ -311,17 +311,14 @@ describe(
       this.timeout(5000);
 
       var clientEvents = [];
-      var currentListenerId;
 
       client.event.component1.once(
         'test-listener-id',
         function(data) {
           clientEvents.push(data);
         },
-        function(e, listenerId) {
+        function(e) {
           if (e) return done(e);
-
-          currentListenerId = listenerId;
 
           client.exchange.component1.causeEmitListener(
             'test-listener-id',
@@ -357,17 +354,14 @@ describe(
       this.timeout(5000);
 
       var clientEvents = [];
-      var currentListenerId;
 
       client.event.component1.on(
         'test-listener-id',
         function(data) {
           clientEvents.push(data);
         },
-        function(e, listenerId) {
+        function(e) {
           if (e) return done(e);
-
-          currentListenerId = listenerId;
 
           client.exchange.component1.causeEmitListener(
             'test-listener-id',

@@ -19,9 +19,6 @@ describe(
       ['test', '__fixtures', 'test', 'integration', 'security'].join(path.sep) +
       path.sep;
 
-    var Crypto = require('happn-util-crypto');
-    var crypto = new Crypto();
-
     this.timeout(120000);
 
     var config = {
@@ -70,8 +67,8 @@ describe(
       it("we can ride moonface's slippery slip", function(done) {
         var eventFired = false;
 
-        mesh.event.theFarawayTree.moonface.on('*', function(data, meta) {
-          if (data.value == 'whoa') eventFired = true;
+        mesh.event.theFarawayTree.moonface.on('*', function(data) {
+          if (data.value === 'whoa') eventFired = true;
         });
 
         mesh.exchange.theFarawayTree.moonface.rideTheSlipperySlip(
@@ -79,7 +76,7 @@ describe(
           'two!',
           'three!',
           function(err, res) {
-            assert(res == 'one! two! three!, wheeeeeeeeeeeeheeee!');
+            assert(res === 'one! two! three!, wheeeeeeeeeeeeheeee!');
             assert(eventFired);
             done();
           }
@@ -87,7 +84,7 @@ describe(
       });
 
       it('we know when there was an accident', function(done) {
-        mesh.exchange.theFarawayTree.moonface.haveAnAccident(function(err, res) {
+        mesh.exchange.theFarawayTree.moonface.haveAnAccident(function(err) {
           assert(err.toString().match(/SlipFailure: Stray patch of glue./));
           done();
         });

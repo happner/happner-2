@@ -6,7 +6,6 @@ describe(
     this.timeout(120000);
 
     var should = require('chai').should();
-    var path = require('path');
 
     Mesh = require('../../..');
 
@@ -112,17 +111,6 @@ describe(
     });
 
     it('should add a user to the first mesh (serverConfig)', function(done) {
-      var credentials = {
-        username: '_ADMIN',
-        password: 'password'
-      };
-
-      var deviceDetails = {
-        description: 'FieldPoP test device',
-        location: 'Somewhere east of somewhere',
-        name: 'Test device 1'
-      };
-
       var TestUser1 = {
         username: 'user1@oem.com',
         password: 'TEST PWD'

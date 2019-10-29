@@ -3,24 +3,24 @@ module.exports = SeeAbove;
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method2 = function(opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
 };
 
 SeeAbove.prototype.method3 = function($happn, $origin, opts, callback) {
-  if (opts.errorAs == 'callback') return callback(new Error('THIS IS JUST A TEST'));
-  if (opts.errorAs == 'throw') throw new Error('THIS IS JUST A TEST');
+  if (opts.errorAs === 'callback') return callback(new Error('THIS IS JUST A TEST'));
+  if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST');
 
   opts.number++;
   callback(null, opts);
@@ -70,8 +70,6 @@ describe(
     var expect = require('expect.js');
 
     var Mesh = require('../..');
-
-    var path = require('path');
 
     var libFolder = __dirname + sep + '__fixtures' + sep;
 
@@ -145,8 +143,7 @@ describe(
 
             if (err) return done(err);
             mesh.exchange.remoteMesh.remoteComponent.remoteFunction('one', 'two', 'three', function(
-              err,
-              result
+              err
             ) {
               if (err) return done(err);
               done();
@@ -200,7 +197,7 @@ describe(
         }
       });
 
-      if (errors.length == 0) return done();
+      if (errors.length === 0) return done();
       else {
         console.log(errors);
         return done(new Error('failures found in responses:::'));

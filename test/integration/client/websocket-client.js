@@ -106,7 +106,7 @@ describe(
             testClient.exchange.websocket_client.data.remove(
               '/websocket_client/delete',
               {},
-              function(e, removeresult) {
+              function(e) {
                 if (e) return done(e);
 
                 testClient.exchange.websocket_client.data.get(
@@ -126,7 +126,7 @@ describe(
       );
     });
 
-    xit('does an on, on the datalayer component', function(done) {});
+    xit('does an on, on the datalayer component', function() {});
 
     it('runs a method on a component', function() {
       return testClient.exchange.component.remoteCall();
