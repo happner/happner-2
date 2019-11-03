@@ -56,9 +56,7 @@ describe(
     before('starts up the mesh', function(done) {
       Happner.create(config, function(err, meshInstance) {
         if (err) return done(err);
-
         mesh = meshInstance;
-
         done();
       });
     });

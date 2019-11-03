@@ -75,7 +75,10 @@ describe(
         done();
       });
 
-      testClient.exchange.component1.causeEmit().catch(done);
+      testClient.exchange.component1.causeEmit().catch(function(e) {
+        console.log('CAUSE EMIT FAILURE:::', e);
+        done(e);
+      });
     });
 
     it('components can subscribe to variable depth events, default depth', function(done) {

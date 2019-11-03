@@ -7,17 +7,21 @@ describe(
 
     it('tests getting function parameters', function(done) {
       var utils = require('../../../lib/system/utilities');
-
-      var testFunc = function() {};
-
+      var testFunc = function(
+        // eslint-disable-next-line no-unused-vars
+        param1 /**param1 comment**/,
+        // eslint-disable-next-line no-unused-vars
+        param2 /*param2 comment*/,
+        // eslint-disable-next-line no-unused-vars
+        option1,
+        // eslint-disable-next-line no-unused-vars
+        option2
+      ) {};
       var params = utils.getFunctionParameters(testFunc);
       expect(params.length).to.be(4);
       expect(params[1]).to.be('param2');
-
       done();
     });
-
-    it('tests getting function parameters', function() {});
 
     it('tests stringifying errors', function(done) {
       var utils = require('../../../lib/system/utilities');

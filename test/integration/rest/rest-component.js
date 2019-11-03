@@ -158,16 +158,9 @@ describe(
       });
     });
 
-    after(function() {
-      this.timeout(30000);
-
-      if (mesh) {
-        return mesh.stop({ reconnect: false }).then(function(e) {
-          if (e) console.warn('error stopping local mesh');
-
-          remote.kill(); //we assume remote exists
-        });
-      } else if (remote) remote.kill();
+    after(async () => {
+      if (remote) remote.kill();
+      if (mesh) await mesh.stop({ reconnect: false });
     });
 
     var happnUtils = require('../../../lib/system/utilities');

@@ -14,6 +14,7 @@ describe(
         error: function() {},
         trace: function() {},
         $$DEBUG: function() {},
+        $$TRACE: function() {},
         createLogger: function() {
           return mesh.log;
         }

@@ -100,7 +100,6 @@ describe(
       path.sep;
 
     var REMOTE_MESH = 'remote-mesh-secure.js';
-
     var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
 
     this.timeout(120000);
@@ -111,11 +110,9 @@ describe(
     var startRemoteMesh = function(callback) {
       var timedOut = setTimeout(function() {
         callback(new Error('remote mesh start timed out'));
-      }, 5000);
-
+      }, 10000);
       // spawn remote mesh in another process
       remote = spawn('node', [libFolder + REMOTE_MESH]);
-
       remote.stdout.on('data', function(data) {
         if (data.toString().match(/READY/)) {
           clearTimeout(timedOut);
@@ -192,19 +189,9 @@ describe(
       });
     });
 
-    after(function(done) {
-      this.timeout(30000);
-
-      if (!mesh) {
-        if (remote) remote.kill();
-        return done();
-      }
-
-      mesh.stop({ reconnect: false }, function(e) {
-        if (remote) remote.kill();
-        if (e) return done(e);
-        done();
-      });
+    after(async () => {
+      if (remote) remote.kill();
+      if (mesh) await mesh.stop({ reconnect: false });
     });
 
     var happnUtils = require('../../../lib/system/utilities');

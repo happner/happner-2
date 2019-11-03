@@ -100,7 +100,6 @@ describe(
       path.sep;
 
     var REMOTE_MESH = 'remote-mesh-secure.js';
-
     var ADMIN_PASSWORD = 'ADMIN_PASSWORD';
 
     this.timeout(120000);
@@ -108,67 +107,50 @@ describe(
     var mesh;
     var remote;
 
-    // spawn remote mesh in another process
-    remote = spawn('node', [libFolder + REMOTE_MESH]);
-
-    remote.stdout.on('data', function(data) {
-      if (data.toString().match(/READY/)) {
-        clearTimeout();
-
-        setTimeout(function() {
-          callback();
-        }, 1000);
-      }
+    before(function(done) {
+      // spawn remote mesh in another process
+      remote = spawn('node', [libFolder + REMOTE_MESH]);
+      remote.stdout.on('data', function(data) {
+        if (data.toString().match(/READY/)) {
+          clearTimeout();
+          setTimeout(function() {
+            done();
+          }, 1000);
+        }
+      });
     });
 
     before(function(done) {
-      global.TESTING_E3B = true; //.............
-
-      try {
-        Mesh.create(
-          {
-            name: 'e3b-test',
-            happn: {
-              secure: true,
-              adminPassword: ADMIN_PASSWORD,
-              port: 10000
-            },
-            util: {
-              // logger: {}
-            },
-            modules: {
-              testComponent: {
-                path: __filename // .............
-              }
-            },
-            components: {
-              testComponent: {}
+      global.TESTING_E3B = true;
+      Mesh.create(
+        {
+          name: 'e3b-test',
+          happn: {
+            secure: true,
+            adminPassword: ADMIN_PASSWORD,
+            port: 10000
+          },
+          modules: {
+            testComponent: {
+              path: __filename
             }
           },
-          function(err, instance) {
-            delete global.TESTING_E3B; //.............
-
-            if (err) return done(err);
-
-            mesh = instance;
-
-            done();
+          components: {
+            testComponent: {}
           }
-        );
-      } catch (e) {
-        done(e);
-      }
+        },
+        function(err, instance) {
+          delete global.TESTING_E3B;
+          if (err) return done(err);
+          mesh = instance;
+          done();
+        }
+      );
     });
 
-    after(function(done) {
-      this.timeout(30000);
-
-      if (!mesh) {
-        if (remote) remote.kill();
-        return done();
-      }
-
-      mesh.stop({ reconnect: false }, done);
+    after(async () => {
+      if (remote) remote.kill();
+      if (mesh) await mesh.stop({ reconnect: false });
     });
 
     var login = function(done, credentials) {
