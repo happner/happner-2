@@ -11,7 +11,6 @@ describe.skipWindows(
     var Happner = require('../..');
     var shortid = require('shortid');
     var fs = require('fs');
-    // var Promise = require('bluebird');
 
     var testId = shortid.generate();
     var testId2 = shortid.generate();
@@ -122,65 +121,7 @@ describe.skipWindows(
         .catch(done);
     });
 
-    before('setup secureMesh user', function(done) {
-      // var theGroup = {
-      //   name: 'group',
-      //   permissions: {
-      //     methods: {
-      //       '/secureMesh/service-name/method1': {
-      //         authorized: true
-      //       },
-      //       '/secureMesh/service-name/allowedMethodNotData': {
-      //         authorized: true
-      //       },
-      //       '/secureMesh/x-service-name/allowedMethodNotData': {
-      //         authorized: true
-      //       },
-      //       '/secureMesh/y-service-name/allowedMethodNotData': {
-      //         authorized: true
-      //       },
-      //       '/secureMesh/service-name/allowedMethodNotOtherMethod': {
-      //         authorized: true
-      //       },
-      //       '/secureMesh/x-service-name/otherMethod': {
-      //         authorized: true
-      //       }
-      //     },
-      //     data: {
-      //       '/data/forbidden': {
-      //         authorized: false,
-      //         actions: ['set']
-      //       }
-      //     }
-      //   }
-      // };
-
-      // var theUser = {
-      //   username: 'username',
-      //   password: 'password'
-      // };
-
-      done();
-
-      // var security = secureMesh.exchange.security;
-      //
-      // Promise.all([
-      //     security.addGroup(theGroup),
-      //     security.addUser(theUser)
-      //   ])
-      //   .spread(function(group, user) {
-      //     return security.linkGroup(group, user);
-      //   })
-      //   .then(function() {
-      //     done();
-      //   });
-    });
-
     after('stop mesh2', function(done) {
-      // fs.unlink(dbFileName2, function(e) {
-      //   if (mesh2) return mesh2.stop({reconnect: false}, done);
-      //   done();
-      // });
       if (mesh2) {
         mesh2.stop(
           {
@@ -264,43 +205,6 @@ describe.skipWindows(
           done(e);
         });
     });
-
-    // before('setup mesh2 user', function(done){
-    //   var theGroup = {
-    //     name: 'group',
-    //     permissions: {
-    //       methods: {
-    //         '/service-name/allowedMethodAndOtherRemoteMethod': {
-    //           authorized: true
-    //         }
-    //       },
-    //       data: {
-    //         '/data/forbidden': {
-    //           authorized: false,
-    //           actions: ['set']
-    //         }
-    //       }
-    //     }
-    //   };
-    //
-    //   var theUser = {
-    //     username: 'username',
-    //     password: 'password'
-    //   };
-    //
-    //   var security = mesh2.exchange.security;
-    //
-    //   Promise.all([
-    //       security.addGroup(theGroup),
-    //       security.addUser(theUser)
-    //     ])
-    //     .spread(function(group, user) {
-    //       return security.linkGroup(group, user);
-    //     })
-    //     .then(function() {
-    //       done();
-    //     });
-    // })
 
     const TIMES = 2000;
 

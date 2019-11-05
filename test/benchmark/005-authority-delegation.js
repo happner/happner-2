@@ -173,10 +173,6 @@ describe.skipWindows(
     });
 
     after('stop mesh2', function(done) {
-      // fs.unlink(dbFileName2, function(e) {
-      //   if (mesh2) return mesh2.stop({reconnect: false}, done);
-      //   done();
-      // });
       if (mesh2) {
         mesh2.stop(
           {
