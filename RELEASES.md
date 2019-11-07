@@ -554,3 +554,7 @@ based on happner 1.28.1
   - security component listUsers and listGroups with count, skip and limit
   - mongo plugin aggregate, collation and count
   - fix: uglify-es in packager
+
+10.5.1 2019-10-22
+-----------------
+  - prettier update with lint

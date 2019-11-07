@@ -2,7 +2,6 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
   this.timeout(5000);
 
   let expect = require('expect.js');
-  let test_id;
   var happnerTestHelper;
 
   var publisherclient;
@@ -17,28 +16,30 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
         data: {
           config: {
             autoUpdateDBVersion: true,
-            datastores: [{
-              name: 'mongo',
-              provider:'happn-service-mongo-2',
-              isDefault: true,
-              settings: {
-                database: DB_NAME,
-                collection: COLL_NAME
+            datastores: [
+              {
+                name: 'mongo',
+                provider: 'happn-service-mongo-2',
+                isDefault: true,
+                settings: {
+                  database: DB_NAME,
+                  collection: COLL_NAME
+                }
               }
-            }]
+            ]
           }
         }
       }
     }
   };
 
-  before('should clear the mongo collection', async() => {
+  before('should clear the mongo collection', async () => {
     let dropMongoDb = require('../../__fixtures/utils/drop-mongo-db');
     await dropMongoDb(DB_NAME);
   });
 
   before('should initialize the service and clients', async () => {
-    test_id = Date.now() + '_' + require('shortid').generate();
+    Date.now() + '_' + require('shortid').generate();
     happnerTestHelper = require('../../__fixtures/utils/happner-test-helper').create(config);
     await happnerTestHelper.initialize();
     publisherclient = happnerTestHelper.publisherclient;
@@ -48,11 +49,13 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
   function createTestItem(id, group, custom, pathPrefix) {
     return new Promise((resolve, reject) => {
       publisherclient.data.set(
-        `${pathPrefix || ''}/searches-and-aggregation/${id}`, {
+        `${pathPrefix || ''}/searches-and-aggregation/${id}`,
+        {
           group,
           custom,
           id
-        }, {},
+        },
+        {},
         function(e, response, created) {
           if (e) return reject(e);
           resolve(created);
@@ -90,7 +93,8 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
 
   it('tests a normal search, with the count option and $not', function(callback) {
     listenerclient.data.count(
-      '/searches-and-aggregation/*', {
+      '/searches-and-aggregation/*',
+      {
         criteria: {
           custom: {
             $not: {
@@ -109,7 +113,8 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
 
   it('tests a normal search, with the count option, collation case insensitive', function(callback) {
     listenerclient.data.count(
-      '/searches-and-aggregation/*', {
+      '/searches-and-aggregation/*',
+      {
         criteria: {
           'data.custom': {
             $eq: 'Odd'
@@ -132,7 +137,8 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
 
   it('tests a normal search, with the count option, case sensitive', function(callback) {
     listenerclient.data.count(
-      '/searches-and-aggregation/*', {
+      '/searches-and-aggregation/*',
+      {
         criteria: {
           custom: {
             $eq: 'Odd'
@@ -150,25 +156,29 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
 
   it('tests an aggregated search', function(callback) {
     listenerclient.data.get(
-      '/searches-and-aggregation/*', {
+      '/searches-and-aggregation/*',
+      {
         criteria: {
           'data.group': {
             $eq: 'odd'
           }
         },
-        aggregate: [{
-          $group: {
-            _id: '$data.custom',
-            total: {
-              $sum: '$data.id'
+        aggregate: [
+          {
+            $group: {
+              _id: '$data.custom',
+              total: {
+                $sum: '$data.id'
+              }
             }
           }
-        }]
+        ]
       },
       function(e, items) {
         if (e) return callback(e);
         expect(items.value.length).to.be(4);
-        expect(items.value).to.eql([{
+        expect(items.value).to.eql([
+          {
             _id: 'ODD',
             total: 5
           },
@@ -192,20 +202,23 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
 
   it('tests an aggregated search with a case-insensitive collation', function(callback) {
     listenerclient.data.get(
-      '/searches-and-aggregation/*', {
+      '/searches-and-aggregation/*',
+      {
         criteria: {
           'data.group': {
             $eq: 'odd'
           }
         },
-        aggregate: [{
-          $group: {
-            _id: '$data.custom',
-            total: {
-              $sum: '$data.id'
+        aggregate: [
+          {
+            $group: {
+              _id: '$data.custom',
+              total: {
+                $sum: '$data.id'
+              }
             }
           }
-        }],
+        ],
         options: {
           collation: {
             locale: 'en_US',
@@ -216,10 +229,12 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
       function(e, items) {
         if (e) return callback(e);
         expect(items.value.length).to.be(1);
-        expect(items.value).to.eql([{
-          _id: 'Odd',
-          total: 25
-        }]);
+        expect(items.value).to.eql([
+          {
+            _id: 'Odd',
+            total: 25
+          }
+        ]);
         callback();
       }
     );

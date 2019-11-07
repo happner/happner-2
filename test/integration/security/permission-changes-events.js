@@ -1,202 +1,193 @@
-const log = require('why-is-node-running');
+describe(
+  require('../../__fixtures/utils/test_helper')
+    .create()
+    .testName(__filename, 3),
+  function() {
+    this.timeout(120000);
 
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+    var expect = require('expect.js');
+    require('chai').should();
 
-  this.timeout(120000);
+    var Mesh = require('../../..');
+    var mesh = new Mesh();
 
-  var expect = require('expect.js');
-  require('chai').should();
+    var test_id = Date.now() + '_' + require('shortid').generate();
 
-  var Mesh = require('../../..');
-  var mesh = new Mesh();
+    before(function(done) {
+      var _this = this;
 
-  var test_id = Date.now() + '_' + require('shortid').generate();
-  var async = require('async');
+      _this.adminClient = new Mesh.MeshClient({ secure: true, port: 8004 });
 
-  const log = require('why-is-node-running');
+      mesh.initialize(
+        {
+          name: 'permission-changes-events',
+          happn: {
+            secure: true,
+            adminPassword: test_id,
+            port: 8004
+          }
+        },
+        function(err) {
+          if (err) return done(err);
+          mesh.start(function(err) {
+            if (err) {
+              return done(err);
+            }
 
-  before(function (done) {
+            // Credentials for the login method
+            var credentials = {
+              username: '_ADMIN', // pending
+              password: test_id
+            };
 
-    var _this = this;
-
-    _this.adminClient = new Mesh.MeshClient({secure: true, port: 8004});
-
-    mesh.initialize({
-      name: 'permission-changes-events',
-      happn: {
-        secure: true,
-        adminPassword: test_id,
-        port: 8004
-      }
-    }, function (err) {
-      if (err) return done(err);
-      mesh.start(function (err) {
-        if (err) {
-          return done(err);
+            _this.adminClient
+              .login(credentials)
+              .then(function() {
+                done();
+              })
+              .catch(done);
+          });
         }
-
-        // Credentials for the login method
-        var credentials = {
-          username: '_ADMIN', // pending
-          password: test_id
-        };
-
-        _this.adminClient.login(credentials).then(function () {
-          done();
-        }).catch(done);
-
-      });
+      );
     });
-  });
 
-  after(function (done) {
-    this.timeout(20000);
-    if (this.adminClient) return this.adminClient.disconnect(()=>{
-      this.adminClient.event.security.offPath('upsert-user');
-      this.adminClient.event.security.offPath('upsert-group');
-      this.adminClient.event.security.offPath('link-group');
-      this.adminClient.event.security.offPath('unlink-group');
-      this.adminClient.event.security.offPath('delete-group');
-      this.adminClient.event.security.offPath('delete-user');
-      mesh.stop({reconnect: false}, function(){
-        setTimeout(()=>{
-          //log();
-          done();
-        }, 11000);
-      });
+    after(function(done) {
+      this.timeout(20000);
+      if (this.adminClient)
+        return this.adminClient.disconnect(() => {
+          this.adminClient.event.security.offPath('upsert-user');
+          this.adminClient.event.security.offPath('upsert-group');
+          this.adminClient.event.security.offPath('link-group');
+          this.adminClient.event.security.offPath('unlink-group');
+          this.adminClient.event.security.offPath('delete-group');
+          this.adminClient.event.security.offPath('delete-user');
+          mesh.stop({ reconnect: false }, function() {
+            setTimeout(() => {
+              //log();
+              done();
+            }, 11000);
+          });
+        });
+      return done();
     });
-    return done();
-  });
 
-  it('tests that all security events are being bubbled back from happn to happner security - and are consumable from an admin client', function (done) {
+    it('tests that all security events are being bubbled back from happn to happner security - and are consumable from an admin client', function(done) {
+      var _this = this;
 
-    var _this = this;
+      var testGroup = {
+        name: 'TESTGROUP1' + test_id,
 
-    var testGroup = {
+        custom_data: {
+          customString: 'custom1',
+          customNumber: 0
+        },
 
-      name: 'TESTGROUP1' + test_id,
+        permissions: {
+          methods: {}
+        }
+      };
 
-      custom_data: {
-        customString: 'custom1',
-        customNumber: 0
-      },
+      var testGroupSaved;
+      var testUserSaved;
 
-      permissions: {
-        methods: {}
-      }
-    };
+      //link-group
+      //
 
-    var testGroupSaved;
-    var testUserSaved;
-    var testUserClient;
+      var eventsToFire = {
+        'upsert-user': false,
+        'upsert-group': false,
+        'link-group': false,
+        'unlink-group': false,
+        'delete-group': false,
+        'delete-user': false
+      };
 
-    var userUpsertedEventFired = false;
-    var groupUpsertedEventFired = false;
-    var linkGroupEventFired = false;
-    var unlinkGroupEventFired = false;
-    var deleteGroupEventFired = false;
-    var deleteUserEventFired = false;
+      var fireEvent = function(key) {
+        eventsToFire[key] = true;
 
-    //link-group
-    //
+        for (var eventKey in eventsToFire) if (eventsToFire[eventKey] === false) return;
 
-    var eventsToFire = {
-      'upsert-user': false,
-      'upsert-group': false,
-      'link-group': false,
-      'unlink-group': false,
-      'delete-group': false,
-      'delete-user': false
-    };
+        done();
+      };
 
-    var fireEvent = function (key) {
-
-      eventsToFire[key] = true;
-
-      for (var eventKey in eventsToFire)
-        if (eventsToFire[eventKey] == false)
-          return;
-
-      done();
-    };
-
-    _this.adminClient.exchange.security.attachToSecurityChanges(function (e) {
-
-      if (e) return done(e);
-
-      _this.adminClient.event.security.on('upsert-user', function (data) {
-        fireEvent('upsert-user');
-      });
-
-      _this.adminClient.event.security.on('upsert-group', function (data) {
-        fireEvent('upsert-group');
-      });
-
-      _this.adminClient.event.security.on('link-group', function (data) {
-        fireEvent('link-group');
-      });
-
-      _this.adminClient.event.security.on('unlink-group', function (data) {
-        fireEvent('unlink-group');
-      });
-
-      _this.adminClient.event.security.on('delete-group', function (data) {
-        fireEvent('delete-group');
-      });
-
-      _this.adminClient.event.security.on('delete-user', function (data) {
-        fireEvent('delete-user');
-      });
-
-      _this.adminClient.exchange.security.addGroup(testGroup, function (e, result) {
-
+      _this.adminClient.exchange.security.attachToSecurityChanges(function(e) {
         if (e) return done(e);
 
-        testGroupSaved = result;
+        _this.adminClient.event.security.on('upsert-user', function() {
+          fireEvent('upsert-user');
+        });
 
-        var testUser = {
-          username: 'TESTUSER1' + test_id,
-          password: 'TEST PWD',
-          custom_data: {
-            something: 'useful'
-          }
-        };
+        _this.adminClient.event.security.on('upsert-group', function() {
+          fireEvent('upsert-group');
+        });
 
-        _this.adminClient.exchange.security.addUser(testUser, function (e, result) {
+        _this.adminClient.event.security.on('link-group', function() {
+          fireEvent('link-group');
+        });
 
+        _this.adminClient.event.security.on('unlink-group', function() {
+          fireEvent('unlink-group');
+        });
+
+        _this.adminClient.event.security.on('delete-group', function() {
+          fireEvent('delete-group');
+        });
+
+        _this.adminClient.event.security.on('delete-user', function() {
+          fireEvent('delete-user');
+        });
+
+        _this.adminClient.exchange.security.addGroup(testGroup, function(e, result) {
           if (e) return done(e);
 
-          expect(result.username).to.be(testUser.username);
-          testUserSaved = result;
+          testGroupSaved = result;
 
-          _this.adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function (e) {
-            //we'll need to fetch user groups, do that later
+          var testUser = {
+            username: 'TESTUSER1' + test_id,
+            password: 'TEST PWD',
+            custom_data: {
+              something: 'useful'
+            }
+          };
+
+          _this.adminClient.exchange.security.addUser(testUser, function(e, result) {
             if (e) return done(e);
 
-            testUser.password = 'NEW PWD';
-            testUser.custom_data = {changedCustom: 'changedCustom'};
+            expect(result.username).to.be(testUser.username);
+            testUserSaved = result;
 
-            _this.adminClient.exchange.security.updateUser(testUser, function (e, result) {
-
+            _this.adminClient.exchange.security.linkGroup(testGroupSaved, testUserSaved, function(
+              e
+            ) {
+              //we'll need to fetch user groups, do that later
               if (e) return done(e);
 
-              _this.adminClient.exchange.security.unlinkGroup(testGroupSaved, testUserSaved, function (e, result) {
+              testUser.password = 'NEW PWD';
+              testUser.custom_data = { changedCustom: 'changedCustom' };
 
+              _this.adminClient.exchange.security.updateUser(testUser, function(e) {
                 if (e) return done(e);
 
-                _this.adminClient.exchange.security.deleteGroup(testGroupSaved, function (e, result) {
+                _this.adminClient.exchange.security.unlinkGroup(
+                  testGroupSaved,
+                  testUserSaved,
+                  function(e) {
+                    if (e) return done(e);
 
-                  if (e) return done(e);
+                    _this.adminClient.exchange.security.deleteGroup(testGroupSaved, function(e) {
+                      if (e) return done(e);
 
-                  _this.adminClient.exchange.security.deleteUser(testUser, function (e, result) {
-                    //this will error because when we do done in event, the server closes its connections
-                  });
-                });
+                      _this.adminClient.exchange.security.deleteUser(testUser, function() {
+                        //this will error because when we do done in event, the server closes its connections
+                      });
+                    });
+                  }
+                );
               });
             });
           });
         });
       });
     });
-  });
-});
+  }
+);

@@ -1,192 +1,188 @@
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(
+  require('../../__fixtures/utils/test_helper')
+    .create()
+    .testName(__filename, 3),
+  function() {
+    this.timeout(120000);
 
-  this.timeout(120000);
+    var Mesh = require('../../..');
+    var test_id = Date.now() + '_' + require('shortid').generate();
+    var fs = require('fs-extra');
+    var dbFileName = './temp/' + test_id + '.nedb';
+    var expect = require('expect.js');
 
-  var Mesh = require('../../..');
-  var test_id = Date.now() + '_' + require('shortid').generate();
-  var fs = require('fs-extra');
-  var dbFileName = './temp/' + test_id + '.nedb';
-  var expect = require('expect.js');
+    global.TESTING_7 = true;
 
-  global.TESTING_7 = true;
+    var config = {
+      secure: true,
+      happn: {
+        persist: true,
+        filename: dbFileName,
+        adminPassword: 'TEST7'
+      },
+      components: {
+        data: {}
+      }
+    };
 
-  var config = {
-    secure: true,
-    happn: {
-      persist: true,
-      filename: dbFileName,
-      adminPassword:"TEST7"
-    },
-    components: {
-      'data': {}
-    }
-  };
+    var unpersistedConfig = {
+      port: 8888,
+      secure: true,
+      happn: {
+        persist: false
+      }
+    };
 
-  var unpersistedConfig = {
-    port: 8888,
-    secure: true,
-    happn: {
-      persist: false
-    }
-  };
-
-  after(function (done) {
-    var _this = this;
-    fs.unlink(dbFileName, function (e) {
-      if (e) return callback(e);
-      _this.mesh.stop({reconnect: false})
-        .then(function () {
-          _this.unpersistedMesh.stop({reconnect: false}, done);
-        })
-        .catch(done);
+    after(function(done) {
+      var _this = this;
+      fs.unlink(dbFileName, function(e) {
+        if (e) return callback(e);
+        _this.mesh
+          .stop({ reconnect: false })
+          .then(function() {
+            _this.unpersistedMesh.stop({ reconnect: false }, done);
+          })
+          .catch(done);
+      });
     });
-  });
 
-  var meshName;
-  var meshPublicKey;
-  var unpersistedMeshName;
-  var unpersistedMeshPublicKey;
+    var meshName;
+    var meshPublicKey;
+    var unpersistedMeshName;
+    var unpersistedMeshPublicKey;
 
-  before(function (done) {
-
-    var _this = this;
-
-    Mesh.create(config).then(function (mesh) {
-
-      _this.mesh = mesh;
-      meshName = mesh._mesh.config.name;
-      meshPublicKey = mesh._mesh.happn.server.services.security._keyPair.publicKey;
-
-      Mesh.create(unpersistedConfig).then(function (unpersistedMesh) {
-
-        _this.unpersistedMesh = unpersistedMesh;
-        unpersistedMeshName = unpersistedMesh._mesh.config.name;
-        unpersistedMeshPublicKey = unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey;
-
-        // console.log('names:::', meshName, unpersistedMeshName);
-
-        done();
-      }).catch(done);
-    }).catch(done);
-  });
-
-  it('restarts the mesh, ensures the keypair', function (done) {
-
-    var _this = this;
-
-    _this.mesh.stop({reconnect: false}, function (e) {
-
-      if (e) return done(e);
+    before(function(done) {
+      var _this = this;
 
       Mesh.create(config)
-
-        .then(function (mesh) {
-
+        .then(function(mesh) {
           _this.mesh = mesh;
+          meshName = mesh._mesh.config.name;
+          meshPublicKey = mesh._mesh.happn.server.services.security._keyPair.publicKey;
 
-          expect(mesh._mesh.happn.server.services.security._keyPair.publicKey.toString()).to.be(meshPublicKey.toString());
-          expect(mesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(null);
-          expect(mesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(undefined);
+          Mesh.create(unpersistedConfig)
+            .then(function(unpersistedMesh) {
+              _this.unpersistedMesh = unpersistedMesh;
+              unpersistedMeshName = unpersistedMesh._mesh.config.name;
+              unpersistedMeshPublicKey =
+                unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey;
 
-          done();
+              // console.log('names:::', meshName, unpersistedMeshName);
 
+              done();
+            })
+            .catch(done);
         })
-
-        .catch(done);
-
-
-    });
-
-  });
-
-  it('restarts the unpersisted mesh, ensures the keypair is different', function (done) {
-
-    var _this = this;
-
-    _this.unpersistedMesh.stop({reconnect: false}, function (e) {
-
-      if (e) return done(e);
-
-      Mesh.create(unpersistedConfig)
-
-        .then(function (unpersistedMesh) {
-
-          _this.unpersistedMesh = unpersistedMesh;
-
-          expect(unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey.toString()).to.not.be(unpersistedMeshPublicKey.toString());
-          expect(unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(null);
-          expect(unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(undefined);
-          expect(unpersistedMeshPublicKey).to.not.be(null);
-          expect(unpersistedMeshPublicKey).to.not.be(undefined);
-
-
-          done();
-
-        })
-
-        .catch(done);
-
-    });
-  });
-
-  it('restarts the mesh, ensures the name', function (done) {
-
-    var _this = this;
-
-    _this.mesh.stop({reconnect: false}, function (e) {
-
-      if (e) return done(e);
-
-      //so we need to check that we are getting the name from the file
-      config.name = undefined;
-
-      Mesh.create(config)
-
-        .then(function (mesh) {
-
-          _this.mesh = mesh;
-
-          expect(mesh._mesh.config.name).to.be(meshName);
-          expect(mesh._mesh.config.name).to.not.be(null);
-          expect(mesh._mesh.config.name).to.not.be(undefined);
-
-          done();
-
-        })
-
         .catch(done);
     });
-  });
 
-  it('restarts the unpersisted mesh, ensures the name is different', function (done) {
+    it('restarts the mesh, ensures the keypair', function(done) {
+      var _this = this;
 
-    var _this = this;
+      _this.mesh.stop({ reconnect: false }, function(e) {
+        if (e) return done(e);
 
-    _this.unpersistedMesh.stop({reconnect: false}, function (e) {
+        Mesh.create(config)
 
-      if (e) return done(e);
+          .then(function(mesh) {
+            _this.mesh = mesh;
 
-      unpersistedConfig.name = undefined;
-      unpersistedConfig.happn.name = undefined;
+            expect(mesh._mesh.happn.server.services.security._keyPair.publicKey.toString()).to.be(
+              meshPublicKey.toString()
+            );
+            expect(mesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(null);
+            expect(mesh._mesh.happn.server.services.security._keyPair.publicKey).to.not.be(
+              undefined
+            );
 
-      Mesh.create(unpersistedConfig)
+            done();
+          })
 
-        .then(function (unpersistedMesh) {
-
-          _this.unpersistedMesh = unpersistedMesh;
-
-          expect(unpersistedMesh._mesh.config.name).to.not.be(unpersistedMeshName);
-          expect(unpersistedMesh._mesh.config.name).to.not.be(null);
-          expect(unpersistedMesh._mesh.config.name).to.not.be(undefined);
-
-          expect(unpersistedMeshName).to.not.be(null);
-          expect(unpersistedMeshName).to.not.be(undefined);
-
-          done();
-
-        })
-
-        .catch(done);
+          .catch(done);
+      });
     });
-  });
-});
+
+    it('restarts the unpersisted mesh, ensures the keypair is different', function(done) {
+      var _this = this;
+
+      _this.unpersistedMesh.stop({ reconnect: false }, function(e) {
+        if (e) return done(e);
+
+        Mesh.create(unpersistedConfig)
+
+          .then(function(unpersistedMesh) {
+            _this.unpersistedMesh = unpersistedMesh;
+
+            expect(
+              unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey.toString()
+            ).to.not.be(unpersistedMeshPublicKey.toString());
+            expect(
+              unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey
+            ).to.not.be(null);
+            expect(
+              unpersistedMesh._mesh.happn.server.services.security._keyPair.publicKey
+            ).to.not.be(undefined);
+            expect(unpersistedMeshPublicKey).to.not.be(null);
+            expect(unpersistedMeshPublicKey).to.not.be(undefined);
+
+            done();
+          })
+
+          .catch(done);
+      });
+    });
+
+    it('restarts the mesh, ensures the name', function(done) {
+      var _this = this;
+
+      _this.mesh.stop({ reconnect: false }, function(e) {
+        if (e) return done(e);
+
+        //so we need to check that we are getting the name from the file
+        config.name = undefined;
+
+        Mesh.create(config)
+
+          .then(function(mesh) {
+            _this.mesh = mesh;
+
+            expect(mesh._mesh.config.name).to.be(meshName);
+            expect(mesh._mesh.config.name).to.not.be(null);
+            expect(mesh._mesh.config.name).to.not.be(undefined);
+
+            done();
+          })
+
+          .catch(done);
+      });
+    });
+
+    it('restarts the unpersisted mesh, ensures the name is different', function(done) {
+      var _this = this;
+
+      _this.unpersistedMesh.stop({ reconnect: false }, function(e) {
+        if (e) return done(e);
+
+        unpersistedConfig.name = undefined;
+        unpersistedConfig.happn.name = undefined;
+
+        Mesh.create(unpersistedConfig)
+
+          .then(function(unpersistedMesh) {
+            _this.unpersistedMesh = unpersistedMesh;
+
+            expect(unpersistedMesh._mesh.config.name).to.not.be(unpersistedMeshName);
+            expect(unpersistedMesh._mesh.config.name).to.not.be(null);
+            expect(unpersistedMesh._mesh.config.name).to.not.be(undefined);
+
+            expect(unpersistedMeshName).to.not.be(null);
+            expect(unpersistedMeshName).to.not.be(undefined);
+
+            done();
+          })
+
+          .catch(done);
+      });
+    });
+  }
+);

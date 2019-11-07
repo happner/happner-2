@@ -1,13 +1,13 @@
 describe('browsertest_02_security', function() {
-
   this.timeout(10000);
 
   it('rejects login promise on bad credentials', function(done) {
-    var client = new Happner.MeshClient({port: 55000});
-    client.login({
-      username: 'username',
-      password: 'bad password'
-    })
+    var client = new Happner.MeshClient({ port: 55000 });
+    client
+      .login({
+        username: 'username',
+        password: 'bad password'
+      })
       .then(function() {
         client.disconnect();
         done(new Error('should not allow'));
@@ -20,7 +20,7 @@ describe('browsertest_02_security', function() {
   });
 
   it('emits login/deny on bad credentials', function(done) {
-    var client = new Happner.MeshClient({port: 55000});
+    var client = new Happner.MeshClient({ port: 55000 });
     client.on('login/deny', function(error) {
       try {
         error.toString().should.equal('AccessDenied: Invalid credentials');
@@ -29,10 +29,11 @@ describe('browsertest_02_security', function() {
         done(e);
       }
     });
-    client.login({
-      username: 'username',
-      password: 'bad password'
-    })
+    client
+      .login({
+        username: 'username',
+        password: 'bad password'
+      })
       .then(function() {
         client.disconnect();
         done(new Error('should not allow'));
@@ -40,14 +41,15 @@ describe('browsertest_02_security', function() {
   });
 
   it('emits login/allow on good credentials', function(done) {
-    var client = new Happner.MeshClient({port: 55000});
+    var client = new Happner.MeshClient({ port: 55000 });
     client.on('login/allow', function() {
       done();
     });
-    client.login({
-      username: 'username',
-      password: 'password'
-    })
+    client
+      .login({
+        username: 'username',
+        password: 'password'
+      })
       .catch(done);
   });
 
@@ -64,11 +66,12 @@ describe('browsertest_02_security', function() {
     var client;
 
     before('start client', function(done) {
-      client = new Happner.MeshClient({port: 55000});
-      client.login({
-        username: 'username',
-        password: 'password'
-      })
+      client = new Happner.MeshClient({ port: 55000 });
+      client
+        .login({
+          username: 'username',
+          password: 'password'
+        })
         .then(function() {
           done();
         })
@@ -80,31 +83,31 @@ describe('browsertest_02_security', function() {
     });
 
     it('allows access to allowed methods', function(done) {
-      client.exchange.test.allowedMethod({key: 'value'})
+      client.exchange.test
+        .allowedMethod({ key: 'value' })
         .then(function(result) {
           // result.should.eql({}); // ???
           ({
             key: 'value',
             meshName: 'Server',
             originUser: 'username'
-          }).should.eql(result);
+          }.should.eql(result));
           done();
         })
         .catch(done);
     });
 
     it('denies access to denied methods cb', function(done) {
-
-        client.exchange.test.deniedMethod({key: 'value'}, function(e, result) {
-          if (!e) done(new Error('should not allow'));
-          done();
-        });
+      client.exchange.test.deniedMethod({ key: 'value' }, function(e) {
+        if (!e) done(new Error('should not allow'));
+        done();
+      });
     });
 
     it('denies access to denied methods', function(done) {
-
-        client.exchange.test.deniedMethod({key: 'value'})
-        .then(function(result) {
+      client.exchange.test
+        .deniedMethod({ key: 'value' })
+        .then(function() {
           done(new Error('should not allow'));
         })
         .catch(function(error) {

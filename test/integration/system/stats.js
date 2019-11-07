@@ -1,16 +1,18 @@
-describe(require('../../__fixtures/utils/test_helper').create().testName(__filename, 3), function () {
+describe(
+  require('../../__fixtures/utils/test_helper')
+    .create()
+    .testName(__filename, 3),
+  function() {
+    var Happner = require('../../..');
 
-  var Happner = require('../../..');
+    require('should');
 
-  require('should');
+    var server, gotStats;
 
-  var server, gotStats;
+    before('start server', function(done) {
+      this.timeout(5000);
 
-  before('start server', function (done) {
-
-    this.timeout(5000);
-
-    Happner.create({
+      Happner.create({
         name: 'MESH_NAME',
         happn: {
           services: {
@@ -22,10 +24,10 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }
         },
         modules: {
-          'another': {
+          another: {
             instance: {
-              start: function ($happn, callback) {
-                $happn.event.system.on('stats/system', function (stats) {
+              start: function($happn, callback) {
+                $happn.event.system.on('stats/system', function(stats) {
                   gotStats = stats;
                 });
                 callback();
@@ -34,56 +36,48 @@ describe(require('../../__fixtures/utils/test_helper').create().testName(__filen
           }
         },
         components: {
-          'another': {
+          another: {
             startMethod: 'start'
           }
         }
       })
-      .then(function (_server) {
-        server = _server;
-        done();
-      })
-      .catch(done);
-  });
-
-  after('stop server', function (done) {
-    if (!server) return done();
-    server.stop({ reconnect: false }, done);
-  });
-
-  it('emits stats', function (done) {
-
-    server.event.system.on('stats/system', function (stats) {
-
-      stats.errorsPerSec.should.equal(0);
-      done();
-      done = function () {}; // event is emitted repeatedly, only call done once
-
+        .then(function(_server) {
+          server = _server;
+          done();
+        })
+        .catch(done);
     });
 
-  });
+    after('stop server', function(done) {
+      if (!server) return done();
+      server.stop({ reconnect: false }, done);
+    });
 
-  it('can get stats', function (done) {
-
-    server.exchange.system.getStats()
-
-      .then(function (stats) {
+    it('emits stats', function(done) {
+      server.event.system.on('stats/system', function(stats) {
         stats.errorsPerSec.should.equal(0);
-      })
+        done();
+        done = function() {}; // event is emitted repeatedly, only call done once
+      });
+    });
 
-      .then(done).catch(done);
+    it('can get stats', function(done) {
+      server.exchange.system
+        .getStats()
 
-  });
+        .then(function(stats) {
+          stats.errorsPerSec.should.equal(0);
+        })
 
-  it('enables another component so subscribe to stats', function (done) {
+        .then(done)
+        .catch(done);
+    });
 
-    setTimeout(function () {
-
-      gotStats.errorsPerSec.should.equal(0);
-      done();
-
-    }, 800);
-
-  });
-
-});
+    it('enables another component so subscribe to stats', function(done) {
+      setTimeout(function() {
+        gotStats.errorsPerSec.should.equal(0);
+        done();
+      }, 800);
+    });
+  }
+);

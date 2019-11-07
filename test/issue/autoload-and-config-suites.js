@@ -1,18 +1,15 @@
-var should = require('chai').should();
+require('chai').should();
 var Mesh = require('../');
 var Promise = require('bluebird');
 var fxt = require('fxt');
 
-
-describe('autoload with happner.js', function () {
-
-  it('might be testable __without__ having actual autoloading modules as (suggestion: dev)dependencies to "see" if they load');
-
+describe('autoload with happner.js', function() {
+  it(
+    'might be testable __without__ having actual autoloading modules as (suggestion: dev)dependencies to "see" if they load'
+  );
 });
 
-
-describe('config suites with happner.js', function () {
-
+describe('config suites with happner.js', function() {
   /***
    TODO: Support minimalist component config
    meshConfig = {
@@ -31,28 +28,29 @@ describe('config suites with happner.js', function () {
     }
    ***/
 
-  afterEach(function () {
+  afterEach(function() {
     // remove mocks
     delete require.cache[require.resolve('fs')];
     // flush previous test's happner.js
     delete require.cache[this.flushHappnerJsPath];
   });
 
-  beforeEach('create mock mesh instance with just the necessary bits', function () {
+  beforeEach('create mock mesh instance with just the necessary bits', function() {
     this.mockMeshInstance = {
       log: {
-        error: function () {
+        error: function() {
           console.error('ERROR', arguments);
         },
-        $$DEBUG: function () { /*console.log('debug', arguments) */
+        $$DEBUG: function() {
+          /*console.log('debug', arguments) */
         }
       },
       __supplementSuites: Mesh.prototype.__supplementSuites,
-      loadPackagedModules: Mesh.prototype.loadPackagedModules,
+      loadPackagedModules: Mesh.prototype.loadPackagedModules
     };
   });
 
-  beforeEach('create a fake module called xyz with a happner.js', function () {
+  beforeEach('create a fake module called xyz with a happner.js', function() {
     var _this = this;
 
     var fs = require('fs');
@@ -60,16 +58,19 @@ describe('config suites with happner.js', function () {
     var originalstatSync = fs.statSync;
     var originallstatSync = fs.lstatSync;
 
-    fs.readFileSync = function (filename) {
+    fs.readFileSync = function(filename) {
       // console.log('readFileSync', filename);
-      if (filename.match(/xyz\/package.json/)) return JSON.stringify({
-        name: 'xyz',
-        main: 'index.js',
-      });
-      if (filename.match(/xyz\/index.js/)) return fxt(function () {/*
+      if (filename.match(/xyz\/package.json/))
+        return JSON.stringify({
+          name: 'xyz',
+          main: 'index.js'
+        });
+      if (filename.match(/xyz\/index.js/))
+        return fxt(function() {
+          /*
        module.exports = {}
        */
-      });
+        });
       if (filename.match(/xyz\/happner.js/)) {
         _this.flushHappnerJsPath = filename;
         return _this.happnerJSContent;
@@ -77,76 +78,83 @@ describe('config suites with happner.js', function () {
       return originalreadFileSync.apply(this, arguments);
     };
 
-    fs.statSync = function (filename) {
+    fs.statSync = function(filename) {
       // console.log('statSync', filename);
-      if (filename.match(/xyz$/)) return {
-        isDirectory: function () {
-          return true;
-        }
-      };
-      if (filename.match(/xyz\/index.js/)) return {
-        isDirectory: function () {
-          return false;
-        }
-      };
-      if (filename.match(/xyz\/happner.js/)) return {
-        isDirectory: function () {
-          return false;
-        }
-      };
+      if (filename.match(/xyz$/))
+        return {
+          isDirectory: function() {
+            return true;
+          }
+        };
+      if (filename.match(/xyz\/index.js/))
+        return {
+          isDirectory: function() {
+            return false;
+          }
+        };
+      if (filename.match(/xyz\/happner.js/))
+        return {
+          isDirectory: function() {
+            return false;
+          }
+        };
       return originalstatSync.apply(this, arguments);
     };
 
-    fs.lstatSync = function (filename) {
+    fs.lstatSync = function(filename) {
       // console.log('lstatSync', filename);
-      if (filename.match(/lib\/node_modules$/)) return {
-        isDirectory: function () {
-          return true;
-        },
-        isSymbolicLink: function () {
-          return false;
-        }
-      };
-      if (filename.match(/lib\/node_modules\/xyz$/)) return {
-        isDirectory: function () {
-          return true;
-        },
-        isSymbolicLink: function () {
-          return false;
-        }
-      };
-      if (filename.match(/lib\/node_modules\/xyz\/index.js$/)) return {
-        isDirectory: function () {
-          return false;
-        },
-        isSymbolicLink: function () {
-          return false;
-        }
-      };
-      if (filename.match(/xyz\/happner.js/)) return {
-        isDirectory: function () {
-          return false;
-        },
-        isSymbolicLink: function () {
-          return false;
-        }
-      };
+      if (filename.match(/lib\/node_modules$/))
+        return {
+          isDirectory: function() {
+            return true;
+          },
+          isSymbolicLink: function() {
+            return false;
+          }
+        };
+      if (filename.match(/lib\/node_modules\/xyz$/))
+        return {
+          isDirectory: function() {
+            return true;
+          },
+          isSymbolicLink: function() {
+            return false;
+          }
+        };
+      if (filename.match(/lib\/node_modules\/xyz\/index.js$/))
+        return {
+          isDirectory: function() {
+            return false;
+          },
+          isSymbolicLink: function() {
+            return false;
+          }
+        };
+      if (filename.match(/xyz\/happner.js/))
+        return {
+          isDirectory: function() {
+            return false;
+          },
+          isSymbolicLink: function() {
+            return false;
+          }
+        };
       return originallstatSync.apply(this, arguments);
     };
   });
 
-
-  it("can load a singular element from the config suite in the module's happner.js file", function (done) {
+  it("can load a singular element from the config suite in the module's happner.js file", function(done) {
     var meshConfig = {
       modules: {},
       components: {
-        'xyz': {
+        xyz: {
           $config: 'suite-name'
         }
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      module.exports = {
      configs: {
      'suite-name': {
@@ -162,15 +170,15 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {}
+          xyz: {}
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             magic: 919
           }
@@ -181,18 +189,18 @@ describe('config suites with happner.js', function () {
     });
   });
 
-
-  it("can load an array of elements from the config suite in the module's happner.js file", function (done) {
+  it("can load an array of elements from the config suite in the module's happner.js file", function(done) {
     var meshConfig = {
       modules: {},
       components: {
-        'xyz': {
+        xyz: {
           $config: 'suite-name'
         }
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      module.exports = {
      configs: {
      'suite-name': [{
@@ -221,22 +229,22 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {},
-          'abc': {
+          xyz: {},
+          abc: {
             the: 'second module'
           }
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             magic: 919
           },
-          'abc': {
+          abc: {
             moduleName: 'abc',
             the: 'second component'
           }
@@ -247,16 +255,15 @@ describe('config suites with happner.js', function () {
     });
   });
 
-
-  it('supplements the existing config without replacing or merging', function (done) {
+  it('supplements the existing config without replacing or merging', function(done) {
     var meshConfig = {
       modules: {
-        'xyz': {
+        xyz: {
           existing: 'config in module'
         }
       },
       components: {
-        'xyz': {
+        xyz: {
           $config: 'suite-name',
           existing: {
             nested1: 'config in component'
@@ -265,7 +272,8 @@ describe('config suites with happner.js', function () {
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      module.exports = {
      configs: {
      'suite-name': {
@@ -292,18 +300,18 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {
+          xyz: {
             added: 'm config in happner.js',
             existing: 'config in module'
           }
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             added: 'c config in happner.js',
             existing: {
@@ -317,18 +325,18 @@ describe('config suites with happner.js', function () {
     });
   });
 
-
-  it("runs the suite's config factory function (with promise)", function (done) {
+  it("runs the suite's config factory function (with promise)", function(done) {
     var meshConfig = {
       modules: {},
       components: {
-        'xyz': {
+        xyz: {
           $config: 'configname'
         }
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      var Promise = require('bluebird');
      module.exports = {
      configs: {
@@ -349,15 +357,15 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {}
+          xyz: {}
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             from: 'factory promise'
           }
@@ -366,21 +374,20 @@ describe('config suites with happner.js', function () {
 
       done();
     });
-
   });
 
-
-  it("runs the suite's config factory function (without promise)", function (done) {
+  it("runs the suite's config factory function (without promise)", function(done) {
     var meshConfig = {
       modules: {},
       components: {
-        'xyz': {
+        xyz: {
           $config: 'configname'
         }
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      module.exports = {
      configs: {
      'configname': function(config) {
@@ -398,15 +405,15 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {}
+          xyz: {}
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             from: 'factory promise'
           }
@@ -417,14 +424,13 @@ describe('config suites with happner.js', function () {
     });
   });
 
-
-  it('runs the outer config passthrough function with injected config (with promise)', function (done) {
+  it('runs the outer config passthrough function with injected config (with promise)', function(done) {
     var meshConfig = {
       modules: {},
       components: {
-        'xyz': {
-          $configure: function (configName) {
-            return new Promise(function (resolve) {
+        xyz: {
+          $configure: function(configName) {
+            return new Promise(function(resolve) {
               configName.component.config.added = 'this';
               resolve(configName);
             });
@@ -433,7 +439,8 @@ describe('config suites with happner.js', function () {
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      module.exports = {
      configs: {
      'config-name': {
@@ -449,15 +456,15 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {}
+          xyz: {}
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             added: 'this',
             from: 'happner.js'
@@ -469,12 +476,12 @@ describe('config suites with happner.js', function () {
     });
   });
 
-  it('runs the outer config passthrough function with injected config (without promise)', function (done) {
+  it('runs the outer config passthrough function with injected config (without promise)', function(done) {
     var meshConfig = {
       modules: {},
       components: {
-        'xyz': {
-          $configure: function (configName) {
+        xyz: {
+          $configure: function(configName) {
             configName.component.config.added = 'this';
             return configName;
           }
@@ -482,7 +489,8 @@ describe('config suites with happner.js', function () {
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      module.exports = {
      configs: {
      'config-name': {
@@ -498,15 +506,15 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {}
+          xyz: {}
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             added: 'this',
             from: 'happner.js'
@@ -518,14 +526,13 @@ describe('config suites with happner.js', function () {
     });
   });
 
-
-  it('runs the factory and the passthrough (both promised)', function (done) {
+  it('runs the factory and the passthrough (both promised)', function(done) {
     var meshConfig = {
       modules: {},
       components: {
-        'xyz': {
-          $configure: function (configName) {
-            return new Promise(function (resolve) {
+        xyz: {
+          $configure: function(configName) {
+            return new Promise(function(resolve) {
               configName.component.config.addedByPassthroughPromise = 'this';
               resolve(configName);
             });
@@ -534,7 +541,8 @@ describe('config suites with happner.js', function () {
       }
     };
 
-    this.happnerJSContent = fxt(function () {/*
+    this.happnerJSContent = fxt(function() {
+      /*
      module.exports = {
      configs: {
      'config-name': function() {
@@ -553,15 +561,15 @@ describe('config suites with happner.js', function () {
      */
     });
 
-    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function (e) {
+    Mesh.prototype._loadComponentSuites.call(this.mockMeshInstance, meshConfig, function(e) {
       if (e) return done(e);
 
       meshConfig.should.eql({
         modules: {
-          'xyz': {}
+          xyz: {}
         },
         components: {
-          'xyz': {
+          xyz: {
             moduleName: 'xyz',
             addedByFactoryPromise: 'this',
             addedByPassthroughPromise: 'this'
@@ -572,5 +580,4 @@ describe('config suites with happner.js', function () {
       done();
     });
   });
-
 });
