@@ -92,7 +92,7 @@
     "later": "1.2.0",
     "lodash": "^4.17.11",
     "md5": "2.0.0",
-    "merge": "1.2.0",
+    "merge": "1.2.1",
     "proc-stats": "0.0.4",
     "repl.history": "0.1.4",
     "request": "^2.67.0",
