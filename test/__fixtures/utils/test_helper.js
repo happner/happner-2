@@ -10,13 +10,9 @@ var Promise = require('bluebird')
   ;
 
 function TestHelper() {
-
   this.__activeServices = {};
-
   this.__testFiles = [];
-
   this.__happnerClients = {};
-
   this.__happnerInstances = {};
 }
 
@@ -767,5 +763,19 @@ TestHelper.prototype.tearDown = Promise.promisify(function (options, callback) {
     callback(e);
   });
 });
+
+TestHelper.prototype.delay = async function(delayMS){
+  if (!delayMS) delayMS = 5000;
+  const delay = require('await-delay');
+  await delay(delayMS);
+};
+
+TestHelper.prototype.showOpenHandles = function(after, delayMS){
+  const why = require('why-is-node-running');
+  after('OPEN HANDLES:::', async () => {
+    await this.delay(delayMS);
+    why();
+  });
+};
 
 module.exports = TestHelper;

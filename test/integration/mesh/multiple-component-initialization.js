@@ -27,7 +27,10 @@ describe(
           one_class_with_params: {
             path: libFolder + '3-one_class_with_params-module.js',
             construct: {
-              parameters: [{ name: 'opt1', value: '1' }, { name: 'opt2', value: '2' }]
+              parameters: [
+                { name: 'opt1', value: '1' },
+                { name: 'opt2', value: '2' }
+              ]
             }
           },
           two_sync: {
@@ -37,7 +40,10 @@ describe(
             path: libFolder + '3-two_sync_with_params-module.js',
             create: {
               name: 'create',
-              parameters: [{ name: 'opt1', value: '1' }, { name: 'opt2', value: '2' }]
+              parameters: [
+                { name: 'opt1', value: '1' },
+                { name: 'opt2', value: '2' }
+              ]
             }
           },
           three_async: {
@@ -74,7 +80,10 @@ describe(
           five_hidden_class_with_params: {
             path: libFolder + '3-five_hidden_class_with_params-module.js',
             construct: {
-              parameters: [{ name: 'opt1', value: '1' }, { name: 'opt2', value: '2' }]
+              parameters: [
+                { name: 'opt1', value: '1' },
+                { name: 'opt2', value: '2' }
+              ]
             }
           },
           six_nested_class: {

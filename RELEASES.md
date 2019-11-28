@@ -558,3 +558,7 @@ based on happner 1.28.1
 10.5.1 2019-10-22
 -----------------
   - prettier update with lint
+
+11.0.0 2019-11-12
+-----------------
+  - happn-3 upgrade: session events
