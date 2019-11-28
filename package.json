@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "10.5.1",
+  "version": "11.0.0",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -28,7 +28,8 @@
     "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**",
     "lint": "eslint '**/*.js'",
     "lint-fix": "eslint '**/*.js' --fix",
-    "report-coverage": "nyc report --reporter=text-lcov | coveralls"
+    "report-coverage": "nyc report --reporter=text-lcov | coveralls",
+    "prepare": "rm -rf node_modules/happn/node_modules/bitcore-lib && rm -rf node_modules/happner-client/node_modules/bitcore-lib && rm -rf node_modules/bitcore-ecies/node_modules/bitcore-lib"
   },
   "repository": {
     "type": "git",
@@ -41,19 +42,20 @@
   },
   "homepage": "https://github.com/happner/happner-2",
   "devDependencies": {
+    "await-delay": "^1.0.0",
     "chai": "4.2.0",
     "coveralls": "^3.0.2",
-    "expect.js": "0.3.1",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "expect.js": "0.3.1",
     "fxt": "1.0.2",
     "gulp": "^4.0.0",
     "gulp-jshint": "^2.1.0",
-    "happn-util-crypto": "^0.3.0",
+    "happn-service-mongo-2": "^3.0.0",
+    "happn-util-crypto": "^1.0.0",
     "happner": "1.33.4",
     "happner-serial-mocha": "^1.5.2",
-    "happn-service-mongo-2": "^3.0.0",
     "happner-test-modules": "1.0.2",
     "jshint": "^2.9.5",
     "karma": "^4.0.0",
@@ -70,7 +72,7 @@
     "traverse": "0.6.6",
     "tree-kill": "^1.2.1",
     "when": "3.7.3",
-    "why-is-node-running": "^2.0.3"
+    "why-is-node-running": "^2.1.0"
   },
   "dependencies": {
     "async": "^2.6.3",
@@ -82,10 +84,10 @@
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
     "glob": "5.0.15",
-    "happn-3": "^10.4.1",
+    "happn-3": "^11.0.0",
     "happn-logger": "^0.1.1",
     "happn-sillyname": "^0.1.1",
-    "happner-client": "^8.1.1",
+    "happner-client": "^10.0.0",
     "happner-hyperid": "2.0.0",
     "happner-terminal": "0.0.8",
     "homedir": "0.6.0",

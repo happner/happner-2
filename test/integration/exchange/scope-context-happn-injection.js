@@ -282,87 +282,330 @@ describe(
         });
 
         formatted.should.eql({
-          'mesh1.component1': [{ mesh: 1, component: 1 }, { mesh: 1, component: 1 }],
-          'mesh1.component2': [{ mesh: 1, component: 2 }, { mesh: 1, component: 2 }],
-          'mesh1.component3': [{ mesh: 1, component: 3 }, { mesh: 1, component: 3 }],
-          'mesh1.component4': [{ mesh: 1, component: 4 }, { mesh: 1, component: 4 }],
-          'mesh1.component5': [{ mesh: 1, component: 5 }, { mesh: 1, component: 5 }],
-          'mesh1.component6': [{ mesh: 1, component: 6 }, { mesh: 1, component: 6 }],
-          'mesh1.component7': [{ mesh: 1, component: 7 }, { mesh: 1, component: 7 }],
-          'mesh1.component8': [{ mesh: 1, component: 8 }, { mesh: 1, component: 8 }],
-          'mesh1.component9': [{ mesh: 1, component: 9 }, { mesh: 1, component: 9 }],
-          'mesh2.component1': [{ mesh: 2, component: 1 }, { mesh: 2, component: 1 }],
-          'mesh2.component2': [{ mesh: 2, component: 2 }, { mesh: 2, component: 2 }],
-          'mesh2.component3': [{ mesh: 2, component: 3 }, { mesh: 2, component: 3 }],
-          'mesh2.component4': [{ mesh: 2, component: 4 }, { mesh: 2, component: 4 }],
-          'mesh2.component5': [{ mesh: 2, component: 5 }, { mesh: 2, component: 5 }],
-          'mesh2.component6': [{ mesh: 2, component: 6 }, { mesh: 2, component: 6 }],
-          'mesh2.component7': [{ mesh: 2, component: 7 }, { mesh: 2, component: 7 }],
-          'mesh2.component8': [{ mesh: 2, component: 8 }, { mesh: 2, component: 8 }],
-          'mesh2.component9': [{ mesh: 2, component: 9 }, { mesh: 2, component: 9 }],
-          'mesh3.component1': [{ mesh: 3, component: 1 }, { mesh: 3, component: 1 }],
-          'mesh3.component2': [{ mesh: 3, component: 2 }, { mesh: 3, component: 2 }],
-          'mesh3.component3': [{ mesh: 3, component: 3 }, { mesh: 3, component: 3 }],
-          'mesh3.component4': [{ mesh: 3, component: 4 }, { mesh: 3, component: 4 }],
-          'mesh3.component5': [{ mesh: 3, component: 5 }, { mesh: 3, component: 5 }],
-          'mesh3.component6': [{ mesh: 3, component: 6 }, { mesh: 3, component: 6 }],
-          'mesh3.component7': [{ mesh: 3, component: 7 }, { mesh: 3, component: 7 }],
-          'mesh3.component8': [{ mesh: 3, component: 8 }, { mesh: 3, component: 8 }],
-          'mesh3.component9': [{ mesh: 3, component: 9 }, { mesh: 3, component: 9 }],
-          'mesh4.component1': [{ mesh: 4, component: 1 }, { mesh: 4, component: 1 }],
-          'mesh4.component2': [{ mesh: 4, component: 2 }, { mesh: 4, component: 2 }],
-          'mesh4.component3': [{ mesh: 4, component: 3 }, { mesh: 4, component: 3 }],
-          'mesh4.component4': [{ mesh: 4, component: 4 }, { mesh: 4, component: 4 }],
-          'mesh4.component5': [{ mesh: 4, component: 5 }, { mesh: 4, component: 5 }],
-          'mesh4.component6': [{ mesh: 4, component: 6 }, { mesh: 4, component: 6 }],
-          'mesh4.component7': [{ mesh: 4, component: 7 }, { mesh: 4, component: 7 }],
-          'mesh4.component8': [{ mesh: 4, component: 8 }, { mesh: 4, component: 8 }],
-          'mesh4.component9': [{ mesh: 4, component: 9 }, { mesh: 4, component: 9 }],
-          'mesh5.component1': [{ mesh: 5, component: 1 }, { mesh: 5, component: 1 }],
-          'mesh5.component2': [{ mesh: 5, component: 2 }, { mesh: 5, component: 2 }],
-          'mesh5.component3': [{ mesh: 5, component: 3 }, { mesh: 5, component: 3 }],
-          'mesh5.component4': [{ mesh: 5, component: 4 }, { mesh: 5, component: 4 }],
-          'mesh5.component5': [{ mesh: 5, component: 5 }, { mesh: 5, component: 5 }],
-          'mesh5.component6': [{ mesh: 5, component: 6 }, { mesh: 5, component: 6 }],
-          'mesh5.component7': [{ mesh: 5, component: 7 }, { mesh: 5, component: 7 }],
-          'mesh5.component8': [{ mesh: 5, component: 8 }, { mesh: 5, component: 8 }],
-          'mesh5.component9': [{ mesh: 5, component: 9 }, { mesh: 5, component: 9 }],
-          'mesh6.component1': [{ mesh: 6, component: 1 }, { mesh: 6, component: 1 }],
-          'mesh6.component2': [{ mesh: 6, component: 2 }, { mesh: 6, component: 2 }],
-          'mesh6.component3': [{ mesh: 6, component: 3 }, { mesh: 6, component: 3 }],
-          'mesh6.component4': [{ mesh: 6, component: 4 }, { mesh: 6, component: 4 }],
-          'mesh6.component5': [{ mesh: 6, component: 5 }, { mesh: 6, component: 5 }],
-          'mesh6.component6': [{ mesh: 6, component: 6 }, { mesh: 6, component: 6 }],
-          'mesh6.component7': [{ mesh: 6, component: 7 }, { mesh: 6, component: 7 }],
-          'mesh6.component8': [{ mesh: 6, component: 8 }, { mesh: 6, component: 8 }],
-          'mesh6.component9': [{ mesh: 6, component: 9 }, { mesh: 6, component: 9 }],
-          'mesh7.component1': [{ mesh: 7, component: 1 }, { mesh: 7, component: 1 }],
-          'mesh7.component2': [{ mesh: 7, component: 2 }, { mesh: 7, component: 2 }],
-          'mesh7.component3': [{ mesh: 7, component: 3 }, { mesh: 7, component: 3 }],
-          'mesh7.component4': [{ mesh: 7, component: 4 }, { mesh: 7, component: 4 }],
-          'mesh7.component5': [{ mesh: 7, component: 5 }, { mesh: 7, component: 5 }],
-          'mesh7.component6': [{ mesh: 7, component: 6 }, { mesh: 7, component: 6 }],
-          'mesh7.component7': [{ mesh: 7, component: 7 }, { mesh: 7, component: 7 }],
-          'mesh7.component8': [{ mesh: 7, component: 8 }, { mesh: 7, component: 8 }],
-          'mesh7.component9': [{ mesh: 7, component: 9 }, { mesh: 7, component: 9 }],
-          'mesh8.component1': [{ mesh: 8, component: 1 }, { mesh: 8, component: 1 }],
-          'mesh8.component2': [{ mesh: 8, component: 2 }, { mesh: 8, component: 2 }],
-          'mesh8.component3': [{ mesh: 8, component: 3 }, { mesh: 8, component: 3 }],
-          'mesh8.component4': [{ mesh: 8, component: 4 }, { mesh: 8, component: 4 }],
-          'mesh8.component5': [{ mesh: 8, component: 5 }, { mesh: 8, component: 5 }],
-          'mesh8.component6': [{ mesh: 8, component: 6 }, { mesh: 8, component: 6 }],
-          'mesh8.component7': [{ mesh: 8, component: 7 }, { mesh: 8, component: 7 }],
-          'mesh8.component8': [{ mesh: 8, component: 8 }, { mesh: 8, component: 8 }],
-          'mesh8.component9': [{ mesh: 8, component: 9 }, { mesh: 8, component: 9 }],
-          'mesh9.component1': [{ mesh: 9, component: 1 }, { mesh: 9, component: 1 }],
-          'mesh9.component2': [{ mesh: 9, component: 2 }, { mesh: 9, component: 2 }],
-          'mesh9.component3': [{ mesh: 9, component: 3 }, { mesh: 9, component: 3 }],
-          'mesh9.component4': [{ mesh: 9, component: 4 }, { mesh: 9, component: 4 }],
-          'mesh9.component5': [{ mesh: 9, component: 5 }, { mesh: 9, component: 5 }],
-          'mesh9.component6': [{ mesh: 9, component: 6 }, { mesh: 9, component: 6 }],
-          'mesh9.component7': [{ mesh: 9, component: 7 }, { mesh: 9, component: 7 }],
-          'mesh9.component8': [{ mesh: 9, component: 8 }, { mesh: 9, component: 8 }],
-          'mesh9.component9': [{ mesh: 9, component: 9 }, { mesh: 9, component: 9 }]
+          'mesh1.component1': [
+            { mesh: 1, component: 1 },
+            { mesh: 1, component: 1 }
+          ],
+          'mesh1.component2': [
+            { mesh: 1, component: 2 },
+            { mesh: 1, component: 2 }
+          ],
+          'mesh1.component3': [
+            { mesh: 1, component: 3 },
+            { mesh: 1, component: 3 }
+          ],
+          'mesh1.component4': [
+            { mesh: 1, component: 4 },
+            { mesh: 1, component: 4 }
+          ],
+          'mesh1.component5': [
+            { mesh: 1, component: 5 },
+            { mesh: 1, component: 5 }
+          ],
+          'mesh1.component6': [
+            { mesh: 1, component: 6 },
+            { mesh: 1, component: 6 }
+          ],
+          'mesh1.component7': [
+            { mesh: 1, component: 7 },
+            { mesh: 1, component: 7 }
+          ],
+          'mesh1.component8': [
+            { mesh: 1, component: 8 },
+            { mesh: 1, component: 8 }
+          ],
+          'mesh1.component9': [
+            { mesh: 1, component: 9 },
+            { mesh: 1, component: 9 }
+          ],
+          'mesh2.component1': [
+            { mesh: 2, component: 1 },
+            { mesh: 2, component: 1 }
+          ],
+          'mesh2.component2': [
+            { mesh: 2, component: 2 },
+            { mesh: 2, component: 2 }
+          ],
+          'mesh2.component3': [
+            { mesh: 2, component: 3 },
+            { mesh: 2, component: 3 }
+          ],
+          'mesh2.component4': [
+            { mesh: 2, component: 4 },
+            { mesh: 2, component: 4 }
+          ],
+          'mesh2.component5': [
+            { mesh: 2, component: 5 },
+            { mesh: 2, component: 5 }
+          ],
+          'mesh2.component6': [
+            { mesh: 2, component: 6 },
+            { mesh: 2, component: 6 }
+          ],
+          'mesh2.component7': [
+            { mesh: 2, component: 7 },
+            { mesh: 2, component: 7 }
+          ],
+          'mesh2.component8': [
+            { mesh: 2, component: 8 },
+            { mesh: 2, component: 8 }
+          ],
+          'mesh2.component9': [
+            { mesh: 2, component: 9 },
+            { mesh: 2, component: 9 }
+          ],
+          'mesh3.component1': [
+            { mesh: 3, component: 1 },
+            { mesh: 3, component: 1 }
+          ],
+          'mesh3.component2': [
+            { mesh: 3, component: 2 },
+            { mesh: 3, component: 2 }
+          ],
+          'mesh3.component3': [
+            { mesh: 3, component: 3 },
+            { mesh: 3, component: 3 }
+          ],
+          'mesh3.component4': [
+            { mesh: 3, component: 4 },
+            { mesh: 3, component: 4 }
+          ],
+          'mesh3.component5': [
+            { mesh: 3, component: 5 },
+            { mesh: 3, component: 5 }
+          ],
+          'mesh3.component6': [
+            { mesh: 3, component: 6 },
+            { mesh: 3, component: 6 }
+          ],
+          'mesh3.component7': [
+            { mesh: 3, component: 7 },
+            { mesh: 3, component: 7 }
+          ],
+          'mesh3.component8': [
+            { mesh: 3, component: 8 },
+            { mesh: 3, component: 8 }
+          ],
+          'mesh3.component9': [
+            { mesh: 3, component: 9 },
+            { mesh: 3, component: 9 }
+          ],
+          'mesh4.component1': [
+            { mesh: 4, component: 1 },
+            { mesh: 4, component: 1 }
+          ],
+          'mesh4.component2': [
+            { mesh: 4, component: 2 },
+            { mesh: 4, component: 2 }
+          ],
+          'mesh4.component3': [
+            { mesh: 4, component: 3 },
+            { mesh: 4, component: 3 }
+          ],
+          'mesh4.component4': [
+            { mesh: 4, component: 4 },
+            { mesh: 4, component: 4 }
+          ],
+          'mesh4.component5': [
+            { mesh: 4, component: 5 },
+            { mesh: 4, component: 5 }
+          ],
+          'mesh4.component6': [
+            { mesh: 4, component: 6 },
+            { mesh: 4, component: 6 }
+          ],
+          'mesh4.component7': [
+            { mesh: 4, component: 7 },
+            { mesh: 4, component: 7 }
+          ],
+          'mesh4.component8': [
+            { mesh: 4, component: 8 },
+            { mesh: 4, component: 8 }
+          ],
+          'mesh4.component9': [
+            { mesh: 4, component: 9 },
+            { mesh: 4, component: 9 }
+          ],
+          'mesh5.component1': [
+            { mesh: 5, component: 1 },
+            { mesh: 5, component: 1 }
+          ],
+          'mesh5.component2': [
+            { mesh: 5, component: 2 },
+            { mesh: 5, component: 2 }
+          ],
+          'mesh5.component3': [
+            { mesh: 5, component: 3 },
+            { mesh: 5, component: 3 }
+          ],
+          'mesh5.component4': [
+            { mesh: 5, component: 4 },
+            { mesh: 5, component: 4 }
+          ],
+          'mesh5.component5': [
+            { mesh: 5, component: 5 },
+            { mesh: 5, component: 5 }
+          ],
+          'mesh5.component6': [
+            { mesh: 5, component: 6 },
+            { mesh: 5, component: 6 }
+          ],
+          'mesh5.component7': [
+            { mesh: 5, component: 7 },
+            { mesh: 5, component: 7 }
+          ],
+          'mesh5.component8': [
+            { mesh: 5, component: 8 },
+            { mesh: 5, component: 8 }
+          ],
+          'mesh5.component9': [
+            { mesh: 5, component: 9 },
+            { mesh: 5, component: 9 }
+          ],
+          'mesh6.component1': [
+            { mesh: 6, component: 1 },
+            { mesh: 6, component: 1 }
+          ],
+          'mesh6.component2': [
+            { mesh: 6, component: 2 },
+            { mesh: 6, component: 2 }
+          ],
+          'mesh6.component3': [
+            { mesh: 6, component: 3 },
+            { mesh: 6, component: 3 }
+          ],
+          'mesh6.component4': [
+            { mesh: 6, component: 4 },
+            { mesh: 6, component: 4 }
+          ],
+          'mesh6.component5': [
+            { mesh: 6, component: 5 },
+            { mesh: 6, component: 5 }
+          ],
+          'mesh6.component6': [
+            { mesh: 6, component: 6 },
+            { mesh: 6, component: 6 }
+          ],
+          'mesh6.component7': [
+            { mesh: 6, component: 7 },
+            { mesh: 6, component: 7 }
+          ],
+          'mesh6.component8': [
+            { mesh: 6, component: 8 },
+            { mesh: 6, component: 8 }
+          ],
+          'mesh6.component9': [
+            { mesh: 6, component: 9 },
+            { mesh: 6, component: 9 }
+          ],
+          'mesh7.component1': [
+            { mesh: 7, component: 1 },
+            { mesh: 7, component: 1 }
+          ],
+          'mesh7.component2': [
+            { mesh: 7, component: 2 },
+            { mesh: 7, component: 2 }
+          ],
+          'mesh7.component3': [
+            { mesh: 7, component: 3 },
+            { mesh: 7, component: 3 }
+          ],
+          'mesh7.component4': [
+            { mesh: 7, component: 4 },
+            { mesh: 7, component: 4 }
+          ],
+          'mesh7.component5': [
+            { mesh: 7, component: 5 },
+            { mesh: 7, component: 5 }
+          ],
+          'mesh7.component6': [
+            { mesh: 7, component: 6 },
+            { mesh: 7, component: 6 }
+          ],
+          'mesh7.component7': [
+            { mesh: 7, component: 7 },
+            { mesh: 7, component: 7 }
+          ],
+          'mesh7.component8': [
+            { mesh: 7, component: 8 },
+            { mesh: 7, component: 8 }
+          ],
+          'mesh7.component9': [
+            { mesh: 7, component: 9 },
+            { mesh: 7, component: 9 }
+          ],
+          'mesh8.component1': [
+            { mesh: 8, component: 1 },
+            { mesh: 8, component: 1 }
+          ],
+          'mesh8.component2': [
+            { mesh: 8, component: 2 },
+            { mesh: 8, component: 2 }
+          ],
+          'mesh8.component3': [
+            { mesh: 8, component: 3 },
+            { mesh: 8, component: 3 }
+          ],
+          'mesh8.component4': [
+            { mesh: 8, component: 4 },
+            { mesh: 8, component: 4 }
+          ],
+          'mesh8.component5': [
+            { mesh: 8, component: 5 },
+            { mesh: 8, component: 5 }
+          ],
+          'mesh8.component6': [
+            { mesh: 8, component: 6 },
+            { mesh: 8, component: 6 }
+          ],
+          'mesh8.component7': [
+            { mesh: 8, component: 7 },
+            { mesh: 8, component: 7 }
+          ],
+          'mesh8.component8': [
+            { mesh: 8, component: 8 },
+            { mesh: 8, component: 8 }
+          ],
+          'mesh8.component9': [
+            { mesh: 8, component: 9 },
+            { mesh: 8, component: 9 }
+          ],
+          'mesh9.component1': [
+            { mesh: 9, component: 1 },
+            { mesh: 9, component: 1 }
+          ],
+          'mesh9.component2': [
+            { mesh: 9, component: 2 },
+            { mesh: 9, component: 2 }
+          ],
+          'mesh9.component3': [
+            { mesh: 9, component: 3 },
+            { mesh: 9, component: 3 }
+          ],
+          'mesh9.component4': [
+            { mesh: 9, component: 4 },
+            { mesh: 9, component: 4 }
+          ],
+          'mesh9.component5': [
+            { mesh: 9, component: 5 },
+            { mesh: 9, component: 5 }
+          ],
+          'mesh9.component6': [
+            { mesh: 9, component: 6 },
+            { mesh: 9, component: 6 }
+          ],
+          'mesh9.component7': [
+            { mesh: 9, component: 7 },
+            { mesh: 9, component: 7 }
+          ],
+          'mesh9.component8': [
+            { mesh: 9, component: 8 },
+            { mesh: 9, component: 8 }
+          ],
+          'mesh9.component9': [
+            { mesh: 9, component: 9 },
+            { mesh: 9, component: 9 }
+          ]
         });
       });
     });

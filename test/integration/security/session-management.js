@@ -136,19 +136,18 @@ describe(
                     if (e) return callback(e);
                     expect(list.length <= 3).to.be(true);
 
-                    clientInstance.exchange.security.revokeSession(
-                      newInstance.data.session,
+                    clientInstance.exchange.security.revokeToken(
+                      newInstance.data.session.token,
                       'APP',
                       function(e) {
                         if (e) return callback(e);
-
                         setTimeout(function() {
-                          clientInstance.exchange.security.listRevokedSessions(function(e, items) {
+                          clientInstance.exchange.security.listRevokedTokens(function(e, items) {
                             expect(items.length).to.be(1);
 
                             newInstance.exchange.security.listActiveSessions(function(err) {
                               if (!err) return callback(new Error('this was not meant to happn'));
-                              expect(err.toString()).to.be('AccessDenied: unauthorized');
+                              expect(err.toString()).to.be('Error: client is disconnected');
 
                               disconnectClient(newInstance, callback);
                             });

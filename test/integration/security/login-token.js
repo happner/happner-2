@@ -458,11 +458,7 @@ describe(
                     token: token
                   },
                   function(e) {
-                    expect(e.toString()).to.be(
-                      'AccessDenied: session with id ' +
-                        instance.data.session.id +
-                        ' has been revoked'
-                    );
+                    expect(e.toString()).to.be('AccessDenied: token has been revoked');
                     done();
                   }
                 );
@@ -505,7 +501,7 @@ describe(
                 },
                 function(e) {
                   expect(e.toString()).to.be(
-                    'AccessDenied: Invalid credentials: this token is locked to a different origin by policy'
+                    'AccessDenied: this token is locked to a different origin by policy'
                   );
                   done();
                 }
@@ -585,7 +581,7 @@ describe(
                 },
                 function(e) {
                   expect(e.toString()).to.be(
-                    'AccessDenied: Invalid credentials: logins with this token are disallowed by policy'
+                    'AccessDenied: logins with this token are disallowed by policy'
                   );
                   done();
                 }
