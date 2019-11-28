@@ -559,6 +559,7 @@ based on happner 1.28.1
 -----------------
   - prettier update with lint
 
-11.0.0 2019-11-12
+11.0.0 2019-11-28
 -----------------
-  - happn-3 upgrade: session events
+  - happn-3 upgrade 11.0.0: session events, token revocation
+  - fix: issue with shared internals _this in _getSubscriber
