@@ -9,6 +9,12 @@ function RemoteComponent() {
     callback(undefined, one + ' ' + two + ' ' + three + ', wheeeeeeeeeeeeheeee!');
   };
 
+
+  this.rideTheSlipperySlip = function ($happn, one, two, three, callback) {
+    $happn.emit('whoops', 'whoa');
+    callback(undefined, one + ' ' + two + ' ' + three + ', wheeeeeeeeeeeeheeee!');
+  };
+
   this.causeError = function (callback) {
     throw (
       e = new Error('Error string'),

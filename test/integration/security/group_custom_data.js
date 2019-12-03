@@ -25,6 +25,7 @@ describe(
       mesh = new Mesh();
       mesh.initialize(config, function(err) {
         if (err) {
+          //eslint-disable-next-line
           console.log(err.stack);
           done(err);
         } else {

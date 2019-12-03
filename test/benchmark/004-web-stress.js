@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var sep = require('path').sep;
 var spawn = require('child_process').spawn;
 module.exports = SeeAbove;
@@ -238,3 +239,4 @@ describe(
     });
   }
 );
+/* eslint-enable no-console */

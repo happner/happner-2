@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 describe('browsertest_01_happner_client', function() {
   // test new happner-client
 
@@ -99,3 +100,4 @@ describe('browsertest_01_happner_client', function() {
       .catch(done);
   });
 });
+/* eslint-enable no-console */

@@ -53,10 +53,12 @@ describe(
 
     it('should start a user component that expects the security layer to be initialized', function(done) {
       mesh.initialize(config, function(err) {
+        //eslint-disable-next-line
         if (err) console.log(err);
         should.not.exist(err);
 
         mesh.start(function(err) {
+          //eslint-disable-next-line
           if (err) console.log(err);
           should.not.exist(err);
           done();

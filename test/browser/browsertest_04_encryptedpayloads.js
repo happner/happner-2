@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 describe('browsertest_04_encryptedpayloads', function() {
   expect = window.expect;
 
@@ -60,3 +61,4 @@ describe('browsertest_04_encryptedpayloads', function() {
     });
   });
 });
+/* eslint-enable no-console */

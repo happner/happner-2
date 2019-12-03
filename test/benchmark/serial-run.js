@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var sm = require('happner-serial-mocha'),
   path = require('path'),
   fs = require('fs');
@@ -25,3 +26,4 @@ sm.runTasks(files, null, reportDir)
   .catch(function(e) {
     console.log('broke:::', e);
   });
+/* eslint-enable no-console */

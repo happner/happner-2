@@ -76,7 +76,8 @@ describe(
       });
 
       testClient.exchange.component1.causeEmit().catch(function(e) {
-        console.log('CAUSE EMIT FAILURE:::', e);
+        //eslint-disable-next-line
+        console.log('CAUSE EMIT FAILURE:', e);
         done(e);
       });
     });

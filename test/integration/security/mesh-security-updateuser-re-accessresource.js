@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 var should = require('chai').should();
 var path = require('path');
 
@@ -233,3 +234,4 @@ var OemUser = {
     company: 'Enterprise X'
   }
 };
+/* eslint-enable no-console */

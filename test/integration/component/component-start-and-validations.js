@@ -91,8 +91,8 @@ describe(
 
           mesh.start(function(err) {
             if (err) {
+              //eslint-disable-next-line
               console.log(err.stack);
-              //process.exit(err.errno || 1);
               return done(err);
             }
             return done();
@@ -152,7 +152,6 @@ describe(
           if (err) return done(err);
 
           anotherMesh.start(function(err) {
-            // console.log('ERROR', err);
             should.exist(err);
             done();
           });

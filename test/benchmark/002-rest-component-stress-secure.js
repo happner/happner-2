@@ -1,5 +1,5 @@
 /* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
-
+/* eslint-disable no-console */
 module.exports = SeeAbove;
 
 function SeeAbove() {}
@@ -64,32 +64,22 @@ describe(
     .testName(__filename),
   function() {
     var sep = require('path').sep;
-
     var spawn = require('child_process').spawn;
 
     // Uses unit test 2 modules
     var expect = require('expect.js');
-
     var Mesh = require('..' + sep + '..');
-
     var libFolder = __dirname + sep + '__fixtures' + sep;
-
     var async = require('async');
-
     var REMOTE_MESH = '002-remote-mesh-secure';
-
     this.timeout(120000);
-
     var mesh;
-
     var remote;
 
     var startRemoteMesh = function(callback) {
       var timedOut = setTimeout(function() {
         callback(new Error('remote mesh start timed out'));
       }, 5000);
-
-      console.log('starting remote:::', libFolder + REMOTE_MESH);
 
       // spawn remote mesh in another process
       remote = spawn('node', [libFolder + REMOTE_MESH]);
@@ -204,7 +194,7 @@ describe(
 
       if (errors.length === 0) return done();
       else {
-        return done(new Error('failures found in responses:::'));
+        return done(new Error('failures found in responses'));
       }
     };
 
@@ -236,7 +226,7 @@ describe(
 
       if (errors.length === 0) return done();
       else {
-        return done(new Error('failures found in responses:::'));
+        return done(new Error('failures found in responses'));
       }
     };
 
@@ -265,7 +255,6 @@ describe(
       var responses = [];
       var restClient = require('restler');
 
-      console.log('about to login test:::', requests.length);
       var loginCounter = 0;
 
       async.eachSeries(
@@ -298,7 +287,6 @@ describe(
       var responses = [];
       var restClient = require('restler');
 
-      console.log('about to login test:::', requests.length);
       var loginCounter = 0;
 
       async.each(
@@ -335,8 +323,6 @@ describe(
 
       login(function(e, response) {
         if (e) return done(e);
-
-        console.log('response:::', response);
 
         var token = response.data.token;
 
@@ -414,3 +400,4 @@ describe(
     });
   }
 );
+/* eslint-enable no-console */

@@ -70,36 +70,24 @@ describe(
 
       mesh.initialize(config, function(err) {
         if (err) {
-          // console.log(err.stack);
           done(err);
         } else {
           mesh.event.component1.on(
             'maximum-pings-reached',
             function(message) {
+              //eslint-disable-next-line
               console.log(message.m);
-
-              //console.log(mesh.api.event.component1.off.toString());
               mesh.event.component1.off(onEventRef, function(err) {
-                // if (err)
-                //  console.log('Couldnt detach from event maximum-pings-reached');
-
-                // console.log('Detaching from maximum-pings-reached');
-                //console.log(done);
                 done(err);
               });
             },
             function(err, ref) {
               if (err) {
-                // console.log('Couldnt attach to event maximum-pings-reached');
                 done(err);
               } else {
-                //we have attached our events, now we start the mesh
-                // console.log('attached on ok, ref: ' + ref);
                 onEventRef = ref;
-                //console.log(mesh.api.data.events);
                 mesh.start(function(err) {
                   if (err) {
-                    // console.log('Failed to start mesh');
                     done(err);
                   }
                 });
@@ -109,6 +97,5 @@ describe(
         }
       });
     });
-    //require('benchmarket').stop();
   }
 );

@@ -1,5 +1,5 @@
 require('chai').should();
-var Mesh = require('../');
+var Mesh = require('../..');
 var Promise = require('bluebird');
 var fxt = require('fxt');
 
@@ -39,6 +39,7 @@ describe('config suites with happner.js', function() {
     this.mockMeshInstance = {
       log: {
         error: function() {
+          //eslint-disable-next-line
           console.error('ERROR', arguments);
         },
         $$DEBUG: function() {
