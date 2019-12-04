@@ -105,6 +105,7 @@ describe(
         if (eventHappenedOK && e === 'Request timed out') {
           //this is ok, what happens here is the test moves on but the event handler has still
           //got a timeout
+          //eslint-disable-next-line
           console.warn('we already moved on to the next test - so no handler for this anymore');
           return;
         }

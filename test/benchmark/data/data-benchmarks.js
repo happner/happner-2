@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Uses unit test 2 modules
 var Mesh = require('../../..');
 
@@ -107,3 +108,4 @@ describe(require('path').basename(__filename), function() {
     });
   });
 });
+/* eslint-enable no-console */

@@ -1,6 +1,6 @@
 var should = require('chai').should();
 var shortId = require('shortid');
-var happner2 = require('../../');
+var happner2 = require('../../..');
 var path = require('path');
 var async = require('async');
 

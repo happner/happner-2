@@ -121,6 +121,7 @@ describe(
 
           mesh.start(function(err) {
             if (err) {
+              //eslint-disable-next-line
               console.log(err.stack);
               return done(err);
             }

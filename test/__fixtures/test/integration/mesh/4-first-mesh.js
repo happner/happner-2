@@ -39,6 +39,14 @@ var config = {
               {name: 'callback', type: 'callback', required: true}
             ]
           },
+          "rideTheSlipperySlip": {
+            parameters: [
+              {name: 'one', required: true},
+              {name: 'two', required: true},
+              {name: 'three', required: true},
+              {name: 'callback', type: 'callback', required: true}
+            ]
+          },
           "causeError": {
             parameters: [
               {name: 'callback', type: 'callback', required: true}

@@ -181,6 +181,7 @@ describe(
         .methodName1({ errorAs: 'throw' })
 
         .then(function(res) {
+          //eslint-disable-next-line
           console.log(res);
           done(new Error('did not catch'));
         })

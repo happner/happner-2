@@ -619,19 +619,15 @@ describe(
           }
         };
 
-        //?happn_token=' + result.data.token
-
         var options = { headers: {} };
-
         options.headers.authorization = 'Bearer ' + result.data.token;
 
         restClient
           .postJson('http://localhost:10000/rest/method/testComponent/method1', operation, options)
           .on('complete', function(result) {
+            //eslint-disable-next-line
             if (result.error) console.log(result.error.message);
-
             expect(result.data.number).to.be(2);
-
             done();
           });
       });

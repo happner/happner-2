@@ -8,24 +8,15 @@ describe(
     var Promise = require('bluebird');
 
     var request = Promise.promisify(require('request'), { multiArgs: true });
-
     this.timeout(15000);
-
     var expect = require('expect.js');
-
     var Mesh = require('../../..');
-
     var test_id = Date.now() + '_' + require('shortid').generate();
-
     require('chai').should();
-
     var dbFileName =
       '.' + path.sep + 'temp' + path.sep + 'b1-advanced-security' + test_id + '.nedb';
-
     var fs = require('fs-extra');
-
     var mesh = new Mesh();
-
     var DELETEFILE = false;
 
     var config = {
@@ -72,6 +63,7 @@ describe(
       mesh = new Mesh();
       mesh.initialize(config, function(err) {
         if (err) {
+          //eslint-disable-next-line
           console.log(err.stack);
           done(err);
         } else {

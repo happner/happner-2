@@ -16,6 +16,7 @@ describe(
       const ls = exec('node ' + procPath);
 
       ls.stderr.on('data', data => {
+        //eslint-disable-next-line
         console.log('stderr:::', data);
         done(data);
       });

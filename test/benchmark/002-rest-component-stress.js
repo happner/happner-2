@@ -1,5 +1,5 @@
+/* eslint-disable no-console */
 module.exports = SeeAbove;
-
 function SeeAbove() {}
 
 SeeAbove.prototype.method1 = function(opts, callback) {
@@ -87,7 +87,7 @@ describe(
         callback(new Error('remote mesh start timed out'));
       }, 5000);
 
-      console.log('starting remote:::', libFolder + REMOTE_MESH);
+      console.log('starting remote:', libFolder + REMOTE_MESH);
 
       // spawn remote mesh in another process
       remote = spawn('node', [libFolder + REMOTE_MESH]);
@@ -99,7 +99,7 @@ describe(
           setTimeout(function() {
             callback();
           }, 1000);
-        } else console.log('REMOTE:::', data.toString());
+        } else console.log('REMOTE:', data.toString());
       });
     };
 
@@ -200,7 +200,7 @@ describe(
       if (errors.length === 0) return done();
       else {
         console.log(errors);
-        return done(new Error('failures found in responses:::'));
+        return done(new Error('failures found in responses'));
       }
     };
 
@@ -253,3 +253,4 @@ describe(
     });
   }
 );
+/* eslint-enable no-console */

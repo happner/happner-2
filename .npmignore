@@ -12,3 +12,8 @@ test
 *.yml
 *.properties
 silence.js
+test/integration/tmp
+.DS_Store
+test/temp
+test/tmp
+test/tmp/*

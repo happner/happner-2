@@ -563,3 +563,9 @@ based on happner 1.28.1
 -----------------
   - happn-3 upgrade 11.0.0: session events, token revocation
   - fix: issue with shared internals _this in _getSubscriber
+
+11.0.0 2019-12-03
+-----------------
+  - fix: component stop called twice on SIGINT, issue #221
+  - fix: graceful disconnect when client initialized using constructor only
+  - lint: removed console.log warnings, from tests and production code where necessary

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 describe(
   require('../__fixtures/utils/test_helper')
     .create()
@@ -336,3 +337,4 @@ describe(
     });
   }
 );
+/* eslint-enable no-console */

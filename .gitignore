@@ -8,6 +8,7 @@ lib/system/data/*.nedb
 test/temp
 test/tmp
 test/tmp/*
+test/integration/tmp
 temp
 test/Users
 reports

@@ -5,15 +5,14 @@ describe(
   function() {
     this.timeout(120000);
 
-    var should = require('chai').should();
+    const should = require('chai').should();
+    const Mesh = require('../../..');
 
-    Mesh = require('../../..');
+    const SERVER_PORT = 8092;
+    const CLIENT_PORT = 8093;
 
-    var SERVER_PORT = 8092;
-    var CLIENT_PORT = 8093;
-
-    var SERVER_COMPONENT_NAME = 'server';
-    var SERVER_MESH_NAME = 'server_mesh';
+    const SERVER_COMPONENT_NAME = 'server';
+    const SERVER_MESH_NAME = 'server_mesh';
 
     var clientConfig = {
       name: 'client',
@@ -117,9 +116,9 @@ describe(
       };
 
       serverMesh.exchange.security.addUser(TestUser1, function(err) {
+        //eslint-disable-next-line
         if (err) console.log(err);
         should.not.exist(err);
-
         done();
       });
     });
