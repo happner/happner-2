@@ -137,6 +137,20 @@ describe(
       });
     });
 
+    it('test updating an undefined user', function(done) {
+      adminClient.exchange.security.updateUser(undefined, function(e) {
+        expect(e.message).to.be('user is null or not an object');
+        done();
+      });
+    });
+
+    it('test updating an undefined group', function(done) {
+      adminClient.exchange.security.updateGroup(undefined, function(e) {
+        expect(e.message).to.be('group is null or not an object');
+        done();
+      });
+    });
+
     it('adds a test user, logs in with the test user - modifies the users password, fetches modified user and ensures oldPassword is not present', function(done) {
       var testGroup = {
         name: 'TESTGROUP2' + test_id,
