@@ -573,3 +573,7 @@ based on happner 1.28.1
 11.0.2 2019-12-13
 -----------------
   - feature: utilities can now get function parameters for async functions #231
+
+11.0.3 2020-01-20
+-----------------
+  - fix: users and groups error handling for undefined users and groups
