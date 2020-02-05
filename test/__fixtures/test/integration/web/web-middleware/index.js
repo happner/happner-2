@@ -53,7 +53,7 @@ function Module() {
   };
 
   this.injectReverseOrder = function(req, $origin, $happn, res) {
-    next();
+    res.end($origin.username + '_' + $happn.info.mesh.name);
   };
 
   this.doSomething = function(req, res, next) {

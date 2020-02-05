@@ -7,6 +7,8 @@ describe(
     var Happner = require('../../..');
     var server;
 
+    this.timeout(6000);
+
     var Module1 = {
       causeEmit: function($happn, callback) {
         $happn.emit('test/event1', { some: 'thing' });
@@ -60,8 +62,11 @@ describe(
     });
 
     afterEach(function(done) {
-      //server._mesh.data.set = this.originalSet;
-      if (testClient) testClient.disconnect(done);
+      //wait a second so we dont get timeouts on
+      if (testClient) return testClient.disconnect(done);
+      // setTimeout(() => {
+      //   testClient.disconnect(done);
+      // }, 1000);
     });
 
     after(function(done) {
@@ -77,14 +82,12 @@ describe(
 
       testClient.exchange.component1.causeEmit().catch(function(e) {
         //eslint-disable-next-line
-        console.log('CAUSE EMIT FAILURE:', e);
+        if (e.message === 'connection-ended') return;
         done(e);
       });
     });
 
     it('components can subscribe to variable depth events, default depth', function(done) {
-      this.timeout(5000);
-
       var capturedEvents = [];
 
       testClient.event.component1.on('*', function(data, meta) {
@@ -128,8 +131,6 @@ describe(
     });
 
     it('components can subscribe to variable depth events, specified depth, with off *', function(done) {
-      this.timeout(5000);
-
       var capturedEvents = [];
 
       testClient.event.component1.on('*', { depth: 6 }, function(data, meta) {
@@ -203,8 +204,6 @@ describe(
     });
 
     it('components can subscribe to variable depth events, specified depth, with off handle', function(done) {
-      this.timeout(5000);
-
       var capturedEvents = [];
 
       testClient.event.component1.on(
@@ -285,8 +284,6 @@ describe(
     });
 
     it('components can subscribe to variable depth events, specified depth, with off handle - partial path', function(done) {
-      this.timeout(5000);
-
       var capturedEvents = [];
 
       testClient.event.component1.on(

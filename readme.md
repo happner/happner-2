@@ -34,7 +34,7 @@ These walkthroughs use *happner* to create a rudimentary monitoring service.
 
 ## documentation
 
-* [Configuation](https://github.com/happner/happner-2/blob/master/docs/configuration.md)
+* [Configuration](https://github.com/happner/happner-2/blob/master/docs/configuration.md)
 * [Happn](https://github.com/happner/happner-2/blob/master/docs/happn.md)
 * [Modules and Components](https://github.com/happner/happner-2/blob/master/docs/modules.md)
 * [Autoloading and Defaulting](https://github.com/happner/happner-2/blob/master/docs/autoload.md)
@@ -46,7 +46,7 @@ These walkthroughs use *happner* to create a rudimentary monitoring service.
 * [Local Event Api](https://github.com/happner/happner-2/blob/master/docs/local-event.md)
 * [Exchange Api](https://github.com/happner/happner-2/blob/master/docs/exchange.md)
 * [Data Api](https://github.com/happner/happner-2/blob/master/docs/data.md)
-* [Web Routes](https://github.com/happner/happner-2/blob/master/docs/webroutes.md)
+* [Web Routes and Middleware](https://github.com/happner/happner-2/blob/master/docs/webroutes.md)
 * [REST component](https://github.com/happner/happner-2/blob/master/docs/restcomponent.md)
 
 ###

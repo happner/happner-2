@@ -36,7 +36,6 @@ describe(
       happn: {
         port: 10000,
         secure: true,
-
         services: {
           connect: {
             config: {
@@ -279,12 +278,20 @@ describe(
 
     it('does not put web middleware methods onto server exchange', function() {
       var methods = Object.keys(mesh.exchange.middlewareTest);
-      expect(methods.length).to.equal(1);
+      //doSomething and doSomethingElse are global middleware methods
+      //used in web-middleware-global test
+      //which need to be on the exchange
+      //__version is a special property
+      expect(methods.length).to.equal(3);
     });
 
     it('does not put web middleware methods onto client exchange', function() {
       var methods = Object.keys(client.exchange.middlewareTest);
-      expect(methods.length).to.equal(1);
+      //doSomething and doSomethingElse are global middleware methods
+      //used in web-middleware-global test
+      //which need to be on the exchange
+      //__version is a special property
+      expect(methods.length).to.equal(3);
     });
 
     it('advertises web methods in description', function() {
@@ -339,7 +346,5 @@ describe(
         }
       });
     });
-
-    //require('benchmarket').stop();
   }
 );
