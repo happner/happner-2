@@ -1,14 +1,10 @@
-/**
- * Created by Johan on 10/14/2015.
- */
-var path = require('path');
+const path = require('path');
 
 describe(
   require('../../__fixtures/utils/test_helper')
     .create()
     .testName(__filename, 3),
   function() {
-    // Uses unit test 2 modules
     var Mesh = require('../../..');
     var client;
     var mesh;

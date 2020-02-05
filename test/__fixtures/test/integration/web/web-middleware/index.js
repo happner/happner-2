@@ -1,9 +1,5 @@
-/**
- * Created by Johan on 10/14/2015.
- */
-
-var serveStatic = require('serve-static');
-var path = require('path');
+const serveStatic = require('serve-static');
+const path = require('path');
 
 module.exports = function () {
   return new Module();
