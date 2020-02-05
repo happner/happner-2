@@ -7,7 +7,6 @@ function Module() {
     res.write('_didAnotherSomething');
     next();
   };
-
   this.doAnotherSomethingElse = function(req, res, next) {
     res.write('_didAnotherSomethingElse');
     next();
