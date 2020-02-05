@@ -62,11 +62,7 @@ describe(
     });
 
     afterEach(function(done) {
-      //wait a second so we dont get timeouts on
       if (testClient) return testClient.disconnect(done);
-      // setTimeout(() => {
-      //   testClient.disconnect(done);
-      // }, 1000);
     });
 
     after(function(done) {
@@ -81,8 +77,9 @@ describe(
       });
 
       testClient.exchange.component1.causeEmit().catch(function(e) {
-        //eslint-disable-next-line
         if (e.message === 'connection-ended') return;
+        //eslint-disable-next-line
+        console.log('CAUSE EMIT FAILURE: \r\n', e);
         done(e);
       });
     });
