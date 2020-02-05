@@ -577,3 +577,8 @@ based on happner 1.28.1
 11.0.3 2020-01-20
 -----------------
   - fix: users and groups error handling for undefined users and groups
+
+11.1.0 2020-02-04
+-----------------
+  - feature: global middleware configuration
+  - fix: proper clearing of waiting timeouts in messenger when connection is closed

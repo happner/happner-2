@@ -15,7 +15,7 @@ config = {
   components: {
     'componentName': {
       web: {
-        routes: {	
+        routes: {
           // this would be listening on: /componentName/routeName
           'routeName': 'methodName1'
         }
@@ -49,7 +49,7 @@ config = {
   components: {
     'componentName':{
       web: {
-        routes: {	
+        routes: {
           'routeName': ['methodName1', 'methodName2']
         }
       }
@@ -65,7 +65,7 @@ config = {
   components:{
     'componentName':{
       web:{
-        routes:{	
+        routes:{
           'routeName':[function(req, res, next){next();}, 'methodName2']
         }
       }
@@ -142,12 +142,61 @@ testClient.login(credentials).then(function () {
 
 ```
 
+### Global Middleware
+
+*it is possible to configure global middleware that is run before any web routes are called, global middleware can be linked to a chain-able array of methods in a happner component or can be passed in as raw connect middleware functions*
+
+```javascript
+// set up a server with global middleware:
+
+const middlewareTestFunc = (req, res, next) => {
+  //do something like change a header?
+  next();
+};
+
+const happnerConfig = {
+  web: {
+    // the below 4 middleware are all valid configuration options
+    // they will be chained in the order as it appears in the web.middleware
+    // configuration property
+    middleware: [
+      // pass in a middleware function
+      middlewareTestFunc,
+      // inline middleware function
+      (req, res, next) => {
+        // do something like change a header?
+        next();
+      },
+      // middleware being extended by a component on the exchange, note how
+      // it is possible to chain methods in an array
+      {
+        component: 'middlewareTest',
+        methods: ['doSomething', 'doSomethingElse']
+      }
+    ]
+  },
+  modules: {
+    middlewareTest: {
+      instance:{
+        doSomething:(req, res, next) => {
+          //do something like change a header?
+          next();
+        },
+        doSomethingElse:(req, res, next) => {
+          //do something like change a header?
+          next();
+        }
+      }
+    }
+  },
+  components:{
+    middlewareTest: {}
+  }
+};
+```
+
 ### Notes
 
 *web routes can be defined in the happner config, please see [the test for now](https://github.com/happner/happner-2/blob/master/test/integration/web/web-middleware.js)*
 
 *note - routes can be excluded from the token check, [here is where in the config](https://github.com/happner/happner-2/blob/master/test/integration/web/permissions-web.js#L29) [and here is where a an exclusion is tested](https://github.com/happner/happner-2/blob/master/test/integration/web/permissions-web.js#L140)*
-
-index.html default in static
-
-array of mware funcs

@@ -1,9 +1,5 @@
-/**
- * Created by Johan on 10/14/2015.
- */
-
-var serveStatic = require('serve-static');
-var path = require('path');
+const serveStatic = require('serve-static');
+const path = require('path');
 
 module.exports = function () {
   return new Module();
@@ -54,6 +50,16 @@ function Module() {
 
   this.injectReverseOrder = function(req, $origin, $happn, res) {
     res.end($origin.username + '_' + $happn.info.mesh.name);
+  };
+
+  this.doSomething = function(req, res, next) {
+    res.write('_didSomething');
+    next();
+  };
+
+  this.doSomethingElse = function(req, res, next) {
+    res.write('_didSomethingElse');
+    next();
   };
 
 }
