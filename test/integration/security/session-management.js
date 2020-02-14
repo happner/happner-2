@@ -148,7 +148,7 @@ describe(
 
                             newInstance.exchange.security.listActiveSessions(function(err) {
                               if (!err) return callback(new Error('this was not meant to happn'));
-                              expect(err.toString()).to.be('AccessDenied: unauthorized');
+                              expect(err.toString()).to.be('Error: client is disconnected');
 
                               disconnectClient(newInstance, callback);
                             });
