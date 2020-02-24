@@ -2,3 +2,4 @@ coverage/
 variants/
 __*/
 lib/startup/app/*
+test/stress/*
