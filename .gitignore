@@ -20,3 +20,4 @@ examine
 .nyc_output
 *.dot
 *.svg
+*.code-workspace
