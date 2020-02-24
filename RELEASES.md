@@ -582,3 +582,8 @@ based on happner 1.28.1
 -----------------
   - feature: global middleware configuration
   - fix: proper clearing of waiting timeouts in messenger when connection is closed
+
+11.2.0 2020-02-24
+-----------------
+  - feature: happn-3 bump to 11.2.0 allows for unconfigured socket removal by configuration
+  - test: stress test code, for checking client reconnection process

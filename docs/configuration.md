@@ -7,7 +7,7 @@ Mesh configuration contains several sections.
 * [Mesh Name](#mesh-name)
 * [Defer Listen](#defer-listen)
 * [Listen First](#listen-first)
-* [Datalayer Config](#happn-config)
+* [Happn Config](#happn-config)
 * [Endpoint Config](#endpoint-config)
 * [Module Config](#module-config)
 * [Component Config](#component-config)
@@ -81,7 +81,7 @@ The `config.listenFirst` parameter causes the server to go to listen at first st
 
 Note that listenFirst overrides deferListen.
 
-### Datalayer Config
+### Happn Config
 
 [&#9650;](#)
 
@@ -149,6 +149,28 @@ here are the convenience settings most typically used for happner:
 
 
 __NOTE:__ The `config.happn` section can be omitted if all defaults are acceptable.
+
+### Happn config: Unconfigured session removal, server config, ONLY FOR SECURE CONFIGS
+*Sockets that have not been logged in after a specific interval can be configured to be disconnected by the server*
+```javascript
+  happn: {
+    host: '0.0.0.0',
+    port: 55000, // 0 for os assigned port
+    secure: true,
+    services: {
+      session:{
+        config: {
+          unconfiguredSessionCleanup: {
+            interval: cleanupInterval, //check every N milliseconds
+            threshold: cleanupThreshold || 10e3, //sessions are cleaned up if they remain unconfigured for 10 seconds
+            verbose: cleanupVerbose //cleanups are logged
+          }
+        }
+      }
+    }
+  }
+  ...
+```
 
 ### Endpoint Config
 
