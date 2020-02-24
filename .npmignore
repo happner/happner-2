@@ -17,3 +17,5 @@ test/integration/tmp
 test/temp
 test/tmp
 test/tmp/*
+*.code-workspace
+.nyc_output
