@@ -183,9 +183,7 @@ client.login({username:'_ADMIN', password:'happn'})
   client.disconnect({revokeSession:true}, function(e){
     if (!e) console.log('disconnection went fine, we have revoked the token ' + token);
   });
-
 });
-
 ```
 
 ### testing the browser client
