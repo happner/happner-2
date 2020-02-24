@@ -1,16 +1,4 @@
 const Happner = require('../../lib/mesh');
-// const commander = require('commander');
-
-// commander
-// .option('--seq [number]', 'sequence number')
-// .option('--min [number]', 'minimum peers')
-// .option('--seed [number]', 'minimum peers')
-// .option('--hosts [number]', 'hosts')
-// .parse(process.argv);
-
-// commander.seq = parseInt(commander.seq || 1);
-// commander.hosts = commander.hosts || "127.0.0.1:56001,127.0.0.1:56002";
-
 function instanceConfig() {
   var config = {};
   config.authorityDelegationOn = true;

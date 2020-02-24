@@ -1,9 +1,13 @@
-# start 3 brokers
+# start the stress test server
+```javascript
+node test/stress/server.js
+```
 
-node test/stress/broker.js --seq 1
-node test/stress/broker.js --seq 2
-node test/stress/broker.js --seq 3
+# start a mesh client, method call and emit every 5 seconds
+node test/stress/client.js --activity 5000 
 
-# start some brokered to
-node test/stress/instance-1.js --seq 4
-node test/stress/instance-1.js --seq 5
+# start a happner-client, method call and emit every 5 seconds
+node test/stress/happner-client.js --activity 5000
+
+# start a happner-endpoint client
+node test/stress/happner-endpoint-client.js
