@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/happner/happner-2",
   "devDependencies": {
+    "await-delay": "^1.0.0",
     "chai": "4.2.0",
     "coveralls": "^3.0.2",
     "expect.js": "0.3.1",

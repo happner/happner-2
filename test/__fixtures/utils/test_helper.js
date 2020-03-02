@@ -732,6 +732,10 @@ TestHelper.prototype.testService = Promise.promisify(function (id, callback) {
   });
 });
 
+TestHelper.prototype.delay = async function(delayMS){
+  return await this.delay(delayMS);
+};
+
 TestHelper.prototype.tearDown = Promise.promisify(function (options, callback) {
 
   if (typeof options == 'function') {
