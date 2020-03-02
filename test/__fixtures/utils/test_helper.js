@@ -5,7 +5,6 @@ var Promise = require('bluebird')
   , shortid = require('shortid')
   , path = require('path')
   , fs = require('fs-extra')
-  , expect = require('expect.js')
   , Mesh = require('../../..')
   ;
 
@@ -18,6 +17,10 @@ function TestHelper() {
   this.__happnerClients = {};
 
   this.__happnerInstances = {};
+
+  this.expect = require('expect.js');
+
+  this.delay = require('await-delay');
 }
 
 TestHelper.create = function(){
@@ -618,6 +621,8 @@ TestHelper.prototype.stopService = Promise.promisify(function (id, callback) {
 
 TestHelper.prototype.testClientComponent = function(clientInstance, options, callback){
 
+  const _this = this;
+
   if (typeof options == 'function'){
     callback = options;
     options = {};
@@ -642,7 +647,7 @@ TestHelper.prototype.testClientComponent = function(clientInstance, options, cal
     clientInstance.event[options.componentName].on(options.eventName, function(data){
 
       try{
-        expect(data).to.eql(options.expectedData);
+        _this.expect(data).to.eql(options.expectedData);
         callback();
       }catch(e){
         callback(e);

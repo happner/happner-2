@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "10.5.1",
+  "version": "10.5.2",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -41,6 +41,7 @@
   },
   "homepage": "https://github.com/happner/happner-2",
   "devDependencies": {
+    "await-delay": "^1.0.0",
     "chai": "4.2.0",
     "coveralls": "^3.0.2",
     "expect.js": "0.3.1",
