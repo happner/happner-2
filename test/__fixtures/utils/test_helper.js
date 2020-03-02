@@ -19,6 +19,8 @@ function TestHelper() {
   this.__happnerInstances = {};
 
   this.expect = require('expect.js');
+
+  this.delay = require('await-delay');
 }
 
 TestHelper.create = function(){
@@ -731,10 +733,6 @@ TestHelper.prototype.testService = Promise.promisify(function (id, callback) {
     });
   });
 });
-
-TestHelper.prototype.delay = async function(delayMS){
-  return await this.delay(delayMS);
-};
 
 TestHelper.prototype.tearDown = Promise.promisify(function (options, callback) {
 
