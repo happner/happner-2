@@ -558,3 +558,7 @@ based on happner 1.28.1
 10.5.1 2019-10-22
 -----------------
   - prettier update with lint
+
+10.5.2 2020-03-02
+-----------------
+  - fix #250: _MESH_ADM and _MESH_GST groups not added if they exist on startup
