@@ -587,3 +587,7 @@ based on happner 1.28.1
 -----------------
   - feature: happn-3 bump to 11.2.0 allows for unconfigured socket removal by configuration
   - test: stress test code, for checking client reconnection process
+
+11.2.1 2020-03-02
+-----------------
+  - fix #250: _MESH_ADM and _MESH_GST groups not added if they exist on startup
