@@ -98,5 +98,13 @@ describe(testHelper.testName(__filename, 3), function() {
     testHelper.expect(gstGroup).to.not.be(null);
 
     testHelper.expect(upsertedGroups.length).to.be(2);
+    //ensure we are able to add a user after this, and it is part of the _MESH_GST group
+    await adminClient.exchange.security.addUser({
+      username: 'test',
+      password: 'test'
+    });
+
+    const addedUser = await adminClient.exchange.security.getUser('test');
+    testHelper.expect(addedUser.groups).to.eql({ _MESH_GST: { data: {} } });
   });
 });

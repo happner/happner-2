@@ -591,3 +591,7 @@ based on happner 1.28.1
 11.2.1 2020-03-02
 -----------------
   - fix #250: _MESH_ADM and _MESH_GST groups not added if they exist on startup
+
+11.2.2 2020-03-03
+-----------------
+  - fix of fix #250: __systemGroups is populated in security module if groups have been found
