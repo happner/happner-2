@@ -599,3 +599,4 @@ based on happner 1.28.1
 11.2.3 2020-03-16
 -----------------
   - happn-3 11.2.4 - prioritization of data providers by length of filter pattern desc
+  - fix: happner-cluster issue #186 - allow for default version injection
