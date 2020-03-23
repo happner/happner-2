@@ -4,6 +4,26 @@ describe('browsertest_01_happner_client', function() {
 
   expect = window.expect;
 
+  it('can set the socket options', function(done) {
+    this.timeout(5000);
+    var client = new MeshClient();
+
+    client
+      .login({
+        username: 'username',
+        password: 'password'
+      })
+
+      .then(function() {
+        done();
+      })
+
+      .catch(function(error) {
+        console.log(error);
+        done(error);
+      });
+  });
+
   it('can connect a new client', function(done) {
     var client = new Happner.HappnerClient();
 
