@@ -595,3 +595,8 @@ based on happner 1.28.1
 11.2.2 2020-03-03
 -----------------
   - fix of fix #250: __systemGroups is populated in security module if groups have been found
+
+11.2.3 2020-03-16
+-----------------
+  - happn-3 11.2.4 - prioritization of data providers by length of filter pattern desc
+  - fix: happner-cluster issue #186 - allow for default version injection

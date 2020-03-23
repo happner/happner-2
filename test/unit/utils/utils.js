@@ -102,5 +102,11 @@ describe(
 
       done();
     });
+
+    it('tests the getPackageJson function', function() {
+      var utils = require('../../../lib/system/utilities');
+      expect(utils.getPackageJson('/non-existent').version).to.be('1.0.0');
+      expect(utils.getPackageJson('/non-existent', '2.0.0').version).to.be('2.0.0');
+    });
   }
 );

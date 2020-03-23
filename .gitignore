@@ -21,3 +21,4 @@ examine
 *.dot
 *.svg
 *.code-workspace
+test/__fixtures/test/integration/data/test.nedb
