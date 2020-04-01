@@ -28,21 +28,42 @@ describe(testHelper.testName(__filename, 3), function() {
     const meshAndClientWithPublish = await createMeshAndClient(false, true);
     const totalBytesOptimised = await generateTraffic(meshAndClientWithPublish.client);
     await tearDownMeshAndClient(meshAndClientWithPublish);
-    expect(totalBytesOptimised < totalBytesUnOptimised).to.be(true);
+    compareBytes(totalBytesOptimised, totalBytesUnOptimised, 30);
   }
 
   async function compareCompression() {
-    throw new Error('not implemented');
+    const meshAndClientNoCompression = await createMeshAndClient(false, true);
+    const totalBytesUnOptimised = await generateTraffic(meshAndClientNoCompression.client);
+    await tearDownMeshAndClient(meshAndClientNoCompression);
+    const meshAndClientWithCompression = await createMeshAndClient(true, true);
+    const totalBytesOptimised = await generateTraffic(meshAndClientWithCompression.client);
+    await tearDownMeshAndClient(meshAndClientWithCompression);
+    compareBytes(totalBytesOptimised, totalBytesUnOptimised, 80);
   }
 
   async function comparePublishAndCompression() {
-    throw new Error('not implemented');
+    const meshAndClientNoCompressionAndPublish = await createMeshAndClient(false, false);
+    const totalBytesUnOptimised = await generateTraffic(
+      meshAndClientNoCompressionAndPublish.client
+    );
+    await tearDownMeshAndClient(meshAndClientNoCompressionAndPublish);
+    const meshAndClientWithCompressionAndPublish = await createMeshAndClient(true, true);
+    const totalBytesOptimised = await generateTraffic(
+      meshAndClientWithCompressionAndPublish.client
+    );
+    await tearDownMeshAndClient(meshAndClientWithCompressionAndPublish);
+    compareBytes(totalBytesOptimised, totalBytesUnOptimised, 80);
   }
 
   async function generateTraffic(client) {
     const proxiedBytesBefore = proxy.bytesTransferred;
     await client.exchange.compressionModule.methodBigPayload(getBigPayload(4096, 'test'));
     return proxy.bytesTransferred - proxiedBytesBefore;
+  }
+
+  function compareBytes(optimised, unoptimised, expectedReductionPercentage) {
+    expect(optimised < unoptimised).to.be(true);
+    expect((optimised / unoptimised) * 100 < 100 - expectedReductionPercentage).to.be(true);
   }
 
   function getBigPayload(size, str) {
@@ -70,6 +91,9 @@ describe(testHelper.testName(__filename, 3), function() {
       client
         .login({ username: '_ADMIN', password: 'happn' })
         .then(() => {
+          //we override the publish method with the set method
+          //so now we are hitting the exchange with an echo request
+          if (!publish) client.data.publish = client.data.set;
           resolve(client);
         })
         .catch(reject);
