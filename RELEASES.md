@@ -601,7 +601,8 @@ based on happner 1.28.1
   - happn-3 11.2.4 - prioritization of data providers by length of filter pattern desc
   - fix: happner-cluster issue #186 - allow for default version injection
 
-11.2.4 2020-03-31
+11.2.4 2020-04-01
 -----------------
-  - happn-3 11.3.0 - publish feature on client
+  - happn-3 11.3.0 - publish feature on client, issue #265
   - publish in messenger and component-instance reduces 'echo' traffic of set
+  - compression and publish integration test
