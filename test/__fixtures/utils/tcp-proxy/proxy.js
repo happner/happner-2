@@ -1,3 +1,6 @@
+//taken from https://github.com/tewarid/node-tcp-proxy
+//we needed to reach inside to create the bytesTransferred metric
+//this component is for testing only, no need to fork
 var net = require("net");
 var tls = require('tls');
 var fs = require('fs');
