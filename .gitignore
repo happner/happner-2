@@ -22,3 +22,4 @@ examine
 *.svg
 *.code-workspace
 test/__fixtures/test/integration/data/test.nedb
+.vscode
