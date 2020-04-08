@@ -41,6 +41,39 @@ describe(
       done();
     });
 
+    it('tests getting function parameters for a class method', function(done) {
+      const utils = require('../../../lib/system/utilities');
+      class TestClass {
+        testFunc(
+          // eslint-disable-next-line no-unused-vars
+          param1 /**param1 comment**/,
+          // eslint-disable-next-line no-unused-vars
+          param2 /*param2 comment*/,
+          // eslint-disable-next-line no-unused-vars
+          option1,
+          // eslint-disable-next-line no-unused-vars
+          option2
+        ) {}
+
+        async testFuncAsync(
+          // eslint-disable-next-line no-unused-vars
+          param1 /**param1 comment**/,
+          // eslint-disable-next-line no-unused-vars
+          param2 /*param2 comment*/,
+          // eslint-disable-next-line no-unused-vars
+          option1,
+          // eslint-disable-next-line no-unused-vars
+          option2
+        ) {}
+      }
+      const testObj = new TestClass();
+      [testObj.testFunc, testObj.testFuncAsync].forEach(fn => {
+        const params = utils.getFunctionParameters(fn);
+        expect(params).to.eql(['param1', 'param2', 'option1', 'option2']);
+      });
+      done();
+    });
+
     it('tests stringifying errors', function(done) {
       var utils = require('../../../lib/system/utilities');
 

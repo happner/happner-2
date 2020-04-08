@@ -606,3 +606,7 @@ based on happner 1.28.1
   - happn-3 11.3.0 - publish feature on client, issue #265
   - publish in messenger and component-instance reduces 'echo' traffic of set
   - compression and publish integration test
+
+11.2.5 2020-04-08
+-----------------
+  - fix #267 - fix function parser to support class methods
