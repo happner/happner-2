@@ -610,3 +610,8 @@ based on happner 1.28.1
 11.2.5 2020-04-08
 -----------------
   - fix #267 - fix function parser to support class methods
+
+11.2.6 2020-04-08
+-----------------
+  - fix  #267 - further adjustments to make classes consumable by the exchange
+  - fix  #373 - IE11 browser support
