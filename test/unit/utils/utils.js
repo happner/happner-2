@@ -136,15 +136,18 @@ describe(tests.testName(__filename, 3), function() {
     tests.expect(utils.getPackageJson('/non-existent', '2.0.0').version).to.be('2.0.0');
   });
 
-  it('tests the getAllMethodNames function', function() {
+  it('tests the getAllMethodNames function with class', function() {
     testGetAllMethodNames(getTestClass());
-    testGetAllMethodNames(getTestFuncInstance());
   });
 
-  function testGetAllMethodNames(obj) {
+  it('tests the getAllMethodNames function with classic function', function() {
+    testGetAllMethodNamesNoClass(getTestFuncInstance());
+  });
+
+  function testGetAllMethodNamesNoClass(obj) {
     var utils = require('../../../lib/system/utilities');
     tests
-      .expect(utils.getAllMethodNames(obj))
+      .expect(utils.getAllMethodNames(obj).sort())
       .to.eql([
         '__defineGetter__',
         '__defineSetter__',
@@ -166,7 +169,7 @@ describe(tests.testName(__filename, 3), function() {
       ]);
 
     tests
-      .expect(utils.getAllMethodNames(obj, true))
+      .expect(utils.getAllMethodNames(obj, { ignoreInheritedNativeMethods: true }).sort())
       .to.eql([
         '__testMethod3',
         'testMethod',
@@ -177,17 +180,98 @@ describe(tests.testName(__filename, 3), function() {
       ]);
 
     tests
-      .expect(utils.getAllMethodNames(obj, true, true))
+      .expect(
+        utils
+          .getAllMethodNames(obj, { ignoreInheritedNativeMethods: true, ignoreNative: true })
+          .sort()
+      )
       .to.eql(['__testMethod3', 'testMethod', 'testMethod1', 'testMethod2', 'testMethod__5']);
 
     tests
-      .expect(utils.getAllMethodNames(obj, true, true, /^[__]/))
+      .expect(
+        utils
+          .getAllMethodNames(obj, {
+            ignoreInheritedNativeMethods: true,
+            ignoreNative: true,
+            ignoreRegex: /^[__]/
+          })
+          .sort()
+      )
       .to.eql(['testMethod', 'testMethod1', 'testMethod2', 'testMethod__5']);
   }
 
+  function testGetAllMethodNames(obj) {
+    var utils = require('../../../lib/system/utilities');
+    tests
+      .expect(utils.getAllMethodNames(obj).sort())
+      .to.eql([
+        '__defineGetter__',
+        '__defineSetter__',
+        '__lookupGetter__',
+        '__lookupSetter__',
+        '__testMethod3',
+        'constructor',
+        'hasOwnProperty',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'testMethod',
+        'testMethod1',
+        'testMethod2',
+        'testMethod4',
+        'testMethod__5',
+        'testParentMethod',
+        'toLocaleString',
+        'toString',
+        'valueOf'
+      ]);
+
+    tests
+      .expect(utils.getAllMethodNames(obj, { ignoreInheritedNativeMethods: true }).sort())
+      .to.eql([
+        '__testMethod3',
+        'testMethod',
+        'testMethod1',
+        'testMethod2',
+        'testMethod4',
+        'testMethod__5',
+        'testParentMethod'
+      ]);
+
+    tests
+      .expect(
+        utils
+          .getAllMethodNames(obj, { ignoreInheritedNativeMethods: true, ignoreNative: true })
+          .sort()
+      )
+      .to.eql([
+        '__testMethod3',
+        'testMethod',
+        'testMethod1',
+        'testMethod2',
+        'testMethod__5',
+        'testParentMethod'
+      ]);
+
+    tests
+      .expect(
+        utils
+          .getAllMethodNames(obj, {
+            ignoreInheritedNativeMethods: true,
+            ignoreNative: true,
+            ignoreRegex: /^[__]/
+          })
+          .sort()
+      )
+      .to.eql(['testMethod', 'testMethod1', 'testMethod2', 'testMethod__5', 'testParentMethod']);
+  }
+
   function getTestClass() {
-    const Clazz = class {
+    class ParentClass {
+      testParentMethod() {}
+    }
+    class Class extends ParentClass {
       constructor() {
+        super();
         this.testMethod4 = this.testMethod4.bind(this);
         this.property1 = {};
       }
@@ -198,8 +282,8 @@ describe(tests.testName(__filename, 3), function() {
       __testMethod3() {}
       testMethod4() {}
       testMethod__5() {}
-    };
-    return new Clazz();
+    }
+    return new Class();
   }
 
   function getTestFuncInstance() {
