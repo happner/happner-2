@@ -18,6 +18,8 @@ node_js:
   - "10"
 
 #script: "npm run-script test"
-script: "npm run-script test-cover"
+script:
+  - "npm run-script test-cover"
+  - "npm run test-browser"
 after_success: "npm run report-coverage"
 after_failure: "cat /home/travis/build/happner/happner/npm-debug.log"
