@@ -5,9 +5,8 @@ describe('browsertest_01_happner_client', function() {
   expect = window.expect;
 
   it('can set the socket options', function(done) {
-    this.timeout(5000);
-    var client = new MeshClient();
-
+    this.timeout(100000);
+    var client = new MeshClient({ port: 55000, socket: { pingTimeout: 120000 } });
     client
       .login({
         username: 'username',
@@ -15,7 +14,8 @@ describe('browsertest_01_happner_client', function() {
       })
 
       .then(function() {
-        done();
+        expect(client.data.socket.options.pingTimeout).to.eql(120000);
+        client.disconnect(done);
       })
 
       .catch(function(error) {
