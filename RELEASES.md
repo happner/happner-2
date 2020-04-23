@@ -595,3 +595,31 @@ based on happner 1.28.1
 11.2.2 2020-03-03
 -----------------
   - fix of fix #250: __systemGroups is populated in security module if groups have been found
+
+11.2.3 2020-03-16
+-----------------
+  - happn-3 11.2.4 - prioritization of data providers by length of filter pattern desc
+  - fix: happner-cluster issue #186 - allow for default version injection
+
+11.2.4 2020-04-01
+-----------------
+  - happn-3 11.3.0 - publish feature on client, issue #265
+  - publish in messenger and component-instance reduces 'echo' traffic of set
+  - compression and publish integration test
+
+11.2.5 2020-04-08
+-----------------
+  - fix #267 - fix function parser to support class methods
+
+11.2.6 2020-04-08
+-----------------
+  - fix #269 - fix ES6 syntax for IE11 compatibility
+  
+11.2.7 2020-04-08
+-----------------
+  - fix  #267 - further adjustments to make classes consumable by the exchange
+  - fix  #373 - IE11 browser support
+  
+11.2.8 2020-04-14
+-----------------
+   - fix  #273 - add try catch for parsing module function definitions

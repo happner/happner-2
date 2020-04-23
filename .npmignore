@@ -19,3 +19,4 @@ test/tmp
 test/tmp/*
 *.code-workspace
 .nyc_output
+.vscode

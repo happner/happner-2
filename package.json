@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "11.2.3-issue-262.1",
+  "version": "11.2.8",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -52,14 +52,12 @@
     "expect.js": "0.3.1",
     "fxt": "1.0.2",
     "gulp": "^4.0.0",
-    "gulp-jshint": "^2.1.0",
     "happn-service-mongo-2": "^3.0.0",
     "happn-util-crypto": "^1.0.0",
     "happner": "1.33.4",
     "happner-serial-mocha": "^1.5.2",
     "happner-test-modules": "1.0.2",
     "is-ip": "^3.1.0",
-    "jshint": "^2.9.5",
     "karma": "^4.0.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
