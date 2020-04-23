@@ -53,6 +53,41 @@ describe('browsertest_02_security', function() {
       .catch(done);
   });
 
+  it('can login with the token', async function() {
+    var client = new Happner.MeshClient({ port: 55000 });
+
+    await client.login({
+      username: 'username',
+      password: 'password'
+    });
+
+    await client.disconnect();
+
+    await client.login({ useCookie: true });
+    await client.disconnect();
+  });
+
+  it('disconnect can remove the cookie', async function() {
+    var client = new Happner.MeshClient({ port: 55000 });
+
+    await client.login({
+      username: 'username',
+      password: 'password'
+    });
+
+    await client.disconnect();
+
+    await client.login({ useCookie: true });
+    await client.disconnect({ deleteCookie: true });
+
+    try {
+      await client.login({ useCookie: true });
+      throw new Error('should not login');
+    } catch (e) {
+      expect(e.message).to.eql('happn server is secure, please specify a username or token');
+    }
+  });
+
   context('events', function() {
     // publish allowed/denied
     // subscribe allowed/denied
