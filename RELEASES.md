@@ -627,7 +627,6 @@ based on happner 1.28.1
 11.2.9 2020-04-23
 -----------------
   - test: fixed stats tests, happn no longer logs stats by default
-  - update: setMaxListeners to 35
   - Fix #275 - Pass useCookie to happn client.
   - Fix #262 - Pass socket options to happn client.
 
