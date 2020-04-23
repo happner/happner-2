@@ -18,6 +18,7 @@ describe(
           services: {
             stats: {
               config: {
+                emit: true,
                 interval: 500
               }
             }
