@@ -620,7 +620,7 @@ based on happner 1.28.1
   - fix  #267 - further adjustments to make classes consumable by the exchange
   - fix  #373 - IE11 browser support
 
-11.2.8 2020-04-08
+11.2.8 2020-04-14
 -----------------
   - fix  #273 - add try catch for parsing module function definitions
 
@@ -629,7 +629,3 @@ based on happner 1.28.1
   - test: fixed stats tests, happn no longer logs stats by default
   - Fix #275 - Pass useCookie to happn client.
   - Fix #262 - Pass socket options to happn client.
-
-
-
-
