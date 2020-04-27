@@ -629,3 +629,7 @@ based on happner 1.28.1
   - test: fixed stats tests, happn no longer logs stats by default
   - Fix #275 - Pass useCookie to happn client.
   - Fix #262 - Pass socket options to happn client.
+
+11.2.10 2020-04-27
+-----------------
+  - feature: happn enriched session events 
