@@ -65,7 +65,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
-    "pkginfo": "^0.4.1",
     "prettier": "^1.18.2",
     "restler": "3.4.0",
     "serve-static": "1.10.0",
