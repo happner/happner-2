@@ -114,8 +114,8 @@ describe(
         var lastError;
 
         async.whilst(
-          function() {
-            return attemptCount < 5 && unsuccessful;
+          function(cb) {
+            return cb(null, attemptCount < 5 && unsuccessful);
           },
           function(whileCB) {
             attemptCount++;

@@ -11,12 +11,12 @@ describe(
     var Happner = require('../../..');
     var Promise = require('bluebird');
     var request = Promise.promisify(require('request'), { multiArgs: true });
+    const TIMEOUT = 60000;
+    this.timeout(TIMEOUT);
 
     var mesh, mesh2;
 
     before('start server 1', function(done) {
-      this.timeout(5000);
-
       Happner.create({
         name: 'MESH_NAME',
         modules: {
@@ -69,8 +69,6 @@ describe(
     });
 
     before('start server 2', function(done) {
-      this.timeout(5000);
-
       Happner.create({
         name: 'MESH_NAME_2',
         port: 55001,
