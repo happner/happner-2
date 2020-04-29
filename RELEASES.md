@@ -630,6 +630,6 @@ based on happner 1.28.1
   - Fix #275 - Pass useCookie to happn client.
   - Fix #262 - Pass socket options to happn client.
 
-11.2.10 2020-04-27
+11.2.11 2020-04-29
 -----------------
   - feature: happn enriched session events 
