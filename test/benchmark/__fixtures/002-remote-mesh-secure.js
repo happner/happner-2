@@ -55,30 +55,3 @@ Mesh.create(config, function (err) {
   console.log('READY');
 
 });
-
-// var connectCount = 0;
-// var unconnected = true;
-// var lastError;
-//
-// async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whileCB){
-//
-//   connectCount++;
-//
-//   Mesh.create(config)
-//     .then(function () {
-//       unconnected = false;
-//       console.log('READY');
-//       whileCB();
-//     })
-//     .catch(function (err) {
-//       lastError = err;
-//       setTimeout(whileCB, 2000);
-//     });
-//
-// }, function(e){
-//
-//   if (unconnected) {
-//     if (lastError) console.warn('Error starting remote:::', lastError.toString());
-//     process.exit(1);
-//   }
-// });
