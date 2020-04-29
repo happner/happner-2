@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "11.2.10",
+  "version": "11.2.11",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -65,6 +65,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
+    "pkginfo": "^0.4.1",
     "prettier": "^1.18.2",
     "restler": "3.4.0",
     "serve-static": "1.10.0",
@@ -75,7 +76,7 @@
     "why-is-node-running": "^2.1.0"
   },
   "dependencies": {
-    "async": "^2.6.3",
+    "async": "^3.2.0",
     "bluebird": "^3.5.0",
     "body": "5.1.0",
     "change-case": "2.3.0",
@@ -87,9 +88,9 @@
     "happn-3": "^11.4.0",
     "happn-logger": "^0.1.1",
     "happn-sillyname": "^0.1.1",
-    "happner-client": "^10.0.0",
+    "happner-client": "^11.0.1",
     "happner-hyperid": "2.0.0",
-    "happner-terminal": "0.0.8",
+    "happner-terminal": "0.0.9",
     "homedir": "0.6.0",
     "later": "1.2.0",
     "lodash": "^4.17.11",

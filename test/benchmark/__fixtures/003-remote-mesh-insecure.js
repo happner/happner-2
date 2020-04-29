@@ -46,7 +46,7 @@ var connectCount = 0;
 var unconnected = true;
 var lastError;
 
-async.whilst(function(){ return connectCount < 5 && unconnected;}, function(whileCB){
+async.whilst(function(cb){ return cb(null, connectCount < 5 && unconnected);}, function(whileCB){
 
   connectCount++;
 

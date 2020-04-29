@@ -630,6 +630,13 @@ based on happner 1.28.1
   - Fix #275 - Pass useCookie to happn client.
   - Fix #262 - Pass socket options to happn client.
 
+11.2.10 2020-04-29
+-----------------
+  - Fix #280
+  - bumped async v3.2, fixes for breaking whilst
+  - bumped happner-client and happn-3 versions, for async ^3.2 dedup
+
 11.2.11 2020-04-29
 -----------------
   - feature: happn enriched session events 
+
