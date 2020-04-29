@@ -11,11 +11,8 @@ describe(
     var Happner = require('../../..');
     var Promise = require('bluebird');
     var request = Promise.promisify(require('request'), { multiArgs: true });
-    const TIMEOUT = 60000;
-    this.timeout(TIMEOUT);
-
+    this.timeout(60000);
     var mesh, mesh2;
-
     before('start server 1', function(done) {
       Happner.create({
         name: 'MESH_NAME',
