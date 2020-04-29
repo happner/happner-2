@@ -1,7 +1,7 @@
 const tests = require('../../__fixtures/utils/test_helper').create();
 
 describe(tests.testName(__filename, 3), function() {
-  var Happner = require('../../..');
+  var Happner = require('../../../lib/mesh');
   var socketClientSessionId;
   this.timeout(10000);
 
