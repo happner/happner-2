@@ -635,3 +635,9 @@ based on happner 1.28.1
   - Fix #280
   - bumped async v3.2, fixes for breaking whilst
   - bumped happner-client and happn-3 versions, for async ^3.2 dedup
+
+11.2.11 2020-04-29
+-----------------
+  - feature: happn enriched session lifecycle events 
+  - debug: added warning if an async method over the exchange is a promise but also passed a callback
+
