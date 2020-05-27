@@ -641,3 +641,7 @@ based on happner 1.28.1
   - feature: happn enriched session lifecycle events 
   - debug: added warning if an async method over the exchange is a promise but also passed a callback
 
+11.2.12 2020-05-27
+-----------------
+  - dependency - bumped happn-3 version 11.4.2
+
