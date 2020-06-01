@@ -5,6 +5,7 @@ describe(
   function() {
     this.timeout(120000);
 
+    const util = require('util');
     var should = require('chai').should();
     var Mesh = require('../../..');
     var meshInstance;
@@ -92,6 +93,65 @@ describe(
             });
           }
         );
+      });
+
+      it('can support concurrent subscriptions without counts - works', async () => {
+        const updates = [];
+        const on = util.promisify(dataComponent.on);
+        const off = util.promisify(dataComponent.off);
+        const sub1 = await on('/some/path/three', data =>
+          updates.push({ name: 'sub1', data: data })
+        );
+        await dataComponent.set('/some/path/three', { key: 'VAL' });
+        const sub2 = await on('/some/path/three', data =>
+          updates.push({ name: 'sub2', data: data })
+        );
+        await dataComponent.set('/some/path/three', { key: 'VAL-2' });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        expect(updates).eql([
+          { name: 'sub1', data: { key: 'VAL' } },
+          { name: 'sub1', data: { key: 'VAL-2' } },
+          { name: 'sub2', data: { key: 'VAL-2' } }
+        ]);
+        await off(sub1);
+        await off(sub2);
+      });
+
+      it('can support concurrent subscriptions with count expiry - works', async () => {
+        const updates = [];
+        const on = util.promisify(dataComponent.on);
+        await on('/some/path/three', { count: 1 }, data =>
+          updates.push({ name: 'sub1', data: data })
+        );
+        await dataComponent.set('/some/path/three', { key: 'VAL' });
+        await on('/some/path/three', { count: 1 }, data =>
+          updates.push({ name: 'sub2', data: data })
+        );
+        await dataComponent.set('/some/path/three', { key: 'VAL-2' });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        expect(updates).eql([
+          { name: 'sub1', data: { key: 'VAL' } },
+          { name: 'sub2', data: { key: 'VAL-2' } }
+        ]);
+      });
+
+      it('can support concurrent subscriptions with count expiry - broken', async () => {
+        const updates = [];
+        const on = util.promisify(dataComponent.on);
+        await on('/some/path/three', { count: 2 }, data =>
+          updates.push({ name: 'sub1', data: data })
+        );
+        await dataComponent.set('/some/path/three', { key: 'VAL' });
+        await on('/some/path/three', { count: 1 }, data =>
+          updates.push({ name: 'sub2', data: data })
+        );
+        await dataComponent.set('/some/path/three', { key: 'VAL-2' });
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        expect(updates).eql([
+          { name: 'sub1', data: { key: 'VAL' } },
+          { name: 'sub1', data: { key: 'VAL-2' } },
+          { name: 'sub2', data: { key: 'VAL-2' } }
+        ]);
       });
 
       it('can subscribe without opts', function(done) {
