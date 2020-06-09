@@ -645,3 +645,8 @@ based on happner 1.28.1
 -----------------
   - dependency - bumped happn-3 version 11.4.2
 
+11.2.13 2020-06-05
+-----------------
+  - dependency - bumped happn-3 version 11.5.1, permissions-tree and regex caching
+  - dependency - bumped happner-client version 11.0.2
+
