@@ -508,17 +508,10 @@ describe(
         })
 
         .then(function() {
-          return mesh._mesh.data.on(
-            '/mesh/schema/description',
-            { count: 1 },
-            function(data) {
-              should.not.exist(data.components.component2);
-              done();
-            },
-            function(e) {
-              if (e) return done(e);
-            }
-          );
+          return mesh._mesh.data.on('/mesh/schema/description', { count: 1 }, function(data) {
+            should.not.exist(data.components.component2);
+            done();
+          });
         })
 
         .then(function() {
