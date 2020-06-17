@@ -17,7 +17,8 @@ module.exports = function(config) {
       'browsertest_01_happner_client.js',
       'browsertest_02_security.js',
       'browsertest_03_events.js',
-      'browsertest_04_encryptedpayloads.js'
+      'browsertest_04_encryptedpayloads.js',
+      'browsertest_05_login_promise.js'
     ],
 
     // list of files / patterns to load in the browser
