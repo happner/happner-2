@@ -11,7 +11,6 @@ TestComponent2.prototype.start = function ($happn, callback) {
 };
 
 TestComponent2.prototype.stop = function ($happn, callback) {
-  console.log('CALLING STOP:::');
   clearInterval(this.interval);
   callback();
 };
