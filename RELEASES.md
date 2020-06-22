@@ -653,3 +653,7 @@ based on happner 1.28.1
 11.2.14 2020-06-19
 -----------------
   - dependency - bumped happn-3 version 11.5.2
+
+11.2.15 2020-06-22
+-----------------
+  - fix: component events now honour promises, and assume promises when no callback is specified
