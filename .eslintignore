@@ -3,3 +3,4 @@ variants/
 __*/
 lib/startup/app/*
 test/stress/*
+lib/modules/api/promise-polyfill.js
