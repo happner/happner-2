@@ -109,7 +109,7 @@ describe('browsertest_01_happner_client', function() {
       })
 
       .then(function() {
-        return Promise.delay(200);
+        return new Promise(resolve => setTimeout(resolve, 200));
       })
 
       .then(function() {

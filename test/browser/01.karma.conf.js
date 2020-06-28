@@ -14,10 +14,10 @@ module.exports = function(config) {
 
     files: [
       { pattern: 'http://localhost:55000/api/client', type: 'js' },
-      // 'browsertest_01_happner_client.js',
-      // 'browsertest_02_security.js',
-      // 'browsertest_03_events.js',
-      // 'browsertest_04_encryptedpayloads.js',
+      'browsertest_01_happner_client.js',
+      'browsertest_02_security.js',
+      'browsertest_03_events.js',
+      'browsertest_04_encryptedpayloads.js',
       'browsertest_05_login_promise.js'
     ],
 
