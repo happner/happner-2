@@ -660,4 +660,4 @@ based on happner 1.28.1
 
 11.2.16 2020-06-27
 -----------------
-  - dep: removed browserified bluebird from packager - replaced with a polyfill
+  - dep: removed browserified bluebird from packager
