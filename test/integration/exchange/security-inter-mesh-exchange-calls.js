@@ -155,7 +155,7 @@ describe.skipWindows(
 
           return Promise.all([security.addGroup(theGroup), security.addUser(theUser)])
             .then(function(results) {
-              return security.linkGroup(results[0], results[1]);
+              return security.linkGroup(...results);
             })
             .then(function() {
               done();

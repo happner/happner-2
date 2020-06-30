@@ -103,7 +103,7 @@ gulp.task('start', function(done) {
           password: 'password'
         })
       ]).then(function(results) {
-        return security.linkGroup(results[0], results[1]);
+        return security.linkGroup(...results);
       });
     })
 

@@ -228,7 +228,7 @@ describe(
 
         Promise.all([security.addGroup(group), security.addUser(user)])
           .then(function(results) {
-            return security.linkGroup(results[0], results[1]);
+            return security.linkGroup(...results);
           })
           .then(function() {
             done();
