@@ -6,7 +6,6 @@ describe(
     .testName(__filename),
   function() {
     var Happner = require('../../..');
-    var Promise = require('bluebird');
     var expect = require('expect.js');
     var async = require('async');
 
@@ -114,7 +113,9 @@ describe(
         };
 
         Promise.all([security.addGroup(group), security.addUser(user)])
-          .spread(security.linkGroup)
+          .then(function(results) {
+            return security.linkGroup(...results);
+          })
           .then(function() {
             done();
           })

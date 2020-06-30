@@ -13,7 +13,6 @@ describe(
     var cachedDirname = homedir() + sep + '.happner';
     var cachedFilename = cachedDirname + sep + 'api-client-' + version + '.min.js.gz';
     var request = require('request');
-    var Promise = require('bluebird');
     var md5 = require('md5');
 
     var server;

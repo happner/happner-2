@@ -657,3 +657,7 @@ based on happner 1.28.1
 11.2.15 2020-06-22
 -----------------
   - fix: component events now honour promises, and assume promises when no callback is specified
+
+11.2.16 2020-06-27
+-----------------
+  - dep: removed browserified bluebird from packager

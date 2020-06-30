@@ -11,8 +11,6 @@ describe(
     var meshInstance;
     var dataEvents;
     var expect = require('expect.js');
-    var Promise = require('bluebird');
-
     var TestModule1 = {
       setSharedData: function($happn, path, data, callback) {
         $happn.exchange.data.set(path, data, callback);
@@ -732,7 +730,7 @@ describe(
 
           var caughtEmitted = [];
 
-          dataComponent.onAsync = Promise.promisify(dataComponent.on);
+          dataComponent.onAsync = util.promisify(dataComponent.on);
 
           await dataComponent.set('/initialEmitSpecificCorrectDepth/testsubscribe/1', {
             test: 'data1'

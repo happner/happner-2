@@ -11,7 +11,6 @@ describe.skipWindows(
     var Happner = require('../..');
     var shortid = require('shortid');
     var fs = require('fs');
-    var Promise = require('bluebird');
 
     var testId = shortid.generate();
     var testId2 = shortid.generate();

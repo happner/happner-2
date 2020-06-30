@@ -1,11 +1,11 @@
-var Promise = require('bluebird')
-  , async = require('async')
+var async = require('async')
   , Happner = require('../../..')
   , sillyname = require('happn-sillyname')
   , shortid = require('shortid')
   , path = require('path')
   , fs = require('fs-extra')
   , Mesh = require('../../..')
+  , util = require('util')
   ;
 
 function TestHelper() {
@@ -243,7 +243,7 @@ TestHelper.prototype.deleteFiles = function () {
   return results;
 };
 
-TestHelper.prototype.startUp = Promise.promisify(function (configs, callback) {
+TestHelper.prototype.startUp = util.promisify(function (configs, callback) {
 
   if (typeof configs == 'function') {
     callback = configs;
@@ -544,7 +544,7 @@ TestHelper.prototype.getService = function (config, callback, clientPassword) {
   });
 };
 
-TestHelper.prototype.disconnectClient = Promise.promisify(function (id, callback) {
+TestHelper.prototype.disconnectClient = util.promisify(function (id, callback) {
 
   var _this = this;
 
@@ -577,7 +577,7 @@ TestHelper.prototype.disconnectClient = Promise.promisify(function (id, callback
   });
 });
 
-TestHelper.prototype.stopService = Promise.promisify(function (id, callback) {
+TestHelper.prototype.stopService = util.promisify(function (id, callback) {
 
   var _this = this;
 
@@ -699,7 +699,7 @@ TestHelper.prototype.testClientData = function (clientInstance, callback) {
     });
 };
 
-TestHelper.prototype.testService = Promise.promisify(function (id, callback) {
+TestHelper.prototype.testService = util.promisify(function (id, callback) {
 
   var _this = this;
 
@@ -728,7 +728,7 @@ TestHelper.prototype.testService = Promise.promisify(function (id, callback) {
   });
 });
 
-TestHelper.prototype.tearDown = Promise.promisify(function (options, callback) {
+TestHelper.prototype.tearDown = util.promisify(function (options, callback) {
 
   if (typeof options == 'function') {
     callback = options;

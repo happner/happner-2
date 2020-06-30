@@ -5,9 +5,8 @@ describe(
     .create()
     .testName(__filename, 3),
   function() {
-    var Promise = require('bluebird');
-
-    var request = Promise.promisify(require('request'), { multiArgs: true });
+    const util = require('util');
+    var request = util.promisify(require('request'), { multiArgs: true });
     this.timeout(15000);
     var expect = require('expect.js');
     var Mesh = require('../../..');
@@ -516,9 +515,12 @@ describe(
           adminClient.exchange.security.addGroup(group),
           adminClient.exchange.security.addUser(user)
         ])
-          .spread(adminClient.exchange.security.linkGroup)
-          .then(function() {})
-          .then(done)
+          .then(function(results) {
+            return adminClient.exchange.security.linkGroup(...results);
+          })
+          .then(function() {
+            done();
+          })
           .catch(done);
       });
 
@@ -557,7 +559,7 @@ describe(
           var url = 'http://localhost:55000' + path;
           j.setCookie(cookie, url);
           return request({ method: method, url: url, jar: j }).then(function(res) {
-            return res[1]; //body
+            return res.body; //body
           });
         };
 
@@ -839,7 +841,9 @@ describe(
         adminClient.exchange.security.addGroup(testUpsertGroup),
         adminClient.exchange.security.addUser(testUpsertUser)
       ])
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
         .then(function() {
           var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient' });
 
@@ -914,7 +918,9 @@ describe(
         adminClient.exchange.security.addGroup(testUpsertGroup),
         adminClient.exchange.security.addUser(testUpsertUser)
       ])
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
         .then(function() {
           var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient1' });
 
@@ -996,7 +1002,9 @@ describe(
         adminClient.exchange.security.upsertGroup(testUpsertGroup),
         adminClient.exchange.security.addUser(testUpsertUser)
       ])
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
         .then(function() {
           var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient2' });
 
@@ -1075,7 +1083,9 @@ describe(
         adminClient.exchange.security.upsertGroup(testUpsertGroup),
         adminClient.exchange.security.addUser(testUpsertUser)
       ])
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
         .then(function() {
           var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient4' });
 
@@ -1158,7 +1168,9 @@ describe(
         adminClient.exchange.security.upsertGroup(testUpsertGroup),
         adminClient.exchange.security.addUser(testUpsertUser)
       ])
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
         .then(function() {
           var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient' });
 
@@ -1240,7 +1252,9 @@ describe(
         adminClient.exchange.security.upsertGroup(testUpsertGroup),
         adminClient.exchange.security.addUser(testUpsertUser)
       ])
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
         .then(function() {
           var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient6' });
 
@@ -1316,7 +1330,9 @@ describe(
         adminClient.exchange.security.upsertUser(testUpsertUser)
       ])
 
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
 
         .then(function(addedGroup, addedUser) {
           expect(addedGroup).to.not.be(null);
@@ -1394,7 +1410,9 @@ describe(
         adminClient.exchange.security.upsertGroup(testUpsertGroup),
         adminClient.exchange.security.addUser(testUpsertUser)
       ])
-        .spread(adminClient.exchange.security.linkGroup)
+        .then(function(results) {
+          return adminClient.exchange.security.linkGroup(...results);
+        })
         .then(function() {
           var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient8' });
 

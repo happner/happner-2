@@ -1,7 +1,6 @@
 var path = require('path');
 require('chai').should();
 var Happner = require('../../..');
-var Promise = require('bluebird');
 var fs = require('fs');
 
 describe(
@@ -68,8 +67,8 @@ describe(
               username: 'username',
               password: 'password'
             })
-          ]).spread(function(group, user) {
-            return security.linkGroup(group, user);
+          ]).then(function(results) {
+            return security.linkGroup(...results);
           });
         })
         .then(function() {

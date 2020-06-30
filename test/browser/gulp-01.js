@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var path = require('path');
 var Server = require('karma').Server;
 var Happner = require('../..');
-var Promise = require('bluebird');
 var mesh;
 
 /**
@@ -92,7 +91,6 @@ gulp.task('start', function(done) {
               '/Server/testComponent2/test/event': { authorized: true },
               '/Server/testComponent2/variable-depth/event/*': { authorized: true }
             },
-            // data: {},
             methods: {
               '/Server/test/allowedMethod': { authorized: true },
               '/Server/testComponent2/method1': { authorized: true },
@@ -104,8 +102,8 @@ gulp.task('start', function(done) {
           username: 'username',
           password: 'password'
         })
-      ]).spread(function(group, user) {
-        return security.linkGroup(group, user);
+      ]).then(function(results) {
+        return security.linkGroup(...results);
       });
     })
 

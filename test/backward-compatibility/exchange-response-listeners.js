@@ -8,7 +8,6 @@ describe(
   function() {
     var OldHappner = require('happner');
     var Happner = require('../..');
-    var Promise = require('bluebird');
     var expect = require('expect.js');
     var async = require('async');
     var fs = require('fs');
@@ -147,7 +146,9 @@ describe(
         };
 
         Promise.all([security.addGroup(group), security.addUser(user)])
-          .spread(security.linkGroup)
+          .then(function(results) {
+            return security.linkGroup(...results);
+          })
           .then(function() {
             done();
           })
