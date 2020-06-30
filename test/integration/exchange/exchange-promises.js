@@ -1,6 +1,6 @@
 /* RUN: LOG_LEVEL=off mocha test/18-exchange-promises.js */
 
-var Promise = require('bluebird');
+var util = require('util');
 
 module.exports = SeeAbove;
 
@@ -27,7 +27,7 @@ SeeAbove.prototype.fireAndForget = function() {
   //do nothing
 };
 
-SeeAbove.prototype.promiseMethod = Promise.promisify(function(opts, callback) {
+SeeAbove.prototype.promiseMethod = util.promisify(function(opts, callback) {
   if (opts.errorAs === 'callback')
     return callback(new Error('THIS IS JUST A TEST WITH CALLBACK ERROR'));
   if (opts.errorAs === 'throw') throw new Error('THIS IS JUST A TEST THAT THROWS AN ERROR');
@@ -36,7 +36,7 @@ SeeAbove.prototype.promiseMethod = Promise.promisify(function(opts, callback) {
   callback(null, opts);
 });
 
-SeeAbove.prototype.promisePromiseCaller = Promise.promisify(function(opts, callback) {
+SeeAbove.prototype.promisePromiseCaller = util.promisify(function(opts, callback) {
   this.promiseMethod(opts)
     .then(function() {
       callback(null, opts);
@@ -56,7 +56,7 @@ SeeAbove.prototype.promiseReturnerNoCallback = function(opts) {
   return this.promiseMethod(opts);
 };
 
-SeeAbove.prototype.promiseReturner = Promise.promisify(function(opts, callback) {
+SeeAbove.prototype.promiseReturner = util.promisify(function(opts, callback) {
   return this.promiseMethod(opts, callback);
 });
 

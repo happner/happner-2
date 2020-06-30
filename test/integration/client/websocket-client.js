@@ -13,7 +13,6 @@ describe(
       path.resolve(__dirname, '../../..') +
       path.sep +
       ['test', '__fixtures', 'test', 'integration', 'client'].join(path.sep);
-    var Promise = require('bluebird');
 
     after(function(done) {
       remote.kill();

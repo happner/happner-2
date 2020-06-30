@@ -6,7 +6,6 @@ describe.skipWindows(
     .testName(__filename, 3),
   function() {
     var Happner = require('../../..');
-    var Promise = require('bluebird');
     var fs = require('fs');
     require('chai').should();
     var expect = require('expect.js');
@@ -72,8 +71,8 @@ describe.skipWindows(
               username: 'username',
               password: 'password'
             })
-          ]).spread(function(group, user) {
-            return security.linkGroup(group, user);
+          ]).then(function(results) {
+            return security.linkGroup(results[0], results[1]);
           });
         })
         .then(function() {

@@ -7,7 +7,6 @@ describe(
   function() {
     var OldHappner = require('happner');
     var Happner = require('../..');
-    var Promise = require('bluebird');
     var expect = require('expect.js');
 
     this.timeout(20000);
@@ -228,7 +227,9 @@ describe(
         };
 
         Promise.all([security.addGroup(group), security.addUser(user)])
-          .spread(security.linkGroup)
+          .then(function(results) {
+            return security.linkGroup(results[0], results[1]);
+          })
           .then(function() {
             done();
           })

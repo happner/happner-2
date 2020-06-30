@@ -9,8 +9,8 @@ describe(
   function() {
     var should = require('chai').should();
     var Happner = require('../../..');
-    var Promise = require('bluebird');
-    var request = Promise.promisify(require('request'), { multiArgs: true });
+    const util = require('util');
+    var request = util.promisify(require('request'), { multiArgs: true });
     this.timeout(60000);
     var mesh, mesh2;
     before('start server 1', function(done) {
@@ -161,7 +161,7 @@ describe(
         })
 
         .then(function(result) {
-          result[1].should.equal('WEB PAGE');
+          result.body.should.equal('WEB PAGE');
         })
 
         .then(function() {
@@ -362,7 +362,7 @@ describe(
         })
 
         .then(function(result) {
-          result[1].should.equal('WEB PAGE');
+          result.body.should.equal('WEB PAGE');
         })
 
         // now remove the component
@@ -381,7 +381,7 @@ describe(
         })
 
         .then(function(result) {
-          result[1].should.equal(
+          result.body.should.equal(
             '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /anotherComponent/page</pre>\n</body>\n</html>\n'
           );
         })

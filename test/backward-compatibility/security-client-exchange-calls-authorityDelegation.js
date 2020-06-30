@@ -12,7 +12,6 @@ describe.skipWindows(
     var OldHappner = require('happner');
     var shortid = require('shortid');
     var fs = require('fs');
-    var Promise = require('bluebird');
 
     var testId = shortid.generate();
     var testId2 = shortid.generate();
@@ -150,8 +149,8 @@ describe.skipWindows(
       var security = secureMesh.exchange.security;
 
       Promise.all([security.addGroup(theGroup), security.addUser(theUser)])
-        .spread(function(group, user) {
-          return security.linkGroup(group, user);
+        .then(function(results) {
+          return security.linkGroup(...results);
         })
         .then(function() {
           done();
@@ -270,8 +269,8 @@ describe.skipWindows(
       var security = mesh2.exchange.security;
 
       Promise.all([security.addGroup(theGroup), security.addUser(theUser)])
-        .spread(function(group, user) {
-          return security.linkGroup(group, user);
+        .then(function(results) {
+          return security.linkGroup(...results);
         })
         .then(function() {
           done();

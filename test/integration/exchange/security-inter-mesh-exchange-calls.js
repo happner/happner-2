@@ -10,8 +10,6 @@ describe.skipWindows(
     var Happner = require('../../..');
     var shortid = require('shortid');
     var fs = require('fs');
-    var Promise = require('bluebird');
-
     var testId = shortid.generate();
     var testId2 = shortid.generate();
     var dbFileName = '.' + path.sep + 'temp' + path.sep + testId + '.nedb';
@@ -156,8 +154,8 @@ describe.skipWindows(
           var security = secureMesh.exchange.security;
 
           return Promise.all([security.addGroup(theGroup), security.addUser(theUser)])
-            .spread(function(group, user) {
-              return security.linkGroup(group, user);
+            .then(function(results) {
+              return security.linkGroup(results[0], results[1]);
             })
             .then(function() {
               done();
