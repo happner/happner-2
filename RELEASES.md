@@ -664,4 +664,4 @@ based on happner 1.28.1
 
 11.3.0 2020-07-30
 -----------------
-  feature: disable/enable mesh schema change events
+  feature: disable/enable mesh schema change events - SMC-617
