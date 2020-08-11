@@ -30,6 +30,10 @@ SeeAbove.prototype.method4 = function($happn, $origin, number, another, callback
   callback(null, { product: parseInt(number) + parseInt(another) });
 };
 
+SeeAbove.prototype.method5 = function($happn, $req_headers, $req_method, callback) {
+  callback(null, { headers: $req_headers, method: $req_method });
+};
+
 SeeAbove.prototype.synchronousMethod = function(opts, opts2) {
   return opts + opts2;
 };
@@ -366,6 +370,19 @@ describe(
         .get('http://localhost:10000/rest/method/testComponent/method4?number=1&another=2')
         .on('complete', function(result) {
           expect(result.data.product).to.be(3);
+          done();
+        });
+    });
+
+    it('tests request information is available to a method', function(done) {
+      var restClient = require('restler');
+
+      restClient
+        .get('http://localhost:10000/rest/method/testComponent/method5')
+        .on('complete', function(result) {
+          expect(result.data).to.not.be(null);
+          expect(result.data.method).to.be('GET');
+          expect(result.data.headers).to.not.be(null);
           done();
         });
     });
