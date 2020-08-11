@@ -665,3 +665,7 @@ based on happner 1.28.1
 11.3.0 2020-07-30
 -----------------
   feature: disable/enable mesh schema change events - SMC-617
+  
+11.3.1 2020-08-11
+-----------------
+  - Fix #296 - make request info available to method being called over REST
