@@ -34,8 +34,8 @@ SeeAbove.prototype.method5 = function($happn, $req_headers, $req_method, callbac
   callback(null, { headers: $req_headers, method: $req_method });
 };
 
-SeeAbove.prototype.method6 = function($happn, number, callback) {
-  callback(null, number);
+SeeAbove.prototype.method6 = function($happn, arg1, arg2, arg3, arg4, callback) {
+  callback(null, { arg1: arg1, arg2: arg2, arg3: arg3, arg4: arg4 });
 };
 
 SeeAbove.prototype.synchronousMethod = function(opts, opts2) {
@@ -391,19 +391,23 @@ describe(
         });
     });
 
-    it('tests request param passes to method as 0 and not changed to null', function(done) {
+    it('tests request expected falsy params are passed to method and not changed to null', function(done) {
       const restClient = require('restler');
 
       const operation = {
         parameters: {
-          number: 0
+          arg1: 0,
+          arg2: null,
+          arg3: false,
+          arg4: ''
         }
       };
 
       restClient
         .postJson('http://localhost:10000/rest/method/testComponent/method6', operation)
         .on('complete', function(result) {
-          expect(result.data).to.be(0);
+          expect(result.error).not.exist;
+          expect(result.data).to.eql(operation.parameters);
           done();
         });
     });
