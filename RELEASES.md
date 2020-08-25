@@ -669,3 +669,7 @@ based on happner 1.28.1
 11.4.0 2020-08-11
 -----------------
   - Fix #296 - make request info available to method being called over REST
+
+11.4.1 2020-08-24
+-----------------
+  - Fix #299 - expected falsy rest parameter get converted to null by rest request handler
