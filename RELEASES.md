@@ -664,4 +664,9 @@ based on happner 1.28.1
 
 11.3.0 2020-07-30
 -----------------
-  feature: disable/enable mesh schema change events - SMC-617
+  feature: disable/enable mesh schema change events - JIRA: SMC-617
+
+11.3.1 2020-09-01
+-----------------
+  fix: connection-ended event in messenger removes handler from handler collection - JIRA: SMC-848
+  fix: proper error emitted for Request timed out in messenger handler
