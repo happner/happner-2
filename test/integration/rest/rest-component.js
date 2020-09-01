@@ -30,6 +30,14 @@ SeeAbove.prototype.method4 = function($happn, $origin, number, another, callback
   callback(null, { product: parseInt(number) + parseInt(another) });
 };
 
+SeeAbove.prototype.method5 = function($happn, $req_headers, $req_method, callback) {
+  callback(null, { headers: $req_headers, method: $req_method });
+};
+
+SeeAbove.prototype.method6 = function($happn, arg1, arg2, arg3, arg4, callback) {
+  callback(null, { arg1: arg1, arg2: arg2, arg3: arg3, arg4: arg4 });
+};
+
 SeeAbove.prototype.synchronousMethod = function(opts, opts2) {
   return opts + opts2;
 };
@@ -366,6 +374,40 @@ describe(
         .get('http://localhost:10000/rest/method/testComponent/method4?number=1&another=2')
         .on('complete', function(result) {
           expect(result.data.product).to.be(3);
+          done();
+        });
+    });
+
+    it('tests request information is available to a method', function(done) {
+      var restClient = require('restler');
+
+      restClient
+        .get('http://localhost:10000/rest/method/testComponent/method5')
+        .on('complete', function(result) {
+          expect(result.data).to.not.be(null);
+          expect(result.data.method).to.be('GET');
+          expect(result.data.headers).to.not.be(null);
+          done();
+        });
+    });
+
+    it('tests request expected falsy params are passed to method and not changed to null', function(done) {
+      const restClient = require('restler');
+
+      const operation = {
+        parameters: {
+          arg1: 0,
+          arg2: null,
+          arg3: false,
+          arg4: ''
+        }
+      };
+
+      restClient
+        .postJson('http://localhost:10000/rest/method/testComponent/method6', operation)
+        .on('complete', function(result) {
+          expect(result.error).not.exist;
+          expect(result.data).to.eql(operation.parameters);
           done();
         });
     });
