@@ -158,7 +158,5 @@ describe(
         done();
       });
     });
-
-    //require('benchmarket').stop();
   }
 );

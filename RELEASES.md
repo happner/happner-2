@@ -664,7 +664,7 @@ based on happner 1.28.1
 
 11.3.0 2020-07-30
 -----------------
-  feature: disable/enable mesh schema change events - SMC-617
+  feature: disable/enable mesh schema change events - JIRA: SMC-617
   
 11.4.0 2020-08-11
 -----------------
@@ -673,3 +673,8 @@ based on happner 1.28.1
 11.4.1 2020-08-24
 -----------------
   - Fix #299 - expected falsy rest parameter get converted to null by rest request handler
+
+11.4.2 2020-09-01
+-----------------
+  fix: connection-ended event in messenger removes handler from handler collection - JIRA: SMC-848
+  test fix: deprecation warning removed on db compaction test for node v14 - JIRA: SMC-817
