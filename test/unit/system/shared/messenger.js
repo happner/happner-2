@@ -44,6 +44,35 @@ describe(tests.testName(__filename, 3), function() {
     tests.expect(handlerEvents).to.eql(['Request timed out']);
   });
 
+  it('ensure the handler is removed from responseHandlers on api request timeout, on conclusion of an exchange request', async () => {
+    const Messenger = require('../../../../lib/system/shared/messenger');
+    const endpoint = mockEndpoint();
+    const mesh = mockMesh();
+    const testMessenger = new Messenger(endpoint, mesh);
+    const handlerEvents = [];
+    const handler = mockHandler(handlerEvents);
+    testMessenger.responseHandlers = {
+      'test/path/1': { handler }
+    };
+    const callbackHandler = testMessenger.__createCallbackHandler(handler, {
+      callbackAddress: 'test/path/2'
+    });
+    testMessenger.responseHandlers['test/path/2'] = callbackHandler;
+    callbackHandler.handleResponse([null, 1]);
+    await tests.delay(500);
+    tests.expect(testMessenger.responseHandlers).to.eql({
+      'test/path/1': { handler }
+    });
+    tests.expect(handlerEvents).to.eql([]);
+  });
+
+  function mockHandler(handlerEvents) {
+    return e => {
+      if (e == null) return;
+      handlerEvents.push(e.message || e);
+    };
+  }
+
   function mockMesh() {
     return {
       config: {
