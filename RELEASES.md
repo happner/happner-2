@@ -677,4 +677,4 @@ based on happner 1.28.1
 11.4.2 2020-09-01
 -----------------
   fix: connection-ended event in messenger removes handler from handler collection - JIRA: SMC-848
-  test fix: deprecation warning removed on db compaction test for node v14
+  test fix: deprecation warning removed on db compaction test for node v14 - JIRA: SMC-817
