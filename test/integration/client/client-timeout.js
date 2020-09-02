@@ -154,7 +154,7 @@ describe(
 
     it('runs a method on the default configured mesh', function(done) {
       defaultConfigClient.exchange.TestMesh.method1(function(e) {
-        expect(e.message).to.be('Request timed out');
+        expect(e).to.be('Request timed out');
         done();
       });
     });

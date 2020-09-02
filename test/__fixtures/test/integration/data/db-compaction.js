@@ -6,7 +6,7 @@ Happner.create({
   happn: {
     filename: path.join(__dirname, 'test.nedb'),
     defaultRoute: "mem",
-    compactInterval: 5000
+    //compactInterval: 5000
   }
 })
 .then(function (server) {
@@ -19,5 +19,7 @@ Happner.create({
   }, 2000);
 })
 .catch(function (err) {
+  console.log('COMPACTION FAILURE:::', err);
+  console.log('COMPACTION FAILURE STACK:::', err.stack);
   console.error(err);
 });
