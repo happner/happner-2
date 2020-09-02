@@ -65,8 +65,9 @@ describe(
       addProc(remote.pid, remote);
 
       remote.stderr.on('data', function(data) {
+        //skip deprecation warning, node v14
+        if (data.indexOf('Transform.prototype._transformState is deprecated') > -1) return;
         remote.stderr.removeAllListeners();
-
         done(new Error(data.toString()));
       });
 
