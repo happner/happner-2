@@ -16,7 +16,7 @@ describe(
       const ls = exec('node ' + procPath);
 
       ls.stderr.on('data', data => {
-        //skip deprecation warning
+        //skip deprecation warning, node v14
         if (data.indexOf('Transform.prototype._transformState is deprecated') > -1) return;
         //eslint-disable-next-line
         console.log('stderr:::', data);
