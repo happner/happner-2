@@ -112,6 +112,41 @@ describe(tests.testName(__filename, 3), function() {
     });
   });
 
+  it('tests the describe method', function(done) {
+    const config = {};
+    const mesh = mockMesh(config);
+    try {
+      mesh.describe();
+    } catch (e) {
+      tests.expect(e.message).to.be('Not ready');
+      mesh._mesh = {
+        endpoints: {
+          test_name: {}
+        },
+        config: {
+          name: 'test_name',
+          happn: {}
+        }
+      };
+      tests.expect(mesh.describe()).to.eql({
+        name: undefined,
+        initializing: false,
+        components: {},
+        brokered: false,
+        setOptions: undefined
+      });
+      mesh._mesh.config.brokered = true;
+      tests.expect(mesh.describe()).to.eql({
+        name: undefined,
+        initializing: false,
+        components: {},
+        brokered: true,
+        setOptions: undefined
+      });
+      done();
+    }
+  });
+
   it('tests the _addInjectedArgument function', async () => {
     var config = {};
     var mesh = mockMesh(config);
