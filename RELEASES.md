@@ -682,3 +682,7 @@ based on happner 1.28.1
 11.4.3 2020-09-10
 -----------------
   patch: allow for brokered flag in description - passed in from happner-cluster - JIRA: SMC-989
+
+11.4.4 2020-09-17
+-----------------
+  patch: mesh description is updated in the rest component when an element is updated in the mesh - JIRA:SMC-1026 happner-cluster #199

@@ -199,6 +199,7 @@ describe(
     var mock$Happn = {
       happn: {},
       _mesh: {
+        on: () => {},
         utilities: happnUtils,
         config: {
           name: 'e3b-test',
