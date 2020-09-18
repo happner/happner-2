@@ -1,22 +1,69 @@
 const tests = require('../../__fixtures/utils/test_helper').create();
-
+const Events = require('events');
 describe(tests.testName(__filename, 3), function() {
-  function mockMesh() {
+  function mockMesh(config) {
     const Mesh = require('../../../lib/mesh');
-    const mesh = new Mesh({});
-
+    const mesh = new Mesh(config || {});
+    const mockSecurityService = new Events.EventEmitter();
+    mesh._mesh.happn = {
+      server: {
+        connect: {
+          stack: []
+        },
+        services: {
+          cache: {
+            __caches: {},
+            new: () => {
+              return {
+                clear: () => {}
+              };
+            }
+          },
+          security: mockSecurityService
+        }
+      }
+    };
+    mesh._mesh.data = {
+      on: (_path, _cfg, _handler, cb) => {
+        cb();
+      },
+      set: (_path, _val, _cfg, cb) => {
+        cb();
+      },
+      offPath: (_path, cb) => {
+        cb();
+      }
+    };
+    mesh._mesh.config = {
+      name: 'mock-mesh',
+      happn: {},
+      endpoints: []
+    };
+    mesh._mesh.endpoints = {
+      'mock-mesh': {
+        data: {
+          onEvent: () => {},
+          session: {}
+        }
+      }
+    };
     mesh.log = {
       info: function() {},
       error: function() {},
       trace: function() {},
+      debug: function() {},
       $$DEBUG: function() {},
       $$TRACE: function() {},
       createLogger: function() {
         return mesh.log;
       }
     };
+    mesh.exchange = {};
+    mesh.event = {};
+    mesh.localEvent = new Events.EventEmitter();
 
     mesh.unsubscribeFromProcessEvents = function() {};
+    mesh._mesh.log = mesh.log;
     return mesh;
   }
 
@@ -116,6 +163,7 @@ describe(tests.testName(__filename, 3), function() {
     const config = {};
     const mesh = mockMesh(config);
     try {
+      mesh._mesh.config = {};
       mesh.describe();
     } catch (e) {
       tests.expect(e.message).to.be('Not ready');
@@ -174,6 +222,89 @@ describe(tests.testName(__filename, 3), function() {
     await tests.delay(2000);
     tests.expect(expectedMessageHappened).to.be(true);
     tests.expect(moduleInst.module.instance.testMethod['$happnSeq']).to.be(0);
+  });
+
+  it('tests the _updateElement method', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+    mesh._mesh.on('description-updated', desc => {
+      tests.expect(JSON.parse(JSON.stringify(desc))).to.eql({
+        initializing: false,
+        components: {
+          test: {
+            name: 'test',
+            version: '1.0.0',
+            methods: {
+              method: {
+                parameters: [
+                  {
+                    name: 'param1'
+                  },
+                  {
+                    name: 'callback'
+                  }
+                ]
+              },
+              method1: {
+                parameters: [
+                  {
+                    name: 'callback'
+                  }
+                ]
+              }
+            },
+            routes: {},
+            events: {},
+            data: {}
+          }
+        },
+        brokered: false
+      });
+      done();
+    });
+    mesh._createElement(
+      {
+        module: {
+          name: 'test',
+          config: {
+            instance: {
+              method: function(callback) {
+                callback(null, name + ' OK');
+              }
+            }
+          }
+        },
+        component: {
+          name: 'test'
+        }
+      },
+      e => {
+        if (e) return done(e);
+        mesh._updateElement(
+          {
+            module: {
+              name: 'test',
+              config: {
+                instance: {
+                  method: function(param1, callback) {
+                    callback(null, name + ' ' + param1 + ' OK');
+                  },
+                  method1: function(callback) {
+                    callback(null, name + ' OK');
+                  }
+                }
+              }
+            },
+            component: {
+              name: 'test'
+            }
+          },
+          e => {
+            if (e) return done(e);
+          }
+        );
+      }
+    );
   });
 
   function getTestClass() {
