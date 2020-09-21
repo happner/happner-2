@@ -5,23 +5,22 @@
 
 var traverse = require('traverse');
 
-module.exports = function (options) {
+module.exports = function(options) {
   return new Component1(options);
 };
 
 function Component1(options) {
-
-  this.storeData = function ($happn, path, data, parameters, callback) {
-    $happn.data.set(path, data, parameters, callback);
+  this.storeData = function($happn, path, data, parameters) {
+    return $happn.data.set(path, data, parameters);
   };
 
   this.onCount = 0;
 
-  this.getOnCount = function ($happn, callback) {
+  this.getOnCount = function($happn, callback) {
     callback(null, this.onCount);
   };
 
-  this.incrementGauge = function ($happn, path, gauge, increment, callback) {
+  this.incrementGauge = function($happn, path, gauge, increment, callback) {
     $happn.data.increment(path, gauge, increment, callback);
   };
 
@@ -29,21 +28,21 @@ function Component1(options) {
     $happn.data.count(path, callback);
   };
 
-  this.start = function ($happn, arg, callback) {
-
+  this.start = function($happn, arg, callback) {
     var _this = this;
 
     //path, parameters, handler, done
-    $happn.data.on('*/*/*/*', function (result) {
+    $happn.data.on(
+      '*/*/*/*',
+      function(result) {
         _this.onCount++;
       },
-      function (e) {
+      function(e) {
         if (e) return callback(e);
         callback();
-      });
+      }
+    );
   };
 
-  this.stop = function () {
-
-  };
+  this.stop = function() {};
 }

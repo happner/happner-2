@@ -72,7 +72,7 @@ describe(
         .catch(done);
     });
 
-    it('stores some data on component1, we look at the output from happn', function(done) {
+    it.only('stores some data on component1, we look at the output from happn', function(done) {
       this.mesh.exchange.component1.storeData(
         '/test/integration/data/api-data',
         { testprop1: 'testval1' },
