@@ -104,5 +104,53 @@ describe(
         data: {}
       });
     });
+
+    it('test the __reply method missing peer', function(done) {
+      var ComponentInstance = require('../../../lib/system/component-instance');
+      var componentInstance = new ComponentInstance();
+      componentInstance.log = {
+        error: msg => {
+          expect(msg).to.be('Failure on callback, missing peer');
+          done();
+        }
+      };
+      componentInstance.__reply(
+        'testCallbackAddress',
+        'testCallbackPeer',
+        mockResponse(),
+        mockOptions(),
+        mockMesh(
+          {
+            publish: () => {
+              done(new Error('should not have happened'));
+            }
+          },
+          {}
+        )
+      );
+    });
+
+    function mockResponse() {
+      return {};
+    }
+
+    function mockOptions() {
+      return {};
+    }
+
+    function mockMesh(data, peers) {
+      return {
+        data,
+        happn: {
+          server: {
+            services: {
+              orchestrator: {
+                peers
+              }
+            }
+          }
+        }
+      };
+    }
   }
 );
