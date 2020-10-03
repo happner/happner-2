@@ -686,3 +686,7 @@ based on happner 1.28.1
 11.4.4 2020-09-17
 -----------------
   patch: mesh description is updated in the rest component when an element is updated in the mesh - JIRA:SMC-1026 happner-cluster #199
+
+11.4.5 2020-10-03
+-----------------
+  patch: SMC-1178 - peer disconnection before peerReply causes FATAL
