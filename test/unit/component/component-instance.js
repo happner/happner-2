@@ -139,8 +139,6 @@ describe(
     }
 
     function mockMesh(data, peers) {
-      //mesh.data
-      //mesh.happn.server.services.orchestrator.peers[callbackPeer].client
       return {
         data,
         happn: {
