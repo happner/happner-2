@@ -6,6 +6,7 @@ describe.skipWindows(
     .create()
     .testName(__filename, 3),
   function() {
+    const Promise = require('bluebird');
     var path = require('path');
     require('chai').should();
     var Happner = require('../../..');
