@@ -690,3 +690,7 @@ based on happner 1.28.1
 11.4.5 2020-10-03
 -----------------
   patch: SMC-1178 - peer disconnection before peerReply causes FATAL
+
+11.4.6 2020-10-03
+-----------------
+  happn-3: selective security cache clearing and concurrency 1 queue on dataChanged event - SMC-1189
