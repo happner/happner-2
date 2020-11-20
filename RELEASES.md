@@ -694,3 +694,8 @@ based on happner 1.28.1
 11.4.6 2020-10-03
 -----------------
   happn-3: selective security cache clearing and concurrency 1 queue on dataChanged event - SMC-1189
+
+11.4.7 2020-11-20
+-----------------
+  - happn-3: feature: SMC-1269 - logging a JSON object on socket error
+  - happn-3: feature: SMC-1321 - only print error message for fail to decode JSON socket error, also just warning
