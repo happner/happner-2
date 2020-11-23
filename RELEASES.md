@@ -700,6 +700,6 @@ based on happner 1.28.1
   - happn-3: feature: SMC-1269 - logging a JSON object on socket error
   - happn-3: feature: SMC-1321 - only print error message for fail to decode JSON socket error, also just warning
 
-11.4.8 2020-11-20
+11.4.8 2020-11-23
 -----------------
   - SMC-1482 - fix: redirected logs not in correct format
