@@ -307,6 +307,326 @@ describe(tests.testName(__filename, 3), function() {
     );
   });
 
+  it('tests the componentAsyncMethod method', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+
+    let component = {
+      instance: {}
+    };
+    //Error Case
+    component.instance.operate = (methodName, args, callback) => {
+      tests.expect(methodName).to.be('start');
+      callback(new Error('Bad'));
+    };
+    let calls = ['thisCall'];
+    mesh.componentAsyncMethod('componentName', component, { methodName: 'start' }, calls, 0, e => {
+      tests.expect(calls).to.eql([]);
+      tests.expect(e.toString()).to.be('Error: Bad');
+    });
+
+    //Normal Case
+    component.instance.operate = (methodName, args, callback) => {
+      tests.expect(methodName).to.be('start');
+      callback(null, [null, 'awesome']);
+    };
+    calls = ['thatCall', 'thisCall'];
+    mesh.componentAsyncMethod(
+      'componentName',
+      component,
+      { methodName: 'start' },
+      calls,
+      1,
+      (e, result) => {
+        tests.expect(calls).to.eql(['thatCall']);
+        tests.expect(result).to.be('awesome');
+      }
+    );
+
+    //Tests Logging
+    component.instance.operate = (methodName, args, callback) => {
+      tests.expect(methodName).to.be('start');
+      callback(null, [null, 'awesome']);
+    };
+    mesh.log.info = (msg, log, component) => {
+      tests.expect(msg).to.be("%s component '%s'");
+      tests.expect(log).to.be.true;
+      tests.expect(component).to.be('componentName');
+    };
+    mesh.componentAsyncMethod(
+      'componentName',
+      component,
+      { methodName: 'start', logAction: true },
+      calls,
+      0,
+      (e, result) => {
+        tests.expect(result).to.be('awesome');
+        done();
+      }
+    );
+  });
+
+  it('tests the deferStartMethod method', async function() {
+    var config = {};
+    var mesh = mockMesh(config);
+    let component = {
+      instance: {}
+    };
+    mesh._mesh.clusterClient = new Events();
+    let called = false;
+    let calls = ['thisCall'];
+    mesh.componentAsyncMethod = (name, comp, options, callsIn, call, callback) => {
+      tests.expect(name).to.be('componentName');
+      tests.expect(comp).to.be(component);
+      tests.expect(options).to.eql({ methodName: 'start' });
+      tests.expect(callsIn).to.be(calls);
+      tests.expect(call).to.be(0);
+      called = true;
+      callback(null, 'awesome');
+    };
+    mesh.deferStartMethod(
+      'componentName',
+      component,
+      { methodName: 'start' },
+      calls,
+      0,
+      (e, result) => {
+        tests.expect(e).to.be.null;
+        tests.expect(result).to.be('awesome');
+      }
+    );
+    await tests.delay(2000);
+    tests.expect(called).to.be(false);
+    mesh._mesh.clusterClient.emit('componentName/startup/dependencies/satisfied');
+    await tests.delay(1000);
+    tests.expect(called).to.be(true);
+  }).timeout(6000);
+
+  it('tests the eachComponentDo method - startMethod, no deps', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+    mesh._mesh.elements.componentName = {
+      component: {
+        config: {
+          startMethod: 'start'
+        }
+      }
+    };
+    mesh.componentAsyncMethod = () => done();
+    mesh.deferStartMethod = () => {
+      done(new Error("defer shouldn't be called"));
+    };
+    let options = { targets: ['componentName'], methodCategory: 'startMethod' };
+    mesh._eachComponentDo(options, e => {
+      tests.expect(e).to.be(null);
+    });
+  });
+
+  it('tests the eachComponentDo method - startMethod, deps not met', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+
+    mesh._mesh.elements.componentName = {
+      component: {
+        config: {
+          startMethod: 'start',
+          dependencies: {
+            missingComponent: {
+              version: '*'
+            }
+          }
+        }
+      }
+    };
+    mesh.componentAsyncMethod = () => done(new Error("defer shouldn't be called"));
+    mesh.deferStartMethod = () => done();
+    let options = { targets: ['componentName'], methodCategory: 'startMethod' };
+    mesh._eachComponentDo(options, e => {
+      tests.expect(e).to.be(null);
+    });
+  });
+
+  it('tests the eachComponentDo method - startMethod, clusterClient, deps met', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+
+    mesh._mesh.elements.componentName = {
+      component: {
+        config: {
+          startMethod: 'start',
+          dependencies: {
+            presentComponent: {
+              version: '*'
+            }
+          }
+        }
+      }
+    };
+    mesh._mesh.clusterClient = { __implementors: { addAndCheckDependencies: () => true } };
+    mesh.componentAsyncMethod = () => done();
+    mesh.deferStartMethod = () => done(new Error("defer shouldn't be called"));
+    let options = { targets: ['componentName'], methodCategory: 'startMethod' };
+    mesh._eachComponentDo(options, e => {
+      tests.expect(e).to.be(null);
+    });
+  });
+
+  it('tests the eachComponentDo method - startMethod, clusterClient, deps not met', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+
+    mesh._mesh.elements.componentName = {
+      component: {
+        config: {
+          startMethod: 'start',
+          dependencies: {
+            missingComponent: {
+              version: '*'
+            }
+          }
+        }
+      }
+    };
+    mesh._mesh.clusterClient = { __implementors: { addAndCheckDependencies: () => false } };
+    mesh.componentAsyncMethod = () => done(new Error("async shouldn't be called"));
+    mesh.deferStartMethod = () => done();
+    let options = { targets: ['componentName'], methodCategory: 'startMethod' };
+    mesh._eachComponentDo(options, e => {
+      tests.expect(e).to.be(null);
+    });
+  });
+
+  it('tests the eachComponentDo method - startMethod, clusterClient, empty dependencies', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+
+    mesh._mesh.elements.componentName = {
+      component: {
+        config: {
+          startMethod: 'start',
+          dependencies: {}
+        }
+      }
+    };
+    mesh._mesh.clusterClient = {
+      __implementors: {
+        addAndCheckDependencies: () => done(new Error("addAndCheck Shouldn't be called"))
+      }
+    };
+    mesh.componentAsyncMethod = () => done();
+    mesh.deferStartMethod = () => done(new Error("defer shouldn't be called"));
+    let options = { targets: ['componentName'], methodCategory: 'startMethod' };
+    mesh._eachComponentDo(options, e => {
+      tests.expect(e).to.be(null);
+    });
+  });
+
+  it('tests the eachComponentDo method - undefinedMethod, not StartMethod category', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+
+    mesh._mesh.elements.componentName = {
+      component: {
+        config: {
+          startMethod: 'start',
+          dependencies: {
+            missingComponent: {
+              version: '*'
+            }
+          }
+        }
+      }
+    };
+    mesh._mesh.clusterClient = {
+      __implementors: {
+        addAndCheckDependencies: () => done(new Error("addAndCheck Shouldn't be called"))
+      }
+    };
+    mesh.componentAsyncMethod = () => done();
+    mesh.deferStartMethod = () => done(new Error("defer shouldn't be called"));
+    let options = { targets: ['componentName'], methodName: 'unknownMethod' };
+    mesh._eachComponentDo(options, e => {
+      tests.expect(e).to.be(null);
+    });
+  });
+
+  it('tests that the _createElement method will start and intialize an injected component if the mesh is already started and initialized', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+    let initialized, started;
+    let component = {
+      module: {
+        name: 'componentName',
+        config: {
+          instance: {
+            initialize: async () => {
+              initialized = true;
+            },
+            start: async () => {
+              started = true;
+            }
+          }
+        }
+      },
+      component: {
+        name: 'componentName',
+        config: {
+          initMethod: 'initialize',
+          startMethod: 'start'
+        }
+      }
+    };
+
+    mesh._mesh.initialized = true;
+    mesh._mesh.started = true;
+
+    mesh._createElement(component, true, e => {
+      if (e) done(e);
+      tests.expect(initialized).to.be(true);
+      tests.expect(started).to.be(true);
+      done();
+    });
+  });
+
+  it('tests that the _createElement method will NOT start and intialize an injected component if the mesh is not started and not initialized', function(done) {
+    var config = {};
+    var mesh = mockMesh(config);
+    let initialized = false,
+      started = false;
+    let component = {
+      module: {
+        name: 'componentName',
+        config: {
+          instance: {
+            initialize: async () => {
+              initialized = true;
+            },
+            start: async () => {
+              started = true;
+            }
+          }
+        }
+      },
+      component: {
+        name: 'componentName',
+        config: {
+          initMethod: 'initialize',
+          startMethod: 'start'
+        }
+      }
+    };
+
+    mesh._mesh.initialized = false;
+    mesh._mesh.started = false;
+
+    mesh._createElement(component, true, e => {
+      if (e) done(e);
+      tests.expect(initialized).to.be(false);
+      tests.expect(started).to.be(false);
+      done();
+    });
+  });
+
   function getTestClass() {
     class ParentClass {
       testParentMethod() {}
