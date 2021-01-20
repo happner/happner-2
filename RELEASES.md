@@ -703,3 +703,14 @@ based on happner 1.28.1
 11.4.8 2020-11-23
 -----------------
   - SMC-1482 - fix: redirected logs not in correct format
+
+11.5.0 2021-01-20
+-----------------
+  - SMC-917: modified implementors provider to emit startup/dependencies/… …
+  - SMC-917: added events.once to implementors provider
+  - smc-917 - prerelease publish
+  - SMC-917: Added registerAndCheckDependencies method in ImplementorsPro… …
+  - SMC-917: Added unit tests for SMC-917 changes to ./lib/provides/imple… …
+  - SMC-917: ImplementorsProvidor: AddAndCheckDependencies now checks for… …
+  - SMC-917: Chore: lint-fixed
+  - SMC-917: Code review changes (minor)
