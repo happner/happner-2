@@ -703,3 +703,19 @@ based on happner 1.28.1
 11.4.8 2020-11-23
 -----------------
   - SMC-1482 - fix: redirected logs not in correct format
+
+11.5.0 2021-01-20
+-----------------
+  - SMC-917: modified mesh components to defer ther startup method execut… …
+  - SMC-917: modified mesh deferred execution of component startup method… …
+  - SMC-917: added init on component injection, add defer start method ba… …
+  - SMC-917 - stop should clear timeouts on waiting for component start 
+  - smc-917 - prerelease publish
+  - SMC-917: Will detect component dependency satisfaction changes for in… …
+  - SMC-917 removed lint created spaces between 'function' and parenthesis
+  - SMC-917: Added unit tests covering SMC-917 changes to ./lib/mesh
+  - SMC-917: Checken module.package for dependencies/brokered deps. Fixed… …
+  - SMC-917: Added _mesh.ignoreDependenciesOnStartup flag. Currently defa… …
+  - SMC-917: Upped pre-release version
+  - SMC-917: Chore: lint-fix
+  - SM7-917 Code review changes (minor)
