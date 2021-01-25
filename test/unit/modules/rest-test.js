@@ -1,6 +1,7 @@
 const RestModule = require('../../../lib/modules/rest/index');
 const sinon = require('sinon');
-const async = require('async');
+// const async = require('async');
+
 describe('RestModule', function() {
   describe('login', function() {
     it('calls __respond with no password', function() {
@@ -8,12 +9,10 @@ describe('RestModule', function() {
       const restModule = new RestModule();
       const loginMethod = restModule.login;
       const mock = {
-        name: 'anti-name',
         __parseBody: (req, res, $happn, callback) => callback(body),
         __respond: sinon.stub(restModule, '__respond')
       };
       loginMethod.call(mock);
-      console.log('HERE:', mock.__respond.getCall(0).args[3].message);
       sinon.assert.calledWith(
         mock.__respond,
         sinon.match.any,
@@ -30,7 +29,6 @@ describe('RestModule', function() {
       const restModule = new RestModule();
       const loginMethod = restModule.login;
       const mock = {
-        name: 'anti-name',
         __parseBody: (req, res, $happn, callback) => callback(body),
         __respond: sinon.stub(restModule, '__respond')
       };
@@ -46,12 +44,11 @@ describe('RestModule', function() {
       );
     });
 
-    it('calls __respond with no username', function() {
+    it('calls login', function() {
       const body = { parameters: { password: 'password', username: 'username' } };
       const restModule = new RestModule();
       const loginMethod = restModule.login;
       const mock = {
-        name: 'anti-name',
         __parseBody: (req, res, $happn, callback) => callback(body),
         __securityService: { login: sinon.fake() }
       };
@@ -62,24 +59,46 @@ describe('RestModule', function() {
         sinon.match.any
       );
     });
+
+    it('calls __respond after __securityService.login', function() {
+      const body = { parameters: { password: 'password', username: 'username' } };
+      const restModule = new RestModule();
+      const loginMethod = restModule.login;
+      const mock = {
+        __parseBody: (req, res, $happn, callback) => callback(body),
+        __securityService: {
+          login: sinon.stub().callsArgWith(1, 'not what is expected')
+        },
+        __respond: sinon.stub()
+      };
+      loginMethod.call(mock);
+      sinon.assert.calledWith(
+        mock.__respond,
+        undefined,
+        'Failure logging in',
+        null,
+        'not what is expected',
+        undefined
+      );
+    });
   });
 
   describe('describe', function() {
-    it('calls...', function() {
-      const $happn = {
-        _mesh: { description: { name: 'name' } }
-      };
-      const req = {};
-      const res = { writeHead: sinon.fake(), end: sinon.fake() };
-      const $origin = { username: 'username' };
-      const restModule = new RestModule();
-      restModule.__exchangeDescription = { callMenu: {}, extraField: true };
-      const eachSeriesSpy = sinon.spy(async, 'eachSeries');
-
-      restModule.describe($happn, req, res, $origin);
-
-      sinon.assert.calledOnce(eachSeriesSpy);
-      //       sinon.assert.calledOnce(__authorizeAccessPointSpy);
-    });
+    //     it.only('calls..', function() {
+    //       const restModule = new RestModule();
+    //       const describeMethod = restModule.describe(
+    //         { _mesh: { description: { name: 'name' } } },
+    //         undefined,
+    //         undefined,
+    //         { username: 'username' }
+    //       );
+    //       const mock = {
+    //         __exchangeDescription: { callMenu: 'callMenu' }
+    //         //         async: sinon.spy(async, 'eachSeries'),
+    //         //         __authorizeAccessPoint: sinon.spy(restModule, '__authorizeAccessPoint')
+    //       };
+    //       describeMethod.call(mock);
+    //       sinon.assert.called(mock);
+    //     });
   });
 });
