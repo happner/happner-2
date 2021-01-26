@@ -1,6 +1,5 @@
 const RestModule = require('../../../lib/modules/rest/index');
 const sinon = require('sinon');
-// const async = require('async');
 
 describe('RestModule', function() {
   describe('login', function() {
@@ -84,21 +83,146 @@ describe('RestModule', function() {
   });
 
   describe('describe', function() {
-    //     it.only('calls..', function() {
-    //       const restModule = new RestModule();
-    //       const describeMethod = restModule.describe(
-    //         { _mesh: { description: { name: 'name' } } },
-    //         undefined,
-    //         undefined,
-    //         { username: 'username' }
-    //       );
-    //       const mock = {
-    //         __exchangeDescription: { callMenu: 'callMenu' }
-    //         //         async: sinon.spy(async, 'eachSeries'),
-    //         //         __authorizeAccessPoint: sinon.spy(restModule, '__authorizeAccessPoint')
-    //       };
-    //       describeMethod.call(mock);
-    //       sinon.assert.called(mock);
-    //     });
+    it('calls accessPointCB if error in __authorizeAccessPoint', function() {
+      const restModule = new RestModule();
+      const describeMethod = restModule.describe;
+      const accessPoint = sinon.fake();
+      const accessPointCB = sinon.fake();
+      const mock = {
+        __exchangeDescription: { callMenu: 'callMenu' },
+        async: sinon.stub().callsArgWith(1, accessPoint, accessPointCB),
+        __authorizeAccessPoint: sinon
+          .stub(restModule, '__authorizeAccessPoint')
+          .callsArgWith(3, 'error')
+      };
+      describeMethod.call(
+        mock,
+        { _mesh: { description: { name: 'name' } } },
+        undefined,
+        undefined,
+        { username: 'usernames' }
+      );
+      sinon.assert.calledWith(accessPointCB, 'error');
+    });
+
+    it('calls __respond if error', function() {
+      const restModule = new RestModule();
+      const describeMethod = restModule.describe;
+      const mock = {
+        __exchangeDescription: { callMenu: 'callMenu' },
+        async: sinon.stub().callsArgWith(2, 'error'),
+        __respond: sinon.stub(restModule, '__respond')
+      };
+      describeMethod.call(
+        mock,
+        { _mesh: { description: { name: 'name' } } },
+        undefined,
+        undefined,
+        { username: 'usernames' }
+      );
+      sinon.assert.calledWith(
+        mock.__respond,
+        { _mesh: { description: { name: 'name' } } },
+        'call failed',
+        null,
+        'error',
+        undefined
+      );
+    });
+  });
+
+  describe('__authorize', function() {
+    it('calls __respond if !$origin', function() {
+      const restModule = new RestModule();
+      const __authorizeMethod = restModule.__authorize;
+      const $happn = { _mesh: { config: { happn: { secure: 'secure' } } } };
+      const successful = sinon.fake();
+
+      const mock = {
+        __respond: sinon.stub(restModule, '__respond'),
+        __authorizeAccessPoint: sinon.stub(restModule, '__authorizeAccessPoint')
+      };
+      __authorizeMethod.call(mock, undefined, undefined, $happn, undefined, undefined, successful);
+      sinon.assert.calledWith(
+        mock.__respond,
+        $happn,
+        'Bad origin',
+        null,
+        sinon.match.any,
+        undefined,
+        403
+      );
+    });
+
+    it('calls __respond if __respond errors', function() {
+      const restModule = new RestModule();
+      const __authorizeMethod = restModule.__authorize;
+      const $happn = { _mesh: { config: { happn: { secure: 'secure' } } } };
+      const $origin = { origin: 'origin' };
+      const successful = sinon.fake();
+
+      const mock = {
+        __authorizeAccessPoint: sinon
+          .stub(restModule, '__authorizeAccessPoint')
+          .callsArgWith(3, 'error', true, 'reason'),
+        __respond: sinon.stub(restModule, '__respond')
+      };
+      __authorizeMethod.call(mock, undefined, undefined, $happn, $origin, undefined, successful);
+      sinon.assert.calledWith(
+        mock.__respond,
+        $happn,
+        'Authorization failed',
+        null,
+        sinon.match.any,
+        undefined,
+        403
+      );
+    });
+  });
+
+  describe('__parseBody', function() {
+    it('calls __respond in jsonBody', function() {
+      const restModule = new RestModule();
+      const __parseBodyMethod = restModule.__parseBody;
+      const req = { method: 'PUT' };
+      const res = 'res';
+      const $happn = '$happn';
+      const callback = sinon.fake();
+
+      const mock = {
+        jsonBody: sinon.stub().callsArgWith(2, 'error', {}),
+        __respond: sinon.stub(restModule, '__respond')
+      };
+      __parseBodyMethod.call(mock, req, res, $happn, callback);
+      sinon.assert.calledWith(
+        mock.__respond,
+        $happn,
+        'Failure parsing request body',
+        null,
+        'error'
+      );
+    });
+
+    it('calls __respond if error in try catch', function() {
+      const restModule = new RestModule();
+      const __parseBodyMethod = restModule.__parseBody;
+      const req = { methodd: 'PUT' };
+      const res = 'res';
+      const $happn = '$happn';
+      const callback = sinon.fake();
+
+      const mock = {
+        jsonBody: sinon.stub().callsArgWith(2, 'error', {}),
+        __respond: sinon.stub(restModule, '__respond')
+      };
+      __parseBodyMethod.call(mock, req, res, $happn, callback);
+      sinon.assert.calledWith(
+        mock.__respond,
+        $happn,
+        'Failure parsing request body',
+        null,
+        sinon.match.any
+      );
+    });
   });
 });
