@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 describe('browsertest_01_happner_client', function() {
-  // test new happner-client
-
+  // test new client
   expect = window.expect;
+  this.timeout(100000);
 
   it('can set the socket options', function(done) {
-    this.timeout(100000);
     var client = new MeshClient({ port: 55000, socket: { pingTimeout: 120000 } });
     client
       .login({
@@ -119,5 +118,60 @@ describe('browsertest_01_happner_client', function() {
       .then(done)
       .catch(done);
   });
+
+  it('can call exchange method, via $', async () => {
+    var client = new MeshClient({ port: 55000 });
+    await client.login({
+      username: 'username',
+      password: 'password'
+    });
+
+    const result = await client.exchange.$call({
+      component: 'testComponent2',
+      method: 'method1'
+    });
+
+    expect(result).to.eql('OK:method1');
+  });
+
+  it('can receive events, via $', async () => {
+    let emittedCount = 0,
+      lastData,
+      emittedCountNo$ = 0,
+      lastDataNo$;
+    var client = new MeshClient({ port: 55000 });
+
+    await client.login({
+      username: 'username',
+      password: 'password'
+    });
+
+    await client.event.testComponent3.on('test/event', data => {
+      emittedCountNo$++;
+      lastDataNo$ = data;
+    });
+
+    await client.event.$on(
+      { mesh: 'Server', component: 'testComponent3', path: 'test/event' },
+      data => {
+        emittedCount++;
+        lastData = data;
+      }
+    );
+
+    await delay(2000);
+
+    expect(emittedCountNo$ > 0).to.equal(true);
+    expect(lastDataNo$).to.eql({ some: 'data' });
+
+    expect(emittedCount > 0).to.equal(true);
+    expect(lastData).to.eql({ some: 'data' });
+  });
+
+  function delay(ms) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  }
 });
 /* eslint-enable no-console */

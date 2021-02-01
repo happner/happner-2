@@ -27,7 +27,7 @@ describe(
                       name: name,
                       config: {
                         instance: {
-                          method: function(callback) {
+                          method: function($happn, callback) {
                             callback(null, name + ' OK');
                           }
                         }
@@ -103,18 +103,19 @@ describe(
     });
 
     it('each component has access to all other components', function(done) {
-      var exchange = mesh.exchange;
-      var event = mesh.event;
-      var localEvent = mesh.localEvent;
-
+      const exchange = mesh.exchange;
+      const event = mesh.event;
+      const localEvent = mesh.localEvent;
       Object.keys(mesh._mesh.elements).forEach(function(componentName) {
-        var componentInstance = mesh._mesh.elements[componentName].component.instance;
-
-        componentInstance.exchange.should.eql(exchange);
-        componentInstance.event.should.eql(event);
-        componentInstance.localEvent.should.eql(localEvent);
+        const componentInstance = mesh._mesh.elements[componentName].component.instance;
+        Object.keys(componentInstance.exchange).should.eql(Object.keys(exchange));
+        Object.keys(componentInstance.localEvent)
+          .sort()
+          .should.eql(Object.keys(localEvent).sort());
+        Object.keys(componentInstance.event)
+          .sort()
+          .should.eql(Object.keys(event).sort());
       });
-
       done();
     });
 
@@ -125,7 +126,8 @@ describe(
             name: 'newComponent1',
             config: {
               instance: {
-                method: function(callback) {
+                method: function($happn, callback) {
+                  $happn.event.$on.should.not.equal(null);
                   callback(null, 'newComponent1 OK');
                 },
                 page: function(req, res) {
@@ -620,9 +622,9 @@ describe(
         });
     });
 
-    xit('what happens to reference still held', function(done) {
+    it('what happens to reference still held', function(done) {
       var keepRefToDeletedComponent;
-      return mesh
+      mesh
         ._createElement({
           module: {
             name: 'component5',
@@ -649,16 +651,12 @@ describe(
         })
 
         .then(function() {
-          console.log(keepRefToDeletedComponent);
           return keepRefToDeletedComponent.method();
         })
-
-        .then(function(result) {
-          console.log(result);
-        })
-
-        .then(done)
-        .catch(done);
+        .catch(e => {
+          e.message.should.equal('invalid request path: /MESH_NAME/component5/method');
+          done();
+        });
     });
   }
 );
