@@ -225,4 +225,46 @@ describe('RestModule', function() {
       );
     });
   });
+
+  describe('handleRequest', function() {
+    it('calls __respond if errors', function() {
+      const restModule = new RestModule();
+      const handleRequestMethod = restModule.handleRequest;
+      const req = { method: 'PUT' };
+      const res = 'res';
+      const $happn = '$happn';
+      const $origin = '$origin';
+
+      const mock = {
+        __respond: sinon.stub()
+      };
+      handleRequestMethod.call(mock, req, res, $happn, $origin);
+      sinon.assert.calledWith(
+        mock.__respond,
+        $happn,
+        'Call failed',
+        null,
+        sinon.match.any,
+        res,
+        500
+      );
+    });
+
+    describe('__buildCallMenu', function() {
+      it('callmenu should be menu', function() {
+        const restModule = new RestModule();
+        const __buildCallMenuMethod = restModule.__buildCallMenu;
+        const exchangeDescription = 'exchangeDescription';
+        const endpoint = 'endpoint';
+        const menu = 'menu';
+
+        console.log('__buildCallMenuMethod', __buildCallMenuMethod.function);
+
+        const mock = {};
+        __buildCallMenuMethod.call(mock, exchangeDescription, endpoint, menu);
+        sinon.assert.match(menu, 'menu');
+        sinon.assert.match(endpoint, 'endpoint');
+      });
+    });
+  });
 });
