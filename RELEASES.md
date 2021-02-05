@@ -726,6 +726,7 @@ based on happner 1.28.1
   - SMC-1645: Merge branch 'testing' of https://github.com/happner/happner-2 into feature/1645
   - SMC-1645: added __version to events layer, additional tests
   - SMC-1645: functionality and basic browser and server-side client tests
+  - SMC-1645: updated releases, docs and package
 
 
 
