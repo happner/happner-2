@@ -719,3 +719,13 @@ based on happner 1.28.1
   - SMC-917: Upped pre-release version
   - SMC-917: Chore: lint-fix
   - SM7-917 Code review changes (minor)
+
+11.6.0 2021-02-05
+-----------------
+  - SMC-1645: merged testing branch - minor refactor of rest component
+  - SMC-1645: Merge branch 'testing' of https://github.com/happner/happner-2 into feature/1645
+  - SMC-1645: added __version to events layer, additional tests
+  - SMC-1645: functionality and basic browser and server-side client tests
+
+
+

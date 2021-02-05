@@ -157,12 +157,50 @@ var testClient = new Mesh.MeshClient({secure: true, port: 8004,
 
 ```javascript
 
-var MeshClient = require('happner-2').MeshClient;
+const MeshClient = require('happner-2').MeshClient;
 
-var client = new MeshClient(...
+const client = new MeshClient(...);
 
 // same as for the browser
 
+```
+
+### Using the special $ methods on event and exchange - obviating the need to wait for the exchange to be constructed
+```javascript
+const MeshClient = require('happner-2').MeshClient;
+
+const client = new MeshClient(...);
+
+//call a component on the mesh
+const result = await client.exchange.$call({
+  mesh: 'MESH-NAME', //not required of the component is local
+  component: 'component', //component name required
+  arguments: ['my', 'test', 'args'] //arguments - optional
+});
+
+//listen to an event on a component
+const eventId = await client.event.$on({
+  mesh: 'MESH-NAME', //not required of the component is local
+  component: 'component', //component name required
+  path: '/test/*' //the topic you want to listen on
+}, data => { // your event handler
+  //do something with the data here
+});
+
+//stop listening for event
+await client.event.$off(eventId);
+
+//listen for a single event
+await client.event.$once({
+  mesh: 'MESH-NAME', //not required of the component is local
+  component: 'component', //component name required
+  path: '/test/*' //the topic you want to listen on
+}, data => { // your event handler
+  //do something with the data here
+});
+
+//unsubscribe from all events on path
+await client.event.$offPath('/test/*');
 ```
 
 ### Disconnection and tokens
