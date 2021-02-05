@@ -16,6 +16,7 @@ function TestHelper() {
   this.TCPProxy = require('./tcp-proxy/proxy');
   this.expect = require('expect.js');
   this.package = require('../../../package.json');
+  this.path = require('path');
   this.happnPackage = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../node_modules/happn-3/package.json')));
 }
 

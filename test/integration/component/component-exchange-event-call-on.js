@@ -1,6 +1,6 @@
 const tests = require('../../__fixtures/utils/test_helper').create();
 describe(tests.testName(__filename, 3), function() {
-  this.timeout(5000);
+  this.timeout(10000);
   const Happner = require('../../..');
   const clientAdmin = new Happner.MeshClient({});
   const clientTest = new Happner.MeshClient({});
@@ -46,11 +46,18 @@ describe(tests.testName(__filename, 3), function() {
         },
         component1: {
           instance: Module1
+        },
+        component2: {
+          path: tests.path.resolve(
+            __dirname,
+            '../../__fixtures/test/integration/component/component-exchange-event-call-on'
+          )
         }
       },
       components: {
         component: {},
-        component1: {}
+        component1: {},
+        component2: {}
       }
     });
     await setUpTestUser();
@@ -95,6 +102,19 @@ describe(tests.testName(__filename, 3), function() {
         event: { result: 3 },
         exec: 3
       });
+    });
+
+    it('we are able to call component methods and listen to events using $once, with mesh name', async () => {
+      let eventCounter = await callAndListenOnce(
+        server,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
+      );
+      tests.expect(eventCounter).to.eql(1);
     });
 
     it('we get errors attempting to access a mesh that does not exist', async () => {
@@ -151,6 +171,60 @@ describe(tests.testName(__filename, 3), function() {
           'invalid endpoint options: component3 component does not exist on the api'
         ]);
     });
+
+    it('we are able to call component methods and listen to events with an $off, with mesh name', async () => {
+      let eventCounter = await callAndListenOff(
+        server,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
+      );
+      tests.expect(eventCounter).to.eql(3);
+    });
+
+    it('we are able to call component methods and listen to events with an $off, with mesh name - negative test', async () => {
+      let eventCounter = await callAndListenOff(
+        server,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        true
+      );
+      tests.expect(eventCounter).to.eql(4);
+    });
+
+    it('we are able to call component methods and listen to events with an $offPath, with mesh name', async () => {
+      let eventCounter = await callAndListenOffPath(
+        server,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
+      );
+      tests.expect(eventCounter).to.eql(2);
+    });
+
+    it('we are able to call component methods and listen to events with an $offPath, with mesh name - negative test', async () => {
+      let eventCounter = await callAndListenOffPath(
+        server,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        true
+      );
+      tests.expect(eventCounter).to.eql(4);
+    });
   });
 
   context('client tests', () => {
@@ -183,6 +257,73 @@ describe(tests.testName(__filename, 3), function() {
         event: { result: 3 },
         exec: 3
       });
+    });
+
+    it('we are able to call component methods and listen to events using $once, with mesh name', async () => {
+      let eventCounter = await callAndListenOnce(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
+      );
+      tests.expect(eventCounter).to.eql(1);
+    });
+
+    it('we are able to call component methods and listen to events with an $off, with mesh name', async () => {
+      let eventCounter = await callAndListenOff(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
+      );
+      tests.expect(eventCounter).to.eql(3);
+    });
+
+    it('we are able to call component methods and listen to events with an $off, with mesh name - negative test', async () => {
+      let eventCounter = await callAndListenOff(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        true
+      );
+      tests.expect(eventCounter).to.eql(4);
+    });
+
+    it('we are able to call component methods and listen to events with an $offPath, with mesh name', async () => {
+      let eventCounter = await callAndListenOffPath(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
+      );
+      tests.expect(eventCounter).to.eql(2);
+    });
+
+    it('we are able to call component methods and listen to events with an $offPath, with mesh name - negative test', async () => {
+      let eventCounter = await callAndListenOffPath(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        true
+      );
+      tests.expect(eventCounter).to.eql(4);
     });
 
     it('we get errors attempting to access a mesh that does not exist', async () => {
@@ -310,6 +451,53 @@ describe(tests.testName(__filename, 3), function() {
     results.exec = await client.exchange.$call(callParameters);
     await tests.delay(2000);
     return results;
+  }
+
+  async function callAndListenOnce(client, callParameters, listenParameters) {
+    let eventCounter = 0;
+    await client.event.$once(listenParameters, function() {
+      eventCounter++;
+    });
+    await client.exchange.$call(callParameters);
+    await client.exchange.$call(callParameters);
+    await client.exchange.$call(callParameters);
+    await tests.delay(2000);
+    return eventCounter;
+  }
+
+  async function callAndListenOff(client, callParameters, listenParameters, negative) {
+    let eventCounter = 0;
+    const id = await client.event.$on(listenParameters, function() {
+      eventCounter++;
+    });
+    await client.event.$on(listenParameters, function() {
+      eventCounter++;
+    });
+    await client.exchange.$call(callParameters);
+    if (!negative)
+      await client.event.$off({
+        component: listenParameters.component,
+        mesh: listenParameters.mesh,
+        id
+      });
+    await client.exchange.$call(callParameters);
+    await tests.delay(2000);
+    return eventCounter;
+  }
+
+  async function callAndListenOffPath(client, callParameters, listenParameters, negative) {
+    let eventCounter = 0;
+    const id = await client.event.$on(listenParameters, function() {
+      eventCounter++;
+    });
+    await client.event.$on(listenParameters, function() {
+      eventCounter++;
+    });
+    await client.exchange.$call(callParameters);
+    if (!negative) await client.event.$offPath(listenParameters);
+    await client.exchange.$call(callParameters);
+    await tests.delay(2000);
+    return eventCounter;
   }
 
   async function setUpTestUser() {
