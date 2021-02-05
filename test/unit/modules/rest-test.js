@@ -86,31 +86,12 @@ describe('RestModule', function() {
     it('calls accessPointCB if error in __authorizeAccessPoint', function() {
       const restModule = new RestModule();
       const describeMethod = restModule.describe;
-      const accessPoint = sinon.fake();
-      const accessPointCB = sinon.fake();
+      const error = new Error('error');
       const mock = {
         __exchangeDescription: { callMenu: 'callMenu' },
-        async: sinon.stub().callsArgWith(1, accessPoint, accessPointCB),
         __authorizeAccessPoint: sinon
           .stub(restModule, '__authorizeAccessPoint')
-          .callsArgWith(3, 'error')
-      };
-      describeMethod.call(
-        mock,
-        { _mesh: { description: { name: 'name' } } },
-        undefined,
-        undefined,
-        { username: 'usernames' }
-      );
-      sinon.assert.calledWith(accessPointCB, 'error');
-    });
-
-    it('calls __respond if error', function() {
-      const restModule = new RestModule();
-      const describeMethod = restModule.describe;
-      const mock = {
-        __exchangeDescription: { callMenu: 'callMenu' },
-        async: sinon.stub().callsArgWith(2, 'error'),
+          .callsArgWith(3, error),
         __respond: sinon.stub(restModule, '__respond')
       };
       describeMethod.call(
@@ -122,15 +103,14 @@ describe('RestModule', function() {
       );
       sinon.assert.calledWith(
         mock.__respond,
-        { _mesh: { description: { name: 'name' } } },
+        sinon.match.any,
         'call failed',
-        null,
-        'error',
-        undefined
+        sinon.match.any,
+        error,
+        sinon.match.any
       );
     });
   });
-
   describe('__authorize', function() {
     it('calls __respond if !$origin', function() {
       const restModule = new RestModule();
@@ -183,19 +163,15 @@ describe('RestModule', function() {
   describe('__parseBody', function() {
     it('calls __respond in jsonBody', function() {
       const restModule = new RestModule();
-      const __parseBodyMethod = restModule.__parseBody;
       const req = { method: 'PUT' };
       const res = 'res';
       const $happn = '$happn';
       const callback = sinon.fake();
-
-      const mock = {
-        jsonBody: sinon.stub().callsArgWith(2, 'error', {}),
-        __respond: sinon.stub(restModule, '__respond')
-      };
-      __parseBodyMethod.call(mock, req, res, $happn, callback);
+      restModule.jsonBody = sinon.stub().callsArgWith(2, 'error', {});
+      restModule.__respond = sinon.stub(restModule, '__respond');
+      restModule.__parseBody(req, res, $happn, callback);
       sinon.assert.calledWith(
-        mock.__respond,
+        restModule.__respond,
         $happn,
         'Failure parsing request body',
         null,
@@ -257,9 +233,6 @@ describe('RestModule', function() {
         const exchangeDescription = 'exchangeDescription';
         const endpoint = 'endpoint';
         const menu = 'menu';
-
-        console.log('__buildCallMenuMethod', __buildCallMenuMethod.function);
-
         const mock = {};
         __buildCallMenuMethod.call(mock, exchangeDescription, endpoint, menu);
         sinon.assert.match(menu, 'menu');

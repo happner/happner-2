@@ -487,7 +487,7 @@ describe(tests.testName(__filename, 3), function() {
 
   async function callAndListenOffPath(client, callParameters, listenParameters, negative) {
     let eventCounter = 0;
-    const id = await client.event.$on(listenParameters, function() {
+    await client.event.$on(listenParameters, function() {
       eventCounter++;
     });
     await client.event.$on(listenParameters, function() {
