@@ -727,6 +727,7 @@ based on happner 1.28.1
   - SMC-1645: added __version to events layer, additional tests
   - SMC-1645: functionality and basic browser and server-side client tests
   - SMC-1645: updated releases, docs and package
+  - SMC-1645: refactor removed strange branch logic event and exchange layer
 
 
 
