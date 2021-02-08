@@ -154,7 +154,7 @@ describe('integration/' + require('path').basename(__filename) + '\n', function(
     );
   });
 
-  it.skip('tests an aggregated search', function(callback) {
+  it('tests an aggregated search', function(callback) {
     listenerclient.data.get(
       '/searches-and-aggregation/*',
       {
