@@ -64,11 +64,21 @@ gulp.task('start', function(done) {
           path.resolve(__dirname, '../..') +
           path.sep +
           ['test', '__fixtures', 'test', 'browser', 'test-component-2'].join(path.sep)
+      },
+      testComponent3: {
+        path:
+          path.resolve(__dirname, '../..') +
+          path.sep +
+          ['test', '__fixtures', 'test', 'browser', 'test-component-3'].join(path.sep)
       }
     },
     components: {
       test: {},
       testComponent2: {
+        startMethod: 'start',
+        stopMethod: 'stop'
+      },
+      testComponent3: {
         startMethod: 'start',
         stopMethod: 'stop'
       }
@@ -89,6 +99,7 @@ gulp.task('start', function(done) {
           permissions: {
             events: {
               '/Server/testComponent2/test/event': { authorized: true },
+              '/Server/testComponent3/test/event': { authorized: true },
               '/Server/testComponent2/variable-depth/event/*': { authorized: true }
             },
             methods: {
