@@ -425,7 +425,7 @@ describe(tests.testName(__filename, 3), function() {
   });
 
   context('client tests - using callback', () => {
-    it.only('we are able to call component methods and listen to events', function(done) {
+    it('we are able to call component methods and listen to events - with callback', function(done) {
       callAndListenCallback(
         clientAdmin,
         {
@@ -444,50 +444,8 @@ describe(tests.testName(__filename, 3), function() {
       );
     });
 
-    it('we are able to call component methods and listen to events, with mesh name', async () => {
-      let results = await callAndListen(
-        clientAdmin,
-        {
-          mesh: 'MESH_NAME',
-          component: 'component',
-          method: 'exec'
-        },
-        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
-      );
-      tests.expect(results).to.eql({
-        event: { result: 3 },
-        exec: 3
-      });
-    });
-
-    it('we are able to call component methods and listen to events using $once, with mesh name', async () => {
-      let eventCounter = await callAndListenOnce(
-        clientAdmin,
-        {
-          mesh: 'MESH_NAME',
-          component: 'component',
-          method: 'exec'
-        },
-        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
-      );
-      tests.expect(eventCounter).to.eql(1);
-    });
-
-    it('we are able to call component methods and listen to events with an $off, with mesh name', async () => {
-      let eventCounter = await callAndListenOff(
-        clientAdmin,
-        {
-          mesh: 'MESH_NAME',
-          component: 'component',
-          method: 'exec'
-        },
-        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
-      );
-      tests.expect(eventCounter).to.eql(3);
-    });
-
-    it('we are able to call component methods and listen to events with an $off, with mesh name - negative test', async () => {
-      let eventCounter = await callAndListenOff(
+    it('we are able to call component methods and listen to events, with mesh name - with callback', function(done) {
+      callAndListenCallback(
         clientAdmin,
         {
           mesh: 'MESH_NAME',
@@ -495,26 +453,19 @@ describe(tests.testName(__filename, 3), function() {
           method: 'exec'
         },
         { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
-        true
+        (e, results) => {
+          if (e) return done(e);
+          tests.expect(results).to.eql({
+            event: { result: 3 },
+            exec: 3
+          });
+          done();
+        }
       );
-      tests.expect(eventCounter).to.eql(4);
     });
 
-    it('we are able to call component methods and listen to events with an $offPath, with mesh name', async () => {
-      let eventCounter = await callAndListenOffPath(
-        clientAdmin,
-        {
-          mesh: 'MESH_NAME',
-          component: 'component',
-          method: 'exec'
-        },
-        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' }
-      );
-      tests.expect(eventCounter).to.eql(2);
-    });
-
-    it('we are able to call component methods and listen to events with an $offPath, with mesh name - negative test', async () => {
-      let eventCounter = await callAndListenOffPath(
+    it('we are able to call component methods and listen to events using $once, with mesh name - with callback', function(done) {
+      callAndListenOnceCallback(
         clientAdmin,
         {
           mesh: 'MESH_NAME',
@@ -522,64 +473,146 @@ describe(tests.testName(__filename, 3), function() {
           method: 'exec'
         },
         { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
-        true
+        (e, results) => {
+          if (e) return done(e);
+          tests.expect(results).to.eql(1);
+          done();
+        }
       );
-      tests.expect(eventCounter).to.eql(4);
     });
 
-    it('we get errors attempting to access a mesh that does not exist', async () => {
-      let errors = await callWithInvalidParameters(
+    it('we are able to call component methods and listen to events with an $off, with mesh name - with callback', function(done) {
+      callAndListenOffCallback(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        false,
+        (e, results) => {
+          if (e) return done(e);
+          tests.expect(results).to.eql(3);
+          done();
+        }
+      );
+    });
+
+    it('we are able to call component methods and listen to events with an $off, with mesh name - with callback - negative test', function(done) {
+      callAndListenOffCallback(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        true,
+        (e, results) => {
+          if (e) return done(e);
+          tests.expect(results).to.eql(4);
+          done();
+        }
+      );
+    });
+
+    it('we are able to call component methods and listen to events with an $offPath, with mesh name - with callback', function(done) {
+      callAndListenOffPathCallback(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        false,
+        (e, results) => {
+          if (e) return done(e);
+          tests.expect(results).to.eql(2);
+          done();
+        }
+      );
+    });
+
+    it('we are able to call component methods and listen to events with an $offPath, with mesh name - with callback - negative test', function(done) {
+      callAndListenOffPathCallback(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'exec'
+        },
+        { mesh: 'MESH_NAME', component: 'component1', path: 'test/event' },
+        true,
+        (e, results) => {
+          if (e) return done(e);
+          tests.expect(results).to.eql(4);
+          done();
+        }
+      );
+    });
+
+    it('we get errors attempting to access a mesh that does not exist - with callback', function(done) {
+      callWithInvalidParametersCallback(
         clientAdmin,
         {
           mesh: 'MESH_NAME_1',
           component: 'component',
           method: 'exec'
         },
-        { mesh: 'MESH_NAME_1', component: 'component1', path: 'test/event' }
+        { mesh: 'MESH_NAME_1', component: 'component1', path: 'test/event' },
+        (e, errors) => {
+          tests
+            .expect(errors)
+            .to.eql([
+              'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api',
+              'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api'
+            ]);
+          done();
+        }
       );
-
-      tests
-        .expect(errors)
-        .to.eql([
-          'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api',
-          'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api'
-        ]);
     });
 
-    it('we get errors attempting to access a component that does not exist on a specified mesh', async () => {
-      let errors = await callWithInvalidParameters(
+    it('we get errors attempting to access a component that does not exist on a specified mesh - with callback', function(done) {
+      callWithInvalidParametersCallback(
         clientAdmin,
         {
           mesh: 'MESH_NAME',
           component: 'component3',
           method: 'exec'
         },
-        { mesh: 'MESH_NAME', component: 'component3', path: 'test/event' }
+        { mesh: 'MESH_NAME', component: 'component3', path: 'test/event' },
+        (e, errors) => {
+          tests
+            .expect(errors)
+            .to.eql([
+              'invalid endpoint options: MESH_NAME.component3 component does not exist on the api',
+              'invalid endpoint options: MESH_NAME.component3 component does not exist on the api'
+            ]);
+          done();
+        }
       );
-
-      tests
-        .expect(errors)
-        .to.eql([
-          'invalid endpoint options: MESH_NAME.component3 component does not exist on the api',
-          'invalid endpoint options: MESH_NAME.component3 component does not exist on the api'
-        ]);
     });
 
-    it('we get errors attempting to access a component that does not exist', async () => {
-      let errors = await callWithInvalidParameters(
+    it('we get errors attempting to access a component that does not exist - with callback', function(done) {
+      callWithInvalidParametersCallback(
         clientAdmin,
         {
           component: 'component3',
           method: 'exec'
         },
-        { component: 'component3', path: 'test/event' }
+        { component: 'component3', path: 'test/event' },
+        (e, errors) => {
+          tests
+            .expect(errors)
+            .to.eql([
+              'invalid endpoint options: component3 component does not exist on the api',
+              'invalid endpoint options: component3 component does not exist on the api'
+            ]);
+          done();
+        }
       );
-      tests
-        .expect(errors)
-        .to.eql([
-          'invalid endpoint options: component3 component does not exist on the api',
-          'invalid endpoint options: component3 component does not exist on the api'
-        ]);
     });
   });
 
