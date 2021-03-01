@@ -131,8 +131,8 @@ describe(tests.testName(__filename, 3), function() {
       tests
         .expect(errors)
         .to.eql([
-          'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api',
-          'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api'
+          'invalid endpoint options: [MESH_NAME_1] mesh does not exist on the api',
+          'invalid endpoint options: [MESH_NAME_1] mesh does not exist on the api'
         ]);
     });
 
@@ -150,8 +150,8 @@ describe(tests.testName(__filename, 3), function() {
       tests
         .expect(errors)
         .to.eql([
-          'invalid endpoint options: MESH_NAME.component3 component does not exist on the api',
-          'invalid endpoint options: MESH_NAME.component3 component does not exist on the api'
+          'invalid endpoint options: [MESH_NAME.component3] component does not exist on the api',
+          'invalid endpoint options: [MESH_NAME.component3] component does not exist on the api'
         ]);
     });
 
@@ -167,8 +167,8 @@ describe(tests.testName(__filename, 3), function() {
       tests
         .expect(errors)
         .to.eql([
-          'invalid endpoint options: component3 component does not exist on the api',
-          'invalid endpoint options: component3 component does not exist on the api'
+          'invalid endpoint options: [component3] component does not exist on the api',
+          'invalid endpoint options: [component3] component does not exist on the api'
         ]);
     });
 
@@ -340,8 +340,8 @@ describe(tests.testName(__filename, 3), function() {
       tests
         .expect(errors)
         .to.eql([
-          'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api',
-          'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api'
+          'invalid endpoint options: [MESH_NAME_1] mesh does not exist on the api',
+          'invalid endpoint options: [MESH_NAME_1] mesh does not exist on the api'
         ]);
     });
 
@@ -359,8 +359,8 @@ describe(tests.testName(__filename, 3), function() {
       tests
         .expect(errors)
         .to.eql([
-          'invalid endpoint options: MESH_NAME.component3 component does not exist on the api',
-          'invalid endpoint options: MESH_NAME.component3 component does not exist on the api'
+          'invalid endpoint options: [MESH_NAME.component3] component does not exist on the api',
+          'invalid endpoint options: [MESH_NAME.component3] component does not exist on the api'
         ]);
     });
 
@@ -376,8 +376,8 @@ describe(tests.testName(__filename, 3), function() {
       tests
         .expect(errors)
         .to.eql([
-          'invalid endpoint options: component3 component does not exist on the api',
-          'invalid endpoint options: component3 component does not exist on the api'
+          'invalid endpoint options: [component3] component does not exist on the api',
+          'invalid endpoint options: [component3] component does not exist on the api'
         ]);
     });
 
@@ -583,8 +583,8 @@ describe(tests.testName(__filename, 3), function() {
           tests
             .expect(errors)
             .to.eql([
-              'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api',
-              'invalid endpoint options: MESH_NAME_1 mesh does not exist on the api'
+              'invalid endpoint options: [MESH_NAME_1] mesh does not exist on the api',
+              'invalid endpoint options: [MESH_NAME_1] mesh does not exist on the api'
             ]);
           done();
         }
@@ -604,8 +604,8 @@ describe(tests.testName(__filename, 3), function() {
           tests
             .expect(errors)
             .to.eql([
-              'invalid endpoint options: MESH_NAME.component3 component does not exist on the api',
-              'invalid endpoint options: MESH_NAME.component3 component does not exist on the api'
+              'invalid endpoint options: [MESH_NAME.component3] component does not exist on the api',
+              'invalid endpoint options: [MESH_NAME.component3] component does not exist on the api'
             ]);
           done();
         }
@@ -624,8 +624,8 @@ describe(tests.testName(__filename, 3), function() {
           tests
             .expect(errors)
             .to.eql([
-              'invalid endpoint options: component3 component does not exist on the api',
-              'invalid endpoint options: component3 component does not exist on the api'
+              'invalid endpoint options: [component3] component does not exist on the api',
+              'invalid endpoint options: [component3] component does not exist on the api'
             ]);
           done();
         }
