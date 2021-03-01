@@ -729,5 +729,10 @@ based on happner 1.28.1
   - SMC-1645: updated releases, docs and package
   - SMC-1645: refactor removed strange branch logic event and exchange layer
 
+11.6.1 2021-03-01
+-----------------
+SMC-1645: added first callback test, updated the internals to allow for callbacks on $ api
+
+
 
 
