@@ -380,6 +380,23 @@ describe(tests.testName(__filename, 3), function() {
           'invalid endpoint options: component3 component does not exist on the api'
         ]);
     });
+
+    it('we get errors attempting to access a method that does not exist', async () => {
+      let errors = await callWithInvalidParameters(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'unknownMethod'
+        },
+        { component: 'component', path: 'test/event' }
+      );
+      tests
+        .expect(errors)
+        .to.eql([
+          'invalid endpoint options: [component.unknownMethod] method does not exist on the api'
+        ]);
+    });
   });
 
   context('asAdmin tests', () => {
@@ -614,6 +631,26 @@ describe(tests.testName(__filename, 3), function() {
         }
       );
     });
+
+    it('we get errors attempting to access a method that does not exist - with callback', function(done) {
+      callWithInvalidParametersCallback(
+        clientAdmin,
+        {
+          mesh: 'MESH_NAME',
+          component: 'component',
+          method: 'unknownMethod'
+        },
+        { component: 'component', path: 'test/event' },
+        (e, errors) => {
+          tests
+            .expect(errors)
+            .to.eql([
+              'Error: invalid endpoint options: [component.unknownMethod] method does not exist on the api'
+            ]);
+          done();
+        }
+      );
+    });
   });
 
   async function callWithInvalidParameters(client, callParameters, listenParameters) {
@@ -701,9 +738,9 @@ describe(tests.testName(__filename, 3), function() {
         //do nothing
       },
       e => {
-        errors.push(e.message);
+        if (e) errors.push(e.message);
         client.exchange.$call(callParameters, e => {
-          errors.push(e.message);
+          if (e) errors.push(e.message);
           callback(null, errors);
         });
       }
