@@ -69,6 +69,7 @@ function generateDeviceGroup(mesh_name, component_name) {
   var somethingSpecialPath = '/' + mesh_name + '/' + component_name + '/doSomethingSpecial';
 
   var devicesGroup = {
+
     name: DEVICE_GROUP_NAME,
     permissions: {
       methods: {}
@@ -88,6 +89,7 @@ function addNewUser(group, device, mesh, callback) {
   };
 
   mesh.exchange.security.getUser(device.deviceId, function (err, user) {
+
     if (err) return callback(err);
 
     if (user === null) {
@@ -103,7 +105,7 @@ function addNewUser(group, device, mesh, callback) {
     else {
 
       mesh.exchange.security.updateUser(newDeviceUser, function (err, user) {
-        if (err)return callback(err);
+        if (err) return callback(err);
 
         mesh.exchange.security.linkGroup(group, user, function (err) {
           callback(err, newDeviceUser);

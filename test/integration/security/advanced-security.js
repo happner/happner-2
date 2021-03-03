@@ -1,5 +1,8 @@
 var path = require('path');
 const test = require('../../__fixtures/utils/test_helper').create();
+const _ = require('lodash');
+const wait = require('await-delay');
+
 describe(test.testName(__filename, 3), function() {
   const util = require('util');
   var request = util.promisify(require('request'), { multiArgs: true });
@@ -58,7 +61,7 @@ describe(test.testName(__filename, 3), function() {
     mesh.initialize(config, function(err) {
       if (err) {
         //eslint-disable-next-line
-          console.log(err.stack);
+        console.log(err.stack);
         done(err);
       } else {
         mesh.start(done);
@@ -1252,7 +1255,6 @@ describe(test.testName(__filename, 3), function() {
       })
       .then(function() {
         var testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient6' });
-
         testUpsertClient
           .login(testUpsertUser)
           .then(function() {
@@ -1291,9 +1293,46 @@ describe(test.testName(__filename, 3), function() {
       .catch(done);
   });
 
-  it.only('upsert a user with user permissions, and appendPermissions to a user', async () => {
+  it('upsert a user with user permissions, fetches user to ensure it still has the permissions', async () => {
     let testUpsertUser = {
-      username: 'TEST_UPSERT_EXISTING_7',
+      username: 'TEST_USER_PERMISSIONS_1',
+      password: 'TEST PWD',
+      custom_data: {
+        something: 'useful'
+      },
+      permissions: {
+        methods: {
+          'meshname/component/method1': { authorized: true } //Fetching returns paths without leading slash.
+          //in a /Mesh name/component name/method name - with possible wildcards
+          //'/meshname/component/method2': { authorized: true }
+        },
+        events: {
+          'meshname/component/event1': { authorized: true }
+          //in a /Mesh name/component name/event key - with possible wildcards
+          //'/meshname/component/event2': { authorized: true }
+        }
+      }
+    };
+    let testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient6' });
+    await adminClient.exchange.security.addUser(testUpsertUser);
+    await testUpsertClient.login(testUpsertUser);
+    expect(testUpsertClient.exchange.component.method1).to.not.be(null);
+    expect(testUpsertClient.exchange.component.method2).to.not.be(null);
+    try {
+      await testUpsertClient.exchange.component.method2();
+    } catch (e) {
+      expect(e.toString()).to.eql('AccessDenied: unauthorized');
+    }
+    testUpsertUser.permissions.web = {}; //Fetching the user will return empty objects for these permissions
+    testUpsertUser.permissions.data = {};
+
+    let user = await adminClient.exchange.security.getUser('TEST_USER_PERMISSIONS_1');
+    expect(_.omit(user, ['groups', 'userid'])).to.eql(_.omit(testUpsertUser, ['password']));
+  });
+
+  it('upsert a user with user permissions, and appendPermissions to a user', async () => {
+    let testUpsertUser = {
+      username: 'TEST_USER_PERMISSIONS_2',
       password: 'TEST PWD',
       custom_data: {
         something: 'useful'
@@ -1315,15 +1354,14 @@ describe(test.testName(__filename, 3), function() {
     await adminClient.exchange.security.addUser(testUpsertUser);
     await testUpsertClient.login(testUpsertUser);
     expect(testUpsertClient.exchange.component.method1).to.not.be(null);
-    expect(testUpsertClient.exchange.component.method2).to.be(undefined);
-    let errors = [];
+    expect(testUpsertClient.exchange.component.method2).to.not.be(null);
     try {
       await testUpsertClient.exchange.component.method2();
     } catch (e) {
-      errors.push(e.message);
+      expect(e.toString()).to.eql('AccessDenied: unauthorized');
     }
 
-    await adminClient.exchange.security.addUserPermissions('TEST_UPSERT_EXISTING_7', {
+    await adminClient.exchange.security.addUserPermissions('TEST_USER_PERMISSIONS_2', {
       methods: {
         '/meshname/component/method2': { authorized: true }
       },
@@ -1331,14 +1369,54 @@ describe(test.testName(__filename, 3), function() {
         '/meshname/component/event2': { authorized: true }
       }
     });
-
     try {
       await testUpsertClient.exchange.component.method2();
     } catch (e) {
-      errors.push(e.message);
+      expect(e).to.be(null);
     }
+  });
 
-    expect(errors).to.eql(['AccessDenied: unauthorized']);
+  it('upsert a user with permissions, and tests removing permissions from the user', async () => {
+    let testUpsertUser = {
+      username: 'TEST_USER_PERMISSIONS_3',
+      password: 'TEST PWD',
+      custom_data: {
+        something: 'useful'
+      },
+      permissions: {
+        methods: {
+          '/meshname/component/method1': { authorized: true }
+        },
+        events: {
+          '/meshname/component/event1': { authorized: true }
+        }
+      }
+    };
+    let testUpsertClient = new Mesh.MeshClient({ secure: true, test: 'testUpsertClient6' });
+    await adminClient.exchange.security.addUser(testUpsertUser);
+    await testUpsertClient.login(testUpsertUser);
+    expect(testUpsertClient.exchange.component.method1).to.not.be(null);
+
+    let errors = [];
+    try {
+      await testUpsertClient.exchange.component.method1();
+    } catch (e) {
+      errors.push(e);
+      expect(e).to.be(null);
+    }
+    expect(errors).to.eql([]);
+    await adminClient.exchange.security.removeUserPermissions('TEST_USER_PERMISSIONS_3', {
+      methods: {
+        '/meshname/component/method1': {}
+      }
+    });
+    await wait(3000);
+    try {
+      await testUpsertClient.exchange.component.method1();
+    } catch (e) {
+      errors.push(e.toString());
+    }
+    expect(errors[0]).to.eql('AccessDenied: unauthorized');
   });
 
   it('can upsert a new user', function(done) {
