@@ -736,4 +736,6 @@ SMC-1645: updated the internals to allow for callbacks on $ api
 SMC-1645: fixed and tested callback on unknown method, tested unknown method error on async
 SMC-1645: made error messages more consistent, encapsulating mesh.component.method in []'
 
-
+11.6.1 2021-03-01
+-----------------
+- SMC-2014: move sinon to devdeps
