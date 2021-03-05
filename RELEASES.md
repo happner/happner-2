@@ -738,4 +738,4 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 
 11.6.1 2021-03-01
 -----------------
-- SMC-2014: move sinon to devdeps
+- SMC-2013: move sinon to devdeps
