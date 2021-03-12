@@ -201,6 +201,29 @@ await client.event.$once({
 
 //unsubscribe from all events on path
 await client.event.$offPath('/test/*');
+
+//also backward compatible with callbacks, ie:
+client.exchange.$call({
+  mesh: 'MESH-NAME', //not required of the component is local
+  component: 'component', //component name required
+  arguments: ['my', 'test', 'args'] //arguments - optional
+}, (e, results) => {
+  //do something with the response here
+});
+
+client.event.$on({
+  mesh: 'MESH-NAME', //not required of the component is local
+  component: 'component', //component name required
+  path: '/test/*' //the topic you want to listen on
+}, data => { // your event handler
+  //do something with the data here
+}, (e, eventId) => {
+  //the response of the subscription
+  client.event.$off(eventId, e => {
+    
+  });
+});
+
 ```
 
 ### Disconnection and tokens
