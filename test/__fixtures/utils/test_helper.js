@@ -13,6 +13,7 @@ function TestHelper() {
   this.__testFiles = [];
   this.__happnerClients = {};
   this.__happnerInstances = {};
+  this.fs = fs
   this.TCPProxy = require('./tcp-proxy/proxy');
   this.expect = require('expect.js');
   this.package = require('../../../package.json');
