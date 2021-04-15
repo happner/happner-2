@@ -36,7 +36,6 @@ var Client = function () {
     _meshClient.login(credentials).then(function () {
       callback();
     }).catch(function (err) {
-      // console.log("login error");
       callback(err);
     });
   };
@@ -52,8 +51,7 @@ var Client = function () {
 
     function afterLogin(err) {
       if (err) {
-        callback(err);
-        return;
+        return callback(err);        
       }
 
       var regDeviceDetails = deviceDetails || {};

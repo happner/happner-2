@@ -165,7 +165,7 @@ describe(
     });
 
     it('a client should register a device on the server', function(done) {
-      this.timeout(5000);
+      this.timeout(9000);
 
       var device = {
         device_info: 'someInfo'
@@ -178,8 +178,6 @@ describe(
         // console.log('device registered:::');
 
         clientMesh.exchange.client.requestSomethingSpecial('some_data', function(err, data) {
-          if (err) console.log(err);
-
           should.not.exist(err);
           data.should.eql('success');
 
@@ -190,7 +188,6 @@ describe(
           };
 
           clientMesh.exchange.client.registerDevice(OemUser, device, function(err) {
-            if (err) console.log(err);
             should.not.exist(err);
 
             // console.log('device registered again:::');
@@ -198,7 +195,6 @@ describe(
             clientMesh.exchange.client.requestSomethingSpecial('some_data', function(err, data) {
               // console.log('final request:::', arguments);
 
-              if (err) console.log(err);
               should.not.exist(err);
               data.should.eql('success');
 

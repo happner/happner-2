@@ -739,3 +739,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.6.2 2021-03-01
 -----------------
 - SMC-2013: move sinon to devdeps
+
+11.7.0 2021-03-30
+------------------
+- SMC-1808: user permissions
+
