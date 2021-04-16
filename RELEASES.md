@@ -744,7 +744,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-1808: user permissions
 
-11.7.1 2021-04-15
+11.7.1 2021-04-16
 ------------------
 - SMC-1807: light happner client support
+- SMC-1807: updated travis - removed Node 10 support, added node 15 support
 

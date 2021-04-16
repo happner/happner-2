@@ -140,8 +140,6 @@ describe(test.testName(__filename, 4), function() {
     await apiModule.stop(mock$happn);
   });
 
-  //createAllExchangeRequestsHandler
-
   context('client', function() {
     it('calls $happn.log.$$TRACE with args and res.end', function() {
       const $happen = {
