@@ -130,6 +130,22 @@ describe(
       );
     });
 
+    it('test the __callBackWithWarningAndError method', function(done) {
+      var ComponentInstance = require('../../../lib/system/component-instance');
+      var componentInstance = new ComponentInstance();
+      let warningMsg;
+      componentInstance.log = {
+        warn: msg => {
+          warningMsg = msg;
+        }
+      };
+      componentInstance.__callBackWithWarningAndError('Test Category', 'Test Error', e => {
+        expect(e.message).to.be('Test Error');
+        expect(warningMsg).to.be('Test Category:Test Error');
+        done();
+      });
+    });
+
     function mockResponse() {
       return {};
     }
