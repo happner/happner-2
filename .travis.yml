@@ -13,7 +13,7 @@ services:
 
 language: node_js
 node_js:
-  - "15"
+  - "16"
   - "14"
   - "12"
 
