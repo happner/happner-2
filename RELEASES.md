@@ -750,4 +750,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 - SMC-1807: updated travis - removed Node 10 support, added node 16 support
 - SMC-1807: added shared happner-semver module
 
+11.7.2 2021-05-24
+------------------
+- SMC-1807: updated happner-client dependency
+
 
