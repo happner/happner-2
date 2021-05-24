@@ -627,6 +627,75 @@ describe(tests.testName(__filename, 3), function() {
     });
   });
 
+  it('tests that the attachSystemComponents method', function() {
+    var mesh = mockMesh({});
+    const testConfig = {
+      modules: {
+        test1: {
+          path: 'test1Path'
+        }
+      },
+      components: {
+        test1: {}
+      }
+    };
+    mesh.attachSystemComponents(testConfig);
+    tests.expect(testConfig).to.eql({
+      modules: {
+        api: {
+          path: 'system:api'
+        },
+        security: {
+          path: 'system:security'
+        },
+        system: {
+          path: 'system:system'
+        },
+        data: {
+          path: 'system:data'
+        },
+        rest: {
+          path: 'system:rest'
+        },
+        test1: {
+          path: 'test1Path'
+        }
+      },
+      components: {
+        security: {
+          accessLevel: 'mesh',
+          initMethod: 'initialize'
+        },
+        api: {
+          accessLevel: 'mesh',
+          startMethod: 'start',
+          stopMethod: 'stop',
+          web: {
+            routes: {
+              client: 'client'
+            }
+          }
+        },
+        system: {
+          accessLevel: 'mesh',
+          initMethod: 'initialize'
+        },
+        rest: {
+          accessLevel: 'mesh',
+          initMethod: 'initialize',
+          web: {
+            routes: {
+              method: 'handleRequest',
+              describe: 'describe',
+              login: 'login'
+            }
+          }
+        },
+        test1: {}
+      }
+    });
+  });
+
   function getTestClass() {
     class ParentClass {
       testParentMethod() {}
