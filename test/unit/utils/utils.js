@@ -1,21 +1,29 @@
 const tests = require('../../__fixtures/utils/test_helper').create();
 describe(tests.testName(__filename, 3), function() {
-  it('tests getting function parameters', function(done) {
+  it('tests getting function parameters', function() {
     var utils = require('../../../lib/system/utilities');
-    var testFunc = function(
+    var testFunc1 = function(
       // eslint-disable-next-line no-unused-vars
       param1 /**param1 comment**/,
       // eslint-disable-next-line no-unused-vars
       param2 /*param2 comment*/,
       // eslint-disable-next-line no-unused-vars
-      option1,
+      param3,
       // eslint-disable-next-line no-unused-vars
-      option2
+      param4
     ) {};
-    var params = utils.getFunctionParameters(testFunc);
-    tests.expect(params.length).to.be(4);
-    tests.expect(params[1]).to.be('param2');
-    done();
+    var testFunc2 = function() {};
+    [testFunc1, testFunc2].forEach(fn => {
+      var params = utils.getFunctionParameters(fn);
+      if (!fn.length) {
+        tests.expect(params).to.be(null);
+      } else {
+        tests.expect(params.length).to.be(fn.length);
+      }
+      for (let i = 0; i < fn.length; i++) {
+        tests.expect(params[i]).to.be(`param${i + 1}`);
+      }
+    });
   });
 
   it('tests getting function parameters for an async function', function(done) {
