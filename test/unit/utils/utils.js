@@ -46,6 +46,7 @@ describe(tests.testName(__filename, 3), function() {
 
   it('tests getting function parameter for arrow functions', function() {
     const utils = require('../../../lib/system/utilities');
+    const testFunc0 = () => {};
     const testFunc1 = param1 => param1;
     const testFunc2 = async param1 => param1;
     // eslint-disable-next-line prettier/prettier
@@ -57,6 +58,7 @@ describe(tests.testName(__filename, 3), function() {
     const testFunc7 = (param1, param2, param3) => param1 + param2 + param3;
     const testFunc8 = async (param1, param2, param3) => param1 + param2 + param3;
     [
+      testFunc0,
       testFunc1,
       testFunc2,
       testFunc3,
@@ -67,7 +69,11 @@ describe(tests.testName(__filename, 3), function() {
       testFunc8
     ].forEach(func => {
       const params = utils.getFunctionParameters(func);
-      tests.expect(params.length).to.be(func.length);
+      if (!func.length) {
+        tests.expect(params).to.eql(['']);
+      } else {
+        tests.expect(params.length).to.be(func.length);
+      }
       for (let i = 0; i < func.length; i++) {
         tests.expect(params[i]).to.be(`param${i + 1}`);
       }
