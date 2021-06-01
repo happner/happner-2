@@ -1,21 +1,29 @@
 const tests = require('../../__fixtures/utils/test_helper').create();
 describe(tests.testName(__filename, 3), function() {
-  it('tests getting function parameters', function(done) {
+  it('tests getting function parameters', function() {
     var utils = require('../../../lib/system/utilities');
-    var testFunc = function(
+    var testFunc1 = function(
       // eslint-disable-next-line no-unused-vars
       param1 /**param1 comment**/,
       // eslint-disable-next-line no-unused-vars
       param2 /*param2 comment*/,
       // eslint-disable-next-line no-unused-vars
-      option1,
+      param3,
       // eslint-disable-next-line no-unused-vars
-      option2
+      param4
     ) {};
-    var params = utils.getFunctionParameters(testFunc);
-    tests.expect(params.length).to.be(4);
-    tests.expect(params[1]).to.be('param2');
-    done();
+    var testFunc2 = function() {};
+    [testFunc1, testFunc2].forEach(fn => {
+      var params = utils.getFunctionParameters(fn);
+      if (!fn.length) {
+        tests.expect(params).to.eql(['']);
+      } else {
+        tests.expect(params.length).to.be(fn.length);
+      }
+      for (let i = 0; i < fn.length; i++) {
+        tests.expect(params[i]).to.be(`param${i + 1}`);
+      }
+    });
   });
 
   it('tests getting function parameters for an async function', function(done) {
@@ -34,6 +42,42 @@ describe(tests.testName(__filename, 3), function() {
     tests.expect(params.length).to.be(4);
     tests.expect(params[1]).to.be('param2');
     done();
+  });
+
+  it('tests getting function parameter for arrow functions', function() {
+    const utils = require('../../../lib/system/utilities');
+    const testFunc0 = () => {};
+    const testFunc1 = param1 => param1;
+    const testFunc2 = async param1 => param1;
+    // eslint-disable-next-line prettier/prettier
+    const testFunc3 = (param1) => param1;
+    // eslint-disable-next-line prettier/prettier
+    const testFunc4 = async (param1) => param1;
+    const testFunc5 = (param1, param2) => param1 + param2;
+    const testFunc6 = async (param1, param2) => param1 + param2;
+    const testFunc7 = (param1, param2, param3) => param1 + param2 + param3;
+    const testFunc8 = async (param1, param2, param3) => param1 + param2 + param3;
+    [
+      testFunc0,
+      testFunc1,
+      testFunc2,
+      testFunc3,
+      testFunc4,
+      testFunc5,
+      testFunc6,
+      testFunc7,
+      testFunc8
+    ].forEach(func => {
+      const params = utils.getFunctionParameters(func);
+      if (!func.length) {
+        tests.expect(params).to.eql(['']);
+      } else {
+        tests.expect(params.length).to.be(func.length);
+      }
+      for (let i = 0; i < func.length; i++) {
+        tests.expect(params[i]).to.be(`param${i + 1}`);
+      }
+    });
   });
 
   it('tests getting function parameters for a class method', function(done) {

@@ -754,4 +754,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-1807: updated happner-client dependency
 
+11.7.3 2021-05-31
+------------------
+- SMC-1597: correctly parse single-parameter arrow functions with no parentheses
+
 
