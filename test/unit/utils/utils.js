@@ -16,7 +16,7 @@ describe(tests.testName(__filename, 3), function() {
     [testFunc1, testFunc2].forEach(fn => {
       var params = utils.getFunctionParameters(fn);
       if (!fn.length) {
-        tests.expect(params).to.be(null);
+        tests.expect(params).to.eql(['']);
       } else {
         tests.expect(params.length).to.be(fn.length);
       }
