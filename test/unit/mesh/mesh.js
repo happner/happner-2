@@ -225,6 +225,7 @@ describe(tests.testName(__filename, 3), function() {
     tests.expect(moduleInst.module.instance.testMethod5['$happnSeq']).to.be(0);
     tests.expect(moduleInst.module.instance.testMethod6['$happnSeq']).to.be(0);
     tests.expect(moduleInst.module.instance.testMethod7['$happnSeq']).to.be(1);
+    tests.expect(moduleInst.module.instance.testMethod8['$happnSeq']).to.be(0);
   });
 
   it('tests the _updateElement method', function(done) {
@@ -711,6 +712,7 @@ describe(tests.testName(__filename, 3), function() {
         // prettier-ignore
         this.testMethod6 = ($happn) => $happn;
         this.testMethod7 = (param, $happn) => ({ $happn, param });
+        this.testMethod8 = $happn => $happn.emit('yay'); // test bugfix for parentheses in body rather than signature
         this.property1 = {};
       }
 
