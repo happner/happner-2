@@ -49,9 +49,9 @@ describe(tests.testName(__filename, 3), function() {
     const testFunc0 = () => {};
     const testFunc1 = param1 => param1;
     const testFunc2 = async param1 => param1;
-    // eslint-disable-next-line prettier/prettier
+    // prettier-ignore
     const testFunc3 = (param1) => param1;
-    // eslint-disable-next-line prettier/prettier
+    // prettier-ignore
     const testFunc4 = async (param1) => param1;
     const testFunc5 = (param1, param2) => param1 + param2;
     const testFunc6 = async (param1, param2) => param1 + param2;
@@ -77,6 +77,18 @@ describe(tests.testName(__filename, 3), function() {
       for (let i = 0; i < func.length; i++) {
         tests.expect(params[i]).to.be(`param${i + 1}`);
       }
+    });
+  });
+
+  it('tests getting injected $happn for arrow functions', function() {
+    const utils = require('../../../lib/system/utilities');
+    const func0 = $happn => $happn;
+    // prettier-ignore
+    const func1 = ($happn) => $happn;
+    [func0, func1].forEach(func => {
+      const params = utils.getFunctionParameters(func);
+      tests.expect(params.length).to.be(func.length);
+      tests.expect(params[0]).to.be('$happn');
     });
   });
 

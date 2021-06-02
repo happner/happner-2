@@ -222,6 +222,9 @@ describe(tests.testName(__filename, 3), function() {
     await tests.delay(2000);
     tests.expect(expectedMessageHappened).to.be(true);
     tests.expect(moduleInst.module.instance.testMethod['$happnSeq']).to.be(0);
+    tests.expect(moduleInst.module.instance.testMethod5['$happnSeq']).to.be(0);
+    tests.expect(moduleInst.module.instance.testMethod6['$happnSeq']).to.be(0);
+    tests.expect(moduleInst.module.instance.testMethod7['$happnSeq']).to.be(1);
   });
 
   it('tests the _updateElement method', function(done) {
@@ -704,6 +707,10 @@ describe(tests.testName(__filename, 3), function() {
       constructor() {
         super();
         this.testMethod4 = this.testMethod4.bind(this);
+        this.testMethod5 = $happn => $happn;
+        // prettier-ignore
+        this.testMethod6 = ($happn) => $happn;
+        this.testMethod7 = (param, $happn) => ({ $happn, param });
         this.property1 = {};
       }
 
