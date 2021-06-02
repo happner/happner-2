@@ -758,4 +758,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-1597: correctly parse single-parameter arrow functions with no parentheses
 
+11.7.4 2021-06-02
+------------------
+- SMC-1597: fix $happn etc. parameter string matching for arrow functions
 
