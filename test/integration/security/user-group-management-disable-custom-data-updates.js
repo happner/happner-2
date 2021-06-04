@@ -64,6 +64,13 @@ describe(test.testName(__filename, 3), function() {
     testUser.custom_data = { something: 'changed' };
 
     await testUserClient.exchange.security.updateOwnUser(testUser);
+    let errorMessage;
+    try {
+      await testUserClient.exchange.security.updateUser(testUser);
+    } catch (e) {
+      errorMessage = e.message;
+    }
+    test.expect(errorMessage).to.equal('unauthorized');
     const updated = await adminClient.exchange.security.getUser(testUser.username);
     test.expect(updated.custom_data.something).to.be('unchanged');
 
