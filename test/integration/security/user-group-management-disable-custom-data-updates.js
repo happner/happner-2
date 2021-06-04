@@ -65,7 +65,6 @@ describe(test.testName(__filename, 3), function() {
 
     await testUserClient.exchange.security.updateOwnUser(testUser);
     const updated = await adminClient.exchange.security.getUser(testUser.username);
-    test.expect(updated.custom_data.changedCustom).to.be(undefined);
     test.expect(updated.custom_data.something).to.be('unchanged');
 
     await adminClient.exchange.security.updateUser({
