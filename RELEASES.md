@@ -765,3 +765,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.7.5 2021-06-02
 ------------------
 - SMC-1597: fix parameter string matching for arrow functions with parentheses in body not signature
+
+11.8.0 2021-06-04
+------------------
+- SMC-2835: updateOwnUser can be configured to not change custom_data
