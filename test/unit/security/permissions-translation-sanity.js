@@ -127,6 +127,7 @@ describe(
         e,
         permissions
       ) {
+        if (e) console.log({ e });
         if (e) return done(e);
 
         expect(permissions.events !== undefined).to.be(true);

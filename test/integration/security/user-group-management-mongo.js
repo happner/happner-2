@@ -179,6 +179,7 @@ describe(
                 testUser.custom_data = { changedCustom: 'changedCustom' };
 
                 testUserClient.exchange.security.updateOwnUser(testUser, function(e, result) {
+                  console.log({ e });
                   if (e) return done(e);
                   expect(result.custom_data.changedCustom).to.be('changedCustom');
                   testUserClient
