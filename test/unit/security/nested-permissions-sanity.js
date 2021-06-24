@@ -48,7 +48,6 @@ var Mesh = require('../../../lib/mesh');
 
 var adminClient = new Mesh.MeshClient({ secure: true });
 var test_id = Date.now() + '_' + require('shortid').generate();
-var async = require('async');
 var wait = require('await-delay');
 describe(
   require('../../__fixtures/utils/test_helper')
@@ -210,7 +209,6 @@ describe(
       }
       await wait(1000);
       expect(receivedEvents).to.eql(['event-2b', 'event-3b', 'sub-path/sub-event-2b']);
-      console.log(receivedEvents);
     });
 
     it("subscription on '**' will be unauthorized if we have no permissions to any subpaths", async () => {
@@ -240,7 +238,7 @@ describe(
         });
       } catch (e) {
         expect(e.toString()).to.eql('AccessDenied: unauthorized');
-      }      
+      }
     });
 
     it("adding permissions with subscription on '**'", async () => {
@@ -412,7 +410,6 @@ describe(
         await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
-      console.log(receivedEvents);
       expect(receivedEvents).to.eql(['event-1c', 'event-2c', 'sub-path/sub-event-1c']);
       receivedEvents = [];
       await adminClient.exchange.security.addUserPermissions(

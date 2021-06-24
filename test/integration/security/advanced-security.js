@@ -126,7 +126,6 @@ describe(test.testName(__filename, 3), function() {
 
   it('creates a test group, with permissions to access the security component', function(done) {
     adminClient.exchange.security.addGroup(testGroup, function(e, result) {
-      console.log('GOT E,RESULT ', { e, result });
       if (e) return done(e);
 
       expect(result.name === testGroup.name).to.be(true);
