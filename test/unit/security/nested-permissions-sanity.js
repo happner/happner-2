@@ -65,6 +65,7 @@ describe(
         {
           name: 'b4_permissions_translation',
           happn: {
+            allowNestedPermissions: true,
             secure: true,
             adminPassword: test_id
           },
@@ -127,20 +128,14 @@ describe(
       var testUser = {
         username: 'B4_TESTGROUP_EVENT_ALLOWED_ONE_' + test_id,
         password: 'TEST PWD',
-        custom_data: {
-          something: 'useful'
-        },
-
         permissions: {
           methods: {},
           events: {
             '/b4_permissions_translation/SecuredComponent/event-3a': {
-              authorized: true,
-              description: 'a test method'
+              authorized: true
             },
             '/b4_permissions_translation/SecuredComponent/event-2a': {
-              authorized: true,
-              description: 'a test method2'
+              authorized: true
             }
           }
         }

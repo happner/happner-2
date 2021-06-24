@@ -215,6 +215,33 @@ testUserClient.exchange.security.updateOwnUser(myUser, function (e, result) {
 
 ```
 
+preventing a user from being able to modify the custom_data property
+--------------------------------------------------------------------
+
+```javascript
+const myMesh = await Mesh.create({
+	happn: {
+	secure: true
+	},
+	modules: {
+		...
+	},
+	components: {
+	security: {
+		allowOwnCustomDataUpdates: false //the system security component config is set up with this flag
+	},
+		...
+	}
+});
+// any user that updates their own user - will not be able to update a special field called custom_data on their user
+await testUserClient.exchange.security.updateOwnUser({
+	username: 'myOwnUser',
+	custom_data: {
+		something: 'changed' // this change will be ignored
+	}
+});
+```
+
 listing users
 -------------
 

@@ -19,6 +19,7 @@ function TestHelper() {
   this.package = require('../../../package.json');
   this.path = require('path');
   this.happnPackage = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../node_modules/happn-3/package.json')));
+  this.sinon = require('sinon');
 }
 
 TestHelper.create = function(){

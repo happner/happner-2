@@ -744,3 +744,28 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-1808: user permissions
 
+11.7.1 2021-04-16
+------------------
+- SMC-1807: light happner client support
+- SMC-1807: updated travis - removed Node 10 support, added node 16 support
+- SMC-1807: added shared happner-semver module
+
+11.7.2 2021-05-24
+------------------
+- SMC-1807: updated happner-client dependency
+
+11.7.3 2021-05-31
+------------------
+- SMC-1597: correctly parse single-parameter arrow functions with no parentheses
+
+11.7.4 2021-06-02
+------------------
+- SMC-1597: fix $happn etc. parameter string matching for arrow functions
+
+11.7.5 2021-06-02
+------------------
+- SMC-1597: fix parameter string matching for arrow functions with parentheses in body not signature
+
+11.8.0 2021-06-04
+------------------
+- SMC-2835: updateOwnUser can be configured to not change custom_data
