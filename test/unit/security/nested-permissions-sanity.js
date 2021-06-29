@@ -63,7 +63,7 @@ describe(
 
       mesh.initialize(
         {
-          name: 'b4_permissions_translation',
+          name: 'nested_permissions_events',
           happn: {
             allowNestedPermissions: true,
             secure: true,
@@ -126,15 +126,15 @@ describe(
       var testUserClient;
 
       var testUser = {
-        username: 'B4_TESTGROUP_EVENT_ALLOWED_ONE_' + test_id,
+        username: 'NESTED_PERMISSIONS_TESTS_ONE_' + test_id,
         password: 'TEST PWD',
         permissions: {
           methods: {},
           events: {
-            '/b4_permissions_translation/SecuredComponent/event-3a': {
+            '/nested_permissions_events/SecuredComponent/event-3a': {
               authorized: true
             },
-            '/b4_permissions_translation/SecuredComponent/event-2a': {
+            '/nested_permissions_events/SecuredComponent/event-2a': {
               authorized: true
             }
           }
@@ -146,11 +146,11 @@ describe(
       testUserClient = new Mesh.MeshClient({ secure: true });
       await testUserClient.login(testUser);
       let receivedEvents = [];
-      await testUserClient.event.b4_permissions_translation.SecuredComponent.on('**', message => {
+      await testUserClient.event.nested_permissions_events.SecuredComponent.on('**', message => {
         receivedEvents.push(message.value);
       });
       for (let eventName of ['event-1a', 'event-2a', 'event-3a']) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql(['event-2a', 'event-3a']);
@@ -160,7 +160,7 @@ describe(
       var testUserClient;
 
       var testUser = {
-        username: 'B4_TESTGROUP_EVENT_ALLOWED_TWO_' + test_id,
+        username: 'NESTED_PERMISSIONS_TESTS_TWO_' + test_id,
         password: 'TEST PWD',
         custom_data: {
           something: 'useful'
@@ -169,15 +169,15 @@ describe(
         permissions: {
           methods: {},
           events: {
-            '/b4_permissions_translation/SecuredComponent/event-3b': {
+            '/nested_permissions_events/SecuredComponent/event-3b': {
               authorized: true,
               description: 'a test method'
             },
-            '/b4_permissions_translation/SecuredComponent/event-2b': {
+            '/nested_permissions_events/SecuredComponent/event-2b': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/sub-path/sub-event-2b': {
+            '/nested_permissions_events/SecuredComponent/sub-path/sub-event-2b': {
               authorized: true,
               description: 'a test method2'
             }
@@ -190,7 +190,7 @@ describe(
       testUserClient = new Mesh.MeshClient({ secure: true });
       await testUserClient.login(testUser);
       let receivedEvents = [];
-      await testUserClient.event.b4_permissions_translation.SecuredComponent.on('**', message => {
+      await testUserClient.event.nested_permissions_events.SecuredComponent.on('**', message => {
         receivedEvents.push(message.value);
       });
       for (let eventName of [
@@ -200,7 +200,7 @@ describe(
         'sub-path/sub-event-1b',
         'sub-path/sub-event-2b'
       ]) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql(['event-2b', 'event-3b', 'sub-path/sub-event-2b']);
@@ -210,7 +210,7 @@ describe(
       var testUserClient;
 
       var testUser = {
-        username: 'B4_TESTGROUP_EVENT_ALLOWED_THREE_' + test_id,
+        username: 'NESTED_PERMISSIONS_TESTS_THREE_' + test_id,
         password: 'TEST PWD',
         custom_data: {
           something: 'useful'
@@ -227,12 +227,16 @@ describe(
       testUserClient = new Mesh.MeshClient({ secure: true });
       await testUserClient.login(testUser);
       let receivedEvents = [];
+      let errorCaught = false;
       try {
-        await testUserClient.event.b4_permissions_translation.SecuredComponent.on('**', message => {
+        await testUserClient.event.nested_permissions_events.SecuredComponent.on('**', message => {
           receivedEvents.push(message.value);
         });
       } catch (e) {
         expect(e.toString()).to.eql('AccessDenied: unauthorized');
+        errorCaught = true;
+      } finally {
+        expect(errorCaught).to.be(true)
       }
     });
 
@@ -240,7 +244,7 @@ describe(
       var testUserClient;
 
       var testUser = {
-        username: 'B4_TESTGROUP_EVENT_ALLOWED_FOUR_' + test_id,
+        username: 'NESTED_PERMISSIONS_TESTS_FOUR_' + test_id,
         password: 'TEST PWD',
         custom_data: {
           something: 'useful'
@@ -249,7 +253,7 @@ describe(
         permissions: {
           methods: {},
           events: {
-            '/b4_permissions_translation/SecuredComponent/someEventNotFired': {
+            '/nested_permissions_events/SecuredComponent/someEventNotFired': {
               authorized: true,
               description: 'a test method2'
             }
@@ -263,7 +267,7 @@ describe(
       await testUserClient.login(testUser);
       let receivedEvents = [];
 
-      await testUserClient.event.b4_permissions_translation.SecuredComponent.on('**', message => {
+      await testUserClient.event.nested_permissions_events.SecuredComponent.on('**', message => {
         receivedEvents.push(message.value);
       });
       for (let eventName of [
@@ -273,19 +277,19 @@ describe(
         'sub-path/sub-event-1c',
         'sub-path/sub-event-2c'
       ]) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql([]);
       await adminClient.exchange.security.addUserPermissions(
-        'B4_TESTGROUP_EVENT_ALLOWED_FOUR_' + test_id,
+        'NESTED_PERMISSIONS_TESTS_FOUR_' + test_id,
         {
           events: {
-            '/b4_permissions_translation/SecuredComponent/event-2c': {
+            '/nested_permissions_events/SecuredComponent/event-2c': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/sub-path/sub-event-2c': {
+            '/nested_permissions_events/SecuredComponent/sub-path/sub-event-2c': {
               authorized: true,
               description: 'a test method2'
             }
@@ -300,16 +304,16 @@ describe(
         'sub-path/sub-event-1c',
         'sub-path/sub-event-2c'
       ]) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql(['event-2c', 'sub-path/sub-event-2c']);
       await adminClient.exchange.security.removeUserPermissions(
-        'B4_TESTGROUP_EVENT_ALLOWED_FOUR_' + test_id,
+        'NESTED_PERMISSIONS_TESTS_FOUR_' + test_id,
         {
           events: {
-            '/b4_permissions_translation/SecuredComponent/event-2c': {},
-            '/b4_permissions_translation/SecuredComponent/sub-path/sub-event-2c': {}
+            '/nested_permissions_events/SecuredComponent/event-2c': {},
+            '/nested_permissions_events/SecuredComponent/sub-path/sub-event-2c': {}
           }
         }
       );
@@ -322,7 +326,7 @@ describe(
         'sub-path/sub-event-1c',
         'sub-path/sub-event-2c'
       ]) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql([]);
@@ -332,7 +336,7 @@ describe(
       var testUserClient;
 
       var testUser = {
-        username: 'B4_TESTGROUP_EVENT_ALLOWED_FIVE_' + test_id,
+        username: 'NESTED_PERMISSIONS_TESTS_FIVE_' + test_id,
         password: 'TEST PWD',
         custom_data: {
           something: 'useful'
@@ -341,27 +345,27 @@ describe(
         permissions: {
           methods: {},
           events: {
-            '/b4_permissions_translation/SecuredComponent/someEventNotFired': {
+            '/nested_permissions_events/SecuredComponent/someEventNotFired': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/event-1c': {
+            '/nested_permissions_events/SecuredComponent/event-1c': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/event-2c': {
+            '/nested_permissions_events/SecuredComponent/event-2c': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/event-3c': {
+            '/nested_permissions_events/SecuredComponent/event-3c': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/sub-path/sub-event-1c': {
+            '/nested_permissions_events/SecuredComponent/sub-path/sub-event-1c': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/sub-path/sub-event-2c': {
+            '/nested_permissions_events/SecuredComponent/sub-path/sub-event-2c': {
               authorized: true,
               description: 'a test method2'
             }
@@ -375,7 +379,7 @@ describe(
       await testUserClient.login(testUser);
       let receivedEvents = [];
 
-      await testUserClient.event.b4_permissions_translation.SecuredComponent.on('**', message => {
+      await testUserClient.event.nested_permissions_events.SecuredComponent.on('**', message => {
         receivedEvents.push(message.value);
       });
       let testEvents = [
@@ -386,36 +390,36 @@ describe(
         'sub-path/sub-event-2c'
       ];
       for (let eventName of testEvents) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql(testEvents);
       await adminClient.exchange.security.removeUserPermissions(
-        'B4_TESTGROUP_EVENT_ALLOWED_FIVE_' + test_id,
+        'NESTED_PERMISSIONS_TESTS_FIVE_' + test_id,
         {
           events: {
-            '/b4_permissions_translation/SecuredComponent/event-3c': {},
-            '/b4_permissions_translation/SecuredComponent/sub-path/sub-event-2c': {}
+            '/nested_permissions_events/SecuredComponent/event-3c': {},
+            '/nested_permissions_events/SecuredComponent/sub-path/sub-event-2c': {}
           }
         }
       );
       await wait(1000);
       receivedEvents = [];
       for (let eventName of testEvents) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql(['event-1c', 'event-2c', 'sub-path/sub-event-1c']);
       receivedEvents = [];
       await adminClient.exchange.security.addUserPermissions(
-        'B4_TESTGROUP_EVENT_ALLOWED_FIVE_' + test_id,
+        'NESTED_PERMISSIONS_TESTS_FIVE_' + test_id,
         {
           events: {
-            '/b4_permissions_translation/SecuredComponent/event-3c': {
+            '/nested_permissions_events/SecuredComponent/event-3c': {
               authorized: true,
               description: 'a test method2'
             },
-            '/b4_permissions_translation/SecuredComponent/sub-path/sub-event-2c': {
+            '/nested_permissions_events/SecuredComponent/sub-path/sub-event-2c': {
               authorized: true,
               description: 'a test method2'
             }
@@ -424,7 +428,7 @@ describe(
       );
       await wait(1000);
       for (let eventName of testEvents) {
-        await adminClient.exchange.b4_permissions_translation.SecuredComponent.fireEvent(eventName);
+        await adminClient.exchange.nested_permissions_events.SecuredComponent.fireEvent(eventName);
       }
       await wait(1000);
       expect(receivedEvents).to.eql(testEvents);
