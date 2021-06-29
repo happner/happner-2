@@ -236,7 +236,7 @@ describe(
         expect(e.toString()).to.eql('AccessDenied: unauthorized');
         errorCaught = true;
       } finally {
-        expect(errorCaught).to.be(true)
+        expect(errorCaught).to.be(true);
       }
     });
 
