@@ -204,7 +204,7 @@ describe(tests.testName(__filename, 3), function() {
       tests
         .expect(msg)
         .to.be(
-          'cannot check native function testModule:testMethod4 arguments for $happn injection'
+          'cannot check native function testModule:testMethod9 arguments for $happn injection'
         );
       expectedMessageHappened = true;
     };
@@ -222,6 +222,7 @@ describe(tests.testName(__filename, 3), function() {
     await tests.delay(2000);
     tests.expect(expectedMessageHappened).to.be(true);
     tests.expect(moduleInst.module.instance.testMethod['$happnSeq']).to.be(0);
+    tests.expect(moduleInst.module.instance.testMethod4['$happnSeq']).to.be(0);
     tests.expect(moduleInst.module.instance.testMethod5['$happnSeq']).to.be(0);
     tests.expect(moduleInst.module.instance.testMethod6['$happnSeq']).to.be(0);
     tests.expect(moduleInst.module.instance.testMethod7['$happnSeq']).to.be(1);
@@ -707,12 +708,13 @@ describe(tests.testName(__filename, 3), function() {
     class Class extends ParentClass {
       constructor() {
         super();
-        this.testMethod4 = this.testMethod4.bind(this);
+        this.testMethod4 = this.testMethod4.bind(this); // prototype method bound to instance
         this.testMethod5 = $happn => $happn;
         // prettier-ignore
         this.testMethod6 = ($happn) => $happn;
         this.testMethod7 = (param, $happn) => ({ $happn, param });
         this.testMethod8 = $happn => $happn.emit('yay'); // test bugfix for parentheses in body rather than signature
+        this.testMethod9 = ($happn => $happn.emit('yay')).bind(this); // non-prototype method bound to instance
         this.property1 = {};
       }
 
@@ -721,7 +723,8 @@ describe(tests.testName(__filename, 3), function() {
       testMethod1() {}
       testMethod2() {}
       __testMethod3() {}
-      testMethod4() {}
+      // eslint-disable-next-line no-unused-vars
+      testMethod4($happn) {}
       testMethod__5() {}
     }
     return new Class();
