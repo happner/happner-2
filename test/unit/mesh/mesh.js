@@ -227,6 +227,7 @@ describe(tests.testName(__filename, 3), function() {
     tests.expect(moduleInst.module.instance.testMethod6['$happnSeq']).to.be(0);
     tests.expect(moduleInst.module.instance.testMethod7['$happnSeq']).to.be(1);
     tests.expect(moduleInst.module.instance.testMethod8['$happnSeq']).to.be(0);
+    tests.expect(moduleInst.module.instance.testMethod10['$happnSeq']).to.be(0);
   });
 
   it('tests the _updateElement method', function(done) {
@@ -714,7 +715,8 @@ describe(tests.testName(__filename, 3), function() {
         this.testMethod6 = ($happn) => $happn;
         this.testMethod7 = (param, $happn) => ({ $happn, param });
         this.testMethod8 = $happn => $happn.emit('yay'); // test bugfix for parentheses in body rather than signature
-        this.testMethod9 = ($happn => $happn.emit('yay')).bind(this); // non-prototype method bound to instance
+        this.testMethod9 = function() {}.bind(this); // non-prototype method bound to instance
+        this.testMethod10 = this.testMethod10.bind(this); // async prototype method bound to instance
         this.property1 = {};
       }
 
@@ -726,6 +728,8 @@ describe(tests.testName(__filename, 3), function() {
       // eslint-disable-next-line no-unused-vars
       testMethod4($happn) {}
       testMethod__5() {}
+      // eslint-disable-next-line no-unused-vars
+      async testMethod10($happn) {}
     }
     return new Class();
   }
