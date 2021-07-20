@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "11.8.0-prerelease-nested-permisisions",
+  "version": "11.9.0",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -84,7 +84,7 @@
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
     "glob": "5.0.15",
-    "happn-3": "prerelease-11",
+    "happn-3": "^11.11.0",
     "happn-logger": "^1.1.1",
     "happn-sillyname": "^0.1.1",
     "happner-client": "^11.3.1",

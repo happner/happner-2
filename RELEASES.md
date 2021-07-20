@@ -769,3 +769,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.8.0 2021-06-04
 ------------------
 - SMC-2835: updateOwnUser can be configured to not change custom_data
+
+11.9.0 2021-07-20
+------------------
+- SMC-1810: nested paths in get and on
