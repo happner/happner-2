@@ -773,3 +773,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.9.0 2021-07-09
 ------------------
 - SMC-3030: add ability to parse bound class methods via prototype
+
+11.10.0 2021-07-20
+------------------
+- SMC-1810: nested paths in get and on
+

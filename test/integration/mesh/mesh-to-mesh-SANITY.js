@@ -45,8 +45,6 @@ describe(
       remote = spawn('node', [libFolder + '4-first-mesh']);
 
       remote.stdout.on('data', function(data) {
-        // console.log(data.toString());
-
         if (data.toString().match(/READY/)) {
           mesh = new Mesh();
 
