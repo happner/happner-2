@@ -778,3 +778,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-1810: nested paths in get and on
 
+11.10.1 2021-07-20
+------------------
+- SMC-3512: fixed happn inbound and outbound layers to fail without "Callback already called" error
+

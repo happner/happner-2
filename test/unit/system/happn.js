@@ -53,7 +53,8 @@ describe(
           throw new Error('test error');
         });
       } catch (e) {
-        expect(e.message.to.be('test error'));
+        expect(e.message).to.be('test error');
+        done();
       }
     });
 
@@ -68,7 +69,8 @@ describe(
           throw new Error('test error');
         });
       } catch (e) {
-        expect(e.message.to.be('test error'));
+        expect(e.message).to.be('test error');
+        done();
       }
     });
 
