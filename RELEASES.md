@@ -781,5 +781,6 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.11.0 2021-07-20
 ------------------
 - SMC-3512: fixed happn inbound and outbound layers to fail without "Callback already called" error
-- SMC-3460 - added support for anonymous user
+- SMC-3460: added support for anonymous user
+- SMC-3646: added github actions
 
