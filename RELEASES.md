@@ -778,3 +778,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-1810: nested paths in get and on
 
+11.11.0 2021-07-20
+------------------
+- SMC-3512: fixed happn inbound and outbound layers to fail without "Callback already called" error
+- SMC-3460: added support for anonymous user
+- SMC-3646: added github actions
+- SMC-2717: cookie lifecycle events
+

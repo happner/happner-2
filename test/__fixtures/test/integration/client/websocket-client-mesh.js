@@ -4,12 +4,11 @@ var path = require('path');
 
 var config = require(path.join(__dirname, 'websocket-client-mesh-config'));
 
-Mesh.create(config, function (err) {
+Mesh.create(config, function (err, instance) {
 
   if (err) {
     console.log(err);
-    process.exit(err.code || 1);
-    return;
+    return process.exit(err.code || 1);
   }
 
   console.log('READY');

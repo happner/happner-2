@@ -13,13 +13,18 @@ function TestHelper() {
   this.__testFiles = [];
   this.__happnerClients = {};
   this.__happnerInstances = {};
-  this.fs = fs
+  this.util = util;
+  this.fs = fs;
   this.TCPProxy = require('./tcp-proxy/proxy');
   this.expect = require('expect.js');
   this.package = require('../../../package.json');
   this.path = require('path');
   this.happnPackage = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../node_modules/happn-3/package.json')));
   this.sinon = require('sinon');
+  this._ = require('lodash');
+  this.delay = require('await-delay');
+  this.request = util.promisify(require('request'), { multiArgs: true });
+  require('chai').should();
 }
 
 TestHelper.create = function(){
