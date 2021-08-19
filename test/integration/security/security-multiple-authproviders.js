@@ -66,82 +66,56 @@ describe(
       if (server) await server.stop({ reconnect: false });
     });
 
-    it('rejects login promise on bad credentials', function(done) {
-      const client = new Happner.MeshClient();
-      client
-        .login({
+    it('rejects login promise on bad credentials', async () => {
+      let client = new Happner.MeshClient();
+      try {
+        await client.login({
           ...testUser,
           password: 'bad password'
-        })
-        .then(function() {
-          client.disconnect();
-          done(new Error('should not allow'));
-        })
-        .catch(function(error) {
-          error.toString().should.equal('AccessDenied: Invalid credentials');
-          done();
-        })
-        .catch(done);
-    });
-
-    it.only('logs in correctly using happn3 auth provider', function(done) {
-      const client = new Happner.MeshClient();
-      client
-        .login({
-          ...testUser,
-          authType: 'happn3'
-        })
-        .then(() => {
-          done();
-        })
-        .catch(function(error) {
-          done(error);
         });
+      } catch (e) {
+        expect(e.toString()).to.be('AccessDenied: Invalid credentials');
+      }
     });
 
-    it.only('logs in correctly using second auth provider', function(done) {
-      const client = new Happner.MeshClient();
-      client
-        .login({
-          ...testUser2
-        })
-        .then(() => {
-          done();
-        })
-        .catch(function(error) {
-          done(error);
+    it('logs in correctly using happn3 auth provider', async () => {
+      let client = new Happner.MeshClient();
+      client = await client.login({
+        ...testUser,
+        authType: 'happn3'
+      });
+    });
+
+    it('logs in correctly using second auth provider', async () => {
+      let client = new Happner.MeshClient();
+      await client.login({
+        ...testUser2 //uses default, i.e. 'second' suthProvider
+      });
+    });
+
+    it('fails to log in when using second auth provider for happn3 type user', async () => {
+      let client = new Happner.MeshClient();
+      try {
+        await client.login({
+          ...testUser //uses default, i.e. 'second' suthProvider
         });
+        throw new Error('SHOULD HAVE THROWN');
+      } catch (error) {
+        expect(error.toString()).to.eql('AccessDenied: Invalid credentials');
+      }
     });
 
-    it.only('fails to log in when using happn3 auth provider for second type user', function(done) {
-      const client = new Happner.MeshClient();
-      client
-        .login({
-          ...testUser
-        })
-        .then(() => {
-          done(new Error('SHOULD HAVE THROWN'));
-        })
-        .catch(function(error) {
-          expect(error.toString()).to.eql('AccessDenied: Invalid credentials');
-          done();
-        });
-    });
-
-    it.only('fails to log in when using second auth provider for happn3 type user', function(done) {
-      const client = new Happner.MeshClient();
-      client
-        .login({
+    it('fails to log in when using happn3 auth provider for second type user', async () => {
+      let client = new Happner.MeshClient();
+      try {
+        await client.login({
           ...testUser2,
           authType: 'happn3'
-        })
-        .then(() => {
-          done(new Error('SHOULD HAVE THROWN'));
-        })
-        .catch(function(error) {
-          expect(error.toString()).to.eql('AccessDenied: Invalid credentials');
-          done();
         });
+        throw new Error('Should have thrown');
+      } catch (error) {
+        expect(error.toString()).to.eql('AccessDenied: Invalid credentials');
+      }
     });
   }
 );
