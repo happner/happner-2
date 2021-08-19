@@ -80,7 +80,7 @@ describe(
 
     it('logs in correctly using happn3 auth provider', async () => {
       let client = new Happner.MeshClient();
-      client = await client.login({
+      await client.login({
         ...testUser,
         authType: 'happn3'
       });
