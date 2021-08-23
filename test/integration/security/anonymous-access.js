@@ -1,6 +1,5 @@
 const test = require('../../__fixtures/utils/test_helper').create();
 const testName = test.testName(__filename, 3);
-const { Context } = require('mocha');
 const Mesh = require('../../..');
 
 describe(testName, function() {
