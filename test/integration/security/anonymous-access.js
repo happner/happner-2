@@ -38,11 +38,38 @@ describe(testName, function() {
             res.end('ok2');
           }
         }
+      },
+      module2: {
+        instance: {
+          method1: function($happn, callback) {
+            $happn.emit('event1');
+            callback(null, 'reply2-1');
+          },
+          method2: function($happn, callback) {
+            $happn.emit('event2');
+            callback(null, 'reply2-2');
+          },
+          webmethod1: function(req, res) {
+            res.end('ok2-1');
+          },
+          webmethod2: function(req, res) {
+            res.end('ok2-2');
+          }
+        }
       }
     },
     components: {
       component: {
         module: 'module',
+        web: {
+          routes: {
+            webmethod1: 'webmethod1',
+            webmethod2: 'webmethod2'
+          }
+        }
+      },
+      component2: {
+        module: 'module2',
         web: {
           routes: {
             webmethod1: 'webmethod1',
@@ -159,6 +186,61 @@ describe(testName, function() {
       .expect(await tryWeb(anonymousUserClient, 'component', 'webmethod1', 'POST', {}))
       .to.be(false);
     test.expect(await tryWeb(anonymousUserClient, 'component', 'webmethod2', 'GET')).to.be(false);
+  });
+
+  context('Anonymous user-permissions', () => {
+    let permissions = {
+      methods: {
+        '/component2/method1': { authorized: true }
+      },
+      events: {
+        '/component2/event1': { authorized: true }
+      },
+      web: {
+        '/component2/webmethod1': {
+          authorized: true,
+          actions: ['get']
+        }
+      }
+    };
+
+    before('It upserts permissions to the anonymous user', done => {
+      adminClient.exchange.security.addUserPermissions('_ANONYMOUS', permissions, done);
+    });
+
+    it('succeeds and fails with method access', async () => {
+      test.expect(await tryMethod(anonymousUserClient, 'component2', 'method1')).to.be(true);
+      test.expect(await tryMethod(anonymousUserClient, 'component2', 'method2')).to.be(false);
+    });
+
+    it('succeeds and fails with events access', async () => {
+      test.expect(await tryEvent(anonymousUserClient, 'component2', 'event1')).to.be(true);
+      test.expect(await tryEvent(anonymousUserClient, 'component2', 'event2')).to.be(false);
+    });
+
+    it('succeeds and fails with web access', async () => {
+      test.expect(await tryWeb(anonymousUserClient, 'component2', 'webmethod1', 'GET')).to.be(true);
+      test
+        .expect(await tryWeb(anonymousUserClient, 'component2', 'webmethod1', 'POST', {}))
+        .to.be(false);
+      test
+        .expect(await tryWeb(anonymousUserClient, 'component2', 'webmethod2', 'GET'))
+        .to.be(false);
+    });
+
+    it('removes the user permissions - ensures the anonymous user has no access', async () => {
+      await adminClient.exchange.security.removeUserPermissions('_ANONYMOUS', permissions);
+      await test.delay(2000);
+      test.expect(await tryMethod(anonymousUserClient, 'component', 'method1')).to.be(false);
+      test.expect(await tryMethod(anonymousUserClient, 'component', 'method2')).to.be(false);
+      test.expect(await tryEvent(anonymousUserClient, 'component', 'event1')).to.be(false);
+      test.expect(await tryEvent(anonymousUserClient, 'component', 'event2')).to.be(false);
+      test.expect(await tryWeb(anonymousUserClient, 'component', 'webmethod1', 'GET')).to.be(false);
+      test
+        .expect(await tryWeb(anonymousUserClient, 'component', 'webmethod1', 'POST', {}))
+        .to.be(false);
+      test.expect(await tryWeb(anonymousUserClient, 'component', 'webmethod2', 'GET')).to.be(false);
+    });
   });
 
   async function tryMethod(client, component, method, args) {
