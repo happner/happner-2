@@ -785,3 +785,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 - SMC-3646: added github actions
 - SMC-2717: cookie lifecycle events
 
+11.11.1 2021-8-23
+------------------
+- SMC-3807: happn anonymous user permissions
+
