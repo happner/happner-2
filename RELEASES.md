@@ -789,3 +789,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-3807: happn anonymous user permissions
 
+11.11.2 2021-08-27
+------------------
+- SMC-3242: fixed onBehalfOf and nested permissions issue
+
