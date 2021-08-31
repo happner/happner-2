@@ -39,7 +39,6 @@ describe(
             security: {
               config: {
                 authProviders: {
-                  happn3: 'happn3-provider',
                   second: path.resolve(
                     __dirname,
                     '../../__fixtures/test/integration/security/authentication/workingAuth.js'
@@ -53,7 +52,7 @@ describe(
       });
     });
 
-    before('adds happn-3 authProvider testUser', done => {
+    before('adds happn authProvider testUser', done => {
       server.exchange.security.addUser(testUser, done);
     });
 
@@ -82,14 +81,14 @@ describe(
       let client = new Happner.MeshClient();
       await client.login({
         ...testUser,
-        authType: 'happn3'
+        authType: 'happn'
       });
     });
 
     it('logs in correctly using second auth provider', async () => {
       let client = new Happner.MeshClient();
       await client.login({
-        ...testUser2 //uses default, i.e. 'second' suthProvider
+        ...testUser2 //uses default, i.e. 'second' authProvider
       });
     });
 
@@ -97,7 +96,7 @@ describe(
       let client = new Happner.MeshClient();
       try {
         await client.login({
-          ...testUser //uses default, i.e. 'second' suthProvider
+          ...testUser //uses default, i.e. 'second' authProvider
         });
         throw new Error('SHOULD HAVE THROWN');
       } catch (error) {
@@ -110,7 +109,7 @@ describe(
       try {
         await client.login({
           ...testUser2,
-          authType: 'happn3'
+          authType: 'happn'
         });
         throw new Error('Should have thrown');
       } catch (error) {
