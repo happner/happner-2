@@ -79,6 +79,64 @@ __something.html__
 </html>
 ```
 
+#### Cookie Events
+*when the mesh client connects in the browser, it pushes a cookie containing the auth token retrieved during login, this makes the token available for other tabs utilizing clients*
+
+```javascript
+  let cookieEvents = [];
+  Happner.MeshClient.clearCookieEventObjects(); // clears all listeners
+  const cookieEventHandler1 = (event, cookie) => {
+    cookieEvents.push({
+      event: `${event}1`,
+      cookie
+    });
+  };
+  const cookieEventHandler2 = (event, cookie) => {
+    cookieEvents.push({
+      event: `${event}2`,
+      cookie
+    });
+  };
+  //handlers are added to the MeshClient before login
+  let [client, clientCookie] = [
+    new Happner.MeshClient({ port: 55000, cookieEventHandler: cookieEventHandler1 }),
+    new Happner.MeshClient({ port: 55000, cookieEventHandler: cookieEventHandler2 })
+  ];
+  const loginOpts = {
+    username: 'username',
+    password: 'password'
+  };
+  await client.login(loginOpts);
+  await delay(3000);
+  await clientCookie.login({
+    useCookie: true
+  });
+  await delay(3000);
+  await client.disconnect({ deleteCookie: true });
+  await delay(3000);
+  await client.login(loginOpts);
+  await delay(3000);
+  const eventKeys = cookieEvents.map(evt => {
+    return evt.event;
+  });
+  expect(eventKeys).to.eql([
+    // no cookie - handler 1 detects
+    'cookie-deleted1',
+    // handler 1 detects creation of own cookie, client2 connects with useCookie
+    'cookie-created1',
+    // handler 1 deletes cookie
+    'cookie-deleted1',
+    // handler 2 detects cookie deletion
+    'cookie-deleted2',
+    // handler 1 reconnects
+    'cookie-created1',
+    // handler 2 detects cookie creation
+    'cookie-created2'
+  ]);
+  await clientCookie.disconnect({ deleteCookie: true });
+  await client.disconnect();
+```
+
 #### Other Events
 
 __something.html__

@@ -793,3 +793,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - SMC-3242: fixed onBehalfOf and nested permissions issue
 
+11.11.3 2021-09-09
+------------------
+- fix: SMC-4044 - cookie events not dependent on client login
+

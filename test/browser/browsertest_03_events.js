@@ -17,8 +17,8 @@ describe('browsertest_03_events', function() {
       .catch(done);
   });
 
-  after('it disconnects the client', function(done) {
-    if (client) client.disconnect(done);
+  after(async () => {
+    if (client) await client.disconnect({ deleteCookie: true });
   });
 
   it('does a variable depth subscribe, default depth', function(done) {
