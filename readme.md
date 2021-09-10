@@ -56,6 +56,4 @@ These walkthroughs use *happner* to create a rudimentary monitoring service.
 * [Using the loader to start a mesh](https://github.com/happner/happner-2/blob/master/docs/loader.md)
 * [System Components](https://github.com/happner/happner-2/blob/master/docs/system.md)
 * [Using the Client](https://github.com/happner/happner-2/blob/master/docs/client.md)
-* [Cookie Events](https://github.com/happner/happner-2/blob/master/docs/cookie-events.md)
-
 * [utility scripts](https://github.com/happner/happner-2/blob/master/docs/utility-scripts.md)
