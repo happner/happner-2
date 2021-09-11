@@ -1,8 +1,13 @@
 describe('browsertest_02_security', function() {
   this.timeout(10000);
+  let client;
+
+  after(async () => {
+    if (client) await client.disconnect({ deleteCookie: true });
+  });
 
   it('rejects login promise on bad credentials', function(done) {
-    var client = new Happner.MeshClient({ port: 55000 });
+    client = new Happner.MeshClient({ port: 55000 });
     client
       .login({
         username: 'username',
@@ -20,7 +25,7 @@ describe('browsertest_02_security', function() {
   });
 
   it('emits login/deny on bad credentials', function(done) {
-    var client = new Happner.MeshClient({ port: 55000 });
+    client = new Happner.MeshClient({ port: 55000 });
     client.on('login/deny', function(error) {
       try {
         error.toString().should.equal('AccessDenied: Invalid credentials');
@@ -35,13 +40,12 @@ describe('browsertest_02_security', function() {
         password: 'bad password'
       })
       .then(function() {
-        client.disconnect();
         done(new Error('should not allow'));
       });
   });
 
   it('emits login/allow on good credentials', function(done) {
-    var client = new Happner.MeshClient({ port: 55000 });
+    client = new Happner.MeshClient({ port: 55000 });
     client.on('login/allow', function() {
       done();
     });
@@ -54,7 +58,7 @@ describe('browsertest_02_security', function() {
   });
 
   it('can login with the token', async function() {
-    var client = new Happner.MeshClient({ port: 55000 });
+    client = new Happner.MeshClient({ port: 55000 });
 
     await client.login({
       username: 'username',
@@ -68,7 +72,7 @@ describe('browsertest_02_security', function() {
   });
 
   it('disconnect can remove the cookie', async function() {
-    var client = new Happner.MeshClient({ port: 55000 });
+    client = new Happner.MeshClient({ port: 55000 });
 
     await client.login({
       username: 'username',
@@ -98,8 +102,6 @@ describe('browsertest_02_security', function() {
   });
 
   context('exchange', function() {
-    var client;
-
     before('start client', function(done) {
       client = new Happner.MeshClient({ port: 55000 });
       client
