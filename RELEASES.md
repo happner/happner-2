@@ -801,4 +801,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - fix: SMC-4044 - happner-client upgrade to 11.5.0
 
+11.12.1 2021-09-20
+------------------
+- fix: SMC-4161 - happn-3 upgrade 11.13.4
+
 
