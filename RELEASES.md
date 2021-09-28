@@ -805,4 +805,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 ------------------
 - fix: SMC-4161 - happn-3 upgrade 11.13.4
 
+11.12.2 2021-09-28
+-----------------
+  - happn-3 upgrades:
+  - fix: SMC-4209 - concurrency issue, user created logged on deleted, causes security directory update to fatal
+  - fix: SMC-4208 - merge insert now uses upsert, moved constants out of data service
+
 
