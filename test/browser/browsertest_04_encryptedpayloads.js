@@ -18,6 +18,10 @@ describe('browsertest_04_encryptedpayloads', function() {
       .catch(done);
   });
 
+  after(async () => {
+    if (client) await client.disconnect({ deleteCookie: true });
+  });
+
   it('client can call more than one method in sequence (callback)', function(done) {
     client.exchange.test.method1(function(e, result) {
       if (e) return done(e);

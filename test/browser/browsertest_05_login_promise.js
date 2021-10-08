@@ -20,6 +20,6 @@ describe('browsertest_05_login_promise', function() {
     );
   });
   after('it disconnects the client', function(done) {
-    if (client) client.disconnect(done);
+    if (client) client.disconnect({ deleteCookie: true }, done);
   });
 });
