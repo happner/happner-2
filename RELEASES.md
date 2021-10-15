@@ -815,5 +815,7 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - fix: SMC-3661 - removal of try catch callback anti-pattern
   - fix: SMC-4349 - happner-client update, inter-mesh $on fails due to argument mismatch
+  - fix: SMC-4388 - updated mongo data provider, removed main from package.json
+  - test: SMC-4393 - test intercomponent $on and $call
 
 
