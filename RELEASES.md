@@ -814,5 +814,6 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.12.3 2021-10-08
 -----------------
   - fix: SMC-3661 - removal of try catch callback anti-pattern
+  - fix: SMC-4349 - happner-client update, inter-mesh $on fails due to argument mismatch
 
 
