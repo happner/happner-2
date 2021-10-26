@@ -278,7 +278,7 @@ describe.skipWindows(
         });
       });
 
-      it('removes group data permissions, we check we no longer have access to the new path, but still have access to other paths', function(done) {
+      it.only('removes group data permissions, we check we no longer have access to the new path, but still have access to other paths', function(done) {
         client.data.set('/toremove/1', { test: 'data' }, function(e) {
           expect(e.toString()).to.be('AccessDenied: unauthorized');
           var addPermissions = {
