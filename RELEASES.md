@@ -818,4 +818,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
   - fix: SMC-4388 - updated mongo data provider, removed main from package.json
   - test: SMC-4393 - test intercomponent $on and $call
 
+11.12.4 2021-11-11
+-----------------
+  - fix: SMC-4512 - happn-3 upgrade, db error causes fatal
+
 
