@@ -15,7 +15,7 @@ describe(
     this.timeout(5000);
     const wait = require('await-delay');
 
-    beforeEach('start a mesh with test component, and a client', function(done) {
+    before('start a mesh with test component, and a client', function(done) {
       Happner.create({
         name: 'permissions_removal',
         happn: {
@@ -79,7 +79,7 @@ describe(
       return [testClient, user];
     }
 
-    it('basic test', async () => {
+    it('tests that we can remove permissions from a group, but we will still have permissions on that path if another group has permission', async () => {
       let testGroup = {
         name: 'REMOVE_PERMS_G1',
         permissions: {
@@ -146,56 +146,3 @@ describe(
     });
   }
 );
-// let testUser1 = {
-//   username: 'REMOVE_PERMISSIONS_TESTS_' + test_id,
-//   password: 'TEST PWD',
-//   permissions: {
-//     methods: {},
-//     events: {
-//       'permissions_removal/component1/event-1a': {
-//         authorized: true
-//       },
-//       '/permissions_removal/component1/event-2a': {
-//         authorized: true
-//       }
-//     }
-//   }
-// };
-// let testUser = {
-//   username: 'REMOVE_PERMISSIONS_TESTS_' + test_id,
-//   password: 'TEST PWD',
-//   permissions: {
-//     methods: {},
-//     events: {
-//       'permissions_removal/component1/event-1a': {
-//         authorized: true
-//       },
-//       '/permissions_removal/component1/event-2a': {
-//         authorized: true
-//       }
-//     }
-//   }
-// };
-// let testGroup = {
-//   name: 'REMOVE_PERMISSIONS_GROUP' + test_id,
-//   permissions: {
-//     methods: {},
-//     events: {
-//       'permissions_removal/component1/event-1a': {
-//         authorized: true
-//       }
-//     }
-//   }
-// };
-
-// let testGroup2 = {
-//   name: 'REMOVE_PERMISSIONS_GROUP2' + test_id,
-//   permissions: {
-//     methods: {},
-//     events: {
-//       'permissions_removal/component1/event-1a': {
-//         authorized: true
-//       }
-//     }
-//   }
-// };
