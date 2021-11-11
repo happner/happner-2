@@ -823,3 +823,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
   - fix: SMC-4512 - happn-3 upgrade, db error causes fatal
 
 
+
+11.12.4 2021-11-11
+-----------------
+  - fix: SMC-4386 - security modules removeGroupPermissions and removeUserPermissions will now remove permissions instead of prohibiting them
+  - Requires happn version ^11.13.7
+
+
