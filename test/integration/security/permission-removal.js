@@ -13,6 +13,7 @@ describe(
       ['test', '__fixtures', 'test', 'integration', 'security'].join(path.sep);
     let userSeq = 1;
     this.timeout(5000);
+    const wait = require('await-delay');
 
     beforeEach('start a mesh with test component, and a client', function(done) {
       Happner.create({
@@ -122,27 +123,26 @@ describe(
       });
       await server.exchange.permissions_removal.component1.causeEmit('event-1a', { data: 'test2' });
 
+      expect(events).to.eql(['test1', 'test2']);
+      expect(events2).to.eql(['test2']);
+
       await server.exchange.security.removeGroupPermissions(testGroup.name, {
-        permissions: {
-          events: {
-            'permissions_removal/component1/event-1a': {
-              authorized: true
-            }
+        events: {
+          'permissions_removal/component1/event-1a': {
+            authorized: true
           }
         }
       });
-      expect(events).to.eql(['test1', 'test2']);
-      expect(events2).to.eql(['test2']);
-      //   let errored = false;
-      //   try {
-      //     await client.event.component1.on('event-1a', msg => {
-      //       events2.push(msg.data);
-      //     });
-      //   } catch (e) {
-      //     console.log(e);
-      //     errored = true;
-      //   }
-      //   expect(errored).to.be(true);
+      await wait(1000);
+      let errored = false;
+      try {
+        await client.event.component1.on('event-1a', msg => {
+          events2.push(msg.data);
+        });
+      } catch (e) {
+        errored = true;
+      }
+      expect(errored).to.be(true);
     });
   }
 );
