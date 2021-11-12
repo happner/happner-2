@@ -822,4 +822,8 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - fix: SMC-4512 - happn-3 upgrade, db error causes fatal
 
+11.12.5 2021-11-12
+-----------------
+  - fix: SMC-4585 - setImmediate in browser client
+
 

@@ -173,6 +173,10 @@ describe('browsertest_01_happner_client', function() {
     expect(lastData).to.eql({ some: 'data' });
   });
 
+  it('can call disconnect() even if the login failed', function(done) {
+    new MeshClient({ port: 1 }).disconnect(done);
+  });
+
   function delay(ms) {
     return new Promise(resolve => {
       setTimeout(resolve, ms);
