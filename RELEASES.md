@@ -826,4 +826,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - fix: SMC-4585 - setImmediate in browser client
 
+11.13.0 2021-11-24
+-----------------
+  - feature: SMC-2954 - Allows for configuration and use of multiple authentication providers.
+  - fix: SMC-4386 -  upsertMultiplePermissions will now allow for removing permissions/prohibitions as well as upserting permissions or prohibitions
+  
+
 
