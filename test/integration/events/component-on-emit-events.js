@@ -41,7 +41,7 @@ describe(
     });
 
     beforeEach('start client', function(done) {
-      var _client = new Happner.MeshClient();
+      let _client = new Happner.MeshClient();
       _client
         .login()
         .then(function() {

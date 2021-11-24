@@ -830,5 +830,6 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - feature: SMC-2954 - Allows for configuration and use of multiple authentication providers.
   - fix: SMC-4386 -  upsertMultiplePermissions will now allow for removing permissions/prohibitions as well as upserting permissions or prohibitions
+  
 
 
