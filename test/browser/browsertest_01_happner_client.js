@@ -1,11 +1,16 @@
 /* eslint-disable no-console */
 describe('browsertest_01_happner_client', function() {
-  // test new client
+  let client;
+
+  after(async () => {
+    if (client) await client.disconnect({ deleteCookie: true });
+  });
+
   expect = window.expect;
   this.timeout(100000);
 
   it('can set the socket options', function(done) {
-    var client = new MeshClient({ port: 55000, socket: { pingTimeout: 120000 } });
+    client = new MeshClient({ port: 55000, socket: { pingTimeout: 120000 } });
     client
       .login({
         username: 'username',
@@ -24,7 +29,7 @@ describe('browsertest_01_happner_client', function() {
   });
 
   it('can connect a new client', function(done) {
-    var client = new Happner.HappnerClient();
+    client = new Happner.HappnerClient();
 
     client
       .connect(null, {
@@ -43,7 +48,7 @@ describe('browsertest_01_happner_client', function() {
   });
 
   it('can call exchange method', function(done) {
-    var client = new Happner.HappnerClient();
+    client = new Happner.HappnerClient();
 
     var api = client.construct({
       testComponent2: {
@@ -75,7 +80,7 @@ describe('browsertest_01_happner_client', function() {
   it('can receive events', function(done) {
     var count = 0;
 
-    var client = new Happner.HappnerClient();
+    client = new Happner.HappnerClient();
 
     var api = client.construct({
       testComponent2: {
@@ -120,7 +125,7 @@ describe('browsertest_01_happner_client', function() {
   });
 
   it('can call exchange method, via $', async () => {
-    var client = new MeshClient({ port: 55000 });
+    client = new MeshClient({ port: 55000 });
     await client.login({
       username: 'username',
       password: 'password'
@@ -139,7 +144,7 @@ describe('browsertest_01_happner_client', function() {
       lastData,
       emittedCountNo$ = 0,
       lastDataNo$;
-    var client = new MeshClient({ port: 55000 });
+    client = new MeshClient({ port: 55000 });
 
     await client.login({
       username: 'username',
@@ -166,6 +171,10 @@ describe('browsertest_01_happner_client', function() {
 
     expect(emittedCount > 0).to.equal(true);
     expect(lastData).to.eql({ some: 'data' });
+  });
+
+  it('can call disconnect() even if the login failed', function(done) {
+    new MeshClient({ port: 1 }).disconnect(done);
   });
 
   function delay(ms) {

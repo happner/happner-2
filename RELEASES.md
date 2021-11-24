@@ -785,3 +785,50 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 - SMC-3646: added github actions
 - SMC-2717: cookie lifecycle events
 
+11.11.1 2021-8-23
+------------------
+- SMC-3807: happn anonymous user permissions
+
+11.11.2 2021-08-27
+------------------
+- SMC-3242: fixed onBehalfOf and nested permissions issue
+
+11.11.3 2021-09-09
+------------------
+- fix: SMC-4044 - cookie events not dependent on client login
+
+11.12.0 2021-09-11
+------------------
+- fix: SMC-4044 - happner-client upgrade to 11.5.0
+
+11.12.1 2021-09-20
+------------------
+- fix: SMC-4161 - happn-3 upgrade 11.13.4
+
+11.12.2 2021-09-28
+-----------------
+  - happn-3 upgrades:
+  - fix: SMC-4209 - concurrency issue, user created logged on deleted, causes security directory update to fatal
+  - fix: SMC-4208 - merge insert now uses upsert, moved constants out of data service
+
+11.12.3 2021-10-15
+-----------------
+  - fix: SMC-3661 - removal of try catch callback anti-pattern
+  - fix: SMC-4349 - happner-client update, inter-mesh $on fails due to argument mismatch
+  - fix: SMC-4388 - updated mongo data provider, removed main from package.json
+  - test: SMC-4393 - test intercomponent $on and $call
+
+11.12.4 2021-11-11
+-----------------
+  - fix: SMC-4512 - happn-3 upgrade, db error causes fatal
+
+11.12.5 2021-11-12
+-----------------
+  - fix: SMC-4585 - setImmediate in browser client
+
+11.13.0 2021-11-24
+-----------------
+  - feature: SMC-2954 - Allows for configuration and use of multiple authentication providers.
+  - fix: SMC-4386 -  upsertMultiplePermissions will now allow for removing permissions/prohibitions as well as upserting permissions or prohibitions
+
+
