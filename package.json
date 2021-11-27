@@ -54,7 +54,6 @@
     "fxt": "1.0.2",
     "gulp": "^4.0.0",
     "happn-service-mongo-2": "^4.0.1",
-    "happn-util-crypto": "^1.0.0",
     "happner": "1.33.4",
     "happner-serial-mocha": "^1.5.2",
     "happner-test-modules": "1.0.2",
