@@ -211,11 +211,7 @@ describe(
 
     it('supports fire and forget', function(done) {
       this.timeout(1500);
-      try {
-        this.mesh.exchange.component.methodName1({ errorAs: 'throw' });
-      } catch (err) {
-        err.should.match(/THIS IS JUST A TEST/);
-      }
+      this.mesh.exchange.component.methodName1();
       done();
     });
 
