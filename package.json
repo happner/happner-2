@@ -16,20 +16,19 @@
     ]
   },
   "scripts": {
-    "test": "npm run lint && _mocha --exit -- silence.js test/integration/** test/unit/** test/backward-compatibility/**",
-    "test-bc": "mocha test/backward-compatibility/*",
+    "test": "npm run lint && _mocha --exit -- silence.js test/integration/** test/unit/**",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-browser": "node_modules/.bin/gulp --gulpfile test/browser/gulp-01.js",
     "test-unit": "_mocha --exit -- silence.js test/unit/**",
     "test-integration": "_mocha  --exit -- silence.js test/integration/**",
-    "test-cover": "npm run lint && nyc --reporter=lcov --reporter=text-summary mocha --exit -- silence.js test/unit/** test/backward-compatibility/** test/integration/**",
+    "test-cover": "npm run lint && nyc --reporter=lcov --reporter=text-summary mocha --exit --recursive -- silence.js test/unit/** test/integration/**",
+    "test-backward-compatibility": "npm ci happn-util-crypto@0.2.3 && mocha -- silence.js test/backward-compatibility/**",
+    "test-ci": "npm run test-cover && npm run test-backward-compatibility",
     "pre-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm run test-cover && npm run test-browser",
     "release": "rm -rf node_modules && npm install && npm run test-cover && npm run test-browser",
-    "test-010": "source ~/.nvm/nvm.sh && nvm use 0.10 && rm -rf node_modules && npm install && node_modules/mocha/bin/_mocha test/integration/**",
     "lint": "eslint '**/*.js'",
     "lint-fix": "eslint '**/*.js' --fix",
-    "report-coverage": "nyc report --reporter=text-lcov | coveralls",
-    "prepare": "rm -rf node_modules/happn/node_modules/bitcore-lib && rm -rf node_modules/happner-client/node_modules/bitcore-lib && rm -rf node_modules/bitcore-ecies/node_modules/bitcore-lib"
+    "report-coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",

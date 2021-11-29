@@ -834,6 +834,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.13.1 2021-11-24
 -----------------
   - updated happner-client dependency
+
+11.14.0 2021-11-29
+-----------------
+  - SMC-734: removed bitcore-lib and encrypted payloads
   
 
 
