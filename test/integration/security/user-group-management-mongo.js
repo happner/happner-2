@@ -541,7 +541,7 @@ describe(
                 expect(usernames.length).to.be(1);
                 expect(usernames[0]).to.be('TESTUSER7' + test_id);
                 steps.push(5);
-                return adminClient.exchange.security.listUsersByGroup(null);
+                return adminClient.exchange.security.listUsersByGroup();
               })
               .catch(function(e) {
                 if (!e) return done(new Error('error was expected'));
