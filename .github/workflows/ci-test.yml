@@ -29,8 +29,9 @@ jobs:
 
     - run: npm install
 
-    - run: npm run-script test-ci
+    - run: npm run-script test-cover
     - run: npm run-script test-browser
+    - run: npm run-script test-backward-compatibility
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
