@@ -19,7 +19,7 @@
     "test": "npm run lint && _mocha --exit -- silence.js test/integration/** test/unit/**",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-browser": "node_modules/.bin/gulp --gulpfile test/browser/gulp-01.js",
-    "test-unit": "_mocha --exit -- silence.js test/unit/**",
+    "test-unit": "_mocha --exit test/unit/**",
     "test-integration": "_mocha  --exit -- silence.js test/integration/**",
     "test-cover": "npm run lint && nyc --reporter=lcov --reporter=text-summary mocha -- silence.js --exit --recursive test/unit/** test/integration/**",
     "test-backward-compatibility": "npm ci happn-util-crypto@0.2.3 && mocha -- silence.js test/backward-compatibility/**",
