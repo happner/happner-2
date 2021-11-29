@@ -211,7 +211,7 @@ describe(
 
     it('supports fire and forget', function(done) {
       this.timeout(1500);
-      this.mesh.exchange.component.methodName1();
+      this.mesh.exchange.component.methodName1({});
       done();
     });
 
