@@ -14,7 +14,7 @@ describe(
     var logFileName = path.resolve(__dirname, '../../tmp') + '/' + test_id + '.nedb';
 
     before('start server', function(done) {
-      if (process.env.INTRAVENOUS || process.env.SILENCE) return done();
+      if (process.env.RUNNING_IN_ACTIONS || process.env.SILENCE) return done();
 
       try {
         fs.unlinkSync(logFileName);
@@ -78,7 +78,7 @@ describe(
     });
 
     it('logs an error without an Error object, we read the logfile and check we have a location the error occurred on', function(done) {
-      if (process.env.INTRAVENOUS || process.env.SILENCE) return done();
+      if (process.env.RUNNING_IN_ACTIONS || process.env.SILENCE) return done();
 
       var client = new Happner.MeshClient();
       client
@@ -99,7 +99,7 @@ describe(
     });
 
     after('delete file', function(done) {
-      if (process.env.INTRAVENOUS || process.env.SILENCE) return done();
+      if (process.env.RUNNING_IN_ACTIONS || process.env.SILENCE) return done();
 
       try {
         fs.unlinkSync(dbFileName);

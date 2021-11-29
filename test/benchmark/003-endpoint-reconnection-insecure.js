@@ -14,7 +14,7 @@ describe(
     var TESTFAILED = false;
 
     var failTest = function(done, e) {
-      if (process.env.INTRAVENOUS === 'yes') {
+      if (process.env.RUNNING_IN_ACTIONS === 'yes') {
         TESTFAILED = true;
         return done();
       } else done(e);

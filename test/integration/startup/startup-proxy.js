@@ -47,7 +47,7 @@ describe(
     }
 
     before('Set up Loader with Proxy', function(done) {
-      if (process.env.INTRAVENOUS === 'yes') return done();
+      if (process.env.RUNNING_IN_ACTIONS === 'yes') return done();
 
       var loaderPath = path.resolve(__dirname, '../../../bin/happner-loader');
 
@@ -87,7 +87,7 @@ describe(
     });
 
     it('Get the content of the loader target', function(done) {
-      if (process.env.INTRAVENOUS === 'yes') return done();
+      if (process.env.RUNNING_IN_ACTIONS === 'yes') return done();
 
       doRequest(
         'loader.htm',
@@ -100,7 +100,7 @@ describe(
     });
 
     it('Get the content of a proxy file, with no server (error response)', function(done) {
-      if (process.env.INTRAVENOUS === 'yes') return done();
+      if (process.env.RUNNING_IN_ACTIONS === 'yes') return done();
 
       doRequest(
         'index.htm',
@@ -113,7 +113,7 @@ describe(
     });
 
     it('Get the content of a proxy file, with remote http server', function(done) {
-      if (process.env.INTRAVENOUS === 'yes') return done();
+      if (process.env.RUNNING_IN_ACTIONS === 'yes') return done();
 
       var http = require('http');
 
@@ -138,7 +138,7 @@ describe(
     });
 
     it('Get the content of a 404 file, should have valid content', function(done) {
-      if (process.env.INTRAVENOUS === 'yes') return done();
+      if (process.env.RUNNING_IN_ACTIONS === 'yes') return done();
 
       doRequest(
         'bad/url/location',
@@ -153,7 +153,7 @@ describe(
     });
 
     after('kills the proxy and stops the mesh if its running', function(done) {
-      if (process.env.INTRAVENOUS === 'yes') return done();
+      if (process.env.RUNNING_IN_ACTIONS === 'yes') return done();
 
       this.timeout(10000);
 

@@ -23,7 +23,7 @@ describe(
     before(function(done) {
       var _this = this;
 
-      if (process.env.INTRAVENOUS) return done();
+      if (process.env.RUNNING_IN_ACTIONS) return done();
       var kids = (this.kids = []);
 
       var config = {
@@ -92,7 +92,7 @@ describe(
     });
 
     after(function(done) {
-      if (process.env.INTRAVENOUS) return done();
+      if (process.env.RUNNING_IN_ACTIONS) return done();
 
       this.kids.forEach(function(kid) {
         // console.log('killing kid', kid);
@@ -102,7 +102,7 @@ describe(
     });
 
     it('can call methods on all', function(done) {
-      if (process.env.INTRAVENOUS) return done();
+      if (process.env.RUNNING_IN_ACTIONS) return done();
 
       var i = 0;
       var mesh = this.mesh;
