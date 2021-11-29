@@ -21,7 +21,7 @@
     "test-browser": "node_modules/.bin/gulp --gulpfile test/browser/gulp-01.js",
     "test-unit": "_mocha --exit -- silence.js test/unit/**",
     "test-integration": "_mocha  --exit -- silence.js test/integration/**",
-    "test-cover": "npm run lint && nyc --reporter=lcov --reporter=text-summary mocha --exit --recursive -- silence.js test/unit/** test/integration/**",
+    "test-cover": "npm run lint && nyc --reporter=lcov --reporter=text-summary mocha --exit --recursive test/unit/** test/integration/**",
     "test-backward-compatibility": "npm ci happn-util-crypto@0.2.3 && mocha -- silence.js test/backward-compatibility/**",
     "pre-release": "rm -rf node_modules && rm -f package-lock.json && npm install && npm run test-cover && npm run test-browser",
     "release": "rm -rf node_modules && npm install && npm run test-cover && npm run test-browser",
