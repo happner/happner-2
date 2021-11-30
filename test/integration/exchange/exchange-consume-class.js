@@ -29,11 +29,8 @@ describe(
     }
 
     var exchangeIterations = process.arch === 'arm' ? 100 : 1000;
-
     var allowedOverhead = 1500; // Based on tests with node 6. setImmediate introduces variation in the test result
-
     if (process.env.RUNNING_IN_ACTIONS === 'yes') allowedOverhead = 3000;
-    //TODO: what about in the brain?
 
     var config = {
       name: testName,
@@ -57,7 +54,6 @@ describe(
         component: {
           moduleName: 'module',
           startMethod: 'start',
-          // scope:"component",//either component(mesh aware) or module - default is module
           schema: {
             exclusive: false,
             methods: {

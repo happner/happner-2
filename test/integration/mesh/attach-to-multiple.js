@@ -74,9 +74,6 @@ describe(
         })
       )
         .then(function() {
-          // console.log(config);
-
-          // local mesh init
           return Mesh.create(config);
         })
 
@@ -88,14 +85,11 @@ describe(
         .catch(function(e) {
           done(e);
         });
-      // call done with rejections error (if)
     });
 
     after(function(done) {
       if (process.env.RUNNING_IN_ACTIONS) return done();
-
       this.kids.forEach(function(kid) {
-        // console.log('killing kid', kid);
         kid.kill();
       });
       this.mesh.stop({ reconnect: false }, done);
