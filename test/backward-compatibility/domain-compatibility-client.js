@@ -1,11 +1,12 @@
 describe(
-  require('../../__fixtures/utils/test_helper')
+  require('../__fixtures/utils/test_helper')
     .create()
     .testName(__filename, 3),
   function() {
     var OldHappner = require('happner');
-    var Happner = require('../../..');
+    var Happner = require('../../lib/mesh');
     var expect = require('expect.js');
+    this.timeout(20e3);
 
     context('insecure', function() {
       var server, client;

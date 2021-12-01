@@ -23,7 +23,7 @@ describe(
     before(function(done) {
       var _this = this;
 
-      if (process.env.INTRAVENOUS) return done();
+      if (process.env.RUNNING_IN_ACTIONS) return done();
       var kids = (this.kids = []);
 
       var config = {
@@ -74,9 +74,6 @@ describe(
         })
       )
         .then(function() {
-          // console.log(config);
-
-          // local mesh init
           return Mesh.create(config);
         })
 
@@ -88,21 +85,18 @@ describe(
         .catch(function(e) {
           done(e);
         });
-      // call done with rejections error (if)
     });
 
     after(function(done) {
-      if (process.env.INTRAVENOUS) return done();
-
+      if (process.env.RUNNING_IN_ACTIONS) return done();
       this.kids.forEach(function(kid) {
-        // console.log('killing kid', kid);
         kid.kill();
       });
       this.mesh.stop({ reconnect: false }, done);
     });
 
     it('can call methods on all', function(done) {
-      if (process.env.INTRAVENOUS) return done();
+      if (process.env.RUNNING_IN_ACTIONS) return done();
 
       var i = 0;
       var mesh = this.mesh;

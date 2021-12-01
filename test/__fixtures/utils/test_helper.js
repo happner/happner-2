@@ -781,11 +781,17 @@ TestHelper.prototype.delay = async function(delayMS){
   await delay(delayMS);
 };
 
-TestHelper.prototype.showOpenHandles = function(after, delayMS){
+TestHelper.prototype.printOpenHandles = async function(delayMS) {
   const why = require('why-is-node-running');
-  after('OPEN HANDLES:::', async () => {
-    await this.delay(delayMS);
-    why();
+  await this.delay(delayMS);
+  console.log('OPEN HANDLES:::');
+  why();
+  return;
+}
+
+TestHelper.prototype.showOpenHandles = function(after, delayMS){
+  after(async () => {
+   await this.printOpenHandles(delayMS);
   });
 };
 

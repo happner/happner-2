@@ -71,7 +71,13 @@ describe('browsertest_02_security', function() {
     await client.disconnect();
   });
 
-  it('disconnect can remove the cookie', async function() {
+  async function delay(ms) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms);
+    });
+  }
+
+  it('disconnect can remove the cookie', async () => {
     client = new Happner.MeshClient({ port: 55000 });
 
     await client.login({
@@ -80,12 +86,12 @@ describe('browsertest_02_security', function() {
     });
 
     await client.disconnect();
-
     await client.login({ useCookie: true });
     await client.disconnect({ deleteCookie: true });
-
+    await delay(1000);
     try {
-      await client.login({ useCookie: true });
+      let cookieClient = new Happner.MeshClient({ port: 55000 });
+      await cookieClient.login({ useCookie: true });
       throw new Error('should not login');
     } catch (e) {
       expect(e.message).to.eql('happn server is secure, please specify a username or token');

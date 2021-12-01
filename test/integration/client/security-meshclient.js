@@ -131,6 +131,9 @@ describe.skipWindows(
         .then(function() {
           client.disconnect();
           done(new Error('should not allow'));
+        })
+        .catch(() => {
+          //do nothing
         });
     });
 
