@@ -842,6 +842,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.14.1 2021-12-04
 -----------------
   - SMC-4466: update of happner-client
+
+11.14.2 2021-12-05
+-----------------
+  - SMC-4466: logging of rest/rpc request failure
   
 
 
