@@ -846,6 +846,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.14.2 2021-12-05
 -----------------
   - SMC-4749: logging of rest/rpc request failure
+
+11.14.3 2021-12-06
+-----------------
+  - SMC-4749: logging of rest/rpc request failure - mounting methods
   
 
 
