@@ -24,6 +24,7 @@ function TestHelper() {
   this._ = require('lodash');
   this.delay = require('await-delay');
   this.request = util.promisify(require('request'), { multiArgs: true });
+  this.log = console.log;
   require('chai').should();
 }
 

@@ -689,6 +689,7 @@ describe(tests.testName(__filename, 3), function() {
         rest: {
           accessLevel: 'mesh',
           initMethod: 'initialize',
+          startMethod: 'start',
           web: {
             routes: {
               method: 'handleRequest',
