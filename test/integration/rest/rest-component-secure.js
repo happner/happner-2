@@ -191,7 +191,8 @@ describe(test.testName(__filename, 3), function() {
 
   var mock$Happn = {
     log: {
-      error: test.sinon.stub()
+      error: test.sinon.stub(),
+      info: test.sinon.stub()
     },
     happn: {},
     _mesh: {
@@ -478,7 +479,7 @@ describe(test.testName(__filename, 3), function() {
       };
 
       restModule.__securityService = mock$Happn._mesh.happn.server.services.security;
-      restModule.__authorize(request, mockResponse, mock$Happn, mock$Origin, 'test/method', done);
+      restModule.__authorize(mockResponse, mock$Happn, mock$Origin, 'test/method', done);
     });
   });
 

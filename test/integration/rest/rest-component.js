@@ -171,7 +171,8 @@ describe(test.testName(__filename, 3), function() {
 
   var mock$Happn = {
     log: {
-      error: test.sinon.stub()
+      error: test.sinon.stub(),
+      info: test.sinon.stub()
     },
     _mesh: {
       utilities: happnUtils,
@@ -317,7 +318,7 @@ describe(test.testName(__filename, 3), function() {
     var MockRequest = require('../../__fixtures/utils/helper_mock_req');
     var request = new MockRequest({
       method: 'POST',
-      url: '/testComponent/method1',
+      url: 'method/testComponent/method1',
       headers: {
         Accept: 'application/json'
       }
@@ -335,6 +336,7 @@ describe(test.testName(__filename, 3), function() {
 
     mockResponse.end = function(responseString) {
       var response = JSON.parse(responseString);
+      test.log(response);
       expect(response.data.number).to.be(2);
       done();
     };
@@ -354,6 +356,7 @@ describe(test.testName(__filename, 3), function() {
     restClient
       .postJson('http://localhost:10000/rest/method/testComponent/method1', operation)
       .on('complete', function(result) {
+        test.log(result);
         expect(result.data.number).to.be(2);
 
         done();
@@ -458,7 +461,7 @@ describe(test.testName(__filename, 3), function() {
       }
     };
     restClient
-      .postJson('http://localhost:10000/rest/method/blithering_idiot', operation)
+      .postJson('http://localhost:10000/rest/method/blithering_idiot/testmethod', operation)
       .on('complete', function(result) {
         expect(result.error.message).to.be('component blithering_idiot does not exist on mesh');
 
