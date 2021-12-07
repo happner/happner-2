@@ -122,7 +122,7 @@ describe('RestModule', function() {
         __respond: sinon.stub(restModule, '__respond'),
         __authorizeAccessPoint: sinon.stub(restModule, '__authorizeAccessPoint')
       };
-      __authorizeMethod.call(mock, undefined, undefined, $happn, undefined, undefined, successful);
+      __authorizeMethod.call(mock, undefined, $happn, undefined, undefined, successful);
       sinon.assert.calledWith(
         mock.__respond,
         $happn,
@@ -147,7 +147,7 @@ describe('RestModule', function() {
           .callsArgWith(3, 'error', true, 'reason'),
         __respond: sinon.stub(restModule, '__respond')
       };
-      __authorizeMethod.call(mock, undefined, undefined, $happn, $origin, undefined, successful);
+      __authorizeMethod.call(mock, undefined, $happn, $origin, undefined, successful);
       sinon.assert.calledWith(
         mock.__respond,
         $happn,
