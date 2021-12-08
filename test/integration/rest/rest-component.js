@@ -318,7 +318,7 @@ describe(test.testName(__filename, 3), function() {
     var MockRequest = require('../../__fixtures/utils/helper_mock_req');
     var request = new MockRequest({
       method: 'POST',
-      url: 'method/testComponent/method1',
+      url: 'testComponent/method1',
       headers: {
         Accept: 'application/json'
       }
