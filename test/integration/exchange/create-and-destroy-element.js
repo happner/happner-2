@@ -457,6 +457,7 @@ describe(
           try {
             data.components.component1.methods.should.eql({
               method: {
+                isAsyncMethod: false,
                 parameters: [{ name: 'callback' }]
               }
             });
