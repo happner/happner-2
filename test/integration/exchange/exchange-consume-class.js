@@ -302,6 +302,13 @@ describe(
         const result2 = await mesh.exchange.component.asyncMethod(1);
         result2.should.eql([1, undefined]);
       });
+
+      it('parse functions on class', async () => {
+        const result1 = await mesh.exchange.component.asyncMethod(1, 2);
+        result1.should.eql([1, 2]);
+        const result2 = await mesh.exchange.component.asyncMethod(1);
+        result2.should.eql([1, undefined]);
+      });
     });
   }
 );
