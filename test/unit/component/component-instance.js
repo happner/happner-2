@@ -5,6 +5,84 @@ describe(
   function() {
     var expect = require('expect.js');
 
+    it('test the describe method', function() {
+      var ComponentInstance = require('../../../lib/system/component-instance');
+      var componentInstance = new ComponentInstance();
+      componentInstance.name = 'test-component-instance';
+      componentInstance.module = {
+        name: 'test-name-module',
+        version: '1.0.0',
+        instance: mockModuleInstance()
+      };
+      componentInstance.description = {
+        test: 'description'
+      };
+      componentInstance.config = {
+        methods: {
+          testMethod1: {
+            parameters: [
+              {
+                name: 'arg11'
+              },
+              {
+                name: 'arg12'
+              }
+            ]
+          },
+          testMethod2: {}
+        },
+        events: {},
+        web: {
+          routes: {
+            'test/route/1': ['testMethod3', 'testMethod4'],
+            'test/route/2': 'testMethod5',
+            static: 'staticHandler'
+          }
+        }
+      };
+      expect(componentInstance.describe(false)).to.eql({
+        name: 'test-component-instance',
+        version: '1.0.0',
+        methods: {
+          testMethod1: {
+            isAsyncMethod: true,
+            parameters: [
+              {
+                name: 'arg11'
+              },
+              {
+                name: 'arg12'
+              }
+            ]
+          },
+          testMethod2: {
+            isAsyncMethod: true,
+            parameters: [
+              {
+                name: 'arg21'
+              },
+              {
+                name: 'arg22'
+              }
+            ]
+          }
+        },
+        routes: {
+          '/test-component-instance/test/route/1': {
+            type: 'mware'
+          },
+          '/test-component-instance/test/route/2': {
+            type: 'mware'
+          },
+          '/': {
+            type: 'mware'
+          }
+        },
+        events: {},
+        data: {}
+      });
+    });
+
     it('test the describe method - cached', function() {
       var ComponentInstance = require('../../../lib/system/component-instance');
       var componentInstance = new ComponentInstance();
@@ -183,6 +261,22 @@ describe(
           }
         }
       };
+    }
+    function mockModuleInstance() {
+      class MockModule {
+        static create() {
+          return new MockModule();
+        }
+        async testMethod1(arg11, arg12) {
+          await test.delay(10);
+          test.log(`method 1 called, ${[arg11, arg12]}`);
+        }
+        async testMethod2(arg21, arg22) {
+          await test.delay(10);
+          test.log(`method 1 called, ${[arg21, arg22]}`);
+        }
+      }
+      return MockModule.create();
     }
   }
 );

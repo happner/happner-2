@@ -242,6 +242,7 @@ describe(tests.testName(__filename, 3), function() {
             version: '1.0.0',
             methods: {
               method: {
+                isAsyncMethod: false,
                 parameters: [
                   {
                     name: 'param1'
@@ -252,6 +253,7 @@ describe(tests.testName(__filename, 3), function() {
                 ]
               },
               method1: {
+                isAsyncMethod: false,
                 parameters: [
                   {
                     name: 'callback'
