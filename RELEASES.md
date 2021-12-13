@@ -854,6 +854,14 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 11.14.4 2021-12-07
 -----------------
   - SMC-4749: logging of rest/rpc request failure - parses description on start method in rest component
+
+11.14.5 2021-12-07
+-----------------
+  - SMC-4749: refactor of rest component method, upped coverage
+
+11.14.6 2021-12-10
+-----------------
+  - SMC-4827: component instance does not inject cbproxy into async methods
   
 
 

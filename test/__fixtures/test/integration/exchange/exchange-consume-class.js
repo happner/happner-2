@@ -42,6 +42,17 @@ module.exports = class Test {
     synchronousMethod($origin, object, $happn) {
         console.log(arguments);
     };
+
+    promiseMethod(param1, param2) {
+        return new Promise(resolve => {
+            setTimeout(() => {resolve([param1, param2])}, 50);
+        });
+    }
+
+    async asyncMethod($happn, $origin, param1, param2) {
+        if (typeof param2 === 'function') throw new Error('bad parameter passed in');
+        return await this.promiseMethod(param1, param2);
+    }
 }
 
   

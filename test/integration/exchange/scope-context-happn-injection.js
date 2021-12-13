@@ -136,6 +136,7 @@ describe(
     it('leaves happn and origin out of the description when defaulting method parameters', function(done) {
       try {
         meshes[0]._mesh.description.components.component1.methods.getThingFromConfig.should.eql({
+          isAsyncMethod: false,
           parameters: [{ name: 'callback' }]
         });
         done();
