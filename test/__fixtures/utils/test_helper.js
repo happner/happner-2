@@ -15,6 +15,7 @@ function TestHelper() {
   this.__happnerInstances = {};
   this.util = util;
   this.fs = fs;
+  this.async = async;
   this.TCPProxy = require('./tcp-proxy/proxy');
   this.expect = require('expect.js');
   this.package = require('../../../package.json');
