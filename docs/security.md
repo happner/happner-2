@@ -405,7 +405,7 @@ let lookupTable = {
         '/device/OEM_ABC/COMPANY_ABC/SPECIAL_DEVICE_ID_1',
         '/device/OEM_ABC/COMPANY_GHI/SPECIAL_DEVICE_ID_2'
       ]
-	}    
+}    
 ```
 
 **methods for lookup table**
