@@ -375,7 +375,7 @@ let lookupPermission = {
     }; 
 ```
 Note that multiple lookup permissions can reference the same table. LookupPermmissions are attached to groups, not users.
-Whenever the user makes a request that matches a regex in one of the lookup permissions of one of their groups, aan array of paths will be created.
+Whenever the user makes a request that matches a regex in one of the lookup permissions of one of their groups, an array of paths will be created.
 Any substrings of the form {{$[0-9]*}}   (e.g. {{$1}},{{$2}}...) refer to capture groups in the permission's regex, while the handlebarred key-type subtrings (e..g {{user.custom_data.oem}}) refer to values at that property path of the session info. These values can be arrays or strings.
 Once the paths have been mapped, the permission will check if any of these paths are on the lookupTable it is linked to. 
 If any are, the action is allowed.
