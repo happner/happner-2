@@ -28,7 +28,7 @@ describe(
     it('can promisify a function that returns more than 1 argument ', async () => {
       let f = (x, y, callback) => callback(null, x, y);
       let fpromise = promisify(f);
-      expect(await fpromise(1, 2)).to.eql([1,2]);
+      expect(await fpromise(1, 2)).to.eql([1, 2]);
     });
   }
 );
