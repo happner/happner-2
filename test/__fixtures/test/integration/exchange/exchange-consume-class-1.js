@@ -54,17 +54,13 @@ module.exports = class Test {
         return await this.promiseMethod(param1, param2);
     }
 
-    async asyncMethodOtherUsesCallback($happn, param1) {
-        return $happn.exchange.component1.methodOther(param1);
-    }
+    methodOther(object, callback, $happn) {
+        return callback(null, { object });
+    };
 
-    async asyncMethodErrorUsesCallback($happn) {
-        return $happn.exchange.$call({
-            component: 'component1',
-            method: 'methodError',
-            arguments: [null]
-        });
-    }
+    methodError(object, callback, $happn) {
+        callback(new Error('test'));
+    };
 }
 
   
