@@ -422,7 +422,8 @@ adminClient.exchange.security.deleteLookupTable(tableName)
 Upsert, fetch and delete work as expected. If we upsert a table and one by that name already exists, the paths for the two tables will be concatenated. 
 
 **methods for lookup paths**
-These functions insert or remove a path from a lookup table.
+
+These methods insert or remove a path from a lookup table:
 ``` javascript
 // insertLookupPath:: String, String -> Promise
 adminClient.exchange.security.insertLookupPath(tableName, path);
