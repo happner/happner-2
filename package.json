@@ -79,7 +79,7 @@
     "deep-copy": "1.1.2",
     "diskspace": "0.1.7",
     "fs-extra": "0.24.0",
-    "happn-3": "^12.1.0",
+    "happn-3": "^12.1.1",
     "happn-logger": "^1.1.1",
     "happn-sillyname": "^0.1.1",
     "happner-client": "^11.6.4",

@@ -867,9 +867,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4848: fixed promisify to not modify incoming null arguments
 
-11.15.0 2021-12-15
+11.15.0 2022-01-04
 -----------------
   - SMC-4550: lookup tables for permissions
+
 
 
   
