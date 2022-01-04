@@ -1,21 +1,17 @@
+## HAPPNER SECURITY
 
-HAPPNER SECURITY
-----------------
+## users groups and permissions
 
+_happner meshes can run in secure mode, a scheme comprising of users, groups and permissions allows for this, we have yet to complete the documentation for this, but to get a comprehensive picture of how this works, please look at [the test for now](https://github.com/happner/happner-2/blob/master/test/integration/security/advanced-security.js)_
 
-users groups and permissions
-----------------------------
-*happner meshes can run in secure mode, a scheme comprising of users, groups and permissions allows for this, we have yet to complete the documentation for this, but to get a comprehensive picture of how this works, please look at [the test for now](https://github.com/happner/happner-2/blob/master/test/integration/security/advanced-security.js)*
+## payload encryption
 
+_happners messaging payload can be encrypted, the mesh must be running in secure mode, to see how this works client to mesh, please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/payload-encryption-client-to-mesh.js) - there is also a test demonstrating how this works [mesh to mesh](https://github.com/happner/happner-2/blob/master/test/integration/security/payload-encryption-mesh-to-mesh.js)_
 
-payload encryption
-------------------
-*happners messaging payload can be encrypted, the mesh must be running in secure mode, to see how this works client to mesh, please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/payload-encryption-client-to-mesh.js) - there is also a test demonstrating how this works [mesh to mesh](https://github.com/happner/happner-2/blob/master/test/integration/security/payload-encryption-mesh-to-mesh.js)*
+## security directory events
 
+_the happner security module emits the following events pertaining to changes on the security directory:_
 
-security directory events
---------------------------
-*the happner security module emits the following events pertaining to changes on the security directory:*
 - upsert-group - when a group is upserted
 - upsert-user - when a user is upserted
 - link-group - when a user is linked to a group
@@ -32,12 +28,12 @@ adminClient.exchange.security.attachToSecurityChanges(function(e){
       });
 
 ```
+
 please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/permission-changes-events.js)
 
+## security session events
 
-security session events
------------------------
-*the security module emits an event for every time a client connects or disconnects from the system*
+_the security module emits an event for every time a client connects or disconnects from the system_
 
 ```javascript
 	//you need to switch this on by first calling attachToSessionChanges method
@@ -50,6 +46,7 @@ security session events
 	      ...
 	    });
 ```
+
 please look at [the test](https://github.com/happner/happner-2/blob/master/test/integration/security/session-changes-events.js)
 
 ## security service functions
@@ -61,23 +58,24 @@ Adds new permissions to existing permissions for groupName.
 ```javascript
 var addPermissions = {
   methods: {
-    '/meshname/component/method': {authorized: true}
+    '/meshname/component/method': { authorized: true }
   },
   events: {
     '/meshname/component/event': {}
   },
   web: {
-    '/component/webmethod': {authorized: true, actions: ['get']}
+    '/component/webmethod': { authorized: true, actions: ['get'] }
   }
 };
 
-$happn.exchange.security.addGroupPermissions('groupName', addPermissions)
-  .then(function (updatedPermissions) {})
+$happn.exchange.security
+  .addGroupPermissions('groupName', addPermissions)
+  .then(function(updatedPermissions) {})
   .catch();
 ```
 
-* `authorized: true` will be assumed if unspecified.
-* If the webmethod actions already had `['post', 'put']` then get will be added.
+- `authorized: true` will be assumed if unspecified.
+- If the webmethod actions already had `['post', 'put']` then get will be added.
 
 #### exchange.security.removeGroupPermissions(groupName, permissions)
 
@@ -89,67 +87,69 @@ var removePermissions = {
     '/meshname/component/method': {} // empty means delete entire permission
   },
   web: {
-    '/component/webmethod': {actions: ['post']} // delete only specified action
+    '/component/webmethod': { actions: ['post'] } // delete only specified action
   }
-}
+};
 ```
 
-* Pass an empty object for the permission to be deleted.
-* Only the specified webmethod actions are removed. The permission is left otherwise unchanged.
+- Pass an empty object for the permission to be deleted.
+- Only the specified webmethod actions are removed. The permission is left otherwise unchanged.
 
-upserting groups:
------------------
-*a security group can be upserted, if the group does not exist, it is created, if it does its properties and permissions are merged with the passed group argument by default. The permissions of the group can be overwritten by setting the overwrite option to true*
+## upserting groups:
+
+_a security group can be upserted, if the group does not exist, it is created, if it does its properties and permissions are merged with the passed group argument by default. The permissions of the group can be overwritten by setting the overwrite option to true_
 
 ```javascript
-
 var testUpsertGroup = {
-         name: 'TEST_UPSERT_EXISTING',
+  name: 'TEST_UPSERT_EXISTING',
 
-         custom_data: 'TEST UPSERT EXISTING',
+  custom_data: 'TEST UPSERT EXISTING',
 
-         permissions: {
-           methods: {
-             //in a /Mesh name/component name/method name - with possible wildcards
-             '/meshname/component/method1': {authorized: true}
-           },
-           events: {
-             //in a /Mesh name/component name/event key - with possible wildcards
-             '/meshname/component/event1': {authorized: true}
-           }
-         }
-       };
+  permissions: {
+    methods: {
+      //in a /Mesh name/component name/method name - with possible wildcards
+      '/meshname/component/method1': { authorized: true }
+    },
+    events: {
+      //in a /Mesh name/component name/event key - with possible wildcards
+      '/meshname/component/event1': { authorized: true }
+    }
+  }
+};
 
-   adminClient.exchange.security.upsertGroup(testUpsertGroup, function(e, upserted){
-     //group was upserted, permissions were merged with existing group if it existed
-   });
+adminClient.exchange.security.upsertGroup(testUpsertGroup, function(e, upserted) {
+  //group was upserted, permissions were merged with existing group if it existed
+});
 
-   var testUpsertGroupOverwrite = {
-         name: 'TEST_UPSERT_EXISTING',
+var testUpsertGroupOverwrite = {
+  name: 'TEST_UPSERT_EXISTING',
 
-         custom_data: 'TEST UPSERT EXISTING',
+  custom_data: 'TEST UPSERT EXISTING',
 
-         permissions: {
-           methods: {
-             //in a /Mesh name/component name/method name - with possible wildcards
-             '/meshname/component/method1': {authorized: true}
-           },
-           events: {
-             //in a /Mesh name/component name/event key - with possible wildcards
-             '/meshname/component/event1': {authorized: true}
-           }
-         }
-       };
+  permissions: {
+    methods: {
+      //in a /Mesh name/component name/method name - with possible wildcards
+      '/meshname/component/method1': { authorized: true }
+    },
+    events: {
+      //in a /Mesh name/component name/event key - with possible wildcards
+      '/meshname/component/event1': { authorized: true }
+    }
+  }
+};
 
-   adminClient.exchange.security.upsertGroup(testUpsertGroupOverwrite, {overwritePermissions:true}, function(e, upserted){
-     //group was upserted, permissions were overwritten with existing group if it existed
-   });
-
+adminClient.exchange.security.upsertGroup(
+  testUpsertGroupOverwrite,
+  { overwritePermissions: true },
+  function(e, upserted) {
+    //group was upserted, permissions were overwritten with existing group if it existed
+  }
+);
 ```
 
-upserting users:
------------------
-*a user can be upserted, if the user does not exist, it is created, if it does its properties and group subscriptions are merged with the passed user argument by default. The subscriptions of the user can be overwritten by setting the overwriteSubscriptions option to true*
+## upserting users:
+
+_a user can be upserted, if the user does not exist, it is created, if it does its properties and group subscriptions are merged with the passed user argument by default. The subscriptions of the user can be overwritten by setting the overwriteSubscriptions option to true_
 
 ```javascript
 
@@ -188,35 +188,32 @@ upserting users:
 
 ```
 
-updateOwnUser
--------------
+## updateOwnUser
 
-*all users are afforded the right to update their own passwords and custom_data, the application_data property is not editable by the user, and can only be updated by the administrator*
+_all users are afforded the right to update their own passwords and custom_data, the application_data property is not editable by the user, and can only be updated by the administrator_
 
 ```javascript
-
 //Assuming testUserClient is logged in as myUsername, with password myOldPassword
 
 var myUser = {
-	username:'myUsername',
-	password:'myNewPassword',
-	oldPassword:'myOldPassword',//don't forget the old password
-	custom_data:{
-		field:'profane'
-	},
-	application_data:{//NB: this will be ignored - and can only be changed by an administrator
-		field:'sacred'
-	}
-}
+  username: 'myUsername',
+  password: 'myNewPassword',
+  oldPassword: 'myOldPassword', //don't forget the old password
+  custom_data: {
+    field: 'profane'
+  },
+  application_data: {
+    //NB: this will be ignored - and can only be changed by an administrator
+    field: 'sacred'
+  }
+};
 
-testUserClient.exchange.security.updateOwnUser(myUser, function (e, result) {
-	//you have now updated your own user
+testUserClient.exchange.security.updateOwnUser(myUser, function(e, result) {
+  //you have now updated your own user
 });
-
 ```
 
-preventing a user from being able to modify the custom_data property
---------------------------------------------------------------------
+## preventing a user from being able to modify the custom_data property
 
 ```javascript
 const myMesh = await Mesh.create({
@@ -242,50 +239,50 @@ await testUserClient.exchange.security.updateOwnUser({
 });
 ```
 
-listing users
--------------
+## listing users
 
-*users can be listed by username (partial match possible) or group name (exact match only)*
+_users can be listed by username (partial match possible) or group name (exact match only)_
 
 ```javascript
+//assuming we have a happner-2 client that is logged in with admin rights:
+//list all users with a username starting with "test"
+adminClient.exchange.security
+  .listUsers('test*')
+  .then(function(users) {
+    //returns:
+    // [
+    // 	{username:'test1', custom_data:{test:1}},
+    // 	{username:'test2', custom_data:{test:2}}
+    // ]
+    //list all users that belong to the 'test' group (with name 'test')
+    // NOTE: optional criteria
+    return adminClient.exchange.security.listUsersByGroup('test', {
+      criteria: { 'custom_data.extra': 8 }
+    });
+  })
+  .then(function(users) {
+    //returns:
+    // [
+    // 	{username:'test1', custom_data:{extra:8}},
+    // 	{username:'test3', custom_data:{extra:8}}
+    // ]
 
-	//assuming we have a happner-2 client that is logged in with admin rights:
-	//list all users with a username starting with "test"
-	adminClient.exchange.security.listUsers('test*').then(function(users){
-		//returns:
-		// [
-		// 	{username:'test1', custom_data:{test:1}},
-		// 	{username:'test2', custom_data:{test:2}}
-		// ]
-		//list all users that belong to the 'test' group (with name 'test')
-		// NOTE: optional criteria
-		return adminClient.exchange.security.listUsersByGroup('test', {criteria:{'custom_data.extra':8}});
-	})
-	.then(function(users){
-		//returns:
-		// [
-		// 	{username:'test1', custom_data:{extra:8}},
-		// 	{username:'test3', custom_data:{extra:8}}
-		// ]
-
-		//much faster - just list usernames for users belonging to the 'test' group (with name 'test')
-		return adminClient.exchange.security.listUserNamesByGroup('test');
-	})
-	.then(function(usernames){
-		//returns:
-		// [
-		// 'test1',
-		// 'test3',
-		// 'test4'
-		// ]
-	})
-
+    //much faster - just list usernames for users belonging to the 'test' group (with name 'test')
+    return adminClient.exchange.security.listUserNamesByGroup('test');
+  })
+  .then(function(usernames) {
+    //returns:
+    // [
+    // 'test1',
+    // 'test3',
+    // 'test4'
+    // ]
+  });
 ```
 
-authority delegation:
---------------------
+## authority delegation:
 
-By default inter mesh calls are done via the endpoint's user, and component to component calls are done using the _ADMIN user, this means security is enforced only between the external mesh/client and the edge node of the mesh. To ensure that the originator of a call is checked against the security directory regardless of how deep the exchange call stack execution goes, the authorityDelegationOn config option should be set to true on a secure mesh:
+By default inter mesh calls are done via the endpoint's user, and component to component calls are done using the \_ADMIN user, this means security is enforced only between the external mesh/client and the edge node of the mesh. To ensure that the originator of a call is checked against the security directory regardless of how deep the exchange call stack execution goes, the authorityDelegationOn config option should be set to true on a secure mesh:
 
 ```javascript
 var meshConfig = {secure:true, authorityDelegationOn:true}
@@ -363,6 +360,77 @@ var myMesh = new Mesh.create(meshConfig, function(e, created){
 });
 ```
 
+## lookup tables and permissions:
+
+### lookup permissions
+
+A lookup permission consists of a lookup table name, an array of allowed actions, a regEx, and a handlebars style mapping which transforms the regEx and session information into an array of paths. For example:
+
+```javascript
+let lookupPermission = {
+	table: 'TABLE1',
+	actions: ['on'],
+    regex: '^/_data/historianStore/(.*)',
+    path: '/device/{{user.custom_data.oem}}/{{user.custom_data.companies}}/{{$1}}'
+    }; 
+```
+Note that multiple lookup permissions can reference the same table. Lookup permissions are attached to groups, not users.
+Whenever the user makes a request that matches a regex in one of the lookup permissions of one of their groups, an array of paths will be created.
+Any substrings of the form "{{$[0-9]*}}"   (e.g. `{{$1}},{{$2}}...`) refer to capture groups in the permission's regex, while the handlebarred key-type subtrings (e..g `{{user.custom_data.oem}}`) refer to values at that property path of the session info. These values can be arrays or strings.
+Once the paths have been mapped, the permission will check if any of these paths are on the lookupTable it is linked to. 
+If any are, the action is allowed.
+
+**methods for lookup permission:**
+``` javascript
+// upsertLookupPermission:: String, Object -> Promise
+adminClient.exchange.security.upsertLookupPermission(groupName, permission);
+
+// removeLookupPermission:: String, Object -> Promise
+adminClient.exchange.security.removeLookupPermission(groupName, permission);
+
+// fetchLookupPermissions:: String -> Promise(Array)
+adminClient.exchange.security.fetchLookupPermissions(groupName)
+
+// unlinkLookupTable:: String, String -> Promise
+adminClient.exchange.security.unlinkLookupTable(groupName, tableName);
+```
+Upsert, remove and fetch are self-explanatory. unlinkLookupTable removes any lookup permissions in  `groupName` that refer to `tableName`
+
+### lookup tables
+A lookup table is an object with a name and a list of paths that a lookup permission checks against. For example: 
+``` javascript
+let lookupTable = {
+      name: 'OEM_ABC_LOOKUP',
+      paths: [
+        '/device/OEM_ABC/COMPANY_ABC/SPECIAL_DEVICE_ID_1',
+        '/device/OEM_ABC/COMPANY_GHI/SPECIAL_DEVICE_ID_2'
+      ]
+}    
+```
+
+**methods for lookup table**
+``` javascript
+// upsertLookupTable:: Object -> Promise
+adminClient.exchange.security.upsertLookupTable(lookupTable)
+
+// fetchLookupTable:: String -> Promise(Object) 
+adminClient.exchange.security.fetchLookupTable(tableName)
+
+// deleteLookupTable:: String -> Promise
+adminClient.exchange.security.deleteLookupTable(tableName)
+```
+Upsert, fetch and delete work as expected. If we upsert a table and one by that name already exists, the paths for the two tables will be concatenated. 
+
+**methods for lookup paths**
+
+These methods insert or remove a path from a lookup table:
+``` javascript
+// insertLookupPath:: String, String -> Promise
+adminClient.exchange.security.insertLookupPath(tableName, path);
+//removeLookupPath:: String, String -> Promise
+adminClient.exchange.security.removeLookupPath(tableName, path);
+```
+
 hardening responses:
 --------------------
 
@@ -379,5 +447,6 @@ var myMesh = new Mesh.create(meshConfig, function(e, created){
   ...
 })
 
-```
+````
+
 ####NB: this is not backwards compatible with any happner clients older than 1.29.0
