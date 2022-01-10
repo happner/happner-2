@@ -75,7 +75,7 @@ describe(test.testName(__filename, 3), function() {
   it('tests the client bad login with callback', function(done) {
     testClient.login({ username: '_ADMIN', password: 'bad' }, e => {
       test.expect(e.message).to.be('Invalid credentials');
-      done();
+      setTimeout(done, 2000);
     });
   });
 
