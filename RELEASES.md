@@ -875,6 +875,12 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4938: lookup tables fail for rest request
 
+11.15.2 2022-01-10
+-----------------
+  - SMC-4550: happner-client update
+
+
+
 
 
   
