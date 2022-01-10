@@ -871,6 +871,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4550: lookup tables for permissions
 
+11.15.1 2022-01-10
+-----------------
+  - SMC-4938: lookup tables fail for rest request
+
 
 
   
