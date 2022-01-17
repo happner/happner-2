@@ -255,7 +255,6 @@ describe.only(test.testName(__filename, 3), function() {
   async function createsTestUser() {
     await test.users.add(server, 'testUser', 'xxx', {
       methods: {
-        //in a /Mesh name/component name/method name - with possible wildcards
         '/MESH_NAME/component/method1': { authorized: true },
         '/MESH_NAME/component/method2': { authorized: true },
         '/MESH_NAME/component/method3': { authorized: true },
@@ -266,7 +265,6 @@ describe.only(test.testName(__filename, 3), function() {
         '/MESH_NAME/component/methodExpresslyForbidden': { authorized: false }
       },
       events: {
-        //in a /Mesh name/component name/event key - with possible wildcards
         '/MESH_NAME/component/test/*': { authorized: true },
         '/MESH_NAME/component/{{user.username}}/*': { authorized: true }
       },
