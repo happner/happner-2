@@ -1,5 +1,5 @@
 const test = require('../../__fixtures/utils/test_helper').create();
-describe.only(test.testName(__filename, 3), function() {
+describe(test.testName(__filename, 3), function() {
   const Happner = require('../../..');
   let server, testClient;
 
