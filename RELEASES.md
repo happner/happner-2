@@ -879,6 +879,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4550: happner-client update
 
+11.16.0 2022-01-16
+-----------------
+  - SMC-4933: $happn.isAuthorized(user)
+
 
 
 
