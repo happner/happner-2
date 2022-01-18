@@ -2,7 +2,7 @@ const test = require('../../__fixtures/utils/test_helper').create();
 describe(test.testName(__filename, 3), function() {
   const Happner = require('../../..');
   let server, testClient;
-  const adminClient = new Mesh.MeshClient({ secure: true });
+  const adminClient = new Happner.MeshClient({ secure: true });
   this.timeout(120000);
 
   before(startsServer);
@@ -188,12 +188,8 @@ describe(test.testName(__filename, 3), function() {
       table: 'STANDARD_ABC',
       path: '/device/{{user.custom_data.oem}}/{{user.custom_data.company}}/{{$1}}'
     };
-    await adminClient.data.set('/_data/historianStore/SPECIAL_DEVICE_ID_1', {
-      test: 'data'
-    });
     await adminClient.exchange.security.upsertLookupTable(testTable);
     await adminClient.exchange.security.upsertLookupPermission('testUser_group', permission1);
-
     await testClient.data.get('/_data/historianStore/SPECIAL_DEVICE_ID_1');
     test
       .expect(
@@ -302,31 +298,37 @@ describe(test.testName(__filename, 3), function() {
   }
 
   async function createsTestUser() {
-    await test.users.add(server, 'testUser', 'xxx', {
-      methods: {
-        '/MESH_NAME/component/method1': { authorized: true },
-        '/MESH_NAME/component/method2': { authorized: true },
-        '/MESH_NAME/component/method3': { authorized: true },
-        '/MESH_NAME/component/isMethodAuthorized': { authorized: true },
-        '/MESH_NAME/component/isDataAuthorized': { authorized: true },
-        '/MESH_NAME/component/isEventAuthorized': { authorized: true },
-        '/MESH_NAME/component/isCombinationAuthorized': { authorized: true },
-        '/MESH_NAME/component/methodExpresslyForbidden': { authorized: false }
+    await test.users.add(
+      server,
+      'testUser',
+      'xxx',
+      {
+        methods: {
+          '/MESH_NAME/component/method1': { authorized: true },
+          '/MESH_NAME/component/method2': { authorized: true },
+          '/MESH_NAME/component/method3': { authorized: true },
+          '/MESH_NAME/component/isMethodAuthorized': { authorized: true },
+          '/MESH_NAME/component/isDataAuthorized': { authorized: true },
+          '/MESH_NAME/component/isEventAuthorized': { authorized: true },
+          '/MESH_NAME/component/isCombinationAuthorized': { authorized: true },
+          '/MESH_NAME/component/methodExpresslyForbidden': { authorized: false }
+        },
+        events: {
+          '/MESH_NAME/component/test/*': { authorized: true },
+          '/MESH_NAME/component/{{user.username}}/*': { authorized: true }
+        },
+        data: {
+          'test/data/get/*': { actions: ['get'] },
+          'test/data/set/*': { actions: ['set'] },
+          'test/data/remove/*': { actions: ['remove'] },
+          'test/data/on/*': { actions: ['on'] },
+          'test/data/all/*': { actions: ['*'] },
+          'test/data/{{user.username}}/get/*': { actions: ['get'] },
+          'test/data/partly/authorized': { authorized: false, actions: ['get'] }
+        }
       },
-      events: {
-        '/MESH_NAME/component/test/*': { authorized: true },
-        '/MESH_NAME/component/{{user.username}}/*': { authorized: true }
-      },
-      data: {
-        'test/data/get/*': { actions: ['get'] },
-        'test/data/set/*': { actions: ['set'] },
-        'test/data/remove/*': { actions: ['remove'] },
-        'test/data/on/*': { actions: ['on'] },
-        'test/data/all/*': { actions: ['*'] },
-        'test/data/{{user.username}}/get/*': { actions: ['get'] },
-        'test/data/partly/authorized': { authorized: false, actions: ['get'] }
-      }
-    });
+      { company: 'COMPANY_ABC', oem: 'OEM_ABC' }
+    );
   }
   async function connectsTestUser() {
     testClient = new Happner.MeshClient();

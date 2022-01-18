@@ -1,9 +1,10 @@
 var async = require('async');
 
-module.exports.add = async function(server, username, password, permissions) {
+module.exports.add = async function(server, username, password, permissions, custom_data) {
   var user = {
     username: username,
-    password: password
+    password: password,
+    custom_data
   };
 
   var group = {
