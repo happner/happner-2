@@ -2,10 +2,11 @@ const test = require('../../__fixtures/utils/test_helper').create();
 describe(test.testName(__filename, 3), function() {
   const Happner = require('../../..');
   let server, testClient;
-
+  const adminClient = new Mesh.MeshClient({ secure: true });
   this.timeout(120000);
 
   before(startsServer);
+  before(connectsAdminClient);
   before(createsTestUser);
   beforeEach(connectsTestUser);
   afterEach(disconnectsTestUser);
@@ -153,7 +154,8 @@ describe(test.testName(__filename, 3), function() {
             'test/data/get/*': { actions: ['get'] },
             'test/data/set/*': { actions: ['set'] },
             'test/data/forbidden/*': { actions: ['on'] },
-            'test/data/testUser/get/*': { actions: ['get'] }
+            'test/data/testUser/get/*': { actions: ['get'] },
+            'test/data/partly/authorized': { actions: ['get'] }
           }
         })
       )
@@ -166,12 +168,52 @@ describe(test.testName(__filename, 3), function() {
             action: 'set'
           },
           { authorized: false, path: 'test/data/forbidden/*', action: 'on' },
+          { authorized: false, path: 'test/data/partly/authorized', action: 'get' },
           { authorized: false, path: '/_events/MESH_NAME/component/forbidden/*', action: 'on' }
         ]
       });
   });
 
-  it('fails to check - no paths are actions specified', async () => {
+  it('it can check lookup tables', async () => {
+    let testTable = {
+      name: 'STANDARD_ABC',
+      paths: [
+        'device/OEM_ABC/COMPANY_ABC/SPECIAL_DEVICE_ID_1',
+        'device/OEM_ABC/COMPANY_ABC/SPECIAL_DEVICE_ID_2'
+      ]
+    };
+    let permission1 = {
+      regex: '^/_data/historianStore/(.*)',
+      actions: ['get', 'set'],
+      table: 'STANDARD_ABC',
+      path: '/device/{{user.custom_data.oem}}/{{user.custom_data.company}}/{{$1}}'
+    };
+    await adminClient.data.set('/_data/historianStore/SPECIAL_DEVICE_ID_1', {
+      test: 'data'
+    });
+    await adminClient.exchange.security.upsertLookupTable(testTable);
+    await adminClient.exchange.security.upsertLookupPermission('testUser_group', permission1);
+
+    await testClient.data.get('/_data/historianStore/SPECIAL_DEVICE_ID_1');
+    test
+      .expect(
+        await testClient.exchange.component.isCombinationAuthorized({
+          data: {
+            'test/data/get/*': { actions: ['get'] },
+            'test/data/set/*': { actions: ['set'] },
+            'test/data/on/*': { actions: ['on'] },
+            'test/data/testUser/get/*': { actions: ['get'] },
+            '/_data/historianStore/SPECIAL_DEVICE_ID_1': { actions: ['get'] }
+          }
+        })
+      )
+      .to.eql({
+        authorized: true,
+        forbidden: []
+      });
+  });
+
+  it('validate paths actions and username', async () => {
     try {
       await testClient.exchange.component.isCombinationAuthorized({});
     } catch (e) {
@@ -252,6 +294,13 @@ describe(test.testName(__filename, 3), function() {
     });
   }
 
+  async function connectsAdminClient() {
+    await adminClient.login({
+      username: '_ADMIN', // pending
+      password: 'happn'
+    });
+  }
+
   async function createsTestUser() {
     await test.users.add(server, 'testUser', 'xxx', {
       methods: {
@@ -274,7 +323,8 @@ describe(test.testName(__filename, 3), function() {
         'test/data/remove/*': { actions: ['remove'] },
         'test/data/on/*': { actions: ['on'] },
         'test/data/all/*': { actions: ['*'] },
-        'test/data/{{user.username}}/get/*': { actions: ['get'] }
+        'test/data/{{user.username}}/get/*': { actions: ['get'] },
+        'test/data/partly/authorized': { authorized: false, actions: ['get'] }
       }
     });
   }

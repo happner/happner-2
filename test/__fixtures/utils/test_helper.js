@@ -26,7 +26,7 @@ function TestHelper() {
   this.delay = require('await-delay');
   this.request = util.promisify(require('request'), { multiArgs: true });
   this.log = console.log;
-  this.users = require('./users')
+  this.users = require('./users');
   require('chai').should();
 }
 
