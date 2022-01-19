@@ -883,6 +883,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4933: $happn.isAuthorized(user)
 
+11.16.1 2022-01-19
+-----------------
+  - SMC-4550: Fix -correctly calling securityDirectoryChanged on permission removal and group/permission table unlinking - happn-3
+
 
 
 
