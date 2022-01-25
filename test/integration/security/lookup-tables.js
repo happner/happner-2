@@ -24,8 +24,8 @@ describe(test.testName(__filename, 3), function() {
       modules: {
         component: {
           instance: {
-            method: async function($happn) {
-              $happn.emit('current/device1/point1', 'something');
+            method: async function(suffix, $happn) {
+              $happn.emit('current/device1/point1', `something ${suffix}`);
             }
           }
         }
@@ -155,47 +155,91 @@ describe(test.testName(__filename, 3), function() {
 
     //event
     let eventPermission = {
-      regex: '^/_events/b4_lookup_tables/component/current/([^/]*)/.*',
-      actions: ['on'],
+      component: 'component',
+      event: 'current/([^/]*)/.*',
       table: 'HAPPNER_LOOKUP',
       path: '/device/{{user.custom_data.oem}}/{{user.custom_data.company}}/{{$1}}'
     };
     //method
     let methodRequestPermission = {
-      regex: '^/_exchange/requests/b4_lookup_tables/component/method',
-      actions: ['set'],
+      component: 'component',
+      method: 'method',
       table: 'HAPPNER_LOOKUP',
       path: '/device/{{user.custom_data.oem}}/{{user.custom_data.company}}'
     };
 
-    let methodResponsePermission = {
-      regex: '^/_exchange/responses/b4_lookup_tables/component/method',
-      actions: ['set', 'on'],
-      table: 'HAPPNER_LOOKUP',
-      path: '/device/{{user.custom_data.oem}}/{{user.custom_data.company}}'
-    };
-
-    await adminClient.exchange.security.upsertLookupPermission(
+    await adminClient.exchange.security.upsertEventLookupPermission(
       'LOOKUP_TABLES_HAPPNER_GRP_' + test_id,
       eventPermission
     );
-    await adminClient.exchange.security.upsertLookupPermission(
+
+    await adminClient.exchange.security.upsertExchangeLookupPermission(
       'LOOKUP_TABLES_HAPPNER_GRP_' + test_id,
       methodRequestPermission
-    );
-    await adminClient.exchange.security.upsertLookupPermission(
-      'LOOKUP_TABLES_HAPPNER_GRP_' + test_id,
-      methodResponsePermission
     );
 
     let testClient = await startClient(testUser);
     let eventData;
+
     await testClient.event.component.on('current/device1/*', data => {
       eventData = data;
     });
-    await testClient.exchange.component.method();
+
+    await testClient.exchange.component.method('initial');
     await test.delay(500);
-    test.expect(eventData).to.eql({ value: 'something' });
+
+    test.expect(eventData).to.eql({ value: 'something initial' });
+
+    await adminClient.exchange.security.removeExchangeLookupPermission(
+      'LOOKUP_TABLES_HAPPNER_GRP_' + test_id,
+      methodRequestPermission
+    );
+
+    test
+      .expect(
+        await test.tryAsyncMethod(async () => {
+          await testClient.exchange.component.method();
+        })
+      )
+      .to.be('unauthorized');
+
+    // add method permission back
+    await adminClient.exchange.security.upsertExchangeLookupPermission(
+      'LOOKUP_TABLES_HAPPNER_GRP_' + test_id,
+      methodRequestPermission
+    );
+
+    await adminClient.exchange.security.removeEventLookupPermission(
+      'LOOKUP_TABLES_HAPPNER_GRP_' + test_id,
+      eventPermission
+    );
+
+    await testClient.disconnect();
+    testClient = await startClient(testUser);
+
+    test
+      .expect(
+        await test.tryAsyncMethod(async () => {
+          await testClient.event.component.on('current/device1/*', data => {
+            eventData = data;
+          });
+        })
+      )
+      .to.be('unauthorized');
+
+    await adminClient.exchange.security.upsertEventLookupPermission(
+      'LOOKUP_TABLES_HAPPNER_GRP_' + test_id,
+      eventPermission
+    );
+
+    await testClient.event.component.on('current/device1/*', data => {
+      eventData = data;
+    });
+
+    await testClient.exchange.component.method('else');
+    await test.delay(500);
+
+    test.expect(eventData).to.eql({ value: 'something else' });
   });
 
   it('can unlink a lookup table from a group (removes all permissions that reference that table) lookup permissions', async () => {
