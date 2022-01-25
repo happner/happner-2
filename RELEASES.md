@@ -887,6 +887,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4550: Fix -correctly calling securityDirectoryChanged on permission removal and group/permission table unlinking - happn-3
 
+11.17.0 2022-01-25
+-----------------
+  - SMC-4550: added array functionality to templated permissions, lookup tables tests demonstrating methods and component events, sugar for adding lookup table permissions for components and events.
+
 
 
 
