@@ -798,4 +798,20 @@ TestHelper.prototype.showOpenHandles = function(after, delayMS){
   });
 };
 
+TestHelper.prototype.tryAsyncMethod = async function(attempt) {
+  try {
+    return await attempt();
+  } catch(e) {
+    return e.message;
+  }
+}
+
+TestHelper.prototype.tryMethod = function(attempt) {
+  try {
+    return attempt();
+  } catch(e) {
+    return e.message;
+  }
+}
+
 module.exports = TestHelper;
