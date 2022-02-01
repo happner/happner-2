@@ -891,6 +891,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4550: added array functionality to templated permissions, lookup tables tests demonstrating methods and component events, sugar for adding lookup table permissions for components and events.
 
+11.17.1 2022-02-01
+-----------------
+  - SMC-4550: happn-3 upgrade: unified templated path combinations logic
+
 
 
 
