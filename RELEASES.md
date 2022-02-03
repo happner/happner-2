@@ -895,6 +895,11 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-4550: happn-3 upgrade: unified templated path combinations logic
 
+11.17.2 2022-02-03
+-----------------
+  - SMC-5125: happn-3 update: permission-key-set-cache-issue
+
+
 
 
 
