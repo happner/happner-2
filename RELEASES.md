@@ -899,6 +899,9 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-5125: happn-3 update: permission-key-set-cache-issue
 
+11.17.3 2022-02-03
+-----------------
+  - [internal issue]: unable to parse class instance moduless
 
 
 
