@@ -3,11 +3,12 @@ class TestInstanceClass {
   static create() {
     return new TestInstanceClass();
   }
-  async testMethod() {
-    return true;
+  async testMethod(arg1, $happn) {
+    return typeof $happn.exchange.test.testMethod === 'function';
   }
 }
 const Happner = require('../../..');
+const LightClient = require('happner-client').Light;
 describe(test.testName(__filename, 3), function() {
   before(createServer);
   after(destroyServer);
@@ -19,6 +20,21 @@ describe(test.testName(__filename, 3), function() {
       password: 'happn'
     });
     test.expect(typeof client.exchange.test.testMethod).to.equal('function');
+  });
+
+  //todo: also check for bad domain
+  it.only('can call the test method light client missing argument', async () => {
+    let client = new LightClient({ domain: 'MESH_NAME', secure: true });
+    await client.connect({ username: '_ADMIN', password: 'happn' });
+    test
+      .expect(
+        await client.exchange.$call({
+          component: 'test',
+          method: 'testMethod',
+          arguments: []
+        })
+      )
+      .to.equal(true);
   });
 
   async function destroyServer() {
@@ -38,5 +54,6 @@ describe(test.testName(__filename, 3), function() {
         test: {}
       }
     });
+    console.log('created?');
   }
 });
