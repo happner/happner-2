@@ -240,6 +240,40 @@ describe(
       expect(semver.coercedSatisfies('16.1.4-prerelease-9', '16.1.4-prerelease-9')).to.be(true);
     });
 
+    it('tests the _configureParameters method', () => {
+      var ComponentInstance = require('../../../lib/system/component-instance');
+      var componentInstance = new ComponentInstance();
+      expect(
+        componentInstance._configureParameters(function($happn, $origin, testParam1, testParame2) {
+          return { $happn, $origin, testParam1, testParame2 };
+        }, {})
+      ).to.eql({
+        parameters: [
+          { name: '$happn' },
+          { name: '$origin' },
+          { name: 'testParam1' },
+          { name: 'testParame2' }
+        ]
+      });
+      expect(
+        componentInstance._configureParameters(
+          function($happn, $origin, testParam1, testParame2) {
+            return { $happn, $origin, testParam1, testParame2 };
+          },
+          {
+            parameters: [{ name: 'testParam1' }, { name: 'testParame2' }]
+          }
+        )
+      ).to.eql({
+        parameters: [
+          { name: '$happn' },
+          { name: '$origin' },
+          { name: 'testParam1' },
+          { name: 'testParame2' }
+        ]
+      });
+    });
+
     it('tests the _inject method', () => {
       var ComponentInstance = require('../../../lib/system/component-instance');
       var componentInstance = new ComponentInstance();
