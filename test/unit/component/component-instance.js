@@ -240,6 +240,78 @@ describe(
       expect(semver.coercedSatisfies('16.1.4-prerelease-9', '16.1.4-prerelease-9')).to.be(true);
     });
 
+    it('tests the _inject method', () => {
+      var ComponentInstance = require('../../../lib/system/component-instance');
+      var componentInstance = new ComponentInstance();
+      componentInstance.bindToOrigin = origin => {
+        return { bound: origin };
+      };
+      let params = [1, 2];
+      componentInstance._inject(
+        {
+          argNames: ['param1', 'param2', '$happn', '$origin']
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([1, 2, { bound: { test: 'origin' } }, { test: 'origin' }]);
+
+      params = [1, 2];
+      componentInstance._inject(
+        {
+          argNames: ['$happn', '$origin', 'param1', 'param2']
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([{ bound: { test: 'origin' } }, { test: 'origin' }, 1, 2]);
+
+      params = [1, 2];
+      componentInstance._inject(
+        {
+          argNames: ['$happn', 'param1', 'param2', '$origin']
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([{ bound: { test: 'origin' } }, 1, 2, { test: 'origin' }]);
+
+      params = [1, 2];
+      componentInstance._inject(
+        {
+          argNames: ['param1', '$happn', 'param2', '$origin']
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([1, { bound: { test: 'origin' } }, 2, { test: 'origin' }]);
+
+      params = [1];
+      componentInstance._inject(
+        {
+          argNames: ['param1', '$happn', 'param2', '$origin']
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([1, { bound: { test: 'origin' } }, undefined, { test: 'origin' }]);
+
+      params = [];
+      componentInstance._inject(
+        {
+          argNames: ['param1', '$happn', 'param2', '$origin']
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([
+        undefined,
+        { bound: { test: 'origin' } },
+        undefined,
+        { test: 'origin' }
+      ]);
+    });
+
     function mockResponse() {
       return {};
     }

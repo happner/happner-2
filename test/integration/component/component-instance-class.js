@@ -10,6 +10,7 @@ class TestInstanceClass {
 const Happner = require('../../..');
 const LightClient = require('happner-client').Light;
 describe(test.testName(__filename, 3), function() {
+  let server;
   before(createServer);
   after(destroyServer);
 
@@ -20,10 +21,11 @@ describe(test.testName(__filename, 3), function() {
       password: 'happn'
     });
     test.expect(typeof client.exchange.test.testMethod).to.equal('function');
+    client.disconnect(() => {});
   });
 
   //todo: also check for bad domain
-  it.only('can call the test method light client missing argument', async () => {
+  it('can call the test method light client missing argument', async () => {
     let client = new LightClient({ domain: 'MESH_NAME', secure: true });
     await client.connect({ username: '_ADMIN', password: 'happn' });
     test
@@ -35,25 +37,34 @@ describe(test.testName(__filename, 3), function() {
         })
       )
       .to.equal(true);
+    client.disconnect(() => {});
   });
 
   async function destroyServer() {
     if (server) await server.stop({ reconnect: false });
   }
 
-  async function createServer() {
-    server = await Happner.create({
-      secure: true,
-      name: 'MESH_NAME',
-      modules: {
-        test: {
-          instance: TestInstanceClass.create()
+  function createServer() {
+    return new Promise((resolve, reject) => {
+      Happner.create(
+        {
+          secure: true,
+          name: 'MESH_NAME',
+          modules: {
+            test: {
+              instance: TestInstanceClass.create()
+            }
+          },
+          components: {
+            test: {}
+          }
+        },
+        (e, instance) => {
+          if (e) return reject(e);
+          server = instance;
+          resolve();
         }
-      },
-      components: {
-        test: {}
-      }
+      );
     });
-    console.log('created?');
   }
 });
