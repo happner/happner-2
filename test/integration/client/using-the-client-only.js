@@ -1,6 +1,6 @@
 const testHelper = require('../../__fixtures/utils/test_helper').create();
 describe(testHelper.testName(__filename, 3), function() {
-  this.timeout(20000);
+  this.timeout(120e3);
 
   const spawn = require('child_process').spawn;
   const sep = require('path').sep;
