@@ -249,7 +249,12 @@ describe(
       let params = [1, 2];
       componentInstance._inject(
         {
-          argNames: ['param1', 'param2', '$happn', '$origin']
+          parameters: [
+            { name: 'param1' },
+            { name: 'param2' },
+            { name: '$happn' },
+            { name: '$origin' }
+          ]
         },
         params,
         { test: 'origin' }
@@ -259,7 +264,12 @@ describe(
       params = [1, 2];
       componentInstance._inject(
         {
-          argNames: ['$happn', '$origin', 'param1', 'param2']
+          parameters: [
+            { name: '$happn' },
+            { name: '$origin' },
+            { name: 'param1' },
+            { name: 'param2' }
+          ]
         },
         params,
         { test: 'origin' }
@@ -269,7 +279,12 @@ describe(
       params = [1, 2];
       componentInstance._inject(
         {
-          argNames: ['$happn', 'param1', 'param2', '$origin']
+          parameters: [
+            { name: '$happn' },
+            { name: 'param1' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
         },
         params,
         { test: 'origin' }
@@ -279,7 +294,12 @@ describe(
       params = [1, 2];
       componentInstance._inject(
         {
-          argNames: ['param1', '$happn', 'param2', '$origin']
+          parameters: [
+            { name: 'param1' },
+            { name: '$happn' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
         },
         params,
         { test: 'origin' }
@@ -289,7 +309,12 @@ describe(
       params = [1];
       componentInstance._inject(
         {
-          argNames: ['param1', '$happn', 'param2', '$origin']
+          parameters: [
+            { name: 'param1' },
+            { name: '$happn' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
         },
         params,
         { test: 'origin' }
@@ -299,7 +324,12 @@ describe(
       params = [];
       componentInstance._inject(
         {
-          argNames: ['param1', '$happn', 'param2', '$origin']
+          parameters: [
+            { name: 'param1' },
+            { name: '$happn' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
         },
         params,
         { test: 'origin' }

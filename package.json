@@ -16,6 +16,7 @@
     ]
   },
   "scripts": {
+    "test-no-lint": "_mocha --exit -- silence.js test/integration/** test/unit/**",
     "test": "npm run lint && _mocha --exit -- silence.js test/integration/** test/unit/**",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-unit": "_mocha --exit test/unit/**",
