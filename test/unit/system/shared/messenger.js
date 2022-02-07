@@ -71,10 +71,13 @@ describe(test.testName(__filename, 3), function() {
     const endpoint = mockEndpoint();
     const mesh = mockMesh();
     const testMessenger = new Messenger(endpoint, mesh);
+    const createMessageFunc = test.util.promisify(
+      testMessenger.__createMessage.bind(testMessenger)
+    );
 
     const errorMessages = [];
     try {
-      await test.util.promisify(testMessenger.__createMessage)(
+      await createMessageFunc(
         'test/callback/address',
         {
           parameters: [
@@ -89,7 +92,7 @@ describe(test.testName(__filename, 3), function() {
       errorMessages.push(e.message);
     }
     try {
-      await test.util.promisify(testMessenger.__createMessage)(
+      await createMessageFunc(
         'test/callback/address',
         {
           parameters: [
@@ -109,6 +112,45 @@ describe(test.testName(__filename, 3), function() {
         `Callback for test/callback/address was not defined`,
         `Invalid callback for test/callback/address, callback must be a function`
       ]);
+  });
+
+  it('test various successful states', async () => {
+    const Messenger = require('../../../../lib/system/shared/messenger');
+    const endpoint = mockEndpoint();
+    const mesh = mockMesh();
+    const testMessenger = new Messenger(endpoint, mesh);
+    const createMessageFunc = test.util.promisify(
+      testMessenger.__createMessage.bind(testMessenger)
+    );
+    await createMessageFunc(
+      'test/callback/address',
+      {
+        parameters: [
+          { name: '$happn' },
+          { name: '$origin' },
+          { name: 'callback', type: 'callback' }
+        ]
+      },
+      [() => {}]
+    );
+    test.expect(testMessenger.responseHandlers['test/callback/address']).to.not.be(null);
+    await createMessageFunc(
+      'test/callback/address1',
+      {
+        parameters: [{ name: '$happn' }, { name: '$origin' }, { name: 'callback' }]
+      },
+      [() => {}]
+    );
+    test.expect(testMessenger.responseHandlers['test/callback/address1']).to.not.be(null);
+
+    await createMessageFunc(
+      'test/callback/address2',
+      {
+        parameters: [{ name: '$happn' }, { name: '$origin' }, {}, { name: 'callback' }]
+      },
+      [{}, () => {}]
+    );
+    test.expect(testMessenger.responseHandlers['test/callback/address2']).to.not.be(null);
   });
 
   function mockHandler(handlerEvents) {
