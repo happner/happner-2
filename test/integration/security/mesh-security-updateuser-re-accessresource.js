@@ -57,10 +57,6 @@ var clientConfig = {
                   serverMeshHost: SERVER_HOST,
                   serverComponentName: SERVER_COMPONENT_NAME
                 }
-              },
-              {
-                name: 'callback',
-                required: true
               }
             ]
           }
