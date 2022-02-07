@@ -151,6 +151,15 @@ describe(test.testName(__filename, 3), function() {
       [{}, () => {}]
     );
     test.expect(testMessenger.responseHandlers['test/callback/address2']).to.not.be(null);
+
+    await createMessageFunc(
+      'test/callback/address3',
+      {
+        parameters: [{ name: '$happn' }]
+      },
+      [{}, () => {}]
+    );
+    test.expect(testMessenger.responseHandlers['test/callback/address3']).to.not.be(null);
   });
 
   function mockHandler(handlerEvents) {
