@@ -44,7 +44,10 @@ describe(
             methods: {
               start: {
                 type: 'async',
-                parameters: [{ required: true, value: { message: 'this is a start parameter' } }]
+                parameters: [
+                  { required: true, value: { message: 'this is a start parameter' } },
+                  { required: true, name: 'callback' }
+                ]
               }
             }
           }
