@@ -1,6 +1,6 @@
 {
   "name": "happner-2",
-  "version": "11.17.2",
+  "version": "11.17.3",
   "description": "distributed application engine with evented storage and mesh services",
   "main": "lib/mesh.js",
   "bin": {
@@ -16,6 +16,7 @@
     ]
   },
   "scripts": {
+    "test-no-lint": "_mocha --exit -- silence.js test/integration/** test/unit/**",
     "test": "npm run lint && _mocha --exit -- silence.js test/integration/** test/unit/**",
     "test-benchmark": "node test/benchmark/serial-run.js",
     "test-unit": "_mocha --exit test/unit/**",

@@ -240,6 +240,142 @@ describe(
       expect(semver.coercedSatisfies('16.1.4-prerelease-9', '16.1.4-prerelease-9')).to.be(true);
     });
 
+    it('tests the _configureParameters method', () => {
+      var ComponentInstance = require('../../../lib/system/component-instance');
+      var componentInstance = new ComponentInstance();
+      expect(
+        componentInstance._configureParameters(function($happn, $origin, testParam1, testParame2) {
+          return { $happn, $origin, testParam1, testParame2 };
+        }, {})
+      ).to.eql({
+        parameters: [
+          { name: '$happn' },
+          { name: '$origin' },
+          { name: 'testParam1' },
+          { name: 'testParame2' }
+        ]
+      });
+      expect(
+        componentInstance._configureParameters(
+          function($happn, $origin, testParam1, testParame2) {
+            return { $happn, $origin, testParam1, testParame2 };
+          },
+          {
+            parameters: [{ name: 'testParam1' }, { name: 'testParame2' }]
+          }
+        )
+      ).to.eql({
+        parameters: [
+          { name: '$happn' },
+          { name: '$origin' },
+          { name: 'testParam1' },
+          { name: 'testParame2' }
+        ]
+      });
+    });
+
+    it('tests the _inject method', () => {
+      var ComponentInstance = require('../../../lib/system/component-instance');
+      var componentInstance = new ComponentInstance();
+      componentInstance.bindToOrigin = origin => {
+        return { bound: origin };
+      };
+      let params = [1, 2];
+      componentInstance._inject(
+        {
+          parameters: [
+            { name: 'param1' },
+            { name: 'param2' },
+            { name: '$happn' },
+            { name: '$origin' }
+          ]
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([1, 2, { bound: { test: 'origin' } }, { test: 'origin' }]);
+
+      params = [1, 2];
+      componentInstance._inject(
+        {
+          parameters: [
+            { name: '$happn' },
+            { name: '$origin' },
+            { name: 'param1' },
+            { name: 'param2' }
+          ]
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([{ bound: { test: 'origin' } }, { test: 'origin' }, 1, 2]);
+
+      params = [1, 2];
+      componentInstance._inject(
+        {
+          parameters: [
+            { name: '$happn' },
+            { name: 'param1' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([{ bound: { test: 'origin' } }, 1, 2, { test: 'origin' }]);
+
+      params = [1, 2];
+      componentInstance._inject(
+        {
+          parameters: [
+            { name: 'param1' },
+            { name: '$happn' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([1, { bound: { test: 'origin' } }, 2, { test: 'origin' }]);
+
+      params = [1];
+      componentInstance._inject(
+        {
+          parameters: [
+            { name: 'param1' },
+            { name: '$happn' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([1, { bound: { test: 'origin' } }, undefined, { test: 'origin' }]);
+
+      params = [];
+      componentInstance._inject(
+        {
+          parameters: [
+            { name: 'param1' },
+            { name: '$happn' },
+            { name: 'param2' },
+            { name: '$origin' }
+          ]
+        },
+        params,
+        { test: 'origin' }
+      );
+      expect(params).to.eql([
+        undefined,
+        { bound: { test: 'origin' } },
+        undefined,
+        { test: 'origin' }
+      ]);
+    });
+
     function mockResponse() {
       return {};
     }

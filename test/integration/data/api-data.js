@@ -43,7 +43,6 @@ describe(
             exclusive: false, //means we dont dynamically share anything else
             methods: {
               start: {
-                type: 'async',
                 parameters: [{ required: true, value: { message: 'this is a start parameter' } }]
               }
             }
