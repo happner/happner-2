@@ -903,6 +903,10 @@ SMC-1645: made error messages more consistent, encapsulating mesh.component.meth
 -----------------
   - SMC-5180: fixed class instance parse issue
 
+11.17.4 2022-02-14
+-----------------
+  - SMC-5146:  happn-3 update: startup fail due to needless KEYPAIR ensure in security (only used by payload encryption - no longer supported)
+
 
 
 
