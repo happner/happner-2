@@ -62,7 +62,7 @@
     "nyc": "^13.3.0",
     "prettier": "^1.18.2",
     "restler": "3.4.0",
-    "serve-static": "1.10.0",
+    "serve-static": "1.15.0",
     "should": "7.1.0",
     "sinon": "^9.2.4",
     "traverse": "0.6.6",
